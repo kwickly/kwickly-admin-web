@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# Kwickly Admin Web Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The central management portal for the Kwickly POS ecosystem. This application is designed to be highly responsive, performant, and secure, catering to both **Super Admins** (managing the overall platform) and **Tenant Admins** (managing individual restaurant operations).
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+*   **Framework:** React 19 + Vite
+*   **Language:** TypeScript
+*   **Styling:** Tailwind CSS v4 + Shadcn UI
+*   **Server State (API):** TanStack Query (React Query)
+*   **Client State:** Zustand
+*   **Routing:** React Router v6
+*   **Package Manager:** Bun
 
-## React Compiler
+## 🛠️ Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+Make sure you have [Bun](https://bun.sh/) installed.
 
-## Expanding the ESLint configuration
+### Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Clone the repository and navigate into the folder:
+   ```bash
+   cd kwickly-admin-web
+   ```
+2. Install the dependencies:
+   ```bash
+   bun install
+   ```
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Running Locally
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+To start the Vite development server:
+```bash
+bun run dev
+```
+The application will be available at `http://localhost:5173`.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📂 Project Structure
+
+```text
+src/
+├── components/      # Reusable UI components
+│   ├── ui/          # Shadcn primitives (buttons, inputs, dialogs)
+│   └── shared/      # Custom composite components
+├── features/        # Feature-sliced modules (auth, menus, staff)
+├── hooks/           # Custom React hooks
+├── layouts/         # Layout wrappers (e.g., AppShell with Sidebar)
+├── lib/             # Utilities (API client, Shadcn tailwind merger)
+├── pages/           # High-level route components
+└── store/           # Zustand stores (useAuth, useTheme)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📖 Documentation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+For full architectural context and an up-to-date roadmap/progress tracker, please refer to the primary documentation file:
+- [`docs/project-context.md`](./docs/project-context.md)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🎨 Theme & Aesthetics
+
+The dashboard utilizes a premium **Slate/Zinc** base with **Indigo/Blue** accents, optimized for high legibility in fast-paced restaurant environments. Both Light and Dark modes are fully supported out of the box via the `ThemeProvider`.

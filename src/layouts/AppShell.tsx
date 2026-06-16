@@ -7,7 +7,8 @@ import {
   Blocks,
   Users, 
   Settings,
-  CreditCard
+  CreditCard,
+  Target
 } from "lucide-react";
 
 export default function AppShell() {
@@ -24,6 +25,7 @@ export default function AppShell() {
     { name: "Combos", path: "/menus/combos", icon: Blocks },
     { name: "Staff", path: "/staff", icon: Users },
     { name: "Subscriptions", path: "/subscriptions", icon: CreditCard },
+    { name: "CRM & Campaigns", path: "/crm", icon: Target },
     { name: "Settings", path: "/settings", icon: Settings },
   ]
 

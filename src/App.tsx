@@ -10,6 +10,7 @@ import Orders from '@/pages/Orders'
 import Settings from '@/pages/Settings'
 import Ads from '@/pages/Ads'
 import Subscriptions from '@/pages/Subscriptions'
+import CRM from '@/pages/CRM'
 import ProtectedRoute from '@/components/ProtectedRoute'
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path="/menus/combos" element={<Combos />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/subscriptions" element={<Subscriptions />} />
+            <Route path="/crm" element={<CRM />} />
             <Route path="/ads" element={<Ads />} />
             <Route path="/settings" element={<Settings />} />
             {/* Example of RBAC strictly for SUPER_ADMIN:

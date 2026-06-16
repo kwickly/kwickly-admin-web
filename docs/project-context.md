@@ -81,3 +81,8 @@ kwickly-admin-web/
 ### Phase 6: Global Settings & Real-time WebSockets (✅ COMPLETED)
 - [x] Implement global system configuration settings.
 - [x] Stabilize WebSocket connection handling for low-latency updates.
+
+### Phase 7: Operational Resilience & Quality (✅ COMPLETED)
+- [x] **Global Branch Switching:** Interlinked all dashboard queries to a global Zustand branch state selector.
+- [x] **JWT Resiliency:** Added seamless token auto-refresh interception via Axios to replay queued 401 requests.
+- [x] **KDS Resiliency:** Implemented exponential backoff and status indicators for WebSocket kitchen display dropouts.

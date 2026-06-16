@@ -2,6 +2,7 @@ import { LayoutDashboard, DollarSign, ShoppingCart, TrendingUp, Users, BrainCirc
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
 import { useDailySales, useTopItems } from "@/hooks/api/useDashboard";
 import { useAIForecast, useAICombos, useChurnList } from "@/hooks/api/useAI";
+import { useBranchStore } from "@/store/useBranch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
@@ -37,8 +38,11 @@ const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444'];
 
 export default function Dashboard() {
   const today = new Date().toISOString().split('T')[0];
-  const { data: sales, isLoading: isLoadingSales } = useDailySales('default', today);
-  const { data: topItems } = useTopItems('default');
+  const { selectedBranchId } = useBranchStore();
+  const branchId = selectedBranchId || 'default';
+
+  const { data: sales, isLoading: isLoadingSales } = useDailySales(branchId, today);
+  const { data: topItems } = useTopItems(branchId);
 
   // AI Hooks
   const { data: forecastData, isLoading: isForecastLoading } = useAIForecast();

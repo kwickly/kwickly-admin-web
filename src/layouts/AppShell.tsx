@@ -1,5 +1,15 @@
 import { Outlet, Navigate, NavLink } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
+import { useBranchStore } from "@/store/useBranch"
+import { useBranches } from "@/hooks/api/useSettings"
+import { useEffect } from "react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { 
   LayoutDashboard, 
   ChefHat,
@@ -13,6 +23,15 @@ import {
 
 export default function AppShell() {
   const { user } = useAuthStore()
+  const { selectedBranchId, setSelectedBranchId } = useBranchStore()
+  const { data: branches, isLoading: isBranchesLoading } = useBranches()
+
+  // Auto-select the first branch if none is selected
+  useEffect(() => {
+    if (branches && branches.length > 0 && !selectedBranchId) {
+      setSelectedBranchId(branches[0].id)
+    }
+  }, [branches, selectedBranchId, setSelectedBranchId])
 
   if (!user) {
     return <Navigate to="/login" replace />
@@ -59,7 +78,31 @@ export default function AppShell() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <header className="h-16 bg-white dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-800 flex items-center px-8 justify-between">
-          <h2 className="text-xl font-semibold text-slate-800 dark:text-zinc-100">Welcome back, {user.name}</h2>
+          <div className="flex items-center space-x-4">
+            <h2 className="text-xl font-semibold text-slate-800 dark:text-zinc-100">Welcome back, {user.name}</h2>
+            
+            <div className="h-6 w-px bg-slate-200 dark:bg-zinc-700 mx-4" />
+            
+            <div className="w-64">
+              <Select 
+                value={selectedBranchId || undefined} 
+                onValueChange={(val) => setSelectedBranchId(val)}
+                disabled={isBranchesLoading || !branches || branches.length === 0}
+              >
+                <SelectTrigger className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectValue placeholder="Select a branch" />
+                </SelectTrigger>
+                <SelectContent>
+                  {branches?.map((branch) => (
+                    <SelectItem key={branch.id} value={branch.id}>
+                      {branch.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          
           <div className="flex items-center space-x-4">
             <span className="text-sm font-medium text-slate-500 dark:text-zinc-400">{user.role}</span>
           </div>

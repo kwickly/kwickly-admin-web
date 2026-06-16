@@ -14,11 +14,12 @@ export interface StaffMember {
 }
 
 // GET /v1/staff
-export function useStaffList() {
+export function useStaffList(branchId?: string) {
   return useQuery({
-    queryKey: ['staff'],
+    queryKey: ['staff', branchId],
     queryFn: async (): Promise<StaffMember[]> => {
-      const { data } = await api.get('/staff');
+      const url = branchId && branchId !== 'default' ? `/staff?branchId=${branchId}` : '/staff';
+      const { data } = await api.get(url);
       return data.data; // Elysia returns { success: true, data: [...] }
     },
   });

@@ -5,6 +5,7 @@ import CreateMenuItemSheet from "@/features/menus/components/CreateMenuItemSheet
 import CreateCategoryDialog from "@/features/menus/components/CreateCategoryDialog";
 import CreateModifierDialog from "@/features/menus/components/CreateModifierDialog";
 import { useMenuCategories, useAddons } from "@/hooks/api/useMenus";
+import { useBranchStore } from "@/store/useBranch";
 import {
   Table,
   TableBody,
@@ -16,7 +17,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 export default function Menus() {
-  const { data: categories, isLoading: isCategoriesLoading } = useMenuCategories('default');
+  const { selectedBranchId } = useBranchStore();
+  const branchId = selectedBranchId || 'default';
+  
+  const { data: categories, isLoading: isCategoriesLoading } = useMenuCategories(branchId);
   const { data: addons, isLoading: isAddonsLoading } = useAddons();
 
   return (

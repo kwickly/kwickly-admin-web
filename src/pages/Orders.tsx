@@ -1,47 +1,75 @@
-import { ChefHat, Clock, CheckCircle, Package } from "lucide-react";
+import { ChefHat, Clock, CheckCircle, Package, Wifi, WifiOff } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/useAuth";
-import { useEffect } from "react";
+import { useBranchStore } from "@/store/useBranch";
+import { useEffect, useState, useRef } from "react";
 
 import { useOrders } from "@/hooks/api/useOrders";
 
 export default function Orders() {
-  const { data: orders = [] } = useOrders('default');
+  const { selectedBranchId } = useBranchStore();
+  const branchId = selectedBranchId || 'default';
+  const { data: orders = [] } = useOrders(branchId);
   const { token } = useAuthStore();
   const queryClient = useQueryClient();
+  const [wsStatus, setWsStatus] = useState<'Connected' | 'Reconnecting' | 'Disconnected'>('Disconnected');
+  const reconnectTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!token) return;
+    let ws: WebSocket | null = null;
+    let isComponentMounted = true;
+    let reconnectDelay = 1000;
 
-    const wsUrl = `ws://localhost:3000/kds?token=${token}`;
-    const ws = new WebSocket(wsUrl);
+    const connect = () => {
+      ws = new WebSocket(`ws://localhost:3000/kds?token=${token}&branchId=${branchId}`);
 
-    ws.onopen = () => {
-      console.log("KDS WebSocket connected");
-    };
+      ws.onopen = () => {
+        if (!isComponentMounted) return;
+        setWsStatus('Connected');
+        reconnectDelay = 1000; // Reset backoff
+      };
 
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type === 'NEW_KOT' || data.type === 'KOT_UPDATED') {
-          // Invalidate orders query to refetch latest KOTs
-          queryClient.invalidateQueries({ queryKey: ['orders'] });
+      ws.onmessage = (event) => {
+        if (!isComponentMounted) return;
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === 'NEW_KOT' || data.type === 'KOT_UPDATED') {
+            queryClient.invalidateQueries({ queryKey: ['orders'] });
+          }
+        } catch (err) {
+          console.error("Failed to parse WS message", err);
         }
-      } catch (err) {
-        console.error("Failed to parse WS message", err);
-      }
+      };
+
+      ws.onclose = () => {
+        if (!isComponentMounted) return;
+        setWsStatus('Reconnecting');
+        
+        reconnectTimeoutRef.current = window.setTimeout(() => {
+          reconnectDelay = Math.min(reconnectDelay * 2, 30000);
+          connect();
+        }, reconnectDelay);
+      };
+      
+      ws.onerror = () => {
+        ws?.close();
+      };
     };
 
-    ws.onclose = () => {
-      console.log("KDS WebSocket disconnected");
-    };
+    connect();
 
     return () => {
-      ws.close();
+      isComponentMounted = false;
+      if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
+      if (ws) {
+        ws.onclose = null; // prevent reconnect on unmount
+        ws.close();
+      }
     };
-  }, [token, queryClient]);
+  }, [token, branchId, queryClient]);
 
   const columns = [
     { title: "New Orders", status: "pending", icon: Package, color: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-900/20" },
@@ -52,14 +80,29 @@ export default function Orders() {
 
   return (
     <div className="h-[calc(100vh-6rem)] flex flex-col space-y-4">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <ChefHat className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-          Live Kitchen Display System
-        </h1>
-        <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
-          Real-time order tracking and fulfillment board.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <ChefHat className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+            Live Kitchen Display System
+          </h1>
+          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+            Real-time order tracking and fulfillment board.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge 
+            variant="outline" 
+            className={`flex items-center gap-1.5 ${
+              wsStatus === 'Connected' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20' :
+              wsStatus === 'Reconnecting' ? 'bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20' :
+              'bg-slate-50 text-slate-600 border-slate-200 dark:bg-slate-500/10 dark:text-slate-400 dark:border-slate-500/20'
+            }`}
+          >
+            {wsStatus === 'Connected' ? <Wifi className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}
+            {wsStatus}
+          </Badge>
+        </div>
       </div>
 
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-6 overflow-hidden">

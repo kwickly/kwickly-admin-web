@@ -9,9 +9,12 @@ import {
 import { Badge } from "@/components/ui/badge"
 
 import { useStaffList } from "@/hooks/api/useStaff"
+import { useBranchStore } from "@/store/useBranch"
 
 export default function StaffTable() {
-  const { data: staffList, isLoading } = useStaffList();
+  const { selectedBranchId } = useBranchStore();
+  const branchId = selectedBranchId || 'default';
+  const { data: staffList, isLoading } = useStaffList(branchId);
 
   return (
     <div className="rounded-md border border-slate-200 dark:border-zinc-800">

@@ -1,6 +1,7 @@
 import { Blocks } from "lucide-react";
 import CreateComboSheet from "@/features/combos/components/CreateComboSheet";
 import { useCombos } from "@/hooks/api/useCombos";
+import { useBranchStore } from "@/store/useBranch";
 import {
   Table,
   TableBody,
@@ -12,7 +13,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 export default function Combos() {
-  const { data: combos, isLoading } = useCombos('default');
+  const { selectedBranchId } = useBranchStore();
+  const branchId = selectedBranchId || 'default';
+  
+  const { data: combos, isLoading } = useCombos(branchId);
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">

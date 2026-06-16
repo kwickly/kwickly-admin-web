@@ -2,6 +2,7 @@ import { Outlet, Navigate, NavLink } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { 
   LayoutDashboard, 
+  ChefHat,
   MenuSquare, 
   Blocks,
   Users, 
@@ -17,6 +18,7 @@ export default function AppShell() {
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+    { name: "Live KDS", path: "/orders", icon: ChefHat },
     { name: "Menus", path: "/menus", icon: MenuSquare },
     { name: "Combos", path: "/menus/combos", icon: Blocks },
     { name: "Staff", path: "/staff", icon: Users },

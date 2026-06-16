@@ -1,18 +1,39 @@
 import { useAuthStore } from "@/store/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import api from "@/lib/api";
 
 export default function Login() {
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginMutation = useMutation({
+    mutationFn: async () => {
+      const response = await api.post("/auth/login", {
+        email,
+        password,
+      });
+      return response.data; // Expected { token: string, user: { ... } }
+    },
+    onSuccess: (data) => {
+      login(data.user, data.token);
+      toast.success("Successfully logged in!");
+      navigate("/dashboard");
+    },
+    onError: (error: any) => {
+      const message = error.response?.data?.message || "Invalid email or password.";
+      toast.error(message);
+    },
+  });
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock login for scaffold
-    login(
-      { id: "1", name: "Admin User", role: "Tenant Admin", tenantId: "tenant_1" },
-      "mock_jwt_token"
-    );
-    navigate("/dashboard");
+    loginMutation.mutate();
   };
 
   return (
@@ -29,6 +50,8 @@ export default function Login() {
               <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300 mb-2">Email Address</label>
               <input 
                 type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-2 border border-slate-300 dark:border-zinc-700 rounded-md bg-transparent text-slate-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-500 outline-none"
                 placeholder="admin@restaurant.com"
                 required
@@ -38,6 +61,8 @@ export default function Login() {
               <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300 mb-2">Password</label>
               <input 
                 type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-2 border border-slate-300 dark:border-zinc-700 rounded-md bg-transparent text-slate-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-500 outline-none"
                 placeholder="••••••••"
                 required
@@ -45,9 +70,10 @@ export default function Login() {
             </div>
             <button 
               type="submit" 
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-md transition-colors"
+              disabled={loginMutation.isPending}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-medium py-2.5 rounded-md transition-colors"
             >
-              Sign In
+              {loginMutation.isPending ? "Signing In..." : "Sign In"}
             </button>
           </form>
         </div>

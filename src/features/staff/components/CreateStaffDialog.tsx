@@ -24,6 +24,9 @@ export default function CreateStaffDialog() {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [role, setRole] = useState<'manager' | 'cashier' | 'kitchen_staff' | 'qr_scanner' | ''>('')
+  const [salaryType, setSalaryType] = useState<'HOURLY' | 'MONTHLY' | ''>('')
+  const [baseSalary, setBaseSalary] = useState('')
+  const [hourlyRate, setHourlyRate] = useState('')
   const [open, setOpen] = useState(false)
 
   const { mutate: createStaff, isPending } = useCreateStaff()
@@ -32,14 +35,29 @@ export default function CreateStaffDialog() {
     e.preventDefault()
     if (!name || !phone || !role) return
 
+    const payload: any = {
+      name,
+      phone,
+      role: role as 'manager' | 'cashier' | 'kitchen_staff' | 'qr_scanner',
+    }
+
+    if (salaryType) {
+      payload.salaryType = salaryType
+      if (salaryType === 'MONTHLY' && baseSalary) payload.baseSalary = baseSalary
+      if (salaryType === 'HOURLY' && hourlyRate) payload.hourlyRate = hourlyRate
+    }
+
     createStaff(
-      { name, phone, role: role as 'manager' | 'cashier' | 'kitchen_staff' | 'qr_scanner' },
+      payload,
       {
         onSuccess: () => {
           setOpen(false)
           setName('')
           setPhone('')
           setRole('')
+          setSalaryType('')
+          setBaseSalary('')
+          setHourlyRate('')
         }
       }
     )
@@ -88,8 +106,8 @@ export default function CreateStaffDialog() {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="role" className="text-slate-700 dark:text-zinc-300">
-              Role
-            </Label>
+                Role
+              </Label>
               <Select value={role} onValueChange={(val: any) => setRole(val)} required>
                 <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
                   <SelectValue placeholder="Select a role" />
@@ -98,9 +116,59 @@ export default function CreateStaffDialog() {
                   <SelectItem value="manager">Manager</SelectItem>
                   <SelectItem value="cashier">Cashier</SelectItem>
                   <SelectItem value="kitchen_staff">Kitchen Staff</SelectItem>
+                  <SelectItem value="qr_scanner">QR Scanner</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="salaryType" className="text-slate-700 dark:text-zinc-300">
+                Salary Type (Optional)
+              </Label>
+              <Select value={salaryType} onValueChange={(val: any) => setSalaryType(val)}>
+                <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                  <SelectValue placeholder="Select salary model" />
+                </SelectTrigger>
+                <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectItem value="MONTHLY">Monthly Salary</SelectItem>
+                  <SelectItem value="HOURLY">Hourly Wage</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {salaryType === 'MONTHLY' && (
+              <div className="grid gap-2">
+                <Label htmlFor="baseSalary" className="text-slate-700 dark:text-zinc-300">
+                  Base Salary (₹/month)
+                </Label>
+                <Input
+                  id="baseSalary"
+                  type="number"
+                  value={baseSalary}
+                  onChange={(e) => setBaseSalary(e.target.value)}
+                  placeholder="e.g. 25000"
+                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  required
+                />
+              </div>
+            )}
+
+            {salaryType === 'HOURLY' && (
+              <div className="grid gap-2">
+                <Label htmlFor="hourlyRate" className="text-slate-700 dark:text-zinc-300">
+                  Hourly Rate (₹/hour)
+                </Label>
+                <Input
+                  id="hourlyRate"
+                  type="number"
+                  value={hourlyRate}
+                  onChange={(e) => setHourlyRate(e.target.value)}
+                  placeholder="e.g. 150"
+                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  required
+                />
+              </div>
+            )}
           </div>
           <DialogFooter>
             <Button type="submit" disabled={isPending} className="bg-indigo-600 hover:bg-indigo-700 text-white w-full sm:w-auto">

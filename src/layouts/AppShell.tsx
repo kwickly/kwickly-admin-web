@@ -6,7 +6,8 @@ import {
   MenuSquare, 
   Blocks,
   Users, 
-  Settings 
+  Settings,
+  CreditCard
 } from "lucide-react";
 
 export default function AppShell() {
@@ -22,6 +23,7 @@ export default function AppShell() {
     { name: "Menus", path: "/menus", icon: MenuSquare },
     { name: "Combos", path: "/menus/combos", icon: Blocks },
     { name: "Staff", path: "/staff", icon: Users },
+    { name: "Subscriptions", path: "/subscriptions", icon: CreditCard },
     { name: "Settings", path: "/settings", icon: Settings },
   ]
 

@@ -8,6 +8,8 @@ import Menus from '@/pages/Menus'
 import Combos from '@/pages/Combos'
 import Orders from '@/pages/Orders'
 import Settings from '@/pages/Settings'
+import Ads from '@/pages/Ads'
+import Subscriptions from '@/pages/Subscriptions'
 import ProtectedRoute from '@/components/ProtectedRoute'
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
             <Route path="/menus" element={<Menus />} />
             <Route path="/menus/combos" element={<Combos />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/subscriptions" element={<Subscriptions />} />
+            <Route path="/ads" element={<Ads />} />
             <Route path="/settings" element={<Settings />} />
             {/* Example of RBAC strictly for SUPER_ADMIN:
             <Route element={<ProtectedRoute allowedRoles={['SUPER_ADMIN']} />}>

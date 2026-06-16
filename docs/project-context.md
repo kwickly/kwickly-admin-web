@@ -65,7 +65,7 @@ kwickly-admin-web/
 - [x] **Staff & Roles:** UI for adding staff, assigning roles, and viewing pins.
 - [x] **Menu Management:** CRUD interface for Categories, Items, and Modifier Groups.
 - [x] **Combos:** UI for assembling complex Meal Combos.
-- [ ] **Subscriptions:** Dashboard for tenants to view and upgrade their SaaS billing plans.
+- [x] **Subscriptions:** Dashboard for tenants to view and upgrade their SaaS billing plans.
 
 ### Phase 4: Advanced Operations (✅ COMPLETED)
 - [x] **Live KDS / Orders:** Real-time order tracking interface using WebSockets.

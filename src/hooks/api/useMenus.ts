@@ -21,6 +21,14 @@ export interface MenuCategory {
   items?: MenuItem[];
 }
 
+export interface MenuAddon {
+  id: string;
+  name: string;
+  price: string;
+  isActive: boolean;
+  menuItemId?: string;
+}
+
 // GET /v1/menus/:branchId (Flattened Items)
 export function useMenuItems(branchId: string) {
   return useQuery({
@@ -78,6 +86,54 @@ export function useCreateMenuItem() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+
+// POST /v1/menus/categories
+export function useCreateCategory() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (payload: {
+      name: string;
+      sortOrder?: number;
+    }) => {
+      const { data } = await api.post('/menus/categories', payload);
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+
+// POST /v1/menus/addons
+export function useCreateAddon() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (payload: {
+      name: string;
+      price: string;
+      menuItemId?: string;
+    }) => {
+      const { data } = await api.post('/menus/addons', payload);
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+
+// GET /v1/menus/addons
+export function useAddons() {
+  return useQuery({
+    queryKey: ['menus', 'addons'],
+    queryFn: async (): Promise<MenuAddon[]> => {
+      const { data } = await api.get('/menus/addons');
+      return data.data;
     },
   });
 }

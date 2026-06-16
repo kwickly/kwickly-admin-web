@@ -34,6 +34,9 @@ export function useCreateStaff() {
       phone: string;
       role: 'manager' | 'cashier' | 'kitchen_staff' | 'qr_scanner';
       branchId?: string;
+      salaryType?: 'HOURLY' | 'MONTHLY';
+      baseSalary?: string;
+      hourlyRate?: string;
     }) => {
       const { data } = await api.post('/staff', payload);
       return data.data;

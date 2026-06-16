@@ -21,7 +21,7 @@ export default function Login() {
       return response.data; // Expected { token: string, user: { ... } }
     },
     onSuccess: (data) => {
-      login(data.user, data.token);
+      login(data.user, data.accessToken);
       toast.success("Successfully logged in!");
       navigate("/dashboard");
     },

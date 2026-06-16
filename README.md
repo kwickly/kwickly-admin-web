@@ -12,6 +12,13 @@ The central management portal for the Kwickly POS ecosystem. This application is
 *   **Routing:** React Router v6
 *   **Package Manager:** Bun
 
+## ✨ Key Features
+
+- **🔐 Secure Authentication:** JWT-based stateless authentication, automatic token refresh logic, and strict Role-Based Access Control (RBAC) route guarding.
+- **🍽️ Core Restaurant Management:** Intuitive UI for managing Staff roles, comprehensive Menu catalogs (categories, items, modifier groups), and complex Meal Combos.
+- **🔥 Live KDS (Kitchen Display System):** A zero-latency, native WebSocket-powered Kanban board providing real-time synchronization between the POS and kitchen staff.
+- **📊 Advanced Operations:** Daily revenue analytics dashboard, dynamic routing, and global branch configuration settings.
+
 ## 🛠️ Getting Started
 
 ### Prerequisites

@@ -7,6 +7,7 @@ import Staff from '@/pages/Staff'
 import Menus from '@/pages/Menus'
 import Combos from '@/pages/Combos'
 import Orders from '@/pages/Orders'
+import Settings from '@/pages/Settings'
 import ProtectedRoute from '@/components/ProtectedRoute'
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
             <Route path="/menus" element={<Menus />} />
             <Route path="/menus/combos" element={<Combos />} />
             <Route path="/orders" element={<Orders />} />
-            {/* Future routes will go here: /settings */}
+            <Route path="/settings" element={<Settings />} />
             {/* Example of RBAC strictly for SUPER_ADMIN:
             <Route element={<ProtectedRoute allowedRoles={['SUPER_ADMIN']} />}>
               <Route path="/tenants" element={<TenantsPage />} />

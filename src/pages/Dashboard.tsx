@@ -1,5 +1,6 @@
 import { LayoutDashboard, DollarSign, ShoppingCart, TrendingUp, Users } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { useDailySales, useTopItems } from "@/hooks/api/useDashboard";
 
 const REVENUE_DATA = [
   { name: 'Mon', total: 1200 },
@@ -21,6 +22,14 @@ const CATEGORY_DATA = [
 const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444'];
 
 export default function Dashboard() {
+  const today = new Date().toISOString().split('T')[0];
+  const { data: sales, isLoading: isLoadingSales } = useDailySales('default', today);
+  const { data: topItems } = useTopItems('default');
+
+  const pieData = topItems && topItems.length > 0 
+    ? topItems.map(item => ({ name: item.name, value: item.quantitySold }))
+    : CATEGORY_DATA;
+
   return (
     <div className="max-w-7xl mx-auto space-y-8">
       <div>
@@ -41,7 +50,9 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">Today's Revenue</p>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">$3,240.50</h3>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+              ${isLoadingSales ? '...' : sales?.totalSales.toFixed(2)}
+            </h3>
           </div>
         </div>
 
@@ -51,7 +62,9 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">Total Orders</p>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">142</h3>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+              {isLoadingSales ? '...' : sales?.totalOrders}
+            </h3>
           </div>
         </div>
 
@@ -61,7 +74,9 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">Avg. Order Value</p>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">$22.82</h3>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+              ${isLoadingSales ? '...' : sales?.averageOrderValue.toFixed(2)}
+            </h3>
           </div>
         </div>
 
@@ -99,7 +114,7 @@ export default function Dashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={CATEGORY_DATA}
+                  data={pieData}
                   cx="50%"
                   cy="50%"
                   innerRadius={60}
@@ -107,7 +122,7 @@ export default function Dashboard() {
                   paddingAngle={5}
                   dataKey="value"
                 >
-                  {CATEGORY_DATA.map((entry, index) => (
+                  {pieData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="transparent" />
                   ))}
                 </Pie>
@@ -115,10 +130,10 @@ export default function Dashboard() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex justify-center gap-4 mt-4">
-            {CATEGORY_DATA.map((entry, index) => (
+          <div className="flex justify-center gap-4 mt-4 flex-wrap">
+            {pieData.map((entry, index) => (
               <div key={entry.name} className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index] }} />
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
                 <span className="text-xs text-slate-500 dark:text-zinc-400">{entry.name}</span>
               </div>
             ))}

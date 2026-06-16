@@ -70,4 +70,14 @@ kwickly-admin-web/
 ### Phase 4: Advanced Operations (✅ COMPLETED)
 - [x] **Live KDS / Orders:** Real-time order tracking interface using WebSockets.
 - [x] **Analytics:** Charts and revenue graphs for daily operations.
-- [ ] **Promotions & CRM:** UI for creating discount codes and viewing customer data.
+- [x] **Promotions & CRM:** UI for creating discount codes
+
+### Phase 5: API Integration (✅ COMPLETED)
+- [x] **Staff & Roles API:** Connect Staff Table and Creation Dialog to Elysia Backend.
+- [x] **Menus API:** Wire up Menu Items, Categories, and Modifiers to database endpoints.
+- [x] **Orders KDS API:** Replace mock Kanban data with live order queries.
+- [x] **Analytics API:** Connect dashboard charts to the backend reporting service.
+
+### Phase 6: Global Settings & Real-time WebSockets (✅ COMPLETED)
+- [x] Implement global system configuration settings.
+- [x] Stabilize WebSocket connection handling for low-latency updates.

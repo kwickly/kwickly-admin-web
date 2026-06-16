@@ -61,10 +61,10 @@ kwickly-admin-web/
 - [x] Handle JWT storage and automatic token refresh
 - [x] Role-Based Access Control (RBAC) route protection (Super Admin vs Tenant Admin)
 
-### Phase 3: Core Restaurant Management (📅 PLANNED)
-- [ ] **Staff & Roles:** UI for adding staff, assigning roles, and viewing pins.
-- [ ] **Menu Management:** CRUD interface for Categories, Items, and Modifier Groups.
-- [ ] **Combos:** UI for assembling complex Meal Combos.
+### Phase 3: Core Restaurant Management (✅ COMPLETED)
+- [x] **Staff & Roles:** UI for adding staff, assigning roles, and viewing pins.
+- [x] **Menu Management:** CRUD interface for Categories, Items, and Modifier Groups.
+- [x] **Combos:** UI for assembling complex Meal Combos.
 - [ ] **Subscriptions:** Dashboard for tenants to view and upgrade their SaaS billing plans.
 
 ### Phase 4: Advanced Operations (📅 PLANNED)

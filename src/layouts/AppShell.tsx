@@ -1,5 +1,12 @@
-import { Outlet, Navigate } from "react-router-dom"
+import { Outlet, Navigate, NavLink } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
+import { 
+  LayoutDashboard, 
+  MenuSquare, 
+  Blocks,
+  Users, 
+  Settings 
+} from "lucide-react";
 
 export default function AppShell() {
   const { user } = useAuthStore()
@@ -7,6 +14,14 @@ export default function AppShell() {
   if (!user) {
     return <Navigate to="/login" replace />
   }
+
+  const navItems = [
+    { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+    { name: "Menus", path: "/menus", icon: MenuSquare },
+    { name: "Combos", path: "/menus/combos", icon: Blocks },
+    { name: "Staff", path: "/staff", icon: Users },
+    { name: "Settings", path: "/settings", icon: Settings },
+  ]
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex">
@@ -16,10 +31,22 @@ export default function AppShell() {
           Kwickly
         </div>
         <nav className="flex-1 px-4 py-6 space-y-2">
-          <a href="/dashboard" className="block px-4 py-2 bg-indigo-600 rounded-md">Dashboard</a>
-          <a href="#" className="block px-4 py-2 hover:bg-slate-800 rounded-md transition-colors">Menus</a>
-          <a href="#" className="block px-4 py-2 hover:bg-slate-800 rounded-md transition-colors">Staff</a>
-          <a href="#" className="block px-4 py-2 hover:bg-slate-800 rounded-md transition-colors">Settings</a>
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center space-x-3 px-4 py-2 rounded-md transition-colors ${
+                  isActive
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                }`
+              }
+            >
+              <item.icon size={20} />
+              <span>{item.name}</span>
+            </NavLink>
+          ))}
         </nav>
       </aside>
 

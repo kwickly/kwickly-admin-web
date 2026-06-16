@@ -22,6 +22,7 @@ import {
 export default function CreateMenuItemSheet() {
   return (
     <Sheet>
+      {/* @ts-ignore - Radix UI type bug with TS 5.7+ */}
       <SheetTrigger asChild>
         <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">Add Menu Item</Button>
       </SheetTrigger>
@@ -75,6 +76,7 @@ export default function CreateMenuItemSheet() {
         </div>
         <div className="mt-8 pt-6 border-t border-slate-200 dark:border-zinc-800">
           <SheetFooter>
+            {/* @ts-ignore - Radix UI type bug with TS 5.7+ */}
             <SheetClose asChild>
               <Button variant="outline" className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent hover:bg-slate-100 dark:hover:bg-zinc-800">Cancel</Button>
             </SheetClose>

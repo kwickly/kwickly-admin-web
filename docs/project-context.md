@@ -67,7 +67,7 @@ kwickly-admin-web/
 - [x] **Combos:** UI for assembling complex Meal Combos.
 - [ ] **Subscriptions:** Dashboard for tenants to view and upgrade their SaaS billing plans.
 
-### Phase 4: Advanced Operations (📅 PLANNED)
+### Phase 4: Advanced Operations (🟡 IN PROGRESS)
 - [ ] **Live KDS / Orders:** Real-time order tracking interface using WebSockets.
 - [ ] **Promotions & CRM:** UI for creating discount codes and viewing customer data.
 - [ ] **Analytics:** Charts and revenue graphs for daily operations.

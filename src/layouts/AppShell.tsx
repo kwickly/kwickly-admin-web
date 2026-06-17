@@ -10,6 +10,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { 
   LayoutDashboard, 
   ChefHat,
@@ -18,13 +26,26 @@ import {
   Users, 
   Settings,
   CreditCard,
-  Target
+  Target,
+  LogOut,
+  User
 } from "lucide-react";
+import api from "@/lib/api";
 
 export default function AppShell() {
-  const { user } = useAuthStore()
+  const { user, logout } = useAuthStore()
   const { selectedBranchId, setSelectedBranchId } = useBranchStore()
   const { data: branches, isLoading: isBranchesLoading } = useBranches()
+
+  const handleLogout = async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch (e) {
+      console.error('Failed to logout on server', e);
+    } finally {
+      logout();
+    }
+  }
 
   // Auto-select the first branch if none is selected
   useEffect(() => {
@@ -104,7 +125,31 @@ export default function AppShell() {
           </div>
           
           <div className="flex items-center space-x-4">
-            <span className="text-sm font-medium text-slate-500 dark:text-zinc-400">{user.role}</span>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center space-x-2 p-2 rounded-md hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none">
+                <div className="h-8 w-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                  <User size={16} />
+                </div>
+                <span className="text-sm font-medium text-slate-700 dark:text-zinc-300 capitalize hidden sm:block">
+                  {user.role.replace('_', ' ')}
+                </span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.name}</p>
+                    <p className="text-xs leading-none text-slate-500 dark:text-slate-400">
+                      {user.role.replace('_', ' ')}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-600 dark:text-red-400 cursor-pointer focus:bg-red-50 dark:focus:bg-red-900/20" onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </header>
         <main className="flex-1 p-8 overflow-y-auto">

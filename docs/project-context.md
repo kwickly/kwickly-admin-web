@@ -60,6 +60,8 @@ kwickly-admin-web/
 - [x] Connect `Login.tsx` to Elysia API (`POST /auth/login`)
 - [x] Handle JWT storage and automatic token refresh
 - [x] Role-Based Access Control (RBAC) route protection (Super Admin vs Tenant Admin)
+- [x] Configure Docker containerization for Vite SPA deployments.
+- [x] Configure Github actions and `Dockerfile`.
 
 ### Phase 3: Core Restaurant Management (✅ COMPLETED)
 - [x] **Staff & Roles:** UI for adding staff, assigning roles, and viewing pins.

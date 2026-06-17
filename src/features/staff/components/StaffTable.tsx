@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 
 import { useStaffList } from "@/hooks/api/useStaff"
 import { useBranchStore } from "@/store/useBranch"
+import { Can } from "@/components/shared/Can"
 
 export default function StaffTable() {
   const { selectedBranchId } = useBranchStore();
@@ -62,9 +63,11 @@ export default function StaffTable() {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  <button className="text-indigo-600 dark:text-indigo-400 hover:underline text-sm font-medium">
-                    Edit
-                  </button>
+                  <Can perform="staff:write">
+                    <button className="text-indigo-600 dark:text-indigo-400 hover:underline text-sm font-medium">
+                      Edit
+                    </button>
+                  </Can>
                 </TableCell>
               </TableRow>
             ))

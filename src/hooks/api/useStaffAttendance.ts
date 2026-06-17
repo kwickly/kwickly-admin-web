@@ -11,11 +11,6 @@ export interface TimesheetRecord {
   totalHours: number;
 }
 
-export interface RolePermission {
-  role: string;
-  permissions: string[];
-}
-
 export function useTimesheets() {
   return useQuery({
     queryKey: ['staff', 'timesheets'],
@@ -39,25 +34,3 @@ export function useUpdateTimesheet() {
   });
 }
 
-export function useRolePermissions() {
-  return useQuery({
-    queryKey: ['staff', 'roles'],
-    queryFn: async (): Promise<RolePermission[]> => {
-      const { data } = await api.get('/staff/roles');
-      return data.data;
-    },
-  });
-}
-
-export function useUpdateRolePermissions() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (payload: { role: string; permissions: string[] }) => {
-      const { data } = await api.post('/staff/roles', payload);
-      return data.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['staff', 'roles'] });
-    },
-  });
-}

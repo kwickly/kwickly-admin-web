@@ -1,0 +1,180 @@
+import React, { useState, useEffect } from 'react';
+import { Award, Wallet, Percent, Save } from 'lucide-react';
+import { toast } from 'sonner';
+import { useLoyaltyConfig, useUpdateLoyaltyConfig } from '@/hooks/api/useLoyalty';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+export default function LoyaltyConfig() {
+  const { data: loyaltyData, isLoading: isLoyaltyLoading } = useLoyaltyConfig();
+  const updateLoyaltyMutation = useUpdateLoyaltyConfig();
+
+  const [bronze, setBronze] = useState('1.0');
+  const [silver, setSilver] = useState('1.2');
+  const [gold, setGold] = useState('1.5');
+  const [pointsPerRupee, setPointsPerRupee] = useState('0.1');
+  const [walletTopUp, setWalletTopUp] = useState(true);
+  const [partialDeduction, setPartialDeduction] = useState(true);
+
+  useEffect(() => {
+    if (loyaltyData) {
+      setBronze(loyaltyData.bronzeMultiplier);
+      setSilver(loyaltyData.silverMultiplier);
+      setGold(loyaltyData.goldMultiplier);
+      setPointsPerRupee(loyaltyData.pointsPerRupee);
+      setWalletTopUp(loyaltyData.walletTopUpEnabled);
+      setPartialDeduction(loyaltyData.partialDeductionAllowed);
+    }
+  }, [loyaltyData]);
+
+  const handleLoyaltySave = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateLoyaltyMutation.mutate(
+      {
+        bronzeMultiplier: bronze,
+        silverMultiplier: silver,
+        goldMultiplier: gold,
+        pointsPerRupee,
+        walletTopUpEnabled: walletTopUp,
+        partialDeductionAllowed: partialDeduction
+      },
+      {
+        onSuccess: () => {
+          toast.success('Loyalty settings saved successfully');
+        }
+      }
+    );
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <Award className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          Loyalty & Wallet Config
+        </h1>
+        <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          Configure rewards multipliers and checkout points calculation rules.
+        </p>
+      </div>
+
+      <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-slate-200 dark:border-zinc-800">
+        <form onSubmit={handleLoyaltySave} className="p-6 space-y-6">
+          {isLoyaltyLoading ? (
+            <div className="flex justify-center p-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase text-slate-400 tracking-wider">Tier Multipliers</h3>
+                  
+                  <div className="grid gap-2">
+                    <Label htmlFor="bronze" className="text-slate-700 dark:text-zinc-300">Bronze Tier Multiplier</Label>
+                    <Input
+                      id="bronze"
+                      type="number"
+                      step="0.1"
+                      value={bronze}
+                      onChange={(e) => setBronze(e.target.value)}
+                      className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                    />
+                  </div>
+
+                  <div className="grid gap-2">
+                    <Label htmlFor="silver" className="text-slate-700 dark:text-zinc-300">Silver Tier Multiplier</Label>
+                    <Input
+                      id="silver"
+                      type="number"
+                      step="0.1"
+                      value={silver}
+                      onChange={(e) => setSilver(e.target.value)}
+                      className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                    />
+                  </div>
+
+                  <div className="grid gap-2">
+                    <Label htmlFor="gold" className="text-slate-700 dark:text-zinc-300">Gold Tier Multiplier</Label>
+                    <Input
+                      id="gold"
+                      type="number"
+                      step="0.1"
+                      value={gold}
+                      onChange={(e) => setGold(e.target.value)}
+                      className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <h3 className="text-sm font-bold uppercase text-slate-400 tracking-wider">Wallet & Point Accumulation</h3>
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="pointsRate" className="text-slate-700 dark:text-zinc-300 flex items-center gap-1.5">
+                        <Percent className="h-4 w-4 text-slate-400" />
+                        Loyalty Points Earned Per ₹1 Spent
+                      </Label>
+                      <Input
+                        id="pointsRate"
+                        type="number"
+                        step="0.01"
+                        value={pointsPerRupee}
+                        onChange={(e) => setPointsPerRupee(e.target.value)}
+                        className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 pt-2">
+                    <h3 className="text-sm font-bold uppercase text-slate-400 tracking-wider flex items-center gap-1.5">
+                      <Wallet className="h-4 w-4 text-slate-400" /> Wallet Restrictions
+                    </h3>
+                    
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="walletTopUp"
+                        checked={walletTopUp}
+                        onChange={(e) => setWalletTopUp(e.target.checked)}
+                        className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                      />
+                      <Label htmlFor="walletTopUp" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
+                        Enable In-App Wallet Top-Ups via Razorpay
+                      </Label>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="partialDeduction"
+                        checked={partialDeduction}
+                        onChange={(e) => setPartialDeduction(e.target.checked)}
+                        className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                      />
+                      <Label htmlFor="partialDeduction" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
+                        Allow Partial Point Redemption during Checkout
+                      </Label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end pt-4 border-t border-slate-200 dark:border-zinc-800">
+                <button
+                  type="submit"
+                  disabled={updateLoyaltyMutation.isPending}
+                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                >
+                  <Save className="h-4 w-4" />
+                  {updateLoyaltyMutation.isPending ? 'Saving...' : 'Save Settings'}
+                </button>
+              </div>
+            </>
+          )}
+        </form>
+      </div>
+    </div>
+  );
+}

@@ -1,20 +1,20 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '@/store/useAuth';
-
-type AllowedRoles = 'SUPER_ADMIN' | 'TENANT_ADMIN' | 'MANAGER' | 'STAFF';
+import { hasPermission } from '@/lib/permissions';
+import type { Permission } from '@/lib/permissions';
 
 interface ProtectedRouteProps {
-  allowedRoles?: AllowedRoles[];
+  permission?: Permission;
 }
 
-export default function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
+export default function ProtectedRoute({ permission }: ProtectedRouteProps) {
   const { user } = useAuthStore();
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(user.role as AllowedRoles)) {
+  if (permission && !hasPermission(permission)) {
     // If user does not have permission, redirect to their home dashboard
     return <Navigate to="/dashboard" replace />;
   }

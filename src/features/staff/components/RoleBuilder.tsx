@@ -1,38 +1,46 @@
-import { Shield, Save, Check } from "lucide-react";
+import { Shield, Save, Check, Lock } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useRolePermissions, useUpdateRolePermissions } from "@/hooks/api/useStaffAttendance";
+import { useRoles, useUpdateRolePermissions } from "@/hooks/api/useStaff";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 const AVAILABLE_PERMISSIONS = [
-  { group: "Orders", token: "read:orders", label: "View Orders", desc: "Allows viewing live orders board and past history." },
-  { group: "Orders", token: "update:orders", label: "Update Orders", desc: "Allows advancing order statuses (Preparing, Ready, etc)." },
-  { group: "Orders", token: "delete:orders", label: "Cancel Orders", desc: "Allows canceling orders and issuing refunds." },
+  { group: "Orders", token: "orders:read", label: "View Orders", desc: "Allows viewing live orders board and past history." },
+  { group: "Orders", token: "orders:write", label: "Manage Orders", desc: "Allows advancing order statuses, canceling orders, and refunds." },
   
-  { group: "Menus", token: "read:menus", label: "View Menus", desc: "Allows viewing categories, items, and modifiers." },
-  { group: "Menus", token: "write:menus", label: "Create/Edit Menus", desc: "Allows editing prices, item details, and creating modifiers." },
-  { group: "Menus", token: "delete:menus", label: "Delete Menus", desc: "Allows soft deleting menu categories and items." },
+  { group: "Menus", token: "menu:read", label: "View Menus", desc: "Allows viewing categories, items, and modifiers." },
+  { group: "Menus", token: "menu:write", label: "Manage Menus", desc: "Allows creating, editing, and deleting menu items." },
   
-  { group: "HR & Scans", token: "view:staff", label: "View Staff", desc: "Allows viewing employee list and timesheets." },
-  { group: "HR & Scans", token: "manage:staff", label: "Onboard Staff", desc: "Allows adding new staff members and managing payroll." },
-  { group: "HR & Scans", token: "scan:qr", label: "Scan subscriber QR", desc: "Allows scanner app to scan codes and deduct meals." },
-  { group: "HR & Scans", token: "manage:billing", label: "Manage Billing", desc: "Allows subscription plan configuration." },
+  { group: "Staff & HR", token: "staff:read", label: "View Staff", desc: "Allows viewing employee list and timesheets." },
+  { group: "Staff & HR", token: "staff:write", label: "Manage Staff", desc: "Allows onboarding new staff and managing roles." },
+  
+  { group: "Analytics", token: "analytics:read", label: "View Analytics", desc: "Allows viewing sales reports and performance metrics." },
+  
+  { group: "Inventory", token: "inventory:read", label: "View Inventory", desc: "Allows viewing stock levels and supplies." },
+  { group: "Inventory", token: "inventory:write", label: "Manage Inventory", desc: "Allows updating stock levels and orders." },
 ];
 
 export default function RoleBuilder() {
-  const { data: rolesData, isLoading } = useRolePermissions();
+  const { data: roles, isLoading } = useRoles();
   const updateRolePermissionsMutation = useUpdateRolePermissions();
 
-  const [selectedRole, setSelectedRole] = useState<'manager' | 'cashier' | 'kitchen_staff' | 'qr_scanner'>('manager');
+  const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
   const [rolePermissions, setRolePermissions] = useState<string[]>([]);
 
+  const selectedRole = roles?.find(r => r.id === selectedRoleId) || roles?.[0];
+
   useEffect(() => {
-    if (rolesData) {
-      const match = rolesData.find(r => r.role === selectedRole);
-      setRolePermissions(match ? match.permissions : []);
+    if (roles && !selectedRoleId) {
+      setSelectedRoleId(roles[0].id);
     }
-  }, [rolesData, selectedRole]);
+  }, [roles, selectedRoleId]);
+
+  useEffect(() => {
+    if (selectedRole) {
+      setRolePermissions(selectedRole.permissions);
+    }
+  }, [selectedRole]);
 
   const togglePermission = (token: string) => {
     setRolePermissions(prev =>
@@ -41,11 +49,13 @@ export default function RoleBuilder() {
   };
 
   const handleSave = () => {
+    if (!selectedRoleId) return;
+    
     updateRolePermissionsMutation.mutate(
-      { role: selectedRole, permissions: rolePermissions },
+      { id: selectedRoleId, permissions: rolePermissions },
       {
         onSuccess: () => {
-          toast.success(`Permissions for ${selectedRole} updated successfully!`);
+          toast.success(`Permissions for ${selectedRole?.name} updated successfully!`);
         }
       }
     );
@@ -63,29 +73,32 @@ export default function RoleBuilder() {
       <div>
         <h2 className="text-lg font-semibold text-slate-900 dark:text-zinc-100 flex items-center gap-2">
           <Shield className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-          Custom Role Builder (RBAC)
+          Granular Role Permissions
         </h2>
         <p className="text-sm text-slate-500 dark:text-zinc-400 mt-0.5">
-          Select a system role and customize their security tokens to configure fine-grained permissions.
+          Customize security tokens for each role. Changes take effect immediately.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
         {/* Left Side: Role Selector */}
         <div className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 p-2 space-y-1 shadow-sm">
-          {(['manager', 'cashier', 'kitchen_staff', 'qr_scanner'] as const).map(role => {
-            const isActive = selectedRole === role;
+          {roles?.map(role => {
+            const isActive = selectedRoleId === role.id;
             return (
               <button
-                key={role}
-                onClick={() => setSelectedRole(role)}
-                className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors capitalize ${
+                key={role.id}
+                onClick={() => setSelectedRoleId(role.id)}
+                className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
                     ? 'bg-indigo-600 text-white'
                     : 'text-slate-600 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-zinc-800'
                 }`}
               >
-                {role.replace('_', ' ')}
+                <div className="flex items-center justify-between">
+                  <span>{role.name}</span>
+                  {role.isSystem && <Lock className={`h-3 w-3 ${isActive ? 'text-indigo-200' : 'text-slate-400'}`} />}
+                </div>
               </button>
             );
           })}
@@ -98,13 +111,18 @@ export default function RoleBuilder() {
               <span className="text-sm font-semibold text-slate-900 dark:text-zinc-100 uppercase tracking-wide">
                 Configuring:
               </span>
-              <Badge className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 capitalize px-2.5 font-semibold text-sm">
-                {selectedRole.replace('_', ' ')}
+              <Badge className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 px-2.5 font-semibold text-sm">
+                {selectedRole?.name}
               </Badge>
+              {selectedRole?.isSystem && (
+                <Badge variant="outline" className="text-[10px] text-slate-400 border-slate-200 uppercase tracking-tighter">
+                  System Role
+                </Badge>
+              )}
             </div>
             <Button
               onClick={handleSave}
-              disabled={updateRolePermissionsMutation.isPending || isLoading}
+              disabled={updateRolePermissionsMutation.isPending || isLoading || !selectedRoleId}
               className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2 h-9"
             >
               <Save className="h-4 w-4" /> Save Configuration
@@ -118,7 +136,7 @@ export default function RoleBuilder() {
               {Object.entries(groups).map(([groupName, perms]) => (
                 <div key={groupName} className="space-y-3">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
-                    {groupName} Permissions
+                    {groupName}
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {perms.map(p => {

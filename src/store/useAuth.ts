@@ -1,10 +1,24 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+interface User {
+  id: string;
+  name: string;
+  role: string;
+  tenantId: string;
+  roleDetails?: {
+    id: string;
+    name: string;
+    slug: string;
+    isSystem: boolean;
+    permissions: string[];
+  };
+}
+
 interface AuthState {
-  user: { id: string; name: string; role: string; tenantId: string } | null;
+  user: User | null;
   token: string | null;
-  login: (user: any, token: string) => void;
+  login: (user: User, token: string) => void;
   logout: () => void;
 }
 

@@ -1,4 +1,4 @@
-import { Outlet, Navigate, NavLink } from "react-router-dom"
+import { Outlet, Navigate } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { useBranchStore } from "@/store/useBranch"
 import { useBranches } from "@/hooks/api/useSettings"
@@ -10,42 +10,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { 
+  Search,
+  Bell,
+  HelpCircle,
+  User,
+  LogOut
+} from "lucide-react";
+import { AppSidebar } from "@/components/AppSidebar";
+import { 
+  SidebarInset, 
+  SidebarProvider, 
+  SidebarTrigger 
+} from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { 
-  LayoutDashboard, 
-  ChefHat,
-  MenuSquare, 
-  Blocks,
-  Users, 
-  Settings,
-  CreditCard,
-  Target,
-  LogOut,
-  User
-} from "lucide-react";
-import api from "@/lib/api";
+} from "@/components/ui/dropdown-menu";
 
 export default function AppShell() {
   const { user, logout } = useAuthStore()
   const { selectedBranchId, setSelectedBranchId } = useBranchStore()
   const { data: branches, isLoading: isBranchesLoading } = useBranches()
-
-  const handleLogout = async () => {
-    try {
-      await api.post('/auth/logout');
-    } catch (e) {
-      console.error('Failed to logout on server', e);
-    } finally {
-      logout();
-    }
-  }
 
   // Auto-select the first branch if none is selected
   useEffect(() => {
@@ -58,104 +48,99 @@ export default function AppShell() {
     return <Navigate to="/login" replace />
   }
 
-  const navItems = [
-    { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-    { name: "Live KDS", path: "/orders", icon: ChefHat },
-    { name: "Menus", path: "/menus", icon: MenuSquare },
-    { name: "Combos", path: "/menus/combos", icon: Blocks },
-    { name: "Staff", path: "/staff", icon: Users },
-    { name: "Subscriptions", path: "/subscriptions", icon: CreditCard },
-    { name: "CRM & Campaigns", path: "/crm", icon: Target },
-    { name: "Settings", path: "/settings", icon: Settings },
-  ]
-
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex">
-      {/* Sidebar Placeholder */}
-      <aside className="w-64 bg-slate-900 text-white flex flex-col">
-        <div className="h-16 flex items-center px-6 border-b border-slate-800 font-bold text-xl text-indigo-400">
-          Kwickly
-        </div>
-        <nav className="flex-1 px-4 py-6 space-y-2">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `flex items-center space-x-3 px-4 py-2 rounded-md transition-colors ${
-                  isActive
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-                }`
-              }
-            >
-              <item.icon size={20} />
-              <span>{item.name}</span>
-            </NavLink>
-          ))}
-        </nav>
-      </aside>
-
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 bg-white dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-800 flex items-center px-8 justify-between">
-          <div className="flex items-center space-x-4">
-            <h2 className="text-xl font-semibold text-slate-800 dark:text-zinc-100">Welcome back, {user.name}</h2>
-            
-            <div className="h-6 w-px bg-slate-200 dark:bg-zinc-700 mx-4" />
-            
-            <div className="w-64">
-              <Select 
-                value={selectedBranchId || undefined} 
-                onValueChange={(val) => setSelectedBranchId(val)}
-                disabled={isBranchesLoading || !branches || branches.length === 0}
-              >
-                <SelectTrigger className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
-                  <SelectValue placeholder="Select a branch" />
-                </SelectTrigger>
-                <SelectContent>
-                  {branches?.map((branch) => (
-                    <SelectItem key={branch.id} value={branch.id}>
-                      {branch.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-2 p-2 rounded-md hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none">
-                <div className="h-8 w-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                  <User size={16} />
-                </div>
-                <span className="text-sm font-medium text-slate-700 dark:text-zinc-300 capitalize hidden sm:block">
-                  {user.role.replace('_', ' ')}
-                </span>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user.name}</p>
-                    <p className="text-xs leading-none text-slate-500 dark:text-slate-400">
-                      {user.role.replace('_', ' ')}
-                    </p>
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-slate-50 dark:bg-zinc-950">
+        <AppSidebar />
+        <SidebarInset>
+          <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-14">
+            <div className="flex items-center gap-2 px-2 h-full">
+              <SidebarTrigger className="-ml-1 text-slate-500" />
+              <Separator orientation="vertical" className="mr-2 h-5" />
+              
+              <div className="flex items-center gap-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Branch:</span>
+                  <div className="w-48">
+                    <Select 
+                      value={selectedBranchId || undefined} 
+                      onValueChange={(val) => setSelectedBranchId(val)}
+                      disabled={isBranchesLoading || !branches || branches.length === 0}
+                    >
+                      <SelectTrigger className="h-7 text-xs bg-slate-50 dark:bg-zinc-800 border-none shadow-none focus:ring-1 focus:ring-indigo-500">
+                        <SelectValue placeholder="Select a branch" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {branches?.map((branch) => (
+                          <SelectItem key={branch.id} value={branch.id} className="text-xs">
+                            {branch.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600 dark:text-red-400 cursor-pointer focus:bg-red-50 dark:focus:bg-red-900/20" onClick={handleLogout}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </header>
-        <main className="flex-1 p-8 overflow-y-auto">
-          <Outlet />
-        </main>
+                </div>
+              </div>
+            </div>
+            
+            <div className="ml-auto flex items-center gap-2 px-2 h-full">
+              <div className="hidden md:flex relative mr-2 group">
+                <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                <input 
+                  type="search" 
+                  placeholder="Search anything..." 
+                  className="h-9 w-48 lg:w-72 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 pl-9 pr-12 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all"
+                />
+                <div className="absolute right-2 top-2 h-5 px-1.5 flex items-center gap-1 rounded border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm pointer-events-none">
+                  <span className="text-[10px] font-medium text-slate-400">⌘</span>
+                  <span className="text-[10px] font-medium text-slate-400">K</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1 mr-2">
+                <Button variant="ghost" size="icon-sm" className="text-slate-500">
+                  <Bell className="size-4" />
+                </Button>
+                <Button variant="ghost" size="icon-sm" className="text-slate-500">
+                  <HelpCircle className="size-4" />
+                </Button>
+              </div>
+
+              <Separator orientation="vertical" className="h-5 mx-2" />
+
+              <DropdownMenu>
+                <DropdownMenuTrigger render={
+                  <Button variant="ghost" className="h-9 px-2 gap-2 hover:bg-slate-100 dark:hover:bg-zinc-800">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
+                      <User className="size-4" />
+                    </div>
+                    <div className="hidden lg:flex flex-col items-start gap-0">
+                      <span className="text-xs font-bold text-slate-900 dark:text-white leading-none">{user?.name}</span>
+                      <span className="text-[10px] text-slate-500 dark:text-zinc-500 uppercase font-medium leading-none mt-0.5">
+                        {user?.roleDetails?.name || user?.role.replace('_', ' ')}
+                      </span>
+                    </div>
+                  </Button>
+                } />
+                <DropdownMenuContent align="end" className="w-56" sideOffset={8}>
+                  <div className="px-2 py-1.5 text-xs font-semibold text-slate-500 dark:text-zinc-400 border-b border-slate-100 dark:border-zinc-800 mb-1">
+                    My Account
+                  </div>
+                  <DropdownMenuItem className="text-red-600 dark:text-red-400 cursor-pointer focus:bg-red-50 dark:focus:bg-red-900/20" onClick={() => logout()}>
+                    <LogOut className="mr-2 size-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </header>
+          <main className="flex-1 p-6 md:p-8 lg:p-10 overflow-y-auto">
+            <div className="max-w-[1600px] mx-auto">
+              <Outlet />
+            </div>
+          </main>
+        </SidebarInset>
       </div>
-    </div>
+    </SidebarProvider>
   )
 }

@@ -37,7 +37,7 @@ export default function BranchProfile() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <Store className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <Store className="h-6 w-6 text-primary" />
           Branch Profile
         </h1>
         <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
@@ -49,7 +49,7 @@ export default function BranchProfile() {
         <form onSubmit={handleBranchSave} className="p-6 space-y-6">
           {isBranchLoading ? (
             <div className="flex justify-center p-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
           ) : (
             <>
@@ -65,7 +65,7 @@ export default function BranchProfile() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-full rounded-md border border-slate-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
+                    className="w-full rounded-md border border-slate-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white"
                     placeholder="e.g. Kwickly Downtown"
                   />
                 </div>
@@ -80,7 +80,7 @@ export default function BranchProfile() {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full rounded-md border border-slate-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
+                    className="w-full rounded-md border border-slate-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white"
                     placeholder="e.g. (555) 123-4567"
                   />
                 </div>
@@ -95,7 +95,7 @@ export default function BranchProfile() {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     rows={3}
-                    className="w-full rounded-md border border-slate-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white resize-none"
+                    className="w-full rounded-md border border-slate-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white resize-none"
                     placeholder="Enter full address"
                   />
                 </div>
@@ -105,7 +105,7 @@ export default function BranchProfile() {
                 <button
                   type="submit"
                   disabled={isBranchSaving || !currentBranch}
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
                 >
                   <Save className="h-4 w-4" />
                   {isBranchSaving ? 'Saving...' : 'Save Changes'}

@@ -137,3 +137,68 @@ export function useAddons() {
     },
   });
 }
+
+// PATCH /v1/menus/items/:id
+export function useUpdateMenuItem() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, payload, branchId }: { id: string; payload: Partial<MenuItem>; branchId?: string }) => {
+      const { data } = await api.patch(`/menus/items/${id}`, payload, {
+        headers: {
+          'x-branch-id': branchId || 'default'
+        }
+      });
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+
+// DELETE /v1/menus/items/:id
+export function useDeleteMenuItem() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, branchId }: { id: string; branchId?: string }) => {
+      const { data } = await api.delete(`/menus/items/${id}`, {
+        headers: {
+          'x-branch-id': branchId || 'default'
+        }
+      });
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+
+// PATCH /v1/menus/categories/:id
+export function useUpdateCategory() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, payload }: { id: string; payload: Partial<MenuCategory> }) => {
+      const { data } = await api.patch(`/menus/categories/${id}`, payload);
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+
+// DELETE /v1/menus/categories/:id
+export function useDeleteCategory() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { data } = await api.delete(`/menus/categories/${id}`);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+

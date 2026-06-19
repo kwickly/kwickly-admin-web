@@ -81,3 +81,45 @@ export function useCreateStaff() {
     },
   });
 }
+
+// PATCH /v1/staff/:id
+export function useUpdateStaff() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async ({ id, payload }: {
+      id: string;
+      payload: Partial<{
+        name: string;
+        phone: string;
+        role: 'manager' | 'cashier' | 'kitchen_staff' | 'qr_scanner';
+        branchId: string | null;
+        isActive: boolean;
+        salaryType: 'HOURLY' | 'MONTHLY';
+        baseSalary: string | null;
+        hourlyRate: string | null;
+      }>;
+    }) => {
+      const { data } = await api.patch(`/staff/${id}`, payload);
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['staff'] });
+    },
+  });
+}
+
+// DELETE /v1/staff/:id
+export function useDeleteStaff() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { data } = await api.delete(`/staff/${id}`);
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['staff'] });
+    },
+  });
+}

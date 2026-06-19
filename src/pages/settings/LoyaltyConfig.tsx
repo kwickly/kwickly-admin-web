@@ -50,7 +50,7 @@ export default function LoyaltyConfig() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <Award className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <Award className="h-6 w-6 text-primary" />
           Loyalty & Wallet Config
         </h1>
         <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
@@ -62,7 +62,7 @@ export default function LoyaltyConfig() {
         <form onSubmit={handleLoyaltySave} className="p-6 space-y-6">
           {isLoyaltyLoading ? (
             <div className="flex justify-center p-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
           ) : (
             <>
@@ -138,7 +138,7 @@ export default function LoyaltyConfig() {
                         id="walletTopUp"
                         checked={walletTopUp}
                         onChange={(e) => setWalletTopUp(e.target.checked)}
-                        className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                        className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-primary focus:ring-primary"
                       />
                       <Label htmlFor="walletTopUp" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
                         Enable In-App Wallet Top-Ups via Razorpay
@@ -151,7 +151,7 @@ export default function LoyaltyConfig() {
                         id="partialDeduction"
                         checked={partialDeduction}
                         onChange={(e) => setPartialDeduction(e.target.checked)}
-                        className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                        className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-primary focus:ring-primary"
                       />
                       <Label htmlFor="partialDeduction" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
                         Allow Partial Point Redemption during Checkout
@@ -165,7 +165,7 @@ export default function LoyaltyConfig() {
                 <button
                   type="submit"
                   disabled={updateLoyaltyMutation.isPending}
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium shadow-sm"
                 >
                   <Save className="h-4 w-4" />
                   {updateLoyaltyMutation.isPending ? 'Saving...' : 'Save Settings'}

@@ -63,6 +63,11 @@ src/
 For full architectural context and an up-to-date roadmap/progress tracker, please refer to the primary documentation file:
 - [`docs/project-context.md`](./docs/project-context.md)
 
-## 🎨 Theme & Aesthetics
+## 🎨 Theme & Aesthetics (White-Labeling Support)
 
-The dashboard utilizes a premium **Slate/Zinc** base with **Indigo/Blue** accents, optimized for high legibility in fast-paced restaurant environments. Both Light and Dark modes are fully supported out of the box via the `ThemeProvider`.
+The dashboard supports both **Platform Admins** and **Tenants** with premium theme styling:
+- **Platform Admins**: Standardized, high-quality **Slate/Zinc** base with **Indigo/Violet** accents, optimized for system-wide overview in both Light and Dark modes.
+- **Tenants (White-Label Customization)**: Restaurant tenants can upload their own company logo and choose their primary brand color (via settings). The dashboard dynamically injects the brand color variables and calculates:
+  - Relative luminance contrast text color (`--brand-foreground` as white or charcoal) for WCAG AA/AAA compliance.
+  - Hover states and translucent tints (10% and 20% opacity) for selected lists and accent badges.
+- **Theme Switcher**: Toggle between **Light** and **Dark** modes instantly using the header Sun/Moon widget.

@@ -8,14 +8,21 @@ const api = axios.create({
   },
 });
 
-// Request Interceptor: Attach JWT Token
+// Request Interceptor: Attach JWT Token & Impersonation Header
 api.interceptors.request.use(
   (config) => {
-    // Get token from Zustand store
-    const token = useAuthStore.getState().token;
+    const state = useAuthStore.getState();
+    const token = state.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Attach impersonated tenant ID if active
+    const impersonatedTenantId = state.impersonatedTenantId;
+    if (impersonatedTenantId) {
+      config.headers['x-impersonate-tenant-id'] = impersonatedTenantId;
+    }
+    
     return config;
   },
   (error) => Promise.reject(error)

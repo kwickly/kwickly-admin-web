@@ -7,8 +7,12 @@ import {
   CreditCard, 
   Target, 
   Megaphone, 
-  ChevronRight 
+  ChevronRight,
+  Building,
+  ScrollText,
+  Sparkles
 } from "lucide-react";
+import { useAuthStore } from "@/store/useAuth";
 import {
   Sidebar,
   SidebarContent,
@@ -27,7 +31,7 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { useHasPermission } from "@/lib/permissions";
+import { hasPermission } from "@/lib/permissions";
 import type { Permission } from "@/lib/permissions";
 
 interface NavItem {
@@ -57,6 +61,12 @@ const navGroups: NavGroup[] = [
         url: "/orders",
         icon: ChefHat,
         permission: "orders:read",
+      },
+      {
+        title: "AI Analytics",
+        url: "/analytics",
+        icon: Sparkles,
+        permission: "analytics:read",
       },
     ]
   },
@@ -121,7 +131,36 @@ const navGroups: NavGroup[] = [
         items: [
           { title: "Branch Profile", url: "/settings/profile", permission: "billing:manage" },
           { title: "Loyalty & Wallet", url: "/settings/loyalty", permission: "billing:manage" },
+          { title: "Branding & Colors", url: "/settings/branding", permission: "billing:manage" },
         ],
+      },
+    ]
+  }
+]
+
+const platformNavGroups: NavGroup[] = [
+  {
+    label: "Platform Overview",
+    items: [
+      {
+        title: "Platform Dashboard",
+        url: "/dashboard",
+        icon: LayoutDashboard,
+      },
+      {
+        title: "System Audit Logs",
+        url: "/platform/logs",
+        icon: ScrollText,
+      },
+    ]
+  },
+  {
+    label: "Platform Management",
+    items: [
+      {
+        title: "Tenants Directory",
+        url: "/platform/tenants",
+        icon: Building,
       },
     ]
   }
@@ -129,9 +168,14 @@ const navGroups: NavGroup[] = [
 
 export function AppSidebar() {
   const location = useLocation();
-  const hasPermission = useHasPermission;
+  const { user, impersonatedTenantId } = useAuthStore();
 
-  const filteredNavGroups = navGroups.map(group => ({
+  const isPlatformAdmin = user?.role === 'platform_owner' || user?.role === 'super_admin';
+  const showPlatformNav = isPlatformAdmin && !impersonatedTenantId;
+
+  const activeNavGroups = showPlatformNav ? platformNavGroups : navGroups;
+
+  const filteredNavGroups = activeNavGroups.map(group => ({
     ...group,
     items: group.items.filter(item => {
       if (item.permission && !hasPermission(item.permission)) return false;

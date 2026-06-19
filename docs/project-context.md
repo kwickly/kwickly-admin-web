@@ -88,3 +88,12 @@ kwickly-admin-web/
 - [x] **Global Branch Switching:** Interlinked all dashboard queries to a global Zustand branch state selector.
 - [x] **JWT Resiliency:** Added seamless token auto-refresh interception via Axios to replay queued 401 requests.
 - [x] **KDS Resiliency:** Implemented exponential backoff and status indicators for WebSocket kitchen display dropouts.
+
+### Phase 8: Dynamic White-Labeling & AI Page Split (✅ COMPLETED)
+- [x] **Dynamic Theme Engine:** Mapped styling variables and setup root CSS variables injection hook.
+- [x] **Accessibility Contrast Calculator:** Built relative luminance checker adjusting text color between white and zinc to satisfy WCAG AA/AAA guidelines.
+- [x] **Live Interactive Mockup Preview:** Implemented Branding customization settings page with reactive mockup preview of buttons, badges, and lists.
+- [x] **Predictive Analytics Partition:** Separated Prophet forecasting charts and churn risk tables into a dedicated page (`/analytics`).
+- [x] **Action-Oriented Confirmation Dialogs:** Created Adopt Combo forms and WhatsApp promotion dispatch drawers with templates preview.
+- [x] **Settings Profile Adaptations:** Shifted branch profile and loyalty settings pages to follow the dynamic theme.
+- [x] **Backend settings API:** Added `/v1/tenant/settings` endpoints and integrated with JWT user sessions.

@@ -6,7 +6,12 @@ export type Permission =
   | "staff:read" | "staff:write" 
   | "analytics:read" 
   | "inventory:read" | "inventory:write"
-  | "billing:manage";
+  | "billing:manage"
+  | "subscriptions:manage"
+  | "attendance:manage"
+  | "payroll:manage"
+  | "crm:manage"
+  | "promotions:manage";
 
 export const hasPermission = (requiredPermission: Permission | Permission[]): boolean => {
   const user = useAuthStore.getState().user;

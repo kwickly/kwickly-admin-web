@@ -2,7 +2,8 @@ import { Outlet, Navigate } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { useBranchStore } from "@/store/useBranch"
 import { useBranches } from "@/hooks/api/useSettings"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { CommandMenu } from "@/components/CommandMenu"
 import {
   Select,
   SelectContent,
@@ -48,6 +49,7 @@ export default function AppShell() {
   const { selectedBranchId, setSelectedBranchId } = useBranchStore()
   const { data: branches, isLoading: isBranchesLoading } = useBranches()
   const { theme, setTheme } = useTheme()
+  const [commandOpen, setCommandOpen] = useState(false)
 
   const isPlatformAdmin = user?.role === 'platform_owner' || user?.role === 'super_admin';
 
@@ -160,16 +162,17 @@ export default function AppShell() {
             
             <div className="ml-auto flex items-center gap-2 px-2 h-full">
               <div className="hidden md:flex relative mr-2 group">
-                <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
-                <input 
-                  type="search" 
-                  placeholder="Search anything..." 
-                  className="h-9 w-48 lg:w-72 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 pl-9 pr-12 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all"
-                />
-                <div className="absolute right-2 top-2 h-5 px-1.5 flex items-center gap-1 rounded border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm pointer-events-none">
-                  <span className="text-[10px] font-medium text-slate-400">⌘</span>
-                  <span className="text-[10px] font-medium text-slate-400">K</span>
-                </div>
+                <button 
+                  onClick={() => setCommandOpen(true)}
+                  className="flex items-center h-9 w-48 lg:w-72 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 px-3 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all text-slate-400 group-hover:text-slate-500 dark:group-hover:text-zinc-300"
+                >
+                  <Search className="h-3.5 w-3.5 mr-2 text-slate-400 group-hover:text-indigo-500 transition-colors" />
+                  <span>Search anything...</span>
+                  <div className="ml-auto flex items-center gap-1 rounded border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-1.5 py-0.5 shadow-sm">
+                    <span className="text-[10px] font-medium text-slate-400">⌘</span>
+                    <span className="text-[10px] font-medium text-slate-400">K</span>
+                  </div>
+                </button>
               </div>
 
               <div className="flex items-center gap-1 mr-2">
@@ -227,6 +230,7 @@ export default function AppShell() {
             </div>
           </main>
         </SidebarInset>
+        <CommandMenu open={commandOpen} setOpen={setCommandOpen} />
       </div>
     </SidebarProvider>
   )

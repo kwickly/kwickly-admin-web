@@ -1,5 +1,6 @@
 import { Send, MessageSquare, Calendar } from "lucide-react";
 import { useState } from "react";
+import { SearchInput } from "@/components/ui/search-input";
 import { useSegments, useCampaigns, useCreateCampaign } from "@/hooks/api/useCRM";
 import { TableSkeleton } from "@/components/ui/loaders";
 import { PaginationControls } from "@/components/ui/pagination-controls";
@@ -38,7 +39,8 @@ export default function CampaignLogs() {
   const segments = segmentsResponse?.data || [];
   
   const [page, setPage] = useState(1);
-  const { data: response, isLoading: isCampsLoading } = useCampaigns(page, 50);
+  const [search, setSearch] = useState("");
+  const { data: response, isLoading: isCampsLoading } = useCampaigns(page, 50, search);
   const createCampaignMutation = useCreateCampaign();
 
   const campaigns = response?.data || [];
@@ -81,14 +83,21 @@ export default function CampaignLogs() {
             Broadcasting dynamic messages to selected customer segment.
           </p>
         </div>
-        <Dialog open={campOpen} onOpenChange={setCampOpen}>
-          {/* @ts-ignore */}
-          <DialogTrigger asChild>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
-              <Send className="h-4 w-4" /> Send Campaign
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[450px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <div className="flex items-center gap-3">
+          <SearchInput 
+            value={search} 
+            onChange={(val) => { setSearch(val); setPage(1); }} 
+            placeholder="Search campaigns..." 
+            className="w-64"
+          />
+          <Dialog open={campOpen} onOpenChange={setCampOpen}>
+            {/* @ts-ignore */}
+            <DialogTrigger asChild>
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
+                <Send className="h-4 w-4" /> Send Campaign
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[450px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
             <DialogHeader>
               <DialogTitle className="text-slate-900 dark:text-zinc-100">Dispatch Marketing Campaign</DialogTitle>
               <DialogDescription className="text-slate-500 dark:text-zinc-400">
@@ -158,6 +167,7 @@ export default function CampaignLogs() {
             </form>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {isCampsLoading ? (

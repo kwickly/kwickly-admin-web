@@ -1,5 +1,6 @@
 import { Plus, Target } from "lucide-react";
 import { useState } from "react";
+import { SearchInput } from "@/components/ui/search-input";
 import { useSegments, useCreateSegment } from "@/hooks/api/useCRM";
 import { GridCardSkeleton } from "@/components/ui/loaders";
 import { PaginationControls } from "@/components/ui/pagination-controls";
@@ -34,7 +35,8 @@ import { toast } from "sonner";
 
 export default function CustomerSegments() {
   const [page, setPage] = useState(1);
-  const { data: response, isLoading: isSegsLoading } = useSegments(page, 12);
+  const [search, setSearch] = useState("");
+  const { data: response, isLoading: isSegsLoading } = useSegments(page, 12, search);
   const createSegmentMutation = useCreateSegment();
 
   const segments = response?.data || [];
@@ -75,14 +77,21 @@ export default function CustomerSegments() {
             Define filter rules to group subscribers dynamically.
           </p>
         </div>
-        <Dialog open={segOpen} onOpenChange={setSegOpen}>
-          {/* @ts-ignore */}
-          <DialogTrigger asChild>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
-              <Plus className="h-4 w-4" /> Create Segment
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <div className="flex items-center gap-3">
+          <SearchInput 
+            value={search} 
+            onChange={(val) => { setSearch(val); setPage(1); }} 
+            placeholder="Search segments..." 
+            className="w-56"
+          />
+          <Dialog open={segOpen} onOpenChange={setSegOpen}>
+            {/* @ts-ignore */}
+            <DialogTrigger asChild>
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
+                <Plus className="h-4 w-4" /> Create Segment
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
             <DialogHeader>
               <DialogTitle className="text-slate-900 dark:text-zinc-100">Create Customer Segment</DialogTitle>
               <DialogDescription className="text-slate-500 dark:text-zinc-400">
@@ -137,6 +146,7 @@ export default function CustomerSegments() {
             </form>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {isSegsLoading ? (

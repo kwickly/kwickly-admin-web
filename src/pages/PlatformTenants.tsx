@@ -33,12 +33,14 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { GridCardSkeleton } from "@/components/ui/loaders";
 import { PaginationControls } from "@/components/ui/pagination-controls";
+import { SearchInput } from "@/components/ui/search-input";
 
 export default function PlatformTenants() {
   const navigate = useNavigate();
   const setImpersonatedTenant = useAuthStore((state) => state.setImpersonatedTenant);
   const [page, setPage] = useState(1);
-  const { data: response, isLoading: isTenantsLoading } = usePlatformTenants(page, 12);
+  const [search, setSearch] = useState("");
+  const { data: response, isLoading: isTenantsLoading } = usePlatformTenants(page, 12, search);
   const { mutate: createTenant, isPending: isCreating } = useCreateTenant();
   const updateTenantMutation = useUpdateTenant();
   const deleteTenantMutation = useDeleteTenant();
@@ -201,9 +203,17 @@ export default function PlatformTenants() {
           </p>
         </div>
 
-        <Button onClick={() => setCreateOpen(true)} className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
-          <Plus className="h-4 w-4" /> Add Tenant
-        </Button>
+        <div className="flex items-center gap-3">
+          <SearchInput 
+            value={search} 
+            onChange={(val) => { setSearch(val); setPage(1); }} 
+            placeholder="Search tenants..." 
+            className="w-64"
+          />
+          <Button onClick={() => setCreateOpen(true)} className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
+            <Plus className="h-4 w-4" /> Add Tenant
+          </Button>
+        </div>
       </div>
 
       {isTenantsLoading ? (

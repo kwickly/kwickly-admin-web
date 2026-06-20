@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PaginationControls } from "@/components/ui/pagination-controls";
@@ -15,12 +15,18 @@ import { useBranchStore } from "@/store/useBranch";
 import EditMenuItemSheet from "./EditMenuItemSheet";
 import { toast } from "sonner";
 
-export default function MenuGrid() {
+export default function MenuGrid({ search = "" }: { search?: string }) {
   const { selectedBranchId } = useBranchStore();
   const branchId = selectedBranchId || 'default';
 
   const [page, setPage] = useState(1);
-  const { data: response, isLoading } = useMenuItems(branchId, page, 20);
+
+  // Reset page when search changes
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
+
+  const { data: response, isLoading } = useMenuItems(branchId, page, 20, search);
   const deleteItemMutation = useDeleteMenuItem();
 
   const items = response?.items || [];

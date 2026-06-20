@@ -13,10 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { TableSkeleton } from "@/components/ui/loaders";
 import { PaginationControls } from "@/components/ui/pagination-controls";
 import { useState } from "react";
+import { SearchInput } from "@/components/ui/search-input";
 
 export default function MenuModifiers() {
   const [page, setPage] = useState(1);
-  const { data: response, isLoading: isAddonsLoading } = useAddons(page, 20);
+  const [search, setSearch] = useState("");
+  const { data: response, isLoading: isAddonsLoading } = useAddons(page, 20, search);
 
   const addons = response?.data || [];
   const meta = response?.meta;
@@ -33,7 +35,15 @@ export default function MenuModifiers() {
             Manage global add-ons and modifiers for your menu items.
           </p>
         </div>
-        <CreateModifierDialog />
+        <div className="flex items-center gap-3">
+          <SearchInput 
+            value={search} 
+            onChange={(val) => { setSearch(val); setPage(1); }} 
+            placeholder="Search modifiers..." 
+            className="w-56"
+          />
+          <CreateModifierDialog />
+        </div>
       </div>
 
       {isAddonsLoading ? (

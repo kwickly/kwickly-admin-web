@@ -31,11 +31,12 @@ export interface MenuAddon {
 }
 
 // GET /v1/menus/:branchId (Flattened Items)
-export function useMenuItems(branchId: string, page: number = 1, limit: number = 20) {
+export function useMenuItems(branchId: string, page: number = 1, limit: number = 20, search: string = '') {
   return useQuery({
-    queryKey: ['menus', branchId, page, limit],
+    queryKey: ['menus', branchId, page, limit, search],
     queryFn: async (): Promise<{ items: MenuItem[], meta: any }> => {
-      const { data } = await api.get(`/menus/${branchId}?page=${page}&limit=${limit}`);
+      const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
+      const { data } = await api.get(`/menus/${branchId}?page=${page}&limit=${limit}${searchParam}`);
       
       // The API returns an array of Categories, each with an 'items' array.
       // We'll flatten it for the MenuGrid.
@@ -129,11 +130,12 @@ export function useCreateAddon() {
 }
 
 // GET /v1/menus/addons
-export function useAddons(page: number = 1, limit: number = 20) {
+export function useAddons(page: number = 1, limit: number = 20, search: string = '') {
   return useQuery({
-    queryKey: ['menus', 'addons', page, limit],
+    queryKey: ['menus', 'addons', page, limit, search],
     queryFn: async (): Promise<PaginatedResponse<MenuAddon>> => {
-      const { data } = await api.get(`/menus/addons?page=${page}&limit=${limit}`);
+      const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
+      const { data } = await api.get(`/menus/addons?page=${page}&limit=${limit}${searchParam}`);
       return data;
     },
   });

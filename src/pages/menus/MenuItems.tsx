@@ -4,8 +4,12 @@ import CreateMenuItemSheet from "@/features/menus/components/CreateMenuItemSheet
 import CreateCategoryDialog from "@/features/menus/components/CreateCategoryDialog";
 import CreateModifierDialog from "@/features/menus/components/CreateModifierDialog";
 import { Can } from "@/components/shared/Can";
+import { useState } from "react";
+import { SearchInput } from "@/components/ui/search-input";
 
 export default function MenuItems() {
+  const [search, setSearch] = useState("");
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -20,6 +24,12 @@ export default function MenuItems() {
         </div>
         <Can perform="menu:write">
           <div className="flex flex-wrap items-center gap-2">
+            <SearchInput 
+              value={search} 
+              onChange={setSearch} 
+              placeholder="Search items..." 
+              className="w-56"
+            />
             <CreateCategoryDialog />
             <CreateModifierDialog />
             <CreateMenuItemSheet />
@@ -27,7 +37,7 @@ export default function MenuItems() {
         </Can>
       </div>
 
-      <MenuGrid />
+      <MenuGrid search={search} />
     </div>
   );
 }

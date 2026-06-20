@@ -67,11 +67,12 @@ export function usePlatformMetrics() {
 }
 
 // GET /v1/platform/tenants
-export function usePlatformTenants(page: number = 1, limit: number = 12) {
+export function usePlatformTenants(page: number = 1, limit: number = 12, search: string = '') {
   return useQuery({
-    queryKey: ['platform', 'tenants', page, limit],
+    queryKey: ['platform', 'tenants', page, limit, search],
     queryFn: async (): Promise<PaginatedResponse<TenantStats>> => {
-      const { data } = await api.get(`/platform/tenants?page=${page}&limit=${limit}`);
+      const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
+      const { data } = await api.get(`/platform/tenants?page=${page}&limit=${limit}${searchParam}`);
       return data;
     },
   });
@@ -141,11 +142,12 @@ export function useDeleteTenant() {
 }
 
 // GET /v1/platform/audit-logs
-export function usePlatformAuditLogs(page: number = 1, limit: number = 50) {
+export function usePlatformAuditLogs(page: number = 1, limit: number = 50, search: string = '') {
   return useQuery({
-    queryKey: ['platform', 'audit-logs', page, limit],
+    queryKey: ['platform', 'audit-logs', page, limit, search],
     queryFn: async (): Promise<PaginatedResponse<AuditLogItem>> => {
-      const { data } = await api.get(`/platform/audit-logs?page=${page}&limit=${limit}`);
+      const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
+      const { data } = await api.get(`/platform/audit-logs?page=${page}&limit=${limit}${searchParam}`);
       return data;
     },
   });

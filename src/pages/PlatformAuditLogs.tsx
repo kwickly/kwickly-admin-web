@@ -18,10 +18,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useState } from "react";
+import { SearchInput } from "@/components/ui/search-input";
 
 export default function PlatformAuditLogs() {
   const [page, setPage] = useState(1);
-  const { data: response, isLoading: isLogsLoading } = usePlatformAuditLogs(page, 50);
+  const [search, setSearch] = useState("");
+  const { data: response, isLoading: isLogsLoading } = usePlatformAuditLogs(page, 50, search);
 
   const logs = response?.data || [];
   const meta = response?.meta;
@@ -58,6 +60,15 @@ export default function PlatformAuditLogs() {
         <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
           A real-time chronological ledger recording all database mutations.
         </p>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <SearchInput 
+          value={search} 
+          onChange={(val) => { setSearch(val); setPage(1); }} 
+          placeholder="Search logs by path or user..." 
+          className="w-full max-w-sm"
+        />
       </div>
 
       {isLogsLoading ? (

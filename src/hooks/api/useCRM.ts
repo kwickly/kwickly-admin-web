@@ -27,11 +27,12 @@ export interface Customer {
   isActive: boolean;
 }
 
-export function useSegments(page: number = 1, limit: number = 12) {
+export function useSegments(page: number = 1, limit: number = 12, search: string = '') {
   return useQuery({
-    queryKey: ['crm', 'segments', page, limit],
+    queryKey: ['crm', 'segments', page, limit, search],
     queryFn: async (): Promise<PaginatedResponse<Segment>> => {
-      const { data } = await api.get(`/crm/segments?page=${page}&limit=${limit}`);
+      const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
+      const { data } = await api.get(`/crm/segments?page=${page}&limit=${limit}${searchParam}`);
       return data;
     },
   });
@@ -50,11 +51,12 @@ export function useCreateSegment() {
   });
 }
 
-export function useCampaigns(page: number = 1, limit: number = 50) {
+export function useCampaigns(page: number = 1, limit: number = 50, search: string = '') {
   return useQuery({
-    queryKey: ['crm', 'campaigns', page, limit],
+    queryKey: ['crm', 'campaigns', page, limit, search],
     queryFn: async (): Promise<PaginatedResponse<Campaign>> => {
-      const { data } = await api.get(`/crm/campaigns?page=${page}&limit=${limit}`);
+      const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
+      const { data } = await api.get(`/crm/campaigns?page=${page}&limit=${limit}${searchParam}`);
       return data;
     },
   });

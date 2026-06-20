@@ -95,10 +95,10 @@ export default function CreateMenuItemSheet() {
                   <SelectValue placeholder="Select..." />
                 </SelectTrigger>
                 <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
-                  {categories?.map((cat) => (
+                  {categories?.data?.map((cat: any) => (
                     <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
                   ))}
-                  {!categories?.length && (
+                  {!categories?.data?.length && (
                     <SelectItem value="none" disabled>No categories found</SelectItem>
                   )}
                 </SelectContent>

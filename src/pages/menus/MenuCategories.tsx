@@ -4,6 +4,7 @@ import CreateCategoryDialog from "@/features/menus/components/CreateCategoryDial
 import { useMenuCategories, useUpdateCategory, useDeleteCategory, type MenuCategory } from "@/hooks/api/useMenus";
 import { useBranchStore } from "@/store/useBranch";
 import { TableSkeleton } from "@/components/ui/loaders";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import {
   Table,
   TableBody,
@@ -30,9 +31,13 @@ export default function MenuCategories() {
   const { selectedBranchId } = useBranchStore();
   const branchId = selectedBranchId || 'default';
   
-  const { data: categories, isLoading: isCategoriesLoading } = useMenuCategories(branchId);
+  const [page, setPage] = useState(1);
+  const { data: response, isLoading: isCategoriesLoading } = useMenuCategories(branchId, page, 20);
   const updateCategoryMutation = useUpdateCategory();
   const deleteCategoryMutation = useDeleteCategory();
+
+  const categories = response?.data || [];
+  const meta = response?.meta;
 
   // Edit State
   const [editOpen, setEditOpen] = useState(false);
@@ -162,6 +167,14 @@ export default function MenuCategories() {
               ))}
             </TableBody>
           </Table>
+
+          {meta && (
+            <PaginationControls 
+              page={meta.page} 
+              totalPages={meta.totalPages} 
+              onPageChange={setPage} 
+            />
+          )}
         </div>
       )}
 

@@ -3,7 +3,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useDailySales, useTopItems } from "@/hooks/api/useDashboard";
 import { useBranchStore } from "@/store/useBranch";
 import { Can } from "@/components/shared/Can";
-import { DashboardKPISkeleton } from "@/components/ui/loaders";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const REVENUE_DATA = [

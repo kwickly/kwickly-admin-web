@@ -104,7 +104,7 @@ export default function CreateComboSheet() {
             <div>
               <Label className="text-slate-700 dark:text-zinc-300 mb-2 block">Select Items</Label>
               <div className="space-y-2 border border-slate-200 dark:border-zinc-800 rounded-lg p-2 max-h-48 overflow-y-auto">
-                {menuItems?.map(item => {
+                {menuItems?.items?.map((item: any) => {
                   const isSelected = selectedItems.some(s => s.menuItemId === item.id)
                   return (
                     <div 
@@ -119,7 +119,7 @@ export default function CreateComboSheet() {
                     </div>
                   )
                 })}
-                {(!menuItems || menuItems.length === 0) && (
+                {(!menuItems?.items || menuItems.items.length === 0) && (
                   <p className="text-sm text-slate-500 dark:text-zinc-400 text-center py-4">No menu items found.</p>
                 )}
               </div>

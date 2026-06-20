@@ -2,6 +2,7 @@ import { Plus, Target } from "lucide-react";
 import { useState } from "react";
 import { useSegments, useCreateSegment } from "@/hooks/api/useCRM";
 import { GridCardSkeleton } from "@/components/ui/loaders";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,8 +33,12 @@ import {
 import { toast } from "sonner";
 
 export default function CustomerSegments() {
-  const { data: segments, isLoading: isSegsLoading } = useSegments();
+  const [page, setPage] = useState(1);
+  const { data: response, isLoading: isSegsLoading } = useSegments(page, 12);
   const createSegmentMutation = useCreateSegment();
+
+  const segments = response?.data || [];
+  const meta = response?.meta;
 
   // Create Segment State
   const [segOpen, setSegOpen] = useState(false);
@@ -162,6 +167,14 @@ export default function CustomerSegments() {
               ))}
             </TableBody>
           </Table>
+          
+          {meta && (
+            <PaginationControls 
+              page={meta.page} 
+              totalPages={meta.totalPages} 
+              onPageChange={setPage} 
+            />
+          )}
         </div>
       )}
     </div>

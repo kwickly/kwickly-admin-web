@@ -4,7 +4,7 @@ import { Building, Plus, Eye, Edit, Trash, ShieldAlert, MoreVertical, MapPin, Us
 import { useAuthStore } from "@/store/useAuth";
 import { usePlatformTenants, useCreateTenant, useUpdateTenant, useDeleteTenant, type TenantStats } from "@/hooks/api/usePlatform";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,15 +32,19 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { GridCardSkeleton } from "@/components/ui/loaders";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 export default function PlatformTenants() {
   const navigate = useNavigate();
   const setImpersonatedTenant = useAuthStore((state) => state.setImpersonatedTenant);
-
-  const { data: tenantsList, isLoading } = usePlatformTenants();
-  const createTenantMutation = useCreateTenant();
+  const [page, setPage] = useState(1);
+  const { data: response, isLoading: isTenantsLoading } = usePlatformTenants(page, 12);
+  const { mutate: createTenant, isPending: isCreating } = useCreateTenant();
   const updateTenantMutation = useUpdateTenant();
   const deleteTenantMutation = useDeleteTenant();
+
+  const tenantsList = response?.data || [];
+  const meta = response?.meta;
 
   // Create Modal State
   const [createOpen, setCreateOpen] = useState(false);
@@ -75,7 +79,7 @@ export default function PlatformTenants() {
     e.preventDefault();
     if (!name || !slug) return;
 
-    createTenantMutation.mutate(
+    createTenant(
       { name, slug, email, phone, address, plan, brandColor },
       {
         onSuccess: () => {
@@ -202,7 +206,7 @@ export default function PlatformTenants() {
         </Button>
       </div>
 
-      {isLoading ? (
+      {isTenantsLoading ? (
         <GridCardSkeleton count={8} />
       ) : !tenantsList || tenantsList.length === 0 ? (
         <div className="p-12 text-center bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm">
@@ -309,6 +313,14 @@ export default function PlatformTenants() {
             </Card>
           ))}
         </div>
+      )}
+
+      {meta && (
+        <PaginationControls
+          page={meta.page}
+          totalPages={meta.totalPages}
+          onPageChange={setPage}
+        />
       )}
 
       {/* DETAILED INFO MODAL */}
@@ -524,8 +536,8 @@ export default function PlatformTenants() {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={createTenantMutation.isPending} className="bg-indigo-600 hover:bg-indigo-700 text-white">
-                {createTenantMutation.isPending ? "Registering..." : "Register"}
+              <Button type="submit" disabled={isCreating} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+                {isCreating ? "Registering..." : "Register"}
               </Button>
             </DialogFooter>
           </form>

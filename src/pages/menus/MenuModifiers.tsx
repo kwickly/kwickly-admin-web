@@ -11,9 +11,15 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { TableSkeleton } from "@/components/ui/loaders";
+import { PaginationControls } from "@/components/ui/pagination-controls";
+import { useState } from "react";
 
 export default function MenuModifiers() {
-  const { data: addons, isLoading: isAddonsLoading } = useAddons();
+  const [page, setPage] = useState(1);
+  const { data: response, isLoading: isAddonsLoading } = useAddons(page, 20);
+
+  const addons = response?.data || [];
+  const meta = response?.meta;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -65,6 +71,14 @@ export default function MenuModifiers() {
               ))}
             </TableBody>
           </Table>
+
+          {meta && (
+            <PaginationControls 
+              page={meta.page} 
+              totalPages={meta.totalPages} 
+              onPageChange={setPage} 
+            />
+          )}
         </div>
       )}
     </div>

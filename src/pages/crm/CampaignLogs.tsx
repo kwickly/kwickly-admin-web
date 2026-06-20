@@ -2,6 +2,7 @@ import { Send, MessageSquare, Calendar } from "lucide-react";
 import { useState } from "react";
 import { useSegments, useCampaigns, useCreateCampaign } from "@/hooks/api/useCRM";
 import { TableSkeleton } from "@/components/ui/loaders";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,9 +34,15 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 export default function CampaignLogs() {
-  const { data: segments } = useSegments();
-  const { data: campaigns, isLoading: isCampsLoading } = useCampaigns();
+  const { data: segmentsResponse } = useSegments(1, 100); // Fetch all segments for the dropdown
+  const segments = segmentsResponse?.data || [];
+  
+  const [page, setPage] = useState(1);
+  const { data: response, isLoading: isCampsLoading } = useCampaigns(page, 50);
   const createCampaignMutation = useCreateCampaign();
+
+  const campaigns = response?.data || [];
+  const meta = response?.meta;
 
   // Create Campaign State
   const [campOpen, setCampOpen] = useState(false);
@@ -193,6 +200,14 @@ export default function CampaignLogs() {
               ))}
             </TableBody>
           </Table>
+          
+          {meta && (
+            <PaginationControls 
+              page={meta.page} 
+              totalPages={meta.totalPages} 
+              onPageChange={setPage} 
+            />
+          )}
         </div>
       )}
     </div>

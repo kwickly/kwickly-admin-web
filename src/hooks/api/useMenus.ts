@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/lib/api';
+import type { PaginatedResponse } from './usePlatform';
 
 export interface MenuItem {
   id: string;
@@ -30,11 +31,11 @@ export interface MenuAddon {
 }
 
 // GET /v1/menus/:branchId (Flattened Items)
-export function useMenuItems(branchId: string) {
+export function useMenuItems(branchId: string, page: number = 1, limit: number = 20) {
   return useQuery({
-    queryKey: ['menus', branchId],
-    queryFn: async (): Promise<MenuItem[]> => {
-      const { data } = await api.get(`/menus/${branchId}`);
+    queryKey: ['menus', branchId, page, limit],
+    queryFn: async (): Promise<{ items: MenuItem[], meta: any }> => {
+      const { data } = await api.get(`/menus/${branchId}?page=${page}&limit=${limit}`);
       
       // The API returns an array of Categories, each with an 'items' array.
       // We'll flatten it for the MenuGrid.
@@ -51,19 +52,19 @@ export function useMenuItems(branchId: string) {
           }
         });
       }
-      return flatItems; 
+      return { items: flatItems, meta: data.meta }; 
     },
     enabled: !!branchId,
   });
 }
 
 // GET /v1/menus/:branchId (Raw Categories)
-export function useMenuCategories(branchId: string) {
+export function useMenuCategories(branchId: string, page: number = 1, limit: number = 20) {
   return useQuery({
-    queryKey: ['menus', 'categories', branchId],
-    queryFn: async (): Promise<MenuCategory[]> => {
-      const { data } = await api.get(`/menus/${branchId}`);
-      return data.data; 
+    queryKey: ['menus', 'categories', branchId, page, limit],
+    queryFn: async (): Promise<PaginatedResponse<MenuCategory>> => {
+      const { data } = await api.get(`/menus/${branchId}?page=${page}&limit=${limit}`);
+      return data; 
     },
     enabled: !!branchId,
   });
@@ -128,12 +129,12 @@ export function useCreateAddon() {
 }
 
 // GET /v1/menus/addons
-export function useAddons() {
+export function useAddons(page: number = 1, limit: number = 20) {
   return useQuery({
-    queryKey: ['menus', 'addons'],
-    queryFn: async (): Promise<MenuAddon[]> => {
-      const { data } = await api.get('/menus/addons');
-      return data.data;
+    queryKey: ['menus', 'addons', page, limit],
+    queryFn: async (): Promise<PaginatedResponse<MenuAddon>> => {
+      const { data } = await api.get(`/menus/addons?page=${page}&limit=${limit}`);
+      return data;
     },
   });
 }

@@ -1,6 +1,7 @@
 import { ScrollText, Terminal } from "lucide-react";
 import { usePlatformAuditLogs } from "@/hooks/api/usePlatform";
 import { TableSkeleton } from "@/components/ui/loaders";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import {
   Table,
   TableBody,
@@ -16,9 +17,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useState } from "react";
 
 export default function PlatformAuditLogs() {
-  const { data: logs, isLoading } = usePlatformAuditLogs();
+  const [page, setPage] = useState(1);
+  const { data: response, isLoading: isLogsLoading } = usePlatformAuditLogs(page, 50);
+
+  const logs = response?.data || [];
+  const meta = response?.meta;
 
   const getMethodBadgeVariant = (method: string) => {
     switch (method.toUpperCase()) {
@@ -29,6 +35,7 @@ export default function PlatformAuditLogs() {
         return "secondary";
       case "DELETE":
         return "destructive";
+      default:
         return "outline";
     }
   };
@@ -53,7 +60,7 @@ export default function PlatformAuditLogs() {
         </p>
       </div>
 
-      {isLoading ? (
+      {isLogsLoading ? (
         <div className="mt-8">
           <TableSkeleton />
         </div>
@@ -64,84 +71,93 @@ export default function PlatformAuditLogs() {
           <p className="text-slate-500 dark:text-zinc-400 mt-2">No mutating actions have been recorded yet.</p>
         </div>
       ) : (
-        <div className="rounded-md border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden shadow-sm">
-          <Table>
-            <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
-              <TableRow>
-                <TableHead>Timestamp</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead>Path</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Admin User</TableHead>
-                <TableHead>Tenant Context</TableHead>
-                <TableHead>Device/Browser</TableHead>
-                <TableHead className="text-right">IP Address</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {logs.map((log) => (
-                <TableRow key={log.id} className="hover:bg-slate-50/50 dark:hover:bg-zinc-900/10">
-                  <TableCell className="font-mono text-xs text-slate-500 dark:text-zinc-455">
-                    {new Date(log.createdAt).toLocaleString()}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={getMethodBadgeVariant(log.method)} className="font-bold text-[10px]">
-                      {log.method}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="font-mono text-xs text-slate-900 dark:text-zinc-100 font-semibold max-w-xs truncate">
-                    {log.path}
-                  </TableCell>
-                  <TableCell>
-                    {log.statusCode ? (
-                      <Badge variant="outline" className={`font-bold text-[10px] ${getStatusBadgeClasses(log.statusCode)}`}>
-                        {log.statusCode}
-                      </Badge>
-                    ) : (
-                      <span className="text-slate-400 dark:text-zinc-500 text-xs">-</span>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-slate-900 dark:text-zinc-100 text-sm">{log.userName}</div>
-                      {log.userRole && (
-                        <Badge variant="secondary" className="text-[9px] px-1.5 py-0 h-4">
-                          {log.userRole}
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="text-xs text-slate-500">{log.userEmail}</div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className="text-[10px] font-semibold border-indigo-200/50 text-indigo-700 bg-indigo-50/30">
-                      {log.tenantName}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {log.userAgent ? (
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger className="cursor-help text-left">
-                            <div className="max-w-[150px] truncate text-xs text-slate-500 dark:text-zinc-400 font-mono">
-                              {log.userAgent}
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p className="max-w-xs text-xs font-mono break-words">{log.userAgent}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    ) : (
-                      <span className="text-slate-400 dark:text-zinc-500 text-xs">-</span>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right font-mono text-xs text-slate-500 dark:text-zinc-450">
-                    {log.ipAddress || "Local"}
-                  </TableCell>
+        <div className="space-y-4">
+          <div className="rounded-md border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden shadow-sm">
+            <Table>
+              <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
+                <TableRow>
+                  <TableHead>Timestamp</TableHead>
+                  <TableHead>Method</TableHead>
+                  <TableHead>Path</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Admin User</TableHead>
+                  <TableHead>Tenant Context</TableHead>
+                  <TableHead>Device/Browser</TableHead>
+                  <TableHead className="text-right">IP Address</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {logs.map((log) => (
+                  <TableRow key={log.id} className="hover:bg-slate-50/50 dark:hover:bg-zinc-900/10">
+                    <TableCell className="font-mono text-xs text-slate-500 dark:text-zinc-455">
+                      {new Date(log.createdAt).toLocaleString()}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={getMethodBadgeVariant(log.method)} className="font-bold text-[10px]">
+                        {log.method}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="font-mono text-xs text-slate-900 dark:text-zinc-100 font-semibold max-w-xs truncate">
+                      {log.path}
+                    </TableCell>
+                    <TableCell>
+                      {log.statusCode ? (
+                        <Badge variant="outline" className={`font-bold text-[10px] ${getStatusBadgeClasses(log.statusCode)}`}>
+                          {log.statusCode}
+                        </Badge>
+                      ) : (
+                        <span className="text-slate-400 dark:text-zinc-500 text-xs">-</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <div className="font-medium text-slate-900 dark:text-zinc-100 text-sm">{log.userName}</div>
+                        {log.userRole && (
+                          <Badge variant="secondary" className="text-[9px] px-1.5 py-0 h-4">
+                            {log.userRole}
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="text-xs text-slate-500">{log.userEmail}</div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="text-[10px] font-semibold border-indigo-200/50 text-indigo-700 bg-indigo-50/30">
+                        {log.tenantName}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {log.userAgent ? (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger className="cursor-help text-left">
+                              <div className="max-w-[150px] truncate text-xs text-slate-500 dark:text-zinc-400 font-mono">
+                                {log.userAgent}
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="max-w-xs text-xs font-mono break-words">{log.userAgent}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      ) : (
+                        <span className="text-slate-400 dark:text-zinc-500 text-xs">-</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right font-mono text-xs text-slate-500 dark:text-zinc-450">
+                      {log.ipAddress || "Local"}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          {meta && (
+            <PaginationControls 
+              page={meta.page} 
+              totalPages={meta.totalPages} 
+              onPageChange={setPage} 
+            />
+          )}
         </div>
       )}
     </div>

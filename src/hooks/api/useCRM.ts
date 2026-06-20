@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/lib/api';
+import type { PaginatedResponse } from './usePlatform';
 
 export interface Segment {
   id: string;
@@ -26,12 +27,12 @@ export interface Customer {
   isActive: boolean;
 }
 
-export function useSegments() {
+export function useSegments(page: number = 1, limit: number = 12) {
   return useQuery({
-    queryKey: ['crm', 'segments'],
-    queryFn: async (): Promise<Segment[]> => {
-      const { data } = await api.get('/crm/segments');
-      return data.data;
+    queryKey: ['crm', 'segments', page, limit],
+    queryFn: async (): Promise<PaginatedResponse<Segment>> => {
+      const { data } = await api.get(`/crm/segments?page=${page}&limit=${limit}`);
+      return data;
     },
   });
 }
@@ -49,12 +50,12 @@ export function useCreateSegment() {
   });
 }
 
-export function useCampaigns() {
+export function useCampaigns(page: number = 1, limit: number = 50) {
   return useQuery({
-    queryKey: ['crm', 'campaigns'],
-    queryFn: async (): Promise<Campaign[]> => {
-      const { data } = await api.get('/crm/campaigns');
-      return data.data;
+    queryKey: ['crm', 'campaigns', page, limit],
+    queryFn: async (): Promise<PaginatedResponse<Campaign>> => {
+      const { data } = await api.get(`/crm/campaigns?page=${page}&limit=${limit}`);
+      return data;
     },
   });
 }
@@ -72,12 +73,12 @@ export function useCreateCampaign() {
   });
 }
 
-export function useCustomers() {
+export function useCustomers(page: number = 1, limit: number = 50) {
   return useQuery({
-    queryKey: ['crm', 'customers'],
-    queryFn: async (): Promise<Customer[]> => {
-      const { data } = await api.get('/crm/customers');
-      return data.data;
+    queryKey: ['crm', 'customers', page, limit],
+    queryFn: async (): Promise<PaginatedResponse<Customer>> => {
+      const { data } = await api.get(`/crm/customers?page=${page}&limit=${limit}`);
+      return data;
     },
   });
 }

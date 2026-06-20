@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import {
   Dialog,
   DialogContent,
@@ -18,8 +19,12 @@ export default function MenuGrid() {
   const { selectedBranchId } = useBranchStore();
   const branchId = selectedBranchId || 'default';
 
-  const { data: items, isLoading } = useMenuItems(branchId);
+  const [page, setPage] = useState(1);
+  const { data: response, isLoading } = useMenuItems(branchId, page, 20);
   const deleteItemMutation = useDeleteMenuItem();
+
+  const items = response?.items || [];
+  const meta = response?.meta;
 
   const [editOpen, setEditOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
@@ -146,6 +151,16 @@ export default function MenuGrid() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      
+      {meta && (
+        <div className="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 mt-2">
+          <PaginationControls 
+            page={meta.page} 
+            totalPages={meta.totalPages} 
+            onPageChange={setPage} 
+          />
+        </div>
+      )}
     </div>
   );
 }

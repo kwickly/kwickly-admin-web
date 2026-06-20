@@ -1,6 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/lib/api';
 
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
 export interface TenantStats {
   id: string;
   name: string;
@@ -57,12 +67,12 @@ export function usePlatformMetrics() {
 }
 
 // GET /v1/platform/tenants
-export function usePlatformTenants() {
+export function usePlatformTenants(page: number = 1, limit: number = 12) {
   return useQuery({
-    queryKey: ['platform', 'tenants'],
-    queryFn: async (): Promise<TenantStats[]> => {
-      const { data } = await api.get('/platform/tenants');
-      return data.data;
+    queryKey: ['platform', 'tenants', page, limit],
+    queryFn: async (): Promise<PaginatedResponse<TenantStats>> => {
+      const { data } = await api.get(`/platform/tenants?page=${page}&limit=${limit}`);
+      return data;
     },
   });
 }
@@ -131,12 +141,12 @@ export function useDeleteTenant() {
 }
 
 // GET /v1/platform/audit-logs
-export function usePlatformAuditLogs() {
+export function usePlatformAuditLogs(page: number = 1, limit: number = 50) {
   return useQuery({
-    queryKey: ['platform', 'audit-logs'],
-    queryFn: async (): Promise<AuditLogItem[]> => {
-      const { data } = await api.get('/platform/audit-logs');
-      return data.data;
+    queryKey: ['platform', 'audit-logs', page, limit],
+    queryFn: async (): Promise<PaginatedResponse<AuditLogItem>> => {
+      const { data } = await api.get(`/platform/audit-logs?page=${page}&limit=${limit}`);
+      return data;
     },
   });
 }

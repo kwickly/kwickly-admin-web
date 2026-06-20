@@ -40,6 +40,9 @@ export interface AuditLogItem {
   userName: string;
   userEmail: string;
   tenantName: string;
+  userRole?: string;
+  statusCode?: number;
+  userAgent?: string;
 }
 
 // GET /v1/platform/metrics

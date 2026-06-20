@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Building, Plus, Eye, Edit, Trash, ShieldAlert } from "lucide-react";
+import { Building, Plus, Eye, Edit, Trash, ShieldAlert, MoreVertical, MapPin, Users, Phone, Mail, Globe } from "lucide-react";
 import { useAuthStore } from "@/store/useAuth";
 import { usePlatformTenants, useCreateTenant, useUpdateTenant, useDeleteTenant, type TenantStats } from "@/hooks/api/usePlatform";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -49,8 +49,11 @@ export default function PlatformTenants() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [plan, setPlan] = useState<"FREE" | "STARTER" | "GROWTH" | "ENTERPRISE">("FREE");
-
   const [brandColor, setBrandColor] = useState("#6366F1");
+
+  // Details Modal State
+  const [viewOpen, setViewOpen] = useState(false);
+  const [viewTenant, setViewTenant] = useState<TenantStats | null>(null);
 
   // Edit Modal State
   const [editOpen, setEditOpen] = useState(false);
@@ -64,7 +67,8 @@ export default function PlatformTenants() {
 
   // Delete Modal State
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [deletingTenantId, setDeletingTenantId] = useState<string | null>(null);
+  const [deletingTenant, setDeletingTenant] = useState<TenantStats | null>(null);
+  const [deleteConfirmationText, setDeleteConfirmationText] = useState("");
 
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,7 +95,13 @@ export default function PlatformTenants() {
     );
   };
 
-  const handleEditClick = (tenant: TenantStats) => {
+  const handleCardClick = (tenant: TenantStats) => {
+    setViewTenant(tenant);
+    setViewOpen(true);
+  };
+
+  const handleEditClick = (e: React.MouseEvent, tenant: TenantStats) => {
+    e.stopPropagation();
     setEditingTenant(tenant);
     setEditName(tenant.name);
     setEditEmail(tenant.email || "");
@@ -122,6 +132,18 @@ export default function PlatformTenants() {
         onSuccess: () => {
           toast.success("Tenant configuration updated!");
           setEditOpen(false);
+          // Also update the view modal if it's open
+          if (viewOpen && viewTenant?.id === editingTenant.id) {
+            setViewTenant({
+              ...viewTenant,
+              name: editName,
+              email: editEmail,
+              phone: editPhone,
+              address: editAddress,
+              plan: editPlan,
+              isActive: editIsActive,
+            });
+          }
         },
         onError: () => {
           toast.error("Failed to update tenant.");
@@ -130,18 +152,23 @@ export default function PlatformTenants() {
     );
   };
 
-  const handleDeleteClick = (id: string) => {
-    setDeletingTenantId(id);
+  const handleDeleteClick = (e: React.MouseEvent, tenant: TenantStats) => {
+    e.stopPropagation();
+    setDeletingTenant(tenant);
+    setDeleteConfirmationText("");
     setDeleteOpen(true);
   };
 
   const handleDeleteConfirm = () => {
-    if (!deletingTenantId) return;
+    if (!deletingTenant || deleteConfirmationText !== deletingTenant.name) return;
 
-    deleteTenantMutation.mutate(deletingTenantId, {
+    deleteTenantMutation.mutate(deletingTenant.id, {
       onSuccess: () => {
         toast.success("Tenant deleted successfully!");
         setDeleteOpen(false);
+        if (viewOpen && viewTenant?.id === deletingTenant.id) {
+          setViewOpen(false);
+        }
       },
       onError: () => {
         toast.error("Failed to delete tenant.");
@@ -149,7 +176,8 @@ export default function PlatformTenants() {
     });
   };
 
-  const handleImpersonate = (tenant: TenantStats) => {
+  const handleImpersonate = (e: React.MouseEvent, tenant: TenantStats) => {
+    e.stopPropagation();
     setImpersonatedTenant(tenant.id, tenant.name, tenant.brandColor, tenant.logoUrl);
     toast.success(`Entering Inspection Mode for ${tenant.name}`);
     navigate("/dashboard");
@@ -176,88 +204,217 @@ export default function PlatformTenants() {
       {isLoading ? (
         <div className="text-center py-12 text-slate-500">Loading tenants...</div>
       ) : !tenantsList || tenantsList.length === 0 ? (
-        <div className="p-12 text-center bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800">
+        <div className="p-12 text-center bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm">
           <Building className="mx-auto h-12 w-12 text-slate-300 dark:text-zinc-600 mb-4" />
           <h3 className="text-lg font-medium text-slate-900 dark:text-zinc-100">No tenants registered yet</h3>
           <p className="text-slate-500 dark:text-zinc-400 mt-2">Get started by registering a new restaurant group.</p>
         </div>
       ) : (
-        <div className="rounded-md border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden shadow-sm">
-          <Table>
-            <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
-              <TableRow>
-                <TableHead>Restaurant Name</TableHead>
-                <TableHead>Subdomain Slug</TableHead>
-                <TableHead>SaaS Plan</TableHead>
-                <TableHead>Branches</TableHead>
-                <TableHead>Users Count</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {tenantsList.map((tenant) => (
-                <TableRow key={tenant.id} className="hover:bg-slate-50/50 dark:hover:bg-zinc-900/10">
-                  <TableCell className="font-semibold text-slate-900 dark:text-zinc-100">
-                    {tenant.name}
-                    <div className="text-xs text-slate-500 font-normal mt-0.5">{tenant.email || "No contact email"}</div>
-                  </TableCell>
-                  <TableCell className="font-mono text-xs text-slate-500 dark:text-zinc-400">
-                    {tenant.slug}.kwickly.com
-                  </TableCell>
-                  <TableCell>
-                    <Badge className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 text-[10px] font-bold">
-                      {tenant.plan}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="font-mono text-xs text-slate-900 dark:text-zinc-100">
-                    {tenant.branchCount} location(s)
-                  </TableCell>
-                  <TableCell className="font-mono text-xs text-slate-900 dark:text-zinc-100">
-                    {tenant.userCount} users
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={tenant.isActive ? "outline" : "destructive"} className="text-[10px] font-bold">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {tenantsList.map((tenant) => (
+            <Card 
+              key={tenant.id} 
+              className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
+              onClick={() => handleCardClick(tenant)}
+            >
+              <div 
+                className="absolute top-0 left-0 w-full h-1" 
+                style={{ backgroundColor: tenant.brandColor || '#6366F1' }} 
+              />
+              
+              <div className="p-5 flex flex-col h-full relative">
+                {/* 3 Dots Menu */}
+                <div className="absolute top-4 right-4 z-10">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8 text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:text-zinc-200 dark:hover:bg-zinc-800"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <MoreVertical className="h-4 w-4" />
+                        <span className="sr-only">Open menu</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 shadow-lg rounded-xl">
+                      <DropdownMenuItem 
+                        onClick={(e) => handleImpersonate(e, tenant)}
+                        className="cursor-pointer text-indigo-600 dark:text-indigo-400 focus:bg-indigo-50 dark:focus:bg-indigo-950/50 focus:text-indigo-700 dark:focus:text-indigo-300"
+                      >
+                        <Eye className="mr-2 h-4 w-4" />
+                        <span>Inspect Dashboard</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-slate-100 dark:bg-zinc-800" />
+                      <DropdownMenuItem 
+                        onClick={(e) => handleEditClick(e, tenant)}
+                        className="cursor-pointer text-slate-700 dark:text-zinc-300 focus:bg-slate-50 dark:focus:bg-zinc-900"
+                      >
+                        <Edit className="mr-2 h-4 w-4 text-slate-500" />
+                        <span>Edit Configuration</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={(e) => handleDeleteClick(e, tenant)}
+                        className="cursor-pointer text-red-600 dark:text-red-400 focus:bg-red-50 dark:focus:bg-red-950/50 focus:text-red-700 dark:focus:text-red-300"
+                      >
+                        <Trash className="mr-2 h-4 w-4" />
+                        <span>Delete Tenant</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                <div className="flex items-start gap-4 mb-4 pr-8">
+                  <div 
+                    className="h-12 w-12 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-sm"
+                    style={{ backgroundColor: tenant.brandColor || '#6366F1' }}
+                  >
+                    {tenant.logoUrl ? (
+                      <img src={tenant.logoUrl} alt={tenant.name} className="h-8 w-8 object-contain" />
+                    ) : (
+                      <span className="text-xl font-bold uppercase">{tenant.name.substring(0, 2)}</span>
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-slate-900 dark:text-zinc-100 truncate w-full group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      {tenant.name}
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-zinc-400 font-mono mt-0.5 truncate flex items-center gap-1">
+                      <Globe className="h-3 w-3" />
+                      {tenant.slug}.kwickly.com
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 mb-6">
+                  <Badge className="bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border-none text-[10px] uppercase font-bold shadow-none">
+                    {tenant.plan}
+                  </Badge>
+                  <div className="flex items-center gap-1.5 text-xs font-medium">
+                    <span className={`h-2 w-2 rounded-full ${tenant.isActive ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-red-500'}`}></span>
+                    <span className={tenant.isActive ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}>
                       {tenant.isActive ? "ACTIVE" : "SUSPENDED"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-1.5">
-                      <Button
-                        size="icon-sm"
-                        variant="ghost"
-                        onClick={() => handleImpersonate(tenant)}
-                        title="Inspect Dashboard"
-                        className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/10"
-                      >
-                        <Eye className="size-4" />
-                      </Button>
-                      <Button
-                        size="icon-sm"
-                        variant="ghost"
-                        onClick={() => handleEditClick(tenant)}
-                        title="Edit Configuration"
-                        className="text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-zinc-800"
-                      >
-                        <Edit className="size-4" />
-                      </Button>
-                      <Button
-                        size="icon-sm"
-                        variant="ghost"
-                        onClick={() => handleDeleteClick(tenant.id)}
-                        title="Delete Tenant"
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10"
-                      >
-                        <Trash className="size-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-auto grid grid-cols-2 gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800/50">
+                  <div className="flex items-center gap-2 text-slate-600 dark:text-zinc-400">
+                    <MapPin className="h-4 w-4 text-slate-400" />
+                    <span className="text-sm font-medium">{tenant.branchCount} <span className="text-xs font-normal">loc</span></span>
+                  </div>
+                  <div className="flex items-center gap-2 text-slate-600 dark:text-zinc-400">
+                    <Users className="h-4 w-4 text-slate-400" />
+                    <span className="text-sm font-medium">{tenant.userCount} <span className="text-xs font-normal">users</span></span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       )}
+
+      {/* DETAILED INFO MODAL */}
+      <Dialog open={viewOpen} onOpenChange={setViewOpen}>
+        <DialogContent className="sm:max-w-[500px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 p-0 overflow-hidden shadow-xl rounded-2xl">
+          {viewTenant && (
+            <>
+              <div 
+                className="h-24 w-full relative"
+                style={{ background: `linear-gradient(to right, ${viewTenant.brandColor}80, ${viewTenant.brandColor}20)` }}
+              >
+                <div className="absolute -bottom-10 left-6">
+                  <div 
+                    className="h-20 w-20 rounded-2xl flex items-center justify-center text-white shadow-md border-4 border-white dark:border-zinc-950"
+                    style={{ backgroundColor: viewTenant.brandColor || '#6366F1' }}
+                  >
+                    {viewTenant.logoUrl ? (
+                      <img src={viewTenant.logoUrl} alt={viewTenant.name} className="h-12 w-12 object-contain" />
+                    ) : (
+                      <span className="text-3xl font-bold uppercase">{viewTenant.name.substring(0, 2)}</span>
+                    )}
+                  </div>
+                </div>
+                <div className="absolute top-4 right-4 flex gap-2">
+                  <Badge className="bg-white/90 text-slate-900 border-none shadow-sm backdrop-blur-sm">
+                    {viewTenant.plan} PLAN
+                  </Badge>
+                  <Badge variant={viewTenant.isActive ? "outline" : "destructive"} className={`bg-white/90 backdrop-blur-sm border-none shadow-sm ${viewTenant.isActive ? 'text-emerald-700' : ''}`}>
+                    {viewTenant.isActive ? "ACTIVE" : "SUSPENDED"}
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="pt-14 pb-6 px-6 space-y-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{viewTenant.name}</h2>
+                  <p className="text-sm text-slate-500 dark:text-zinc-400 font-mono mt-1 flex items-center gap-1.5">
+                    <Globe className="h-3.5 w-3.5" />
+                    {viewTenant.slug}.kwickly.com
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6 p-4 rounded-xl bg-slate-50 dark:bg-zinc-900/50 border border-slate-100 dark:border-zinc-800">
+                  <div className="space-y-1">
+                    <p className="text-xs font-medium text-slate-500 dark:text-zinc-500 uppercase tracking-wider">Contact Email</p>
+                    <p className="text-sm text-slate-900 dark:text-zinc-200 flex items-center gap-2">
+                      <Mail className="h-3.5 w-3.5 text-slate-400" />
+                      {viewTenant.email || "N/A"}
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-xs font-medium text-slate-500 dark:text-zinc-500 uppercase tracking-wider">Contact Phone</p>
+                    <p className="text-sm text-slate-900 dark:text-zinc-200 flex items-center gap-2">
+                      <Phone className="h-3.5 w-3.5 text-slate-400" />
+                      {viewTenant.phone || "N/A"}
+                    </p>
+                  </div>
+                  <div className="col-span-2 space-y-1">
+                    <p className="text-xs font-medium text-slate-500 dark:text-zinc-500 uppercase tracking-wider">Address</p>
+                    <p className="text-sm text-slate-900 dark:text-zinc-200 flex items-center gap-2">
+                      <MapPin className="h-3.5 w-3.5 text-slate-400" />
+                      {viewTenant.address || "No address configured"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl border border-slate-200 dark:border-zinc-800 flex flex-col items-center justify-center text-center">
+                    <MapPin className="h-5 w-5 text-indigo-500 mb-2" />
+                    <span className="text-2xl font-bold text-slate-900 dark:text-white">{viewTenant.branchCount}</span>
+                    <span className="text-xs text-slate-500 dark:text-zinc-400">Total Branches</span>
+                  </div>
+                  <div className="p-4 rounded-xl border border-slate-200 dark:border-zinc-800 flex flex-col items-center justify-center text-center">
+                    <Users className="h-5 w-5 text-emerald-500 mb-2" />
+                    <span className="text-2xl font-bold text-slate-900 dark:text-white">{viewTenant.userCount}</span>
+                    <span className="text-xs text-slate-500 dark:text-zinc-400">Platform Users</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <Button 
+                    className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20"
+                    onClick={(e) => handleImpersonate(e, viewTenant)}
+                  >
+                    <Eye className="mr-2 h-4 w-4" />
+                    Inspect Dashboard
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="flex-none px-3 border-slate-200 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-800"
+                    onClick={(e) => {
+                      setViewOpen(false);
+                      handleEditClick(e, viewTenant);
+                    }}
+                  >
+                    <Edit className="h-4 w-4 text-slate-600 dark:text-zinc-300" />
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* CREATE DIALOG */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
@@ -468,18 +625,33 @@ export default function PlatformTenants() {
         </DialogContent>
       </Dialog>
 
-      {/* DELETE DIALOG */}
+      {/* DELETE DIALOG WITH CONFIRMATION */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <DialogContent className="sm:max-w-[450px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
           <DialogHeader>
             <DialogTitle className="text-slate-900 dark:text-zinc-100 flex items-center gap-2">
-              <ShieldAlert className="h-5 w-5 text-red-600" /> Confirm Deletion
+              <ShieldAlert className="h-5 w-5 text-red-600" /> Delete Tenant
             </DialogTitle>
-            <DialogDescription className="text-slate-500 dark:text-zinc-400">
-              Are you sure you want to soft delete this tenant? This action is reversible by system admins but will instantly block all tenant access.
+            <DialogDescription className="text-slate-500 dark:text-zinc-400 mt-2">
+              This will immediately revoke access for all users in <span className="font-bold text-slate-900 dark:text-white">{deletingTenant?.name}</span>.
+              This action is permanent and cannot be undone.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="pt-2">
+          
+          <div className="bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 p-4 rounded-lg my-4 space-y-3">
+            <Label htmlFor="confirmText" className="text-slate-700 dark:text-zinc-300 text-xs uppercase tracking-wider font-semibold">
+              Type <span className="text-red-600 dark:text-red-400 font-bold select-all">{deletingTenant?.name}</span> to confirm
+            </Label>
+            <Input
+              id="confirmText"
+              value={deleteConfirmationText}
+              onChange={(e) => setDeleteConfirmationText(e.target.value)}
+              placeholder={deletingTenant?.name}
+              className="bg-white dark:bg-zinc-900 border-red-200 dark:border-red-800/50 focus-visible:ring-red-500 text-slate-900 dark:text-zinc-100"
+            />
+          </div>
+
+          <DialogFooter>
             <Button
               type="button"
               variant="outline"
@@ -491,10 +663,10 @@ export default function PlatformTenants() {
             <Button
               type="button"
               onClick={handleDeleteConfirm}
-              disabled={deleteTenantMutation.isPending}
-              className="bg-red-600 hover:bg-red-700 text-white"
+              disabled={deleteTenantMutation.isPending || deleteConfirmationText !== deletingTenant?.name}
+              className="bg-red-600 hover:bg-red-700 text-white disabled:opacity-50 disabled:bg-red-600"
             >
-              {deleteTenantMutation.isPending ? "Deleting..." : "Delete"}
+              {deleteTenantMutation.isPending ? "Deleting..." : "Permanently Delete"}
             </Button>
           </DialogFooter>
         </DialogContent>

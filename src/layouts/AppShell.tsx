@@ -83,10 +83,13 @@ export default function AppShell() {
     }
   }, [activeBrandColor]);
 
-  // Auto-select the first branch if none is selected
+  // Auto-select the first branch if none is selected or if the selected branch is invalid (e.g. after switching tenants)
   useEffect(() => {
-    if (branches && branches.length > 0 && !selectedBranchId) {
-      setSelectedBranchId(branches[0].id)
+    if (branches && branches.length > 0) {
+      const isValidBranch = branches.some(b => b.id === selectedBranchId);
+      if (!selectedBranchId || !isValidBranch) {
+        setSelectedBranchId(branches[0].id)
+      }
     }
   }, [branches, selectedBranchId, setSelectedBranchId])
 
@@ -132,7 +135,9 @@ export default function AppShell() {
                         disabled={isBranchesLoading || !branches || branches.length === 0}
                       >
                         <SelectTrigger className="h-7 text-xs bg-slate-50 dark:bg-zinc-800 border-none shadow-none focus:ring-1 focus:ring-indigo-500">
-                          <SelectValue placeholder="Select a branch" />
+                          <span className="line-clamp-1 flex-1 text-left">
+                            {branches?.find(b => b.id === selectedBranchId)?.name || "Select a branch"}
+                          </span>
                         </SelectTrigger>
                         <SelectContent>
                           {branches?.map((branch) => (

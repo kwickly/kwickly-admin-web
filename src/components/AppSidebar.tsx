@@ -10,7 +10,14 @@ import {
   ChevronRight,
   Building,
   ScrollText,
-  Sparkles
+  Sparkles,
+  Package,
+  Tag,
+  DollarSign,
+  ShieldAlert,
+  Sliders,
+  Activity,
+  LifeBuoy
 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuth";
 import {
@@ -106,6 +113,25 @@ const navGroups: NavGroup[] = [
           { title: "Campaign Logs", url: "/crm/campaigns", permission: "staff:read" },
         ],
       },
+      {
+        title: "Inventory",
+        url: "/inventory",
+        icon: Package,
+        permission: "inventory:read",
+        items: [
+          { title: "Stock Management", url: "/inventory/stock", permission: "inventory:read" },
+          { title: "Suppliers", url: "/inventory/suppliers", permission: "inventory:read" },
+        ],
+      },
+      {
+        title: "Marketing & Promos",
+        url: "/promotions",
+        icon: Tag,
+        permission: "promotions:manage",
+        items: [
+          { title: "Discounts & Offers", url: "/promotions/discounts", permission: "promotions:manage" },
+        ],
+      },
     ]
   },
   {
@@ -161,6 +187,36 @@ const platformNavGroups: NavGroup[] = [
         title: "Tenants Directory",
         url: "/platform/tenants",
         icon: Building,
+      },
+      {
+        title: "Tenant Features & Plans",
+        url: "/platform/tenant-settings",
+        icon: Sliders,
+      },
+      {
+        title: "Usage & Quotas",
+        url: "/platform/usage",
+        icon: Activity,
+      },
+      {
+        title: "Support Tickets",
+        url: "/platform/support",
+        icon: LifeBuoy,
+      },
+      {
+        title: "Global Billing",
+        url: "/platform/billing",
+        icon: DollarSign,
+      },
+      {
+        title: "Platform Admins",
+        url: "/platform/staff",
+        icon: ShieldAlert,
+      },
+      {
+        title: "Platform Settings",
+        url: "/platform/settings",
+        icon: Settings,
       },
     ]
   }

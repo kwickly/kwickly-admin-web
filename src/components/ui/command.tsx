@@ -58,7 +58,9 @@ function CommandDialog({
         )}
         showCloseButton={showCloseButton}
       >
-        {children}
+        <Command className="flex size-full flex-col overflow-hidden rounded-xl bg-popover text-popover-foreground">
+          {children}
+        </Command>
       </DialogContent>
     </Dialog>
   )

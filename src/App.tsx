@@ -29,10 +29,19 @@ import Orders from '@/pages/Orders'
 import Ads from '@/pages/Ads'
 import Subscriptions from '@/pages/Subscriptions'
 import ProtectedRoute from '@/components/ProtectedRoute'
+import Stock from '@/pages/inventory/Stock'
+import Suppliers from '@/pages/inventory/Suppliers'
+import Discounts from '@/pages/promotions/Discounts'
 
 // Platform Owner administrative screens (Directory, System Metrics, and Logs)
 import PlatformTenants from '@/pages/PlatformTenants'
 import PlatformAuditLogs from '@/pages/PlatformAuditLogs'
+import GlobalBilling from '@/pages/platform/GlobalBilling'
+import PlatformSettings from '@/pages/platform/PlatformSettings'
+import PlatformStaff from '@/pages/platform/PlatformStaff'
+import TenantSettings from '@/pages/platform/TenantSettings'
+import TenantUsage from '@/pages/platform/TenantUsage'
+import SupportTickets from '@/pages/platform/SupportTickets'
 
 function App() {
   return (
@@ -51,6 +60,12 @@ function App() {
               {/* Platform Management Routes */}
               <Route path="/platform/tenants" element={<PlatformTenants />} />
               <Route path="/platform/logs" element={<PlatformAuditLogs />} />
+              <Route path="/platform/billing" element={<GlobalBilling />} />
+              <Route path="/platform/settings" element={<PlatformSettings />} />
+              <Route path="/platform/staff" element={<PlatformStaff />} />
+              <Route path="/platform/tenant-settings" element={<TenantSettings />} />
+              <Route path="/platform/usage" element={<TenantUsage />} />
+              <Route path="/platform/support" element={<SupportTickets />} />
 
               {/* Menus Routes */}
               <Route element={<ProtectedRoute permission="menu:read" />}>
@@ -80,6 +95,19 @@ function App() {
                   <Route path="/crm/segments" element={<CustomerSegments />} />
                   <Route path="/crm/campaigns" element={<CampaignLogs />} />
                 </Route>
+              </Route>
+
+              {/* Inventory Routes */}
+              <Route element={<ProtectedRoute permission="inventory:read" />}>
+                <Route path="/inventory" element={<Navigate to="/inventory/stock" replace />} />
+                <Route path="/inventory/stock" element={<Stock />} />
+                <Route path="/inventory/suppliers" element={<Suppliers />} />
+              </Route>
+
+              {/* Promotions Routes */}
+              <Route element={<ProtectedRoute permission="promotions:manage" />}>
+                <Route path="/promotions" element={<Navigate to="/promotions/discounts" replace />} />
+                <Route path="/promotions/discounts" element={<Discounts />} />
               </Route>
 
               <Route element={<ProtectedRoute permission="orders:read" />}>

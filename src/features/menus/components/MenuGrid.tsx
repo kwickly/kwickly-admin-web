@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { useMenuItems, useDeleteMenuItem, type MenuItem } from "@/hooks/api/useMenus";
 import { useBranchStore } from "@/store/useBranch";
-import EditMenuItemSheet from "./EditMenuItemSheet";
+import EditMenuItemDialog from "./EditMenuItemDialog";
+import ViewMenuItemDialog from "./ViewMenuItemDialog";
 import { toast } from "sonner";
 
 export default function MenuGrid({ search = "" }: { search?: string }) {
@@ -33,6 +34,7 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
   const meta = response?.meta;
 
   const [editOpen, setEditOpen] = useState(false);
+  const [viewOpen, setViewOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -41,6 +43,11 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
   const handleEditClick = (item: MenuItem) => {
     setSelectedItem(item);
     setEditOpen(true);
+  };
+
+  const handleViewClick = (item: MenuItem) => {
+    setSelectedItem(item);
+    setViewOpen(true);
   };
 
   const handleDeleteClick = (id: string) => {
@@ -108,8 +115,15 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
           <div className="absolute inset-0 bg-slate-950/65 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2.5 backdrop-blur-[2px] rounded-xl duration-200">
             <Button
               size="sm"
-              onClick={() => handleEditClick(item)}
+              onClick={() => handleViewClick(item)}
               className="bg-white hover:bg-slate-100 text-slate-900 font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-8"
+            >
+              View
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => handleEditClick(item)}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-8"
             >
               Edit
             </Button>
@@ -125,8 +139,11 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
         </div>
       ))}
 
-      {/* Edit Sheet */}
-      <EditMenuItemSheet open={editOpen} onOpenChange={setEditOpen} item={selectedItem} />
+      {/* View Dialog */}
+      <ViewMenuItemDialog open={viewOpen} onOpenChange={setViewOpen} item={selectedItem} />
+
+      {/* Edit Dialog */}
+      <EditMenuItemDialog open={editOpen} onOpenChange={setEditOpen} item={selectedItem} />
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>

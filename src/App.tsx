@@ -3,6 +3,8 @@ import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import AppShell from '@/layouts/AppShell'
 import Login from '@/pages/Login'
+import ForgotPassword from '@/pages/ForgotPassword'
+import ResetPassword from '@/pages/ResetPassword'
 import Dashboard from '@/pages/Dashboard'
 import TenantAnalytics from '@/pages/TenantAnalytics'
 
@@ -49,6 +51,8 @@ function App() {
       <TooltipProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>

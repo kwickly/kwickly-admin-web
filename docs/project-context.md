@@ -105,3 +105,5 @@ kwickly-admin-web/
 - [x] **Type-to-Delete Protection:** Implemented forced-typing confirmation modals for high-risk actions to prevent accidental data loss.
 - [x] **Premium Analytics Dashboards:** Replaced basic bar charts with gradient `AreaChart`s and polished `PieChart` visualizations with inner-radius centered labels.
 - [x] **Skeleton Loader Refactoring:** Eradicated all basic "Loading..." text from 15+ pages. Developed a centralized `loaders.tsx` library and deployed beautiful, pulsating `Skeleton` grids across the entire admin portal for ultra-premium perceived performance.
+- [x] **Layout Streamlining:** Eradicated redundant navigation tabs in Menus, Staff, and CRM layouts to match the cleaner visual language.
+- [x] **Global Menu Simplification:** Enforced strict tenant-level hierarchy and uniqueness for menu categories, preventing duplicate creation across branches.

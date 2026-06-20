@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/store/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -60,7 +60,12 @@ export default function Login() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300 mb-2">Password</label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300">Password</label>
+                <Link to="/forgot-password" className="text-sm font-medium text-indigo-600 hover:underline dark:text-indigo-400">
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <input 
                   type={showPassword ? "text" : "password"} 

@@ -34,3 +34,26 @@ export function useUpdateTimesheet() {
   });
 }
 
+export function usePlatformTimesheets() {
+  return useQuery({
+    queryKey: ['platform-staff', 'timesheets'],
+    queryFn: async (): Promise<TimesheetRecord[]> => {
+      const { data } = await api.get('/platform/staff/timesheets');
+      return data.data;
+    },
+  });
+}
+
+export function useUpdatePlatformTimesheet() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: 'APPROVED' | 'REJECTED' }) => {
+      const { data } = await api.patch(`/platform/staff/timesheets/${id}`, { status });
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['platform-staff', 'timesheets'] });
+    },
+  });
+}
+

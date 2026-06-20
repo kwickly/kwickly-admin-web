@@ -41,6 +41,8 @@ import PlatformAuditLogs from '@/pages/PlatformAuditLogs'
 import GlobalBilling from '@/pages/platform/GlobalBilling'
 import PlatformSettings from '@/pages/platform/PlatformSettings'
 import PlatformStaff from '@/pages/platform/PlatformStaff'
+import PlatformTimesheets from '@/pages/platform/PlatformTimesheets'
+import PlatformRoles from '@/pages/platform/PlatformRoles'
 import TenantSettings from '@/pages/platform/TenantSettings'
 import TenantUsage from '@/pages/platform/TenantUsage'
 import SupportTickets from '@/pages/platform/SupportTickets'
@@ -67,6 +69,8 @@ function App() {
               <Route path="/platform/billing" element={<GlobalBilling />} />
               <Route path="/platform/settings" element={<PlatformSettings />} />
               <Route path="/platform/staff" element={<PlatformStaff />} />
+              <Route path="/platform/staff/timesheets" element={<PlatformTimesheets />} />
+              <Route path="/platform/staff/roles" element={<PlatformRoles />} />
               <Route path="/platform/tenant-settings" element={<TenantSettings />} />
               <Route path="/platform/usage" element={<TenantUsage />} />
               <Route path="/platform/support" element={<SupportTickets />} />

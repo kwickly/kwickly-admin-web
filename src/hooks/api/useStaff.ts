@@ -47,6 +47,56 @@ export function useUpdateRolePermissions() {
   });
 }
 
+export const useDeleteRole = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/staff/roles/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['staff', 'roles'] });
+    }
+  });
+};
+
+export const useDeletePlatformRole = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/platform/staff/roles/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['platform-staff', 'roles'] });
+    }
+  });
+};
+
+export function usePlatformRoles() {
+  return useQuery({
+    queryKey: ['platform-staff', 'roles'],
+    queryFn: async (): Promise<Role[]> => {
+      const { data } = await api.get('/platform/staff/roles');
+      return data.data;
+    },
+  });
+}
+
+export function useUpdatePlatformRolePermissions() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async ({ id, permissions }: { id: string; permissions: string[] }) => {
+      const { data } = await api.patch(`/platform/staff/roles/${id}`, { permissions });
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['platform-staff', 'roles'] });
+    },
+  });
+}
+
 // GET /v1/staff
 export function useStaffList(branchId?: string) {
   return useQuery({

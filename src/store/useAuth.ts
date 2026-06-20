@@ -24,11 +24,12 @@ interface User {
 interface AuthState {
   user: User | null;
   token: string | null;
+  refreshToken: string | null;
   impersonatedTenantId: string | null;
   impersonatedTenantName: string | null;
   impersonatedTenantBrandColor: string | null;
   impersonatedTenantLogoUrl: string | null;
-  login: (user: User, token: string) => void;
+  login: (user: User, token: string, refreshToken: string) => void;
   logout: () => void;
   setImpersonatedTenant: (
     id: string | null,
@@ -43,13 +44,15 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       token: null,
+      refreshToken: null,
       impersonatedTenantId: null,
       impersonatedTenantName: null,
       impersonatedTenantBrandColor: null,
       impersonatedTenantLogoUrl: null,
-      login: (user, token) => set({ 
+      login: (user, token, refreshToken) => set({ 
         user, 
         token, 
+        refreshToken,
         impersonatedTenantId: null, 
         impersonatedTenantName: null,
         impersonatedTenantBrandColor: null,
@@ -58,6 +61,7 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ 
         user: null, 
         token: null, 
+        refreshToken: null,
         impersonatedTenantId: null, 
         impersonatedTenantName: null,
         impersonatedTenantBrandColor: null,

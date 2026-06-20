@@ -209,9 +209,14 @@ const platformNavGroups: NavGroup[] = [
         icon: DollarSign,
       },
       {
-        title: "Platform Admins",
+        title: "Platform Staff",
         url: "/platform/staff",
         icon: ShieldAlert,
+        items: [
+          { title: "Admin Directory", url: "/platform/staff" },
+          { title: "Timesheets", url: "/platform/staff/timesheets" },
+          { title: "Role Builder", url: "/platform/staff/roles" },
+        ]
       },
       {
         title: "Platform Settings",

@@ -73,12 +73,19 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const response = await api.post('/auth/refresh');
-        const token = response.data.data?.token || response.data.data;
+        const currentRefreshToken = useAuthStore.getState().refreshToken;
+        if (!currentRefreshToken) throw new Error('No refresh token available');
+
+        const response = await axios.post(
+          `${api.defaults.baseURL}/auth/refresh`,
+          { refreshToken: currentRefreshToken }
+        );
+        const token = response.data.accessToken;
         
         if (!token) throw new Error('Token refresh failed');
 
-        useAuthStore.setState({ token });
+        const currentUser = useAuthStore.getState().user;
+        useAuthStore.setState({ token, refreshToken: currentRefreshToken, user: currentUser });
 
         processQueue(null, token);
         isRefreshing = false;

@@ -1,5 +1,5 @@
 import { Check, X, Clock, Calendar } from "lucide-react";
-import { useTimesheets, useUpdateTimesheet } from "@/hooks/api/useStaffAttendance";
+import { useTimesheets, useUpdateTimesheet, usePlatformTimesheets, useUpdatePlatformTimesheet } from "@/hooks/api/useStaffAttendance";
 import {
   Table,
   TableBody,
@@ -12,9 +12,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-export default function Timesheets() {
-  const { data: timesheets, isLoading } = useTimesheets();
-  const updateTimesheetMutation = useUpdateTimesheet();
+export default function Timesheets({ isPlatform = false }: { isPlatform?: boolean }) {
+  const tenantTimesheets = useTimesheets();
+  const platformTimesheetsHook = usePlatformTimesheets();
+  
+  const { data: timesheets, isLoading } = isPlatform ? platformTimesheetsHook : tenantTimesheets;
+  
+  const updateTenantMutation = useUpdateTimesheet();
+  const updatePlatformMutation = useUpdatePlatformTimesheet();
+  
+  const updateTimesheetMutation = isPlatform ? updatePlatformMutation : updateTenantMutation;
 
   const handleAction = (id: string, status: 'APPROVED' | 'REJECTED') => {
     updateTimesheetMutation.mutate(
@@ -29,14 +36,7 @@ export default function Timesheets() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-zinc-100">Timesheets & Approvals</h2>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-0.5">
-            Review employee clock-in hours and approve them for payroll calculations.
-          </p>
-        </div>
-      </div>
+
 
       {isLoading ? (
         <div className="text-center py-6 text-slate-500">Loading timesheets...</div>

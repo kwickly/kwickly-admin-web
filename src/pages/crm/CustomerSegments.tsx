@@ -1,6 +1,7 @@
 import { Plus, Target } from "lucide-react";
 import { useState } from "react";
 import { useSegments, useCreateSegment } from "@/hooks/api/useCRM";
+import { GridCardSkeleton } from "@/components/ui/loaders";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -134,7 +135,7 @@ export default function CustomerSegments() {
       </div>
 
       {isSegsLoading ? (
-        <div className="text-center py-6 text-slate-500">Loading segments...</div>
+        <GridCardSkeleton count={6} />
       ) : !segments || segments.length === 0 ? (
         <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-500">
           No segments configured yet.

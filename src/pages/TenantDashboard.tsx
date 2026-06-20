@@ -3,6 +3,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useDailySales, useTopItems } from "@/hooks/api/useDashboard";
 import { useBranchStore } from "@/store/useBranch";
 import { Can } from "@/components/shared/Can";
+import { DashboardKPISkeleton } from "@/components/ui/loaders";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const REVENUE_DATA = [
   { name: 'Mon', total: 1200 },
@@ -71,7 +73,7 @@ export default function TenantDashboard() {
               <div>
                 <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">Today's Revenue</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  ₹{isLoadingSales ? '...' : sales?.totalSales.toFixed(2)}
+                  {isLoadingSales ? <Skeleton className="h-8 w-24" /> : `₹${sales?.totalSales.toFixed(2)}`}
                 </h3>
               </div>
             </div>
@@ -95,7 +97,7 @@ export default function TenantDashboard() {
               <div>
                 <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">Total Orders</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  {isLoadingSales ? '...' : sales?.totalOrders}
+                  {isLoadingSales ? <Skeleton className="h-8 w-16" /> : sales?.totalOrders}
                 </h3>
               </div>
             </div>
@@ -119,7 +121,7 @@ export default function TenantDashboard() {
               <div>
                 <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">Avg. Order Value</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  ₹{isLoadingSales ? '...' : sales?.averageOrderValue.toFixed(2)}
+                  {isLoadingSales ? <Skeleton className="h-8 w-20" /> : `₹${sales?.averageOrderValue.toFixed(2)}`}
                 </h3>
               </div>
             </div>

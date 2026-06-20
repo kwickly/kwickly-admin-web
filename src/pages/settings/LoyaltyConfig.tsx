@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { useLoyaltyConfig, useUpdateLoyaltyConfig } from '@/hooks/api/useLoyalty';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { FormSkeleton } from "@/components/ui/loaders";
 
 export default function LoyaltyConfig() {
   const { data: loyaltyData, isLoading: isLoyaltyLoading } = useLoyaltyConfig();
@@ -61,9 +62,7 @@ export default function LoyaltyConfig() {
       <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-slate-200 dark:border-zinc-800">
         <form onSubmit={handleLoyaltySave} className="p-6 space-y-6">
           {isLoyaltyLoading ? (
-            <div className="flex justify-center p-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
+            <FormSkeleton />
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -3,6 +3,7 @@ import { LayoutGrid, Edit, Trash } from "lucide-react";
 import CreateCategoryDialog from "@/features/menus/components/CreateCategoryDialog";
 import { useMenuCategories, useUpdateCategory, useDeleteCategory, type MenuCategory } from "@/hooks/api/useMenus";
 import { useBranchStore } from "@/store/useBranch";
+import { TableSkeleton } from "@/components/ui/loaders";
 import {
   Table,
   TableBody,
@@ -106,7 +107,7 @@ export default function MenuCategories() {
       </div>
 
       {isCategoriesLoading ? (
-        <div className="p-8 text-center text-slate-500">Loading categories...</div>
+        <TableSkeleton />
       ) : !categories || categories.length === 0 ? (
         <div className="p-8 text-center text-slate-500 bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800">
           <h3 className="text-lg font-medium text-slate-900 dark:text-zinc-100">No Categories</h3>

@@ -28,6 +28,8 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import { TableSkeleton } from "@/components/ui/loaders";
 import { useBranchStore } from "@/store/useBranch";
 import { Can } from "@/components/shared/Can";
 
@@ -324,7 +326,7 @@ export default function Subscriptions() {
       </div>
 
       {isLoading ? (
-        <div className="p-8 text-center text-slate-500">Loading subscription plans...</div>
+        <TableSkeleton />
       ) : !plans || plans.length === 0 ? (
         <div className="p-12 text-center bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800">
           <CreditCard className="mx-auto h-12 w-12 text-slate-300 dark:text-zinc-600 mb-4" />

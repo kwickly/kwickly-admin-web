@@ -1,6 +1,7 @@
 import { Send, MessageSquare, Calendar } from "lucide-react";
 import { useState } from "react";
 import { useSegments, useCampaigns, useCreateCampaign } from "@/hooks/api/useCRM";
+import { TableSkeleton } from "@/components/ui/loaders";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -153,7 +154,7 @@ export default function CampaignLogs() {
       </div>
 
       {isCampsLoading ? (
-        <div className="text-center py-6 text-slate-500">Loading campaigns...</div>
+        <TableSkeleton />
       ) : !campaigns || campaigns.length === 0 ? (
         <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-500">
           No campaigns dispatched yet.

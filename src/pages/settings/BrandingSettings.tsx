@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { FormSkeleton } from "@/components/ui/loaders";
 import { Paintbrush, Image, Check, Layout, Sparkles } from "lucide-react";
 
 export default function BrandingSettings() {
@@ -92,8 +93,8 @@ export default function BrandingSettings() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12 text-slate-500">
-        Loading branding settings...
+      <div className="space-y-6 max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <FormSkeleton />
       </div>
     );
   }

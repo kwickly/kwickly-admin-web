@@ -1,5 +1,6 @@
 import { LayoutGrid, Plus, MousePointer2, Eye } from "lucide-react";
 import { useAds } from "@/hooks/api/useAds";
+import { GridCardSkeleton } from "@/components/ui/loaders";
 
 export default function Ads() {
   const { ads, isLoading } = useAds();

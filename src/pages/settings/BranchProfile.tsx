@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Store, Phone, MapPin, Save } from 'lucide-react';
 import { toast } from 'sonner';
 import { useBranches, useUpdateBranch } from '@/hooks/api/useSettings';
+import { FormSkeleton } from '@/components/ui/loaders';
 
 export default function BranchProfile() {
   const { data: branches, isLoading: isBranchLoading } = useBranches();
@@ -48,9 +49,7 @@ export default function BranchProfile() {
       <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-slate-200 dark:border-zinc-800">
         <form onSubmit={handleBranchSave} className="p-6 space-y-6">
           {isBranchLoading ? (
-            <div className="flex justify-center p-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
+            <FormSkeleton />
           ) : (
             <>
               <div className="space-y-4 max-w-xl">

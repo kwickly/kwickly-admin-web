@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ChartSkeleton, TableSkeleton } from "@/components/ui/loaders";
 import {
   Table,
   TableBody,
@@ -158,9 +159,7 @@ export default function TenantAnalytics() {
           </p>
 
           {isForecastLoading ? (
-            <div className="h-[300px] flex items-center justify-center text-slate-500">
-              Generating demand predictions...
-            </div>
+            <ChartSkeleton />
           ) : (
             <div className="h-[300px] pt-4">
               <ResponsiveContainer width="100%" height="100%">

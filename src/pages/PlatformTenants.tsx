@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { GridCardSkeleton } from "@/components/ui/loaders";
 
 export default function PlatformTenants() {
   const navigate = useNavigate();
@@ -202,7 +203,7 @@ export default function PlatformTenants() {
       </div>
 
       {isLoading ? (
-        <div className="text-center py-12 text-slate-500">Loading tenants...</div>
+        <GridCardSkeleton count={8} />
       ) : !tenantsList || tenantsList.length === 0 ? (
         <div className="p-12 text-center bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm">
           <Building className="mx-auto h-12 w-12 text-slate-300 dark:text-zinc-600 mb-4" />
@@ -226,16 +227,12 @@ export default function PlatformTenants() {
                 {/* 3 Dots Menu */}
                 <div className="absolute top-4 right-4 z-10">
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="h-8 w-8 text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:text-zinc-200 dark:hover:bg-zinc-800"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <MoreVertical className="h-4 w-4" />
-                        <span className="sr-only">Open menu</span>
-                      </Button>
+                    <DropdownMenuTrigger 
+                      className="h-8 w-8 inline-flex items-center justify-center rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:text-zinc-200 dark:hover:bg-zinc-800 focus:outline-none"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <MoreVertical className="h-4 w-4" />
+                      <span className="sr-only">Open menu</span>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 shadow-lg rounded-xl">
                       <DropdownMenuItem 

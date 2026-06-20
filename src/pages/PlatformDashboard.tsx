@@ -2,6 +2,7 @@ import { LayoutDashboard, Building, Users, Activity, DollarSign, TrendingUp } fr
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, AreaChart, Area, CartesianGrid, XAxis, YAxis } from "recharts";
 import { usePlatformMetrics } from "@/hooks/api/usePlatform";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardKPISkeleton, ChartSkeleton } from "@/components/ui/loaders";
 
 const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#f43f5e'];
 
@@ -9,7 +10,26 @@ export default function PlatformDashboard() {
   const { data: metrics, isLoading } = usePlatformMetrics();
 
   if (isLoading) {
-    return <div className="text-center py-12 text-slate-500">Loading platform metrics...</div>;
+    return (
+      <div className="space-y-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <LayoutDashboard className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+              Platform Overview
+            </h1>
+            <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+              Monitor global SaaS subscriptions, platform orders, and system-wide performance.
+            </p>
+          </div>
+        </div>
+        <DashboardKPISkeleton />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2"><ChartSkeleton /></div>
+          <div><ChartSkeleton /></div>
+        </div>
+      </div>
+    );
   }
 
   const planData = metrics

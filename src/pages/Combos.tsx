@@ -2,6 +2,7 @@ import { Blocks } from "lucide-react";
 import CreateComboSheet from "@/features/combos/components/CreateComboSheet";
 import { useCombos } from "@/hooks/api/useCombos";
 import { useBranchStore } from "@/store/useBranch";
+import { GridCardSkeleton } from "@/components/ui/loaders";
 import {
   Table,
   TableBody,
@@ -34,7 +35,7 @@ export default function Combos() {
       </div>
 
       {isLoading ? (
-        <div className="p-8 text-center text-slate-500">Loading combos...</div>
+        <GridCardSkeleton count={4} />
       ) : !combos || combos.length === 0 ? (
         <div className="p-12 text-center bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800">
           <Blocks className="mx-auto h-12 w-12 text-slate-300 dark:text-zinc-600 mb-4" />

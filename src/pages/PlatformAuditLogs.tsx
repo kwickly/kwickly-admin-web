@@ -1,5 +1,6 @@
 import { ScrollText, Terminal } from "lucide-react";
 import { usePlatformAuditLogs } from "@/hooks/api/usePlatform";
+import { TableSkeleton } from "@/components/ui/loaders";
 import {
   Table,
   TableBody,
@@ -53,7 +54,9 @@ export default function PlatformAuditLogs() {
       </div>
 
       {isLoading ? (
-        <div className="text-center py-12 text-slate-500">Loading audit logs...</div>
+        <div className="mt-8">
+          <TableSkeleton />
+        </div>
       ) : !logs || logs.length === 0 ? (
         <div className="p-12 text-center bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800">
           <Terminal className="mx-auto h-12 w-12 text-slate-300 dark:text-zinc-600 mb-4" />

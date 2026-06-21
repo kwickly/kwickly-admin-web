@@ -1,4 +1,4 @@
-import { Outlet, Navigate } from "react-router-dom"
+import { Outlet, Navigate, Link } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { useBranchStore } from "@/store/useBranch"
 import { useBranches } from "@/hooks/api/useSettings"
@@ -31,6 +31,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
@@ -216,6 +217,11 @@ export default function AppShell() {
                   <div className="px-2 py-1.5 text-xs font-semibold text-slate-500 dark:text-zinc-400 border-b border-slate-100 dark:border-zinc-800 mb-1">
                     My Account
                   </div>
+                  <DropdownMenuItem render={<Link to="/settings/user-profile" className="cursor-pointer" />}>
+                    <User className="mr-2 size-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem className="text-red-600 dark:text-red-400 cursor-pointer focus:bg-red-50 dark:focus:bg-red-900/20" onClick={() => logout()}>
                     <LogOut className="mr-2 size-4" />
                     <span>Log out</span>

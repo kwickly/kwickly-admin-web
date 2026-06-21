@@ -107,3 +107,10 @@ kwickly-admin-web/
 - [x] **Skeleton Loader Refactoring:** Eradicated all basic "Loading..." text from 15+ pages. Developed a centralized `loaders.tsx` library and deployed beautiful, pulsating `Skeleton` grids across the entire admin portal for ultra-premium perceived performance.
 - [x] **Layout Streamlining:** Eradicated redundant navigation tabs in Menus, Staff, and CRM layouts to match the cleaner visual language.
 - [x] **Global Menu Simplification:** Enforced strict tenant-level hierarchy and uniqueness for menu categories, preventing duplicate creation across branches.
+
+### Phase 10: Support Tickets & User Profile (✅ COMPLETED)
+- [x] **Support Tickets UI:** Built `SupportTickets.tsx` pages for both Tenant and Platform Admin views.
+- [x] **Ticket Filtering & Search:** Implemented status dropdown filtering and search functionality for support tickets.
+- [x] **User Profile Page:** Added `/settings/user-profile` route displaying basic read-only details (Email, Role) and editable fields (Name, Phone).
+- [x] **Sidebar Footer Integration:** Added a user profile dropdown menu at the bottom of `AppSidebar.tsx` utilizing `@base-ui/react` conventions (`render` props instead of `asChild`).
+- [x] **Frontend Hook Integration:** Created `useProfile.ts` hook to handle API requests and automatically sync Zustand `useAuthStore` user state upon successful profile updates.

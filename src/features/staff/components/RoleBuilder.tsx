@@ -26,8 +26,8 @@ const AVAILABLE_PERMISSIONS = [
 
 export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boolean }) {
   const { user } = useAuthStore();
-  const tenantRoles = useRoles();
-  const platformRoles = usePlatformRoles();
+  const tenantRoles = useRoles(!isPlatform);
+  const platformRoles = usePlatformRoles(isPlatform);
   
   const { data: roles, isLoading } = isPlatform ? platformRoles : tenantRoles;
   
@@ -138,7 +138,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                 >
                   <Edit2 className="h-4 w-4 mr-2" /> Configure
                 </Button>
-                {((isPlatform || !role.isSystem) && (user?.role === 'platform_owner' || user?.role === 'tenant_owner' || user?.role === 'super_admin')) && (
+                {(!role.isSystem && (user?.role === 'platform_owner' || user?.role === 'tenant_owner' || user?.role === 'super_admin')) && (
                   <Button 
                     variant="outline" 
                     className="w-10 px-0 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-500/10"

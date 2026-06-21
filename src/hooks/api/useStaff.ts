@@ -21,14 +21,14 @@ export interface Role {
   permissions: string[];
 }
 
-// GET /v1/staff/roles
-export function useRoles() {
+export function useRoles(enabled: boolean = true) {
   return useQuery({
     queryKey: ['staff', 'roles'],
     queryFn: async (): Promise<Role[]> => {
       const { data } = await api.get('/staff/roles');
       return data.data;
     },
+    enabled,
   });
 }
 
@@ -73,13 +73,14 @@ export const useDeletePlatformRole = () => {
   });
 };
 
-export function usePlatformRoles() {
+export function usePlatformRoles(enabled: boolean = true) {
   return useQuery({
     queryKey: ['platform-staff', 'roles'],
     queryFn: async (): Promise<Role[]> => {
       const { data } = await api.get('/platform/staff/roles');
       return data.data;
     },
+    enabled,
   });
 }
 

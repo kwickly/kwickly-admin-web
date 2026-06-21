@@ -4,6 +4,8 @@ import { persist } from 'zustand/middleware';
 interface User {
   id: string;
   name: string;
+  email: string;
+  phone?: string | null;
   role: string;
   tenantId: string;
   roleDetails?: {

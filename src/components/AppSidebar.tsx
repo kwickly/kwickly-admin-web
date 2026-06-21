@@ -17,9 +17,11 @@ import {
   ShieldAlert,
   Sliders,
   Activity,
-  LifeBuoy
+  LifeBuoy,
+  ChevronsUpDown,
+  UserIcon,
+  LogOut
 } from "lucide-react";
-import { useAuthStore } from "@/store/useAuth";
 import {
   Sidebar,
   SidebarContent,
@@ -34,17 +36,21 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
+  useSidebar,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { hasPermission } from "@/lib/permissions";
+import { useAuthStore } from "@/store/useAuth";
 import type { Permission } from "@/lib/permissions";
 
 interface NavItem {
   title: string;
   url: string;
-  icon?: any;
+  icon?: React.ElementType;
   permission?: Permission;
   items?: { title: string; url: string; permission?: Permission }[];
 }
@@ -229,7 +235,7 @@ const platformNavGroups: NavGroup[] = [
 
 export function AppSidebar() {
   const location = useLocation();
-  const { user, impersonatedTenantId } = useAuthStore();
+  const { user, impersonatedTenantId, logout } = useAuthStore();
 
   const isPlatformAdmin = user?.role === 'platform_owner' || user?.role === 'super_admin';
   const showPlatformNav = isPlatformAdmin && !impersonatedTenantId;
@@ -249,6 +255,8 @@ export function AppSidebar() {
       })
     }))
   })).filter(group => group.items.length > 0);
+
+  const { state } = useSidebar();
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border/50">
@@ -279,8 +287,43 @@ export function AppSidebar() {
                     : location.pathname === item.url;
 
                   if (hasSubItems) {
+                    if (state === "collapsed") {
+                      return (
+                        <SidebarMenuItem key={item.title}>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger render={
+                              <SidebarMenuButton 
+                                isActive={isActive}
+                                className={cn(
+                                  "h-9 px-3 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
+                                  isActive 
+                                    ? "bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white font-semibold" 
+                                    : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-50 dark:hover:bg-zinc-800/50"
+                                )}
+                              >
+                                {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-indigo-600 dark:text-indigo-400" : "text-slate-400 dark:text-zinc-500")} />}
+                                <span className="text-[13px] ml-1 group-data-[collapsible=icon]:hidden">{item.title}</span>
+                                <ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-slate-400 group-data-[collapsible=icon]:hidden" />
+                              </SidebarMenuButton>
+                            } />
+                            <DropdownMenuContent side="right" align="start" sideOffset={8} className="w-48">
+                              <div className="px-2 py-1.5 text-xs text-slate-500 dark:text-zinc-400 font-semibold">{item.title}</div>
+                              <DropdownMenuSeparator />
+                              {item.items?.map((subItem) => (
+                                <DropdownMenuItem key={subItem.title} render={
+                                  <Link to={subItem.url} className="cursor-pointer w-full flex items-center text-sm">
+                                    {subItem.title}
+                                  </Link>
+                                } />
+                              ))}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </SidebarMenuItem>
+                      );
+                    }
+
                     return (
-                      <Collapsible key={item.title} defaultOpen={isActive} className="group/collapsible">
+                      <Collapsible key={`${item.title}-${isActive}`} defaultOpen={isActive} className="group/collapsible">
                         <SidebarMenuItem>
                           <CollapsibleTrigger render={
                             <SidebarMenuButton 
@@ -351,6 +394,59 @@ export function AppSidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
+
+      {user && (
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger render={
+                  <SidebarMenuButton
+                    size="lg"
+                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  />
+                }>
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 font-bold">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+                      <span className="truncate font-semibold">{user.name}</span>
+                      <span className="truncate text-xs text-slate-500">{user.email}</span>
+                    </div>
+                    <ChevronsUpDown className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                  side="right"
+                  align="end"
+                  sideOffset={4}
+                >
+                  <div className="flex items-center gap-2 p-2">
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 font-bold">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate font-semibold">{user.name}</span>
+                      <span className="truncate text-xs text-slate-500">{user.email}</span>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem render={<Link to="/settings/user-profile" className="cursor-pointer" />}>
+                    <UserIcon className="mr-2 h-4 w-4" />
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout} className="text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400 cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+      )}
+      
       <SidebarRail />
     </Sidebar>
   );

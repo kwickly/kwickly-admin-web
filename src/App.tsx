@@ -24,6 +24,7 @@ import MenuModifiers from '@/pages/menus/MenuModifiers'
 import CustomerSegments from '@/pages/crm/CustomerSegments'
 import CampaignLogs from '@/pages/crm/CampaignLogs'
 import BranchProfile from '@/pages/settings/BranchProfile'
+import UserProfile from '@/pages/settings/UserProfile'
 import LoyaltyConfig from '@/pages/settings/LoyaltyConfig'
 import BrandingSettings from '@/pages/settings/BrandingSettings'
 import Combos from '@/pages/Combos'
@@ -45,7 +46,8 @@ import PlatformTimesheets from '@/pages/platform/PlatformTimesheets'
 import PlatformRoles from '@/pages/platform/PlatformRoles'
 import TenantSettings from '@/pages/platform/TenantSettings'
 import TenantUsage from '@/pages/platform/TenantUsage'
-import SupportTickets from '@/pages/platform/SupportTickets'
+import PlatformSupportTickets from '@/pages/platform/SupportTickets'
+import TenantSupportTickets from '@/pages/SupportTickets'
 
 function App() {
   return (
@@ -61,6 +63,8 @@ function App() {
             <Route element={<AppShell />}>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/support" element={<TenantSupportTickets />} />
+              <Route path="/settings" element={<TenantSettings />} />
               <Route path="/analytics" element={<TenantAnalytics />} />
 
               {/* Platform Management Routes */}
@@ -73,7 +77,7 @@ function App() {
               <Route path="/platform/staff/roles" element={<PlatformRoles />} />
               <Route path="/platform/tenant-settings" element={<TenantSettings />} />
               <Route path="/platform/usage" element={<TenantUsage />} />
-              <Route path="/platform/support" element={<SupportTickets />} />
+              <Route path="/platform/support" element={<PlatformSupportTickets />} />
 
               {/* Menus Routes */}
               <Route element={<ProtectedRoute permission="menu:read" />}>
@@ -130,6 +134,7 @@ function App() {
                 <Route element={<SettingsLayout />}>
                   <Route path="/settings" element={<Navigate to="/settings/profile" replace />} />
                   <Route path="/settings/profile" element={<BranchProfile />} />
+                  <Route path="/settings/user-profile" element={<UserProfile />} />
                   <Route path="/settings/loyalty" element={<LoyaltyConfig />} />
                   <Route path="/settings/branding" element={<BrandingSettings />} />
                 </Route>

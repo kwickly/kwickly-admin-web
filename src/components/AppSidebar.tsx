@@ -115,8 +115,10 @@ const navGroups: NavGroup[] = [
         icon: Target,
         permission: "staff:read",
         items: [
+          { title: "Customer Directory", url: "/crm/directory", permission: "staff:read" },
           { title: "Customer Segments", url: "/crm/segments", permission: "staff:read" },
           { title: "Campaign Logs", url: "/crm/campaigns", permission: "staff:read" },
+          { title: "Wallet & Transactions", url: "/crm/wallet", permission: "wallet:manage" },
         ],
       },
       {

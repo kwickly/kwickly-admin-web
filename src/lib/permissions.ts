@@ -11,7 +11,8 @@ export type Permission =
   | "attendance:manage"
   | "payroll:manage"
   | "crm:manage"
-  | "promotions:manage";
+  | "promotions:manage"
+  | "wallet:manage";
 
 export const hasPermission = (requiredPermission: Permission | Permission[]): boolean => {
   const user = useAuthStore.getState().user;

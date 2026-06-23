@@ -22,8 +22,10 @@ import StaffRoles from '@/pages/staff/StaffRoles'
 import MenuItems from '@/pages/menus/MenuItems'
 import MenuCategories from '@/pages/menus/MenuCategories'
 import MenuModifiers from '@/pages/menus/MenuModifiers'
+import CustomerDirectory from '@/pages/crm/CustomerDirectory'
 import CustomerSegments from '@/pages/crm/CustomerSegments'
 import CampaignLogs from '@/pages/crm/CampaignLogs'
+import WalletTransactions from '@/pages/crm/WalletTransactions'
 import BranchProfile from '@/pages/settings/BranchProfile'
 import UserProfile from '@/pages/settings/UserProfile'
 import LoyaltyConfig from '@/pages/settings/LoyaltyConfig'
@@ -104,9 +106,11 @@ function App() {
               {/* CRM Routes */}
               <Route element={<ProtectedRoute permission="staff:read" />}>
                 <Route element={<CrmLayout />}>
-                  <Route path="/crm" element={<Navigate to="/crm/segments" replace />} />
+                  <Route path="/crm" element={<Navigate to="/crm/directory" replace />} />
+                  <Route path="/crm/directory" element={<CustomerDirectory />} />
                   <Route path="/crm/segments" element={<CustomerSegments />} />
                   <Route path="/crm/campaigns" element={<CampaignLogs />} />
+                  <Route path="/crm/wallet" element={<WalletTransactions />} />
                 </Route>
               </Route>
 

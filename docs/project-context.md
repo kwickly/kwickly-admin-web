@@ -114,3 +114,7 @@ kwickly-admin-web/
 - [x] **User Profile Page:** Added `/settings/user-profile` route displaying basic read-only details (Email, Role) and editable fields (Name, Phone).
 - [x] **Sidebar Footer Integration:** Added a user profile dropdown menu at the bottom of `AppSidebar.tsx` utilizing `@base-ui/react` conventions (`render` props instead of `asChild`).
 - [x] **Frontend Hook Integration:** Created `useProfile.ts` hook to handle API requests and automatically sync Zustand `useAuthStore` user state upon successful profile updates.
+
+- **Promotions**: Added filtering for discounts.
+- **Inventory**: Added UOM and search to stock, implemented Supplier Directory UI and backend.
+- **Platform**: Implemented Platform Staff directory (super_admin and platform_owner).

@@ -24,6 +24,7 @@
 - **Why?** Vercel's free tier explicitly prohibits commercial/business projects. Cloudflare Pages allows commercial applications on the free tier.
 - **Benefits:** Excellent global CDN performance, free SSL, and unlimited bandwidth.
 - **Workflow:** Auto-deploys via GitHub Integration on push to `main`.
+- **PWA Capabilities:** The frontend is configured as a Progressive Web App (PWA) with offline asset caching and seamless background updates. See the [PWA Architecture Documentation](pwa-architecture.md) for details on how the service worker and update mechanism function.
 
 ## 2. Backend Hosting: Excloud VPS
 - **Why?** Serverless platforms drop WebSocket connections. Excloud provides highly performant AMD EPYC servers with NVMe storage. A `t1a.small` costs ~₹340/month, perfectly optimized for long-running Node/Bun servers.

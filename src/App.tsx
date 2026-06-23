@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { PWABadge } from '@/components/PWABadge'
 import AppShell from '@/layouts/AppShell'
 import Login from '@/pages/Login'
 import ForgotPassword from '@/pages/ForgotPassword'
@@ -143,6 +144,7 @@ function App() {
           </Route>
         </Routes>
         <Toaster position="top-right" />
+        <PWABadge />
       </TooltipProvider>
     </BrowserRouter>
   )

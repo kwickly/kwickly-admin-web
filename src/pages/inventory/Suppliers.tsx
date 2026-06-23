@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import api from "@/lib/api";
 import { Truck, Plus, Mail, Phone, Building2, Search, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,16 +18,8 @@ export default function Suppliers() {
   const fetchSuppliers = async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem("kwickly_token");
-      const response = await fetch("http://localhost:8080/api/v1/inventory/suppliers", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setSuppliers(data);
-      }
+      const { data } = await api.get('/inventory/suppliers');
+      setSuppliers(data.data || []);
     } catch (error) {
       console.error("Failed to fetch suppliers", error);
     } finally {
@@ -38,36 +31,38 @@ export default function Suppliers() {
     fetchSuppliers();
   }, []);
 
-  const handleCreateSupplier = async (e: React.FormEvent) => {
+  const handleAddSupplier = async (e: React.FormEvent) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
+    setIsSubmitting(true);
+
+    const data = {
+      name: newSupplier.name,
+      contactPerson: newSupplier.contact_person,
+      email: newSupplier.email,
+      phone: newSupplier.phone,
+      address: newSupplier.address,
+      gstNumber: newSupplier.gst_number,
+      taxId: newSupplier.tax_id,
+      status: "ACTIVE",
+    };
 
     try {
-      const token = localStorage.getItem("kwickly_token");
-      const response = await fetch("http://localhost:8080/api/v1/inventory/suppliers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: formData.get("name"),
-          contactPerson: formData.get("contactPerson"),
-          email: formData.get("email"),
-          phone: formData.get("phone"),
-          address: formData.get("address"),
-          gstNumber: formData.get("gstNumber"),
-          taxId: formData.get("taxId"),
-        }),
+      await api.post('/inventory/suppliers', data);
+      setIsDialogOpen(false);
+      setNewSupplier({
+        name: "",
+        contact_person: "",
+        email: "",
+        phone: "",
+        address: "",
+        gst_number: "",
+        tax_id: "",
       });
-
-      if (response.ok) {
-        setIsDialogOpen(false);
-        fetchSuppliers();
-      }
+      fetchSuppliers();
     } catch (error) {
-      console.error("Failed to create supplier", error);
+      console.error("Failed to add supplier", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

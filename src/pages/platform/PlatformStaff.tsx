@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import api from "@/lib/api";
 import { ShieldAlert, Shield, Search, Mail, Phone, Clock } from "lucide-react";
 import {
   Card,
@@ -26,19 +27,8 @@ export default function PlatformStaff() {
   const fetchStaff = async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem("kwickly_token");
-      const response = await fetch(
-        "http://localhost:8080/api/v1/platform/staff",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (response.ok) {
-        const { data } = await response.json();
-        setStaff(data);
-      }
+      const { data } = await api.get('/platform/staff');
+      setStaff(data.data);
     } catch (error) {
       console.error("Failed to fetch platform staff", error);
     } finally {
@@ -53,8 +43,8 @@ export default function PlatformStaff() {
   const filteredStaff = staff.filter(
     (item) =>
       searchQuery === "" ||
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.email.toLowerCase().includes(searchQuery.toLowerCase()),
+      item.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.email?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (

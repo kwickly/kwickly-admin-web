@@ -9,6 +9,7 @@ export interface TimesheetRecord {
   clockOut: string | null;
   status: 'PENDING' | 'APPROVED' | 'REJECTED';
   totalHours: number;
+  reviewerNotes?: string | null;
 }
 
 export function useTimesheets() {
@@ -24,8 +25,8 @@ export function useTimesheets() {
 export function useUpdateTimesheet() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, status }: { id: string; status: 'APPROVED' | 'REJECTED' }) => {
-      const { data } = await api.patch(`/staff/timesheets/${id}`, { status });
+    mutationFn: async ({ id, status, reviewerNotes }: { id: string; status: 'APPROVED' | 'REJECTED'; reviewerNotes?: string }) => {
+      const { data } = await api.patch(`/staff/timesheets/${id}`, { status, reviewerNotes });
       return data.data;
     },
     onSuccess: () => {
@@ -47,8 +48,8 @@ export function usePlatformTimesheets() {
 export function useUpdatePlatformTimesheet() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, status }: { id: string; status: 'APPROVED' | 'REJECTED' }) => {
-      const { data } = await api.patch(`/platform/staff/timesheets/${id}`, { status });
+    mutationFn: async ({ id, status, reviewerNotes }: { id: string; status: 'APPROVED' | 'REJECTED'; reviewerNotes?: string }) => {
+      const { data } = await api.patch(`/platform/staff/timesheets/${id}`, { status, reviewerNotes });
       return data.data;
     },
     onSuccess: () => {

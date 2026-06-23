@@ -31,33 +31,30 @@ export default function Suppliers() {
     fetchSuppliers();
   }, []);
 
-  const handleAddSupplier = async (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleCreateSupplier = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
 
     const data = {
-      name: newSupplier.name,
-      contactPerson: newSupplier.contact_person,
-      email: newSupplier.email,
-      phone: newSupplier.phone,
-      address: newSupplier.address,
-      gstNumber: newSupplier.gst_number,
-      taxId: newSupplier.tax_id,
+      name: formData.get("name"),
+      contactPerson: formData.get("contactPerson"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      address: formData.get("address"),
+      gstNumber: formData.get("gstNumber"),
+      taxId: formData.get("taxId"),
       status: "ACTIVE",
     };
 
     try {
       await api.post('/inventory/suppliers', data);
       setIsDialogOpen(false);
-      setNewSupplier({
-        name: "",
-        contact_person: "",
-        email: "",
-        phone: "",
-        address: "",
-        gst_number: "",
-        tax_id: "",
-      });
+      form.reset();
       fetchSuppliers();
     } catch (error) {
       console.error("Failed to add supplier", error);
@@ -145,8 +142,8 @@ export default function Suppliers() {
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white">
-                  Save Supplier
+                <Button type="submit" disabled={isSubmitting} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+                  {isSubmitting ? "Saving..." : "Save Supplier"}
                 </Button>
               </div>
             </form>

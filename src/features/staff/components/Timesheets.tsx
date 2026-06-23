@@ -1,4 +1,5 @@
-import { Check, X, Clock, Calendar } from "lucide-react";
+import { useState } from "react";
+import { Check, X, Clock, Calendar, MessageSquareText } from "lucide-react";
 import { useTimesheets, useUpdateTimesheet, usePlatformTimesheets, useUpdatePlatformTimesheet } from "@/hooks/api/useStaffAttendance";
 import {
   Table,
@@ -11,6 +12,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export default function Timesheets({ isPlatform = false }: { isPlatform?: boolean }) {
   const tenantTimesheets = useTimesheets();
@@ -23,12 +34,24 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
   
   const updateTimesheetMutation = isPlatform ? updatePlatformMutation : updateTenantMutation;
 
-  const handleAction = (id: string, status: 'APPROVED' | 'REJECTED') => {
+  const [actionModal, setActionModal] = useState<{ isOpen: boolean, type: 'APPROVED' | 'REJECTED' | null, recordId: string | null }>({ isOpen: false, type: null, recordId: null });
+  const [remark, setRemark] = useState("");
+
+  const handleActionConfirm = () => {
+    if (!actionModal.recordId || !actionModal.type) return;
+    
+    if (actionModal.type === 'REJECTED' && !remark.trim()) {
+      toast.error("Rejection remark is required");
+      return;
+    }
+
     updateTimesheetMutation.mutate(
-      { id, status },
+      { id: actionModal.recordId, status: actionModal.type, reviewerNotes: remark || undefined },
       {
         onSuccess: () => {
-          toast.success(`Hours ${status.toLowerCase()} successfully`);
+          toast.success(`Timesheet ${actionModal.type?.toLowerCase()} successfully`);
+          setActionModal({ isOpen: false, type: null, recordId: null });
+          setRemark("");
         },
       }
     );
@@ -104,13 +127,22 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                     >
                       {record.status}
                     </Badge>
+                    {record.reviewerNotes && (
+                      <div className="flex items-start gap-1 mt-2 text-[10px] text-slate-500 bg-slate-50 dark:bg-zinc-900/50 p-1.5 rounded border border-slate-100 dark:border-zinc-800">
+                        <MessageSquareText className="h-3 w-3 mt-0.5 shrink-0" />
+                        <span className="leading-tight">{record.reviewerNotes}</span>
+                      </div>
+                    )}
                   </TableCell>
                   <TableCell className="text-right">
                     {record.status === 'PENDING' ? (
                       <div className="flex justify-end gap-2">
                         <Button
                           size="sm"
-                          onClick={() => handleAction(record.id, 'APPROVED')}
+                          onClick={() => {
+                            setActionModal({ isOpen: true, type: 'APPROVED', recordId: record.id });
+                            setRemark("");
+                          }}
                           disabled={updateTimesheetMutation.isPending}
                           className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1 h-8 px-2.5"
                         >
@@ -119,7 +151,10 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                         <Button
                           size="sm"
                           variant="destructive"
-                          onClick={() => handleAction(record.id, 'REJECTED')}
+                          onClick={() => {
+                            setActionModal({ isOpen: true, type: 'REJECTED', recordId: record.id });
+                            setRemark("");
+                          }}
                           disabled={updateTimesheetMutation.isPending}
                           className="flex items-center gap-1 h-8 px-2.5"
                         >
@@ -136,6 +171,47 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
           </Table>
         </div>
       )}
+
+      {/* Action Modal */}
+      <Dialog open={actionModal.isOpen} onOpenChange={(open) => !open && setActionModal({ ...actionModal, isOpen: false })}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {actionModal.type === 'APPROVED' ? 'Approve Timesheet' : 'Reject Timesheet'}
+            </DialogTitle>
+            <DialogDescription>
+              {actionModal.type === 'APPROVED' 
+                ? 'Are you sure you want to approve this timesheet? You can optionally add an approval note.'
+                : 'Please provide a mandatory reason for rejecting this timesheet.'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <Label>
+                {actionModal.type === 'APPROVED' ? 'Approval Note (Optional)' : 'Rejection Reason (Required)'}
+              </Label>
+              <Textarea 
+                placeholder="Type your remarks here..." 
+                value={remark}
+                onChange={(e) => setRemark(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setActionModal({ ...actionModal, isOpen: false })}>
+              Cancel
+            </Button>
+            <Button 
+              variant={actionModal.type === 'REJECTED' ? 'destructive' : 'default'}
+              className={actionModal.type === 'APPROVED' ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : ''}
+              onClick={handleActionConfirm}
+              disabled={updateTimesheetMutation.isPending}
+            >
+              {updateTimesheetMutation.isPending ? 'Processing...' : 'Confirm'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

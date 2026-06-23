@@ -18,7 +18,10 @@ import SettingsLayout from '@/layouts/SettingsLayout'
 // Pages
 import StaffDirectory from '@/pages/staff/StaffDirectory'
 import StaffTimesheets from '@/pages/staff/StaffTimesheets'
+import StaffLeaves from '@/pages/staff/StaffLeaves'
+import PublicHolidays from '@/pages/staff/PublicHolidays'
 import StaffPayroll from '@/pages/staff/StaffPayroll'
+import PayrollRunDetails from '@/pages/staff/PayrollRunDetails'
 import StaffRoles from '@/pages/staff/StaffRoles'
 import MenuItems from '@/pages/menus/MenuItems'
 import MenuCategories from '@/pages/menus/MenuCategories'
@@ -100,8 +103,11 @@ function App() {
                   <Route path="/staff" element={<Navigate to="/staff/directory" replace />} />
                   <Route path="/staff/directory" element={<StaffDirectory />} />
                   <Route path="/staff/timesheets" element={<StaffTimesheets />} />
-                  <Route path="/staff/roles" element={<StaffRoles />} />
+                  <Route path="/staff/leaves" element={<StaffLeaves />} />
+                  <Route path="/staff/holidays" element={<PublicHolidays />} />
                   <Route path="/staff/payroll" element={<StaffPayroll />} />
+                  <Route path="/staff/payroll/:id" element={<PayrollRunDetails />} />
+                  <Route path="/staff/roles" element={<StaffRoles />} />
                 </Route>
               </Route>
 

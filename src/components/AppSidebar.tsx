@@ -18,9 +18,6 @@ import {
   Sliders,
   Activity,
   LifeBuoy,
-  ChevronsUpDown,
-  UserIcon,
-  LogOut
 } from "lucide-react";
 import {
   Sidebar,
@@ -37,7 +34,6 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
   useSidebar,
-  SidebarFooter,
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -105,8 +101,10 @@ const navGroups: NavGroup[] = [
         permission: "staff:read",
         items: [
           { title: "Employee Directory", url: "/staff/directory", permission: "staff:read" },
-          { title: "Timesheets", url: "/staff/timesheets", permission: "staff:read" },
-          { title: "Payroll & Salaries", url: "/staff/payroll", permission: "staff:write" },
+          { title: "Timesheets", url: "/staff/timesheets", permission: "attendance:manage" },
+          { title: "Staff Leaves", url: "/staff/leaves", permission: "attendance:manage" },
+          { title: "Public Holidays", url: "/staff/holidays", permission: "attendance:manage" },
+          { title: "Payroll & Salaries", url: "/staff/payroll", permission: "payroll:manage" },
           { title: "Role Builder", url: "/staff/roles", permission: "staff:write" },
         ],
       },
@@ -238,7 +236,7 @@ const platformNavGroups: NavGroup[] = [
 
 export function AppSidebar() {
   const location = useLocation();
-  const { user, impersonatedTenantId, logout } = useAuthStore();
+  const { user, impersonatedTenantId } = useAuthStore();
 
   const isPlatformAdmin = user?.role === 'platform_owner' || user?.role === 'super_admin';
   const showPlatformNav = isPlatformAdmin && !impersonatedTenantId;
@@ -398,58 +396,7 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
 
-      {user && (
-        <SidebarFooter>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger render={
-                  <SidebarMenuButton
-                    size="lg"
-                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                  />
-                }>
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 font-bold">
-                      {user.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                      <span className="truncate font-semibold">{user.name}</span>
-                      <span className="truncate text-xs text-slate-500">{user.email}</span>
-                    </div>
-                    <ChevronsUpDown className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                  side="right"
-                  align="end"
-                  sideOffset={4}
-                >
-                  <div className="flex items-center gap-2 p-2">
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 font-bold">
-                      {user.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">{user.name}</span>
-                      <span className="truncate text-xs text-slate-500">{user.email}</span>
-                    </div>
-                  </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem render={<Link to="/settings/user-profile" className="cursor-pointer" />}>
-                    <UserIcon className="mr-2 h-4 w-4" />
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout} className="text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400 cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
-      )}
-      
+
       <SidebarRail />
     </Sidebar>
   );

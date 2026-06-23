@@ -114,7 +114,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                     )}
                   </TableCell>
                   <TableCell className="text-slate-900 dark:text-zinc-100 font-mono font-semibold">
-                    {record.totalHours} hrs
+                    {record.totalHours != null ? `${record.totalHours} hrs` : <span className="text-slate-400 font-normal">--</span>}
                   </TableCell>
                   <TableCell>
                     <Badge

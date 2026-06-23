@@ -37,16 +37,16 @@ export default function BranchProfile() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Store className="h-6 w-6 text-primary" />
           Branch Profile
         </h1>
-        <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+        <p className="text-sm text-muted-foreground mt-1">
           Update your public-facing restaurant information.
         </p>
       </div>
 
-      <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-slate-200 dark:border-zinc-800">
+      <div className="bg-card rounded-xl shadow-sm border border-border">
         <form onSubmit={handleBranchSave} className="p-6 space-y-6">
           {isBranchLoading ? (
             <FormSkeleton />
@@ -54,8 +54,8 @@ export default function BranchProfile() {
             <>
               <div className="space-y-4 max-w-xl">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-slate-700 dark:text-zinc-300 flex items-center gap-2">
-                    <Store className="h-4 w-4 text-slate-400" />
+                  <label htmlFor="name" className="text-sm font-medium text-foreground flex items-center gap-2">
+                    <Store className="h-4 w-4 text-muted-foreground" />
                     Branch Name
                   </label>
                   <input
@@ -64,14 +64,14 @@ export default function BranchProfile() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-full rounded-md border border-slate-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white"
+                    className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
                     placeholder="e.g. Kwickly Downtown"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="phone" className="text-sm font-medium text-slate-700 dark:text-zinc-300 flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-slate-400" />
+                  <label htmlFor="phone" className="text-sm font-medium text-foreground flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-muted-foreground" />
                     Phone Number
                   </label>
                   <input
@@ -79,14 +79,14 @@ export default function BranchProfile() {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full rounded-md border border-slate-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white"
+                    className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
                     placeholder="e.g. (555) 123-4567"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="address" className="text-sm font-medium text-slate-700 dark:text-zinc-300 flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-slate-400" />
+                  <label htmlFor="address" className="text-sm font-medium text-foreground flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
                     Address
                   </label>
                   <textarea
@@ -94,13 +94,13 @@ export default function BranchProfile() {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     rows={3}
-                    className="w-full rounded-md border border-slate-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary dark:text-white resize-none"
+                    className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground resize-none"
                     placeholder="Enter full address"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end pt-4 border-t border-slate-200 dark:border-zinc-800">
+              <div className="flex justify-end pt-4 border-t border-border">
                 <button
                   type="submit"
                   disabled={isBranchSaving || !currentBranch}

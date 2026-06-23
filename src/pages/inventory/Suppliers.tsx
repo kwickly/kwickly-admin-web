@@ -73,19 +73,19 @@ export default function Suppliers() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Truck className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <Truck className="h-6 w-6 text-primary" />
             Supplier Directory
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Manage your ingredient suppliers and purchase orders.
           </p>
         </div>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger 
+          <DialogTrigger
             render={
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Supplier
               </Button>
@@ -98,6 +98,7 @@ export default function Suppliers() {
                 Enter the contact and tax details for the new vendor.
               </DialogDescription>
             </DialogHeader>
+
             <form onSubmit={handleCreateSupplier} className="space-y-6 mt-6">
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -138,11 +139,11 @@ export default function Suppliers() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t">
+              <div className="flex justify-end gap-3 pt-4 border-t border-border">
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isSubmitting} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+                <Button type="submit" disabled={isSubmitting}>
                   {isSubmitting ? "Saving..." : "Save Supplier"}
                 </Button>
               </div>
@@ -151,28 +152,28 @@ export default function Suppliers() {
         </Dialog>
       </div>
 
-      <Card className="border-slate-200 dark:border-zinc-800 shadow-sm">
-        <CardHeader className="border-b border-slate-100 dark:border-zinc-800/50 pb-4">
+      <Card className="shadow-sm">
+        <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <CardTitle>Registered Suppliers</CardTitle>
               <CardDescription>A complete list of your approved vendors.</CardDescription>
             </div>
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search suppliers..."
-                className="pl-9 w-64 bg-slate-50 dark:bg-zinc-900/50"
+                className="pl-9 w-64 bg-muted/50"
               />
             </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
+            <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead className="w-[300px]">Supplier Details</TableHead>
                 <TableHead>Contact Info</TableHead>
@@ -183,31 +184,31 @@ export default function Suppliers() {
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center py-8 text-slate-500">
+                  <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                     Loading suppliers...
                   </TableCell>
                 </TableRow>
               ) : filteredSuppliers.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-12">
-                    <Truck className="h-10 w-10 text-slate-300 dark:text-zinc-700 mx-auto mb-3" />
-                    <p className="text-slate-500 dark:text-zinc-400 font-medium">No suppliers found</p>
-                    <p className="text-sm text-slate-400 mt-1">Click "Add Supplier" to register a new vendor.</p>
+                    <Truck className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                    <p className="text-muted-foreground font-medium">No suppliers found</p>
+                    <p className="text-sm text-muted-foreground mt-1">Click "Add Supplier" to register a new vendor.</p>
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredSuppliers.map((supplier) => (
-                  <TableRow key={supplier.id} className="hover:bg-slate-50/50 dark:hover:bg-zinc-900/50">
+                  <TableRow key={supplier.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
-                          <Building2 className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                          <Building2 className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <div className="font-medium text-slate-900 dark:text-white">
+                          <div className="font-medium text-foreground">
                             {supplier.name}
                           </div>
-                          <div className="text-sm text-slate-500 flex items-center gap-1 mt-0.5">
+                          <div className="text-sm text-muted-foreground flex items-center gap-1 mt-0.5">
                             <MapPin className="h-3 w-3" />
                             {supplier.address || "No address provided"}
                           </div>
@@ -216,17 +217,17 @@ export default function Suppliers() {
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1 text-sm">
-                        <div className="flex items-center gap-2 text-slate-700 dark:text-zinc-300">
+                        <div className="flex items-center gap-2 text-foreground">
                           <div className="font-medium">{supplier.contactPerson || "N/A"}</div>
                         </div>
                         {supplier.phone && (
-                          <div className="flex items-center gap-1.5 text-slate-500">
+                          <div className="flex items-center gap-1.5 text-muted-foreground">
                             <Phone className="h-3 w-3" />
                             {supplier.phone}
                           </div>
                         )}
                         {supplier.email && (
-                          <div className="flex items-center gap-1.5 text-slate-500">
+                          <div className="flex items-center gap-1.5 text-muted-foreground">
                             <Mail className="h-3 w-3" />
                             {supplier.email}
                           </div>
@@ -236,21 +237,21 @@ export default function Suppliers() {
                     <TableCell>
                       <div className="space-y-1">
                         {supplier.gstNumber ? (
-                          <Badge variant="outline" className="font-mono text-xs bg-slate-50 dark:bg-zinc-900">
+                          <Badge variant="outline" className="font-mono text-xs">
                             GST: {supplier.gstNumber}
                           </Badge>
                         ) : (
-                          <span className="text-xs text-slate-400 italic">No GST</span>
+                          <span className="text-xs text-muted-foreground italic">No GST</span>
                         )}
                         {supplier.taxId && (
-                          <div className="text-xs text-slate-500 font-mono mt-1">
+                          <div className="text-xs text-muted-foreground font-mono mt-1">
                             Tax ID: {supplier.taxId}
                           </div>
                         )}
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="text-slate-500 hover:text-indigo-600">
+                      <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
                         Edit
                       </Button>
                     </TableCell>

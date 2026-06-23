@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { Edit, Check, CheckCircle2, Download, FileText, FileSpreadsheet } from "lucide-react";
 import {
@@ -39,9 +39,8 @@ import { formatCurrency } from "@/lib/currency";
 
 export default function PayrollRunDetails() {
   const { id: runId } = useParams<{ id: string }>();
-  const navigate = useNavigate();
 
-  if (!runId) return <div>Invalid Payroll Run ID</div>;
+  if (!runId) return <div className="text-foreground">Invalid Payroll Run ID</div>;
 
   const { data: run, isLoading } = usePayrollRun(runId);
   const updateSlipMutation = useUpdateSalarySlip();
@@ -56,7 +55,7 @@ export default function PayrollRunDetails() {
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
   if (isLoading || !run) {
-    return <div className="text-center py-12 text-slate-500">Loading formal ledger...</div>;
+    return <div className="text-center py-12 text-muted-foreground">Loading formal ledger...</div>;
   }
 
   const handleSaveSlip = () => {
@@ -114,10 +113,10 @@ export default function PayrollRunDetails() {
             ]}
             className="mb-4"
           />
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
             Payroll Ledger
           </h1>
-          <p className="text-sm font-medium text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm font-medium text-muted-foreground mt-1">
             Period: {format(new Date(run.periodStartDate), "MMMM d, yyyy")} &mdash;{" "}
             {format(new Date(run.periodEndDate), "MMMM d, yyyy")}
           </p>
@@ -125,14 +124,14 @@ export default function PayrollRunDetails() {
 
         <div className="flex items-center gap-3">
           <Badge className={`text-sm px-4 py-1.5 uppercase tracking-wider ${
-            run.status === "PAID" ? "bg-emerald-100 text-emerald-800" :
-            run.status === "PROCESSED" ? "bg-indigo-100 text-indigo-800" :
-            "bg-slate-200 text-slate-800"
+            run.status === "PAID" ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" :
+            run.status === "PROCESSED" ? "bg-primary/10 text-primary border border-primary/20" :
+            "bg-muted text-muted-foreground border border-border"
           }`}>
             {run.status}
           </Badge>
 
-          <Button variant="outline" onClick={() => setIsExportModalOpen(true)}>
+          <Button variant="outline" className="bg-transparent border-border hover:bg-muted/50" onClick={() => setIsExportModalOpen(true)}>
             <Download className="h-4 w-4 mr-2" />
             Export
           </Button>
@@ -140,7 +139,6 @@ export default function PayrollRunDetails() {
           {run.status === "DRAFT" && (
             <Button
               onClick={() => handleAdvance("PROCESSED")}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white"
             >
               <Check className="h-4 w-4 mr-2" />
               Finalize Ledger
@@ -160,84 +158,84 @@ export default function PayrollRunDetails() {
 
       {/* Comprehensive KPI Dashboard */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="border-slate-200 shadow-sm bg-white dark:bg-zinc-900">
+        <Card className="border-border shadow-sm bg-card">
           <CardHeader className="pb-2 pt-4">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
               Total Gross Pay
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-mono font-semibold">{formatCurrency(totalGross, currencyCode)}</div>
+            <div className="text-2xl font-mono font-semibold text-foreground">{formatCurrency(totalGross, currencyCode)}</div>
           </CardContent>
         </Card>
-        <Card className="border-emerald-100 dark:border-emerald-900/30 shadow-sm bg-emerald-50/50 dark:bg-emerald-900/10">
+        <Card className="border-emerald-500/20 shadow-sm bg-emerald-500/5">
           <CardHeader className="pb-2 pt-4">
             <CardTitle className="text-xs font-bold uppercase tracking-wider text-emerald-600">
               Total Bonuses
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-mono font-semibold text-emerald-700 dark:text-emerald-500">
+            <div className="text-2xl font-mono font-semibold text-emerald-600">
               +{formatCurrency(totalBonuses, currencyCode)}
             </div>
           </CardContent>
         </Card>
-        <Card className="border-rose-100 dark:border-rose-900/30 shadow-sm bg-rose-50/50 dark:bg-rose-900/10">
+        <Card className="border-rose-500/20 shadow-sm bg-rose-500/5">
           <CardHeader className="pb-2 pt-4">
             <CardTitle className="text-xs font-bold uppercase tracking-wider text-rose-600">
               Total Deductions
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-mono font-semibold text-rose-700 dark:text-rose-500">
+            <div className="text-2xl font-mono font-semibold text-rose-600">
               -{formatCurrency(totalDeductions, currencyCode)}
             </div>
           </CardContent>
         </Card>
-        <Card className="border-slate-800 dark:border-zinc-700 shadow-md bg-slate-900 dark:bg-zinc-800 text-white">
+        <Card className="border-primary/20 shadow-md bg-primary text-primary-foreground">
           <CardHeader className="pb-2 pt-4">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-300">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-primary-foreground/80">
               Total Net Payout
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-mono font-bold">{formatCurrency(totalNet, currencyCode)}</div>
-            <p className="text-xs text-slate-400 mt-1">Across {run.slips?.length || 0} staff members</p>
+            <p className="text-xs text-primary-foreground/60 mt-1">Across {run.slips?.length || 0} staff members</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Ledger Table */}
-      <Card className="border-slate-200 dark:border-zinc-800 shadow-sm overflow-hidden">
-        <CardHeader className="border-b border-slate-100 dark:border-zinc-800/50 bg-slate-50/50 dark:bg-zinc-900/50 pb-4">
+      <Card className="border-border shadow-sm overflow-hidden bg-card">
+        <CardHeader className="border-b border-border bg-muted/50 pb-4">
           <CardTitle>Detailed Salary Slips</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-100/50 dark:bg-zinc-900/80">
+            <TableHeader className="bg-muted">
               <TableRow>
-                <TableHead className="w-[250px]">Staff Member</TableHead>
-                <TableHead className="text-right">Base ($)</TableHead>
-                <TableHead className="text-right">Overtime ($)</TableHead>
-                <TableHead className="text-right text-emerald-700 dark:text-emerald-500">Bonus ($)</TableHead>
-                <TableHead className="text-right text-rose-700 dark:text-rose-500">Deductions ($)</TableHead>
-                <TableHead className="text-right font-bold text-slate-900 dark:text-white border-l border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900/50">Net Payable</TableHead>
-                <TableHead className="text-center w-[80px]">Actions</TableHead>
+                <TableHead className="w-[250px] text-muted-foreground">Staff Member</TableHead>
+                <TableHead className="text-right text-muted-foreground">Base ($)</TableHead>
+                <TableHead className="text-right text-muted-foreground">Overtime ($)</TableHead>
+                <TableHead className="text-right text-emerald-600">Bonus ($)</TableHead>
+                <TableHead className="text-right text-rose-600">Deductions ($)</TableHead>
+                <TableHead className="text-right font-bold text-foreground border-l border-border bg-muted/50">Net Payable</TableHead>
+                <TableHead className="text-center w-[80px] text-muted-foreground">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {run.slips?.map((slip) => (
-                <TableRow key={slip.id} className="hover:bg-slate-50/80 dark:hover:bg-zinc-900/30">
+                <TableRow key={slip.id} className="hover:bg-muted/50 border-border">
                   <TableCell>
-                    <div className="font-semibold text-slate-900 dark:text-white">{slip.staff?.name}</div>
-                    <div className="text-xs text-slate-500 font-mono">
+                    <div className="font-semibold text-foreground">{slip.staff?.name}</div>
+                    <div className="text-xs text-muted-foreground font-mono">
                       {slip.staff?.email}
                     </div>
                   </TableCell>
-                  <TableCell className="text-right font-mono text-slate-600 dark:text-zinc-400">
+                  <TableCell className="text-right font-mono text-muted-foreground">
                     {formatCurrency(parseFloat(slip.baseAmount), currencyCode)}
                   </TableCell>
-                  <TableCell className="text-right font-mono text-slate-600 dark:text-zinc-400">
+                  <TableCell className="text-right font-mono text-muted-foreground">
                     {formatCurrency(parseFloat(slip.overtimeAmount), currencyCode)}
                   </TableCell>
                   <TableCell className="text-right font-mono text-emerald-600 font-medium">
@@ -246,7 +244,7 @@ export default function PayrollRunDetails() {
                   <TableCell className="text-right font-mono text-rose-600 font-medium">
                     {formatCurrency(parseFloat(slip.deductions), currencyCode)}
                   </TableCell>
-                  <TableCell className="text-right font-mono font-bold text-slate-900 dark:text-white border-l border-slate-200 dark:border-zinc-800 bg-slate-50/30 dark:bg-zinc-900/20 text-lg">
+                  <TableCell className="text-right font-mono font-bold text-foreground border-l border-border bg-muted/20 text-lg">
                     {formatCurrency(parseFloat(slip.netPayable), currencyCode)}
                   </TableCell>
                   <TableCell className="text-center">
@@ -254,7 +252,7 @@ export default function PayrollRunDetails() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+                        className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10"
                         onClick={() =>
                           setEditingSlip({
                             id: slip.id,
@@ -266,7 +264,7 @@ export default function PayrollRunDetails() {
                         <Edit className="h-4 w-4" />
                       </Button>
                     ) : (
-                       <span className="text-xs text-slate-400 italic">Locked</span>
+                       <span className="text-xs text-muted-foreground italic">Locked</span>
                     )}
                   </TableCell>
                 </TableRow>
@@ -281,21 +279,21 @@ export default function PayrollRunDetails() {
         open={!!editingSlip}
         onOpenChange={(open) => !open && setEditingSlip(null)}
       >
-        <DialogContent>
+        <DialogContent className="bg-card border-border">
           <DialogHeader>
-            <DialogTitle>Adjust Salary Slip</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-foreground">Adjust Salary Slip</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Add a one-time bonus or manual deduction for this pay period. Net
               payable will be automatically recalculated.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
-              <Label>Bonus Amount ($)</Label>
+              <Label className="text-foreground">Bonus Amount ($)</Label>
               <Input
                 type="number"
                 step="0.01"
-                className="font-mono"
+                className="font-mono bg-transparent border-border text-foreground"
                 value={editingSlip?.bonus || ""}
                 onChange={(e) =>
                   setEditingSlip((prev) =>
@@ -305,11 +303,11 @@ export default function PayrollRunDetails() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Deductions ($)</Label>
+              <Label className="text-foreground">Deductions ($)</Label>
               <Input
                 type="number"
                 step="0.01"
-                className="font-mono text-rose-600"
+                className="font-mono text-rose-600 bg-transparent border-border"
                 value={editingSlip?.deductions || ""}
                 onChange={(e) =>
                   setEditingSlip((prev) =>
@@ -320,13 +318,12 @@ export default function PayrollRunDetails() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setEditingSlip(null)}>
+            <Button variant="outline" className="bg-transparent border-border text-foreground hover:bg-muted/50" onClick={() => setEditingSlip(null)}>
               Cancel
             </Button>
             <Button
               onClick={handleSaveSlip}
               disabled={updateSlipMutation.isPending}
-              className="bg-indigo-600 text-white"
             >
               {updateSlipMutation.isPending ? "Saving..." : "Save Adjustments"}
             </Button>
@@ -339,33 +336,33 @@ export default function PayrollRunDetails() {
         open={isExportModalOpen}
         onOpenChange={setIsExportModalOpen}
       >
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-card border-border">
           <DialogHeader>
-            <DialogTitle>Export Payroll Ledger</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-foreground">Export Payroll Ledger</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Download a comprehensive report of this payroll run.
             </DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 py-4">
-            <Card className="cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition-colors" onClick={() => handleExport('CSV')}>
+            <Card className="cursor-pointer border-border hover:border-primary hover:bg-primary/5 transition-colors bg-card" onClick={() => handleExport('CSV')}>
               <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
-                <div className="h-12 w-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center">
+                <div className="h-12 w-12 bg-emerald-500/10 text-emerald-600 rounded-full flex items-center justify-center">
                   <FileSpreadsheet className="h-6 w-6" />
                 </div>
                 <div>
-                  <div className="font-semibold text-slate-900 dark:text-white">CSV Export</div>
-                  <div className="text-xs text-slate-500 mt-1">Raw data for accounting software</div>
+                  <div className="font-semibold text-foreground">CSV Export</div>
+                  <div className="text-xs text-muted-foreground mt-1">Raw data for accounting software</div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition-colors" onClick={() => handleExport('PDF')}>
+            <Card className="cursor-pointer border-border hover:border-primary hover:bg-primary/5 transition-colors bg-card" onClick={() => handleExport('PDF')}>
               <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
-                <div className="h-12 w-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center">
+                <div className="h-12 w-12 bg-rose-500/10 text-rose-600 rounded-full flex items-center justify-center">
                   <FileText className="h-6 w-6" />
                 </div>
                 <div>
-                  <div className="font-semibold text-slate-900 dark:text-white">PDF Ledger</div>
-                  <div className="text-xs text-slate-500 mt-1">Formatted document for records</div>
+                  <div className="font-semibold text-foreground">PDF Ledger</div>
+                  <div className="text-xs text-muted-foreground mt-1">Formatted document for records</div>
                 </div>
               </CardContent>
             </Card>

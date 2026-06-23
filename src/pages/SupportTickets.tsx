@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LifeBuoy, Plus, MessageCircle, Clock, CheckCircle, AlertCircle, Send } from 'lucide-react';
+import { LifeBuoy, Plus, MessageCircle, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -40,15 +40,15 @@ export default function TenantSupportTickets() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <LifeBuoy className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <LifeBuoy className="h-6 w-6 text-primary" />
             Support Inbox
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Create and track support tickets with the platform team.
           </p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white" onClick={() => setIsCreateOpen(true)}>
+        <Button onClick={() => setIsCreateOpen(true)}>
           <Plus className="h-4 w-4 mr-2" /> New Ticket
         </Button>
       </div>
@@ -61,8 +61,8 @@ export default function TenantSupportTickets() {
             placeholder="Search your tickets..." 
             className="w-full max-w-sm"
           />
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px] bg-white dark:bg-zinc-900">
+          <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v || 'ALL')}>
+            <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>
@@ -75,26 +75,26 @@ export default function TenantSupportTickets() {
             </SelectContent>
           </Select>
         </div>
-        <div className="text-sm text-slate-500 whitespace-nowrap">
-          <span className="font-medium text-slate-900 dark:text-white">{filteredTickets?.length || 0}</span> tickets
+        <div className="text-sm text-muted-foreground whitespace-nowrap">
+          <span className="font-medium text-foreground">{filteredTickets?.length || 0}</span> tickets
         </div>
       </div>
 
       {isLoading ? (
         <div className="animate-pulse space-y-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-24 bg-slate-100 dark:bg-zinc-800 rounded-xl" />
+            <div key={i} className="h-24 bg-muted rounded-xl" />
           ))}
         </div>
       ) : filteredTickets?.length === 0 ? (
-        <div className="flex items-center justify-center h-64 border border-dashed border-slate-300 dark:border-zinc-800 rounded-xl bg-slate-50 dark:bg-zinc-900/50">
+        <div className="flex items-center justify-center h-64 border border-dashed border-border rounded-xl bg-card/50">
           <div className="text-center">
-            <LifeBuoy className="h-10 w-10 text-slate-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-slate-900 dark:text-white">No Tickets Yet</h3>
-            <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1 max-w-sm">
+            <LifeBuoy className="h-10 w-10 text-muted-foreground/50 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-foreground">No Tickets Yet</h3>
+            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
               You haven't created any support tickets. If you need help, feel free to open one!
             </p>
-            <Button className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white" onClick={() => setIsCreateOpen(true)}>
+            <Button className="mt-4" onClick={() => setIsCreateOpen(true)}>
               <Plus className="h-4 w-4 mr-2" /> New Ticket
             </Button>
           </div>
@@ -102,24 +102,24 @@ export default function TenantSupportTickets() {
       ) : (
         <div className="grid gap-4">
           {filteredTickets?.map((ticket: any) => (
-            <div key={ticket.id} className="p-4 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl hover:border-indigo-300 transition-colors cursor-pointer flex justify-between items-center">
+            <div key={ticket.id} className="p-4 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors cursor-pointer flex justify-between items-center">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <h3 className="font-semibold text-slate-900 dark:text-white">{ticket.subject}</h3>
-                  <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 uppercase tracking-wider">
+                  <h3 className="font-semibold text-foreground">{ticket.subject}</h3>
+                  <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-muted text-muted-foreground uppercase tracking-wider">
                     {ticket.category.replace('_', ' ')}
                   </span>
                   <span className={`px-2 py-0.5 text-[10px] font-medium rounded-full uppercase tracking-wider ${
-                    ticket.status === 'OPEN' ? 'bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400' :
-                    ticket.status === 'IN_PROGRESS' ? 'bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400' :
-                    ticket.status === 'RESOLVED' || ticket.status === 'CLOSED' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400' :
-                    'bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-400'
+                    ticket.status === 'OPEN' ? 'bg-blue-500/10 text-blue-600' :
+                    ticket.status === 'IN_PROGRESS' ? 'bg-amber-500/10 text-amber-600' :
+                    ticket.status === 'RESOLVED' || ticket.status === 'CLOSED' ? 'bg-emerald-500/10 text-emerald-600' :
+                    'bg-muted text-muted-foreground'
                   }`}>
                     {ticket.status.replace('_', ' ')}
                   </span>
                 </div>
-                <p className="text-sm text-slate-500 dark:text-zinc-400 line-clamp-1">{ticket.description}</p>
-                <div className="flex items-center gap-4 text-xs text-slate-400 dark:text-zinc-500 pt-1">
+                <p className="text-sm text-muted-foreground line-clamp-1">{ticket.description}</p>
+                <div className="flex items-center gap-4 text-xs text-muted-foreground/70 pt-1">
                   <span className="flex items-center gap-1">
                     <Clock className="h-3 w-3" /> {formatDistanceToNow(new Date(ticket.createdAt), { addSuffix: true })}
                   </span>
@@ -130,10 +130,10 @@ export default function TenantSupportTickets() {
               </div>
               <div className="flex flex-col items-end gap-2">
                 <span className={`text-xs font-semibold ${
-                  ticket.priority === 'URGENT' ? 'text-red-600 dark:text-red-400' :
-                  ticket.priority === 'HIGH' ? 'text-orange-600 dark:text-orange-400' :
-                  ticket.priority === 'MEDIUM' ? 'text-amber-600 dark:text-amber-400' :
-                  'text-slate-500 dark:text-zinc-400'
+                  ticket.priority === 'URGENT' ? 'text-destructive' :
+                  ticket.priority === 'HIGH' ? 'text-orange-500' :
+                  ticket.priority === 'MEDIUM' ? 'text-amber-500' :
+                  'text-muted-foreground'
                 }`}>
                   {ticket.priority} Priority
                 </span>
@@ -164,7 +164,7 @@ export default function TenantSupportTickets() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Category</label>
-                <Select value={formData.category} onValueChange={v => setFormData({ ...formData, category: v })}>
+                <Select value={formData.category} onValueChange={v => setFormData({ ...formData, category: v || '' })}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -179,7 +179,7 @@ export default function TenantSupportTickets() {
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium">Priority</label>
-                <Select value={formData.priority} onValueChange={v => setFormData({ ...formData, priority: v })}>
+                <Select value={formData.priority} onValueChange={v => setFormData({ ...formData, priority: v || '' })}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -204,7 +204,7 @@ export default function TenantSupportTickets() {
             </div>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => setIsCreateOpen(false)}>Cancel</Button>
-              <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white" disabled={isCreating}>
+              <Button type="submit" disabled={isCreating}>
                 {isCreating ? 'Submitting...' : 'Submit Ticket'}
               </Button>
             </DialogFooter>

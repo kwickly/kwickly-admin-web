@@ -100,11 +100,11 @@ export default function MenuCategories() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <LayoutGrid className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <LayoutGrid className="h-6 w-6 text-primary" />
             Menu Categories
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Organize your menu items into logical categories.
           </p>
         </div>
@@ -114,14 +114,14 @@ export default function MenuCategories() {
       {isCategoriesLoading ? (
         <TableSkeleton />
       ) : !categories || categories.length === 0 ? (
-        <div className="p-8 text-center text-slate-500 bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800">
-          <h3 className="text-lg font-medium text-slate-900 dark:text-zinc-100">No Categories</h3>
+        <div className="p-8 text-center text-muted-foreground bg-card rounded-xl border border-border">
+          <h3 className="text-lg font-medium text-foreground">No Categories</h3>
           <p className="mt-2">Use the "Create Category" button to add new categories.</p>
         </div>
       ) : (
-        <div className="rounded-md border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden shadow-sm">
+        <div className="rounded-md border border-border bg-card overflow-hidden shadow-sm">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
+            <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead>Category Name</TableHead>
                 <TableHead>Sort Order</TableHead>
@@ -131,11 +131,11 @@ export default function MenuCategories() {
             </TableHeader>
             <TableBody>
               {categories.map((category) => (
-                <TableRow key={category.id} className="hover:bg-slate-50/50 dark:hover:bg-zinc-900/10">
-                  <TableCell className="font-semibold text-slate-900 dark:text-zinc-100">
+                <TableRow key={category.id} className="hover:bg-muted/50">
+                  <TableCell className="font-semibold text-foreground">
                     {category.name}
                   </TableCell>
-                  <TableCell className="text-slate-500 dark:text-zinc-400 font-mono">
+                  <TableCell className="text-muted-foreground font-mono">
                     {category.sortOrder}
                   </TableCell>
                   <TableCell>
@@ -149,7 +149,7 @@ export default function MenuCategories() {
                         size="icon-sm"
                         variant="ghost"
                         onClick={() => handleEditClick(category)}
-                        className="text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-zinc-800"
+                        className="text-muted-foreground hover:text-foreground hover:bg-muted"
                       >
                         <Edit className="size-4" />
                       </Button>
@@ -157,7 +157,7 @@ export default function MenuCategories() {
                         size="icon-sm"
                         variant="ghost"
                         onClick={() => handleDeleteClick(category.id)}
-                        className="text-red-650 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10"
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
                       >
                         <Trash className="size-4" />
                       </Button>
@@ -180,35 +180,35 @@ export default function MenuCategories() {
 
       {/* EDIT DIALOG */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <DialogContent className="sm:max-w-[400px] bg-card border border-border">
           <form onSubmit={handleUpdate} className="space-y-4">
             <DialogHeader>
-              <DialogTitle className="text-slate-900 dark:text-zinc-100">Edit Category</DialogTitle>
-              <DialogDescription className="text-slate-500 dark:text-zinc-400">
+              <DialogTitle className="text-foreground">Edit Category</DialogTitle>
+              <DialogDescription className="text-muted-foreground">
                 Update category details or ordering priority.
               </DialogDescription>
             </DialogHeader>
 
             <div className="space-y-3">
               <div className="grid gap-1">
-                <Label htmlFor="editName" className="text-slate-700 dark:text-zinc-300 font-medium">Category Name</Label>
+                <Label htmlFor="editName" className="text-foreground font-medium">Category Name</Label>
                 <Input
                   id="editName"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  className="bg-transparent border-border text-foreground"
                   required
                 />
               </div>
 
               <div className="grid gap-1">
-                <Label htmlFor="editSortOrder" className="text-slate-700 dark:text-zinc-300 font-medium">Sort Order</Label>
+                <Label htmlFor="editSortOrder" className="text-foreground font-medium">Sort Order</Label>
                 <Input
                   id="editSortOrder"
                   type="number"
                   value={sortOrder}
                   onChange={(e) => setSortOrder(e.target.value)}
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  className="bg-transparent border-border text-foreground"
                 />
               </div>
             </div>
@@ -218,11 +218,11 @@ export default function MenuCategories() {
                 type="button"
                 variant="outline"
                 onClick={() => setEditOpen(false)}
-                className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent hover:bg-slate-100 dark:hover:bg-zinc-850"
+                className="border-border text-muted-foreground bg-transparent hover:bg-muted"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={updateCategoryMutation.isPending} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button type="submit" disabled={updateCategoryMutation.isPending} className="bg-primary hover:bg-primary/90 text-primary-foreground">
                 {updateCategoryMutation.isPending ? "Saving..." : "Save Changes"}
               </Button>
             </DialogFooter>
@@ -232,10 +232,10 @@ export default function MenuCategories() {
 
       {/* DELETE DIALOG */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <DialogContent className="sm:max-w-[400px] bg-card border border-border">
           <DialogHeader>
-            <DialogTitle className="text-slate-900 dark:text-zinc-100">Delete Category</DialogTitle>
-            <DialogDescription className="text-slate-500 dark:text-zinc-400">
+            <DialogTitle className="text-foreground">Delete Category</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Are you sure you want to delete this category? All items currently inside this category will be moved to "Uncategorized".
             </DialogDescription>
           </DialogHeader>
@@ -244,7 +244,7 @@ export default function MenuCategories() {
               type="button"
               variant="outline"
               onClick={() => setDeleteOpen(false)}
-              className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent hover:bg-slate-100 dark:hover:bg-zinc-850"
+              className="border-border text-muted-foreground bg-transparent hover:bg-muted"
             >
               Cancel
             </Button>
@@ -252,7 +252,7 @@ export default function MenuCategories() {
               type="button"
               onClick={handleDeleteConfirm}
               disabled={deleteCategoryMutation.isPending}
-              className="bg-red-650 hover:bg-red-700 text-white"
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
             >
               {deleteCategoryMutation.isPending ? "Deleting..." : "Delete"}
             </Button>

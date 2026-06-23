@@ -69,7 +69,7 @@ export function useUpdateSalarySlip() {
       const { data } = await api.patch(`/payroll/slips/${id}`, { bonus, deductions });
       return data.data;
     },
-    onSuccess: (_, variables) => {
+    onSuccess: () => {
       // Invalidate the specific payroll run to refetch slips
       queryClient.invalidateQueries({ queryKey: ['staff', 'payroll'] });
     },

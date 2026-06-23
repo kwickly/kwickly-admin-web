@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -24,20 +24,20 @@ export function PageBreadcrumbs({ items, className }: PageBreadcrumbsProps) {
         return (
           <div key={index} className="flex items-center">
             {isCurrent ? (
-              <span className="text-slate-800 dark:text-zinc-200" aria-current="page">
+              <span className="text-foreground" aria-current="page">
                 {item.label}
               </span>
             ) : (
               <Link
                 to={item.href || "#"}
-                className="text-slate-500 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400 transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors"
               >
                 {item.label}
               </Link>
             )}
 
             {!isLast && (
-              <ChevronRight className="h-4 w-4 mx-1.5 text-slate-400 dark:text-zinc-600 flex-shrink-0" />
+              <ChevronRight className="h-4 w-4 mx-1.5 text-muted-foreground flex-shrink-0" />
             )}
           </div>
         );

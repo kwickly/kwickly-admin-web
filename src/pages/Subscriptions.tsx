@@ -166,11 +166,11 @@ export default function Subscriptions() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <CreditCard className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <CreditCard className="h-6 w-6 text-primary" />
             Subscription Plans
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Configure meal subscription plans and pricing packages for your customers.
           </p>
         </div>
@@ -179,44 +179,42 @@ export default function Subscriptions() {
           <Dialog open={createOpen} onOpenChange={setCreateOpen}>
             {/* @ts-ignore */}
             <DialogTrigger asChild>
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
+              <Button className="flex items-center gap-2">
                 <Plus className="h-4 w-4" /> Create Plan
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 overflow-y-auto max-h-[90vh]">
+            <DialogContent className="sm:max-w-[500px] bg-card border border-border overflow-y-auto max-h-[90vh]">
               <DialogHeader>
-                <DialogTitle className="text-slate-900 dark:text-zinc-100">Create Subscription Plan</DialogTitle>
-                <DialogDescription className="text-slate-500 dark:text-zinc-400">
+                <DialogTitle className="text-foreground">Create Subscription Plan</DialogTitle>
+                <DialogDescription className="text-muted-foreground">
                   Define a new subscription package for meal delivery/pickup.
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleCreateSubmit} className="space-y-4 py-2">
                 <div className="grid gap-2">
-                  <Label htmlFor="name" className="text-slate-700 dark:text-zinc-300">Plan Name</Label>
+                  <Label htmlFor="name" className="text-foreground">Plan Name</Label>
                   <Input
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. 30-Day Premium Both Meals"
-                    className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
                     required
                   />
                 </div>
 
                 <div className="grid gap-2">
-                  <Label htmlFor="description" className="text-slate-700 dark:text-zinc-300">Description</Label>
+                  <Label htmlFor="description" className="text-foreground">Description</Label>
                   <Input
                     id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="e.g. Perfect for corporate employees"
-                    className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="price" className="text-slate-700 dark:text-zinc-300">Price (₹)</Label>
+                    <Label htmlFor="price" className="text-foreground">Price (₹)</Label>
                     <Input
                       id="price"
                       type="number"
@@ -224,20 +222,18 @@ export default function Subscriptions() {
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                       placeholder="e.g. 4500"
-                      className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
                       required
                     />
                   </div>
 
                   <div className="grid gap-2">
-                    <Label htmlFor="validity" className="text-slate-700 dark:text-zinc-300">Validity (Days)</Label>
+                    <Label htmlFor="validity" className="text-foreground">Validity (Days)</Label>
                     <Input
                       id="validity"
                       type="number"
                       value={validityDays}
                       onChange={(e) => setValidityDays(e.target.value)}
                       placeholder="30"
-                      className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
                       required
                     />
                   </div>
@@ -245,25 +241,24 @@ export default function Subscriptions() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="meals" className="text-slate-700 dark:text-zinc-300">Total Meals</Label>
+                    <Label htmlFor="meals" className="text-foreground">Total Meals</Label>
                     <Input
                       id="meals"
                       type="number"
                       value={totalMeals}
                       onChange={(e) => setTotalMeals(e.target.value)}
                       placeholder="30"
-                      className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
                       required
                     />
                   </div>
 
                   <div className="grid gap-2">
-                    <Label htmlFor="mealType" className="text-slate-700 dark:text-zinc-300">Meal Type</Label>
+                    <Label htmlFor="mealType" className="text-foreground">Meal Type</Label>
                     <Select value={mealType} onValueChange={(val: any) => setMealType(val)}>
-                      <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select meal timing" />
                       </SelectTrigger>
-                      <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                      <SelectContent>
                         <SelectItem value="lunch">Lunch Only</SelectItem>
                         <SelectItem value="dinner">Dinner Only</SelectItem>
                         <SelectItem value="both">Both Lunch & Dinner</SelectItem>
@@ -273,12 +268,12 @@ export default function Subscriptions() {
                 </div>
 
                 <div className="grid gap-2">
-                  <Label htmlFor="planType" className="text-slate-700 dark:text-zinc-300">Plan Billing Model</Label>
+                  <Label htmlFor="planType" className="text-foreground">Plan Billing Model</Label>
                   <Select value={planType} onValueChange={(val: any) => setPlanType(val)}>
-                    <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                    <SelectTrigger>
                       <SelectValue placeholder="Select billing type" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                    <SelectContent>
                       <SelectItem value="meal_count">Fixed Meal Count</SelectItem>
                       <SelectItem value="monthly">Monthly Calendar Reset</SelectItem>
                       <SelectItem value="custom">Custom Timing</SelectItem>
@@ -293,9 +288,9 @@ export default function Subscriptions() {
                       id="carryForward"
                       checked={carryForward}
                       onChange={(e) => setCarryForward(e.target.checked)}
-                      className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                      className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                     />
-                    <Label htmlFor="carryForward" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
+                    <Label htmlFor="carryForward" className="text-sm font-normal text-muted-foreground cursor-pointer">
                       Enable Carry Forward (unused meals transfer to next subscription)
                     </Label>
                   </div>
@@ -306,16 +301,16 @@ export default function Subscriptions() {
                       id="allowHoliday"
                       checked={allowHoliday}
                       onChange={(e) => setAllowHoliday(e.target.checked)}
-                      className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                      className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                     />
-                    <Label htmlFor="allowHoliday" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
+                    <Label htmlFor="allowHoliday" className="text-sm font-normal text-muted-foreground cursor-pointer">
                       Allow Holiday Pauses (freeze subscription on public holidays)
                     </Label>
                   </div>
                 </div>
 
                 <DialogFooter className="pt-4">
-                  <Button type="submit" disabled={isCreating} className="bg-indigo-600 hover:bg-indigo-700 text-white w-full">
+                  <Button type="submit" disabled={isCreating} className="w-full">
                     {isCreating ? 'Creating plan...' : 'Create Subscription Plan'}
                   </Button>
                 </DialogFooter>
@@ -328,42 +323,42 @@ export default function Subscriptions() {
       {isLoading ? (
         <TableSkeleton />
       ) : !plans || plans.length === 0 ? (
-        <div className="p-12 text-center bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800">
-          <CreditCard className="mx-auto h-12 w-12 text-slate-300 dark:text-zinc-600 mb-4" />
-          <h3 className="text-lg font-medium text-slate-900 dark:text-zinc-100">No subscription plans created yet</h3>
-          <p className="text-slate-500 dark:text-zinc-400 mt-2 max-w-md mx-auto">
+        <div className="p-12 text-center bg-card rounded-xl border border-border">
+          <CreditCard className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+          <h3 className="text-lg font-medium text-foreground">No subscription plans created yet</h3>
+          <p className="text-muted-foreground mt-2 max-w-md mx-auto">
             Subscription plans allow customers to subscribe to bulk meal plans with automated digital ID scans.
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {plans.map((plan) => (
-            <Card key={plan.id} className={`bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 overflow-hidden flex flex-col justify-between shadow-sm relative ${!plan.isActive ? 'opacity-70 border-dashed' : ''}`}>
+            <Card key={plan.id} className={`bg-card border-border overflow-hidden flex flex-col justify-between shadow-sm relative ${!plan.isActive ? 'opacity-70 border-dashed' : ''}`}>
               {!plan.isActive && (
-                <div className="absolute top-2 right-2 flex items-center gap-1 bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-400 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                <div className="absolute top-2 right-2 flex items-center gap-1 bg-destructive/10 text-destructive text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
                   <ShieldAlert className="h-3 w-3" /> Inactive
                 </div>
               )}
-              <CardHeader className="border-b border-slate-100 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/50 pb-4 pr-16">
+              <CardHeader className="border-b border-border/50 bg-muted/30 pb-4 pr-16">
                 <div className="flex justify-between items-start">
-                  <CardTitle className="text-lg font-bold text-slate-900 dark:text-zinc-100">{plan.name}</CardTitle>
-                  <Badge className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 capitalize font-medium">
+                  <CardTitle className="text-lg font-bold text-foreground">{plan.name}</CardTitle>
+                  <Badge className="bg-primary/10 text-primary border border-primary/20 capitalize font-medium">
                     {plan.mealType}
                   </Badge>
                 </div>
                 {plan.description && (
-                  <CardDescription className="text-slate-500 dark:text-zinc-400 mt-1.5 text-xs line-clamp-2">
+                  <CardDescription className="text-muted-foreground mt-1.5 text-xs line-clamp-2">
                     {plan.description}
                   </CardDescription>
                 )}
               </CardHeader>
               <CardContent className="py-5 space-y-4 flex-grow">
-                <div className="flex items-baseline text-slate-900 dark:text-zinc-100">
+                <div className="flex items-baseline text-foreground">
                   <span className="text-3xl font-extrabold tracking-tight">₹{plan.price}</span>
-                  <span className="ml-1 text-sm font-semibold text-slate-500 dark:text-zinc-400">/{plan.validityDays} days</span>
+                  <span className="ml-1 text-sm font-semibold text-muted-foreground">/{plan.validityDays} days</span>
                 </div>
 
-                <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-zinc-800 text-sm text-slate-600 dark:text-zinc-300">
+                <div className="space-y-2 pt-2 border-t border-border/50 text-sm text-foreground">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-500" />
                     <span><strong>{plan.totalMeals}</strong> Total Meals Included</span>
@@ -386,7 +381,7 @@ export default function Subscriptions() {
                   )}
                 </div>
               </CardContent>
-              <CardFooter className="border-t border-slate-100 dark:border-zinc-800 bg-slate-50/30 dark:bg-zinc-900/10 py-3 flex justify-between items-center text-xs text-slate-400">
+              <CardFooter className="border-t border-border/50 bg-muted/10 py-3 flex justify-between items-center text-xs text-muted-foreground/70">
                 <div className="flex flex-col gap-0.5">
                   <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> Created {new Date(plan.createdAt || Date.now()).toLocaleDateString()}</span>
                 </div>
@@ -396,7 +391,7 @@ export default function Subscriptions() {
                       size="sm"
                       variant="ghost"
                       onClick={() => handleEditClick(plan)}
-                      className="h-7 w-7 p-0 text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800"
+                      className="h-7 w-7 p-0 text-muted-foreground hover:bg-muted"
                     >
                       <Edit2 className="h-3.5 w-3.5" />
                     </Button>
@@ -410,57 +405,53 @@ export default function Subscriptions() {
 
       {/* Edit Plan Dialog */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent className="sm:max-w-[500px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 overflow-y-auto max-h-[90vh]">
+        <DialogContent className="sm:max-w-[500px] bg-card border border-border overflow-y-auto max-h-[90vh]">
           <DialogHeader>
-            <DialogTitle className="text-slate-900 dark:text-zinc-100">Edit Subscription Plan</DialogTitle>
-            <DialogDescription className="text-slate-500 dark:text-zinc-400">
+            <DialogTitle className="text-foreground">Edit Subscription Plan</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Modify subscription pricing, meals, or suspend/delete this plan.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleEditSubmit} className="space-y-4 py-2">
             <div className="grid gap-2">
-              <Label htmlFor="edit-name" className="text-slate-700 dark:text-zinc-300">Plan Name</Label>
+              <Label htmlFor="edit-name" className="text-foreground">Plan Name</Label>
               <Input
                 id="edit-name"
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
-                className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
                 required
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="edit-description" className="text-slate-700 dark:text-zinc-300">Description</Label>
+              <Label htmlFor="edit-description" className="text-foreground">Description</Label>
               <Input
                 id="edit-description"
                 value={editDescription}
                 onChange={(e) => setEditDescription(e.target.value)}
-                className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="edit-price" className="text-slate-700 dark:text-zinc-300">Price (₹)</Label>
+                <Label htmlFor="edit-price" className="text-foreground">Price (₹)</Label>
                 <Input
                   id="edit-price"
                   type="number"
                   step="0.01"
                   value={editPrice}
                   onChange={(e) => setEditPrice(e.target.value)}
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
                   required
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="edit-validity" className="text-slate-700 dark:text-zinc-300">Validity (Days)</Label>
+                <Label htmlFor="edit-validity" className="text-foreground">Validity (Days)</Label>
                 <Input
                   id="edit-validity"
                   type="number"
                   value={editValidityDays}
                   onChange={(e) => setEditValidityDays(e.target.value)}
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
                   required
                 />
               </div>
@@ -468,24 +459,23 @@ export default function Subscriptions() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="edit-meals" className="text-slate-700 dark:text-zinc-300">Total Meals</Label>
+                <Label htmlFor="edit-meals" className="text-foreground">Total Meals</Label>
                 <Input
                   id="edit-meals"
                   type="number"
                   value={editTotalMeals}
                   onChange={(e) => setEditTotalMeals(e.target.value)}
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
                   required
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="edit-mealType" className="text-slate-700 dark:text-zinc-300">Meal Type</Label>
+                <Label htmlFor="edit-mealType" className="text-foreground">Meal Type</Label>
                 <Select value={editMealType} onValueChange={(val: any) => setEditMealType(val)}>
-                  <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                  <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectContent>
                     <SelectItem value="lunch">Lunch Only</SelectItem>
                     <SelectItem value="dinner">Dinner Only</SelectItem>
                     <SelectItem value="both">Both Lunch & Dinner</SelectItem>
@@ -496,12 +486,12 @@ export default function Subscriptions() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="edit-planType" className="text-slate-700 dark:text-zinc-300">Plan Model</Label>
+                <Label htmlFor="edit-planType" className="text-foreground">Plan Model</Label>
                 <Select value={editPlanType} onValueChange={(val: any) => setEditPlanType(val)}>
-                  <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                  <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectContent>
                     <SelectItem value="meal_count">Fixed Meal Count</SelectItem>
                     <SelectItem value="monthly">Monthly Calendar Reset</SelectItem>
                     <SelectItem value="custom">Custom Timing</SelectItem>
@@ -510,12 +500,12 @@ export default function Subscriptions() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="edit-isActive" className="text-slate-700 dark:text-zinc-300">Purchase Status</Label>
+                <Label htmlFor="edit-isActive" className="text-foreground">Purchase Status</Label>
                 <Select value={editIsActive} onValueChange={(val: any) => setEditIsActive(val || 'true')}>
-                  <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                  <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectContent>
                     <SelectItem value="true">Active (For Purchase)</SelectItem>
                     <SelectItem value="false">Inactive (Suspended)</SelectItem>
                   </SelectContent>
@@ -523,16 +513,16 @@ export default function Subscriptions() {
               </div>
             </div>
 
-            <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-zinc-800">
+            <div className="space-y-3 pt-2 border-t border-border">
               <div className="flex items-center space-x-2">
                 <input
                   type="checkbox"
                   id="edit-carryForward"
                   checked={editCarryForward}
                   onChange={(e) => setEditCarryForward(e.target.checked)}
-                  className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                 />
-                <Label htmlFor="edit-carryForward" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
+                <Label htmlFor="edit-carryForward" className="text-sm font-normal text-muted-foreground cursor-pointer">
                   Enable Carry Forward
                 </Label>
               </div>
@@ -543,9 +533,9 @@ export default function Subscriptions() {
                   id="edit-allowHoliday"
                   checked={editAllowHoliday}
                   onChange={(e) => setEditAllowHoliday(e.target.checked)}
-                  className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                 />
-                <Label htmlFor="edit-allowHoliday" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
+                <Label htmlFor="edit-allowHoliday" className="text-sm font-normal text-muted-foreground cursor-pointer">
                   Allow Holiday Pauses
                 </Label>
               </div>
@@ -556,7 +546,7 @@ export default function Subscriptions() {
                 type="button"
                 variant="destructive"
                 onClick={() => setDeleteOpen(true)}
-                className="bg-red-600 hover:bg-red-700 text-white flex items-center gap-1.5"
+                className="flex items-center gap-1.5"
               >
                 <Trash2 className="h-4 w-4" /> Delete Plan
               </Button>
@@ -565,11 +555,10 @@ export default function Subscriptions() {
                   type="button"
                   variant="outline"
                   onClick={() => setEditOpen(false)}
-                  className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent hover:bg-slate-100 dark:hover:bg-zinc-800"
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isUpdating} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+                <Button type="submit" disabled={isUpdating}>
                   {isUpdating ? 'Saving...' : 'Save Changes'}
                 </Button>
               </div>
@@ -580,10 +569,10 @@ export default function Subscriptions() {
 
       {/* Delete Plan Confirmation Dialog */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <DialogContent className="sm:max-w-[400px] bg-card border border-border">
           <DialogHeader>
-            <DialogTitle className="text-slate-900 dark:text-zinc-100">Delete Subscription Plan?</DialogTitle>
-            <DialogDescription className="text-slate-500 dark:text-zinc-400">
+            <DialogTitle className="text-foreground">Delete Subscription Plan?</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Are you sure you want to delete this subscription plan? Existing customer subscriptions will remain valid, but no new purchases will be allowed.
             </DialogDescription>
           </DialogHeader>
@@ -592,7 +581,6 @@ export default function Subscriptions() {
               type="button"
               variant="outline"
               onClick={() => setDeleteOpen(false)}
-              className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent"
             >
               Cancel
             </Button>
@@ -601,7 +589,6 @@ export default function Subscriptions() {
               variant="destructive"
               onClick={handleDeleteSubmit}
               disabled={isDeleting}
-              className="bg-red-600 hover:bg-red-700 text-white"
             >
               {isDeleting ? 'Deleting...' : 'Confirm Delete'}
             </Button>

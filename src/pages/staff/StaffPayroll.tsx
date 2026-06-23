@@ -72,26 +72,25 @@ export default function StaffPayroll() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Banknote className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <Banknote className="h-6 w-6 text-primary" />
             Payroll Management
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Generate, review, and process monthly staff salaries.
           </p>
         </div>
 
         <Button
           onClick={() => setIsGenerateModalOpen(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white"
         >
           <Play className="h-4 w-4 mr-2" />
           Run Payroll
         </Button>
       </div>
 
-      <Card className="border-slate-200 dark:border-zinc-800 shadow-sm">
-        <CardHeader className="border-b border-slate-100 dark:border-zinc-800/50 pb-4">
+      <Card className="border-border shadow-sm bg-card">
+        <CardHeader className="border-b border-border pb-4">
           <CardTitle>Payroll History</CardTitle>
           <CardDescription>
             All generated payroll runs for your tenant.
@@ -99,7 +98,7 @@ export default function StaffPayroll() {
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
+            <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead>Period</TableHead>
                 <TableHead>Generated On</TableHead>
@@ -113,7 +112,7 @@ export default function StaffPayroll() {
                 <TableRow>
                   <TableCell
                     colSpan={5}
-                    className="text-center py-8 text-slate-500"
+                    className="text-center py-8 text-muted-foreground"
                   >
                     Loading payroll history...
                   </TableCell>
@@ -122,7 +121,7 @@ export default function StaffPayroll() {
                 <TableRow>
                   <TableCell
                     colSpan={5}
-                    className="text-center py-8 text-slate-500"
+                    className="text-center py-8 text-muted-foreground"
                   >
                     No payroll runs found. Generate your first payroll above.
                   </TableCell>
@@ -131,17 +130,17 @@ export default function StaffPayroll() {
                 runs.map((run) => (
                   <TableRow
                     key={run.id}
-                    className="cursor-pointer hover:bg-slate-50 dark:hover:bg-zinc-900/50 transition-colors"
+                    className="cursor-pointer hover:bg-muted/50 transition-colors border-border"
                     onClick={() => navigate(`/staff/payroll/${run.id}`)}
                   >
-                    <TableCell className="font-medium">
+                    <TableCell className="font-medium text-foreground">
                       {format(new Date(run.periodStartDate), "MMM d, yyyy")} -{" "}
                       {format(new Date(run.periodEndDate), "MMM d, yyyy")}
                     </TableCell>
-                    <TableCell className="text-slate-500 text-sm">
+                    <TableCell className="text-muted-foreground text-sm">
                       {format(new Date(run.createdAt), "MMM d, yyyy HH:mm")}
                     </TableCell>
-                    <TableCell>{run.slips?.length || 0} staff</TableCell>
+                    <TableCell className="text-foreground">{run.slips?.length || 0} staff</TableCell>
                     <TableCell>
                       <Badge
                         variant={
@@ -153,17 +152,17 @@ export default function StaffPayroll() {
                         }
                         className={
                           run.status === "PAID"
-                            ? "border-emerald-500 text-emerald-600 bg-emerald-50"
+                            ? "border-emerald-500/20 text-emerald-600 bg-emerald-500/10"
                             : run.status === "PROCESSED"
-                              ? "bg-indigo-600"
-                              : ""
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted text-muted-foreground border border-border"
                         }
                       >
                         {run.status}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="h-8">
+                      <Button variant="ghost" size="sm" className="h-8 text-foreground hover:bg-muted">
                         View Details <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </TableCell>
@@ -177,10 +176,10 @@ export default function StaffPayroll() {
 
       {/* Generate Payroll Modal */}
       <Dialog open={isGenerateModalOpen} onOpenChange={setIsGenerateModalOpen}>
-        <DialogContent>
+        <DialogContent className="bg-card border-border">
           <DialogHeader>
-            <DialogTitle>Run Payroll</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-foreground">Run Payroll</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Select the date range to aggregate timesheets and generate salary
               slips.
             </DialogDescription>
@@ -188,18 +187,19 @@ export default function StaffPayroll() {
           <form onSubmit={handleGenerate} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
                <div className="space-y-2">
-                <Label>Start Date</Label>
-                <Input type="date" name="startDate" required />
+                <Label className="text-foreground">Start Date</Label>
+                <Input type="date" name="startDate" required className="bg-transparent border-border text-foreground" />
               </div>
               <div className="space-y-2">
-                <Label>End Date</Label>
-                <Input type="date" name="endDate" required />
+                <Label className="text-foreground">End Date</Label>
+                <Input type="date" name="endDate" required className="bg-transparent border-border text-foreground" />
               </div>
             </div>
             <DialogFooter className="pt-4">
               <Button
                 type="button"
                 variant="outline"
+                className="bg-transparent border-border text-foreground hover:bg-muted/50"
                 onClick={() => setIsGenerateModalOpen(false)}
               >
                 Cancel
@@ -207,7 +207,6 @@ export default function StaffPayroll() {
               <Button
                 type="submit"
                 disabled={generateMutation.isPending}
-                className="bg-indigo-600 text-white"
               >
                 {generateMutation.isPending ? "Generating..." : "Generate Run"}
               </Button>

@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useAuthStore } from '@/store/useAuth';
 import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { Palette, Type, Square, Layout, Moon, Image as ImageIcon, Sparkles, Check } from 'lucide-react';
+import { Palette, Type, Square, Layout, Image as ImageIcon } from 'lucide-react';
+import { generateOklchTheme } from '@/lib/ThemeGenerator';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+
+type TabType = 'colors' | 'shape' | 'type' | 'assets';
 
 export default function BrandingSettings() {
   const { user, token, setImpersonatedTenant } = useAuthStore();
@@ -24,10 +26,10 @@ export default function BrandingSettings() {
     fonts: { sans: "Inter, sans-serif", serif: "Georgia, serif", mono: "Menlo, monospace" }
   };
 
-  // State for Advanced Theme Builder
-  const [hue, setHue] = useState<number>(245); // Default indigo hue
-  const [chroma, setChroma] = useState<number>(0.16); // Default saturation
-  const [radius, setRadius] = useState<number>(0.5); // Default radius in rem
+  const [activeTab, setActiveTab] = useState<TabType>('colors');
+  const [hue, setHue] = useState<number>(245);
+  const [chroma, setChroma] = useState<number>(0.16);
+  const [radius, setRadius] = useState<number>(0.5);
   const [fontSans, setFontSans] = useState<string>(currentTheme.fonts?.sans || 'Inter, sans-serif');
   const [themeMode, setThemeMode] = useState<string>(user?.tenantDetails?.themeMode || 'system');
   const [logoUrl, setLogoUrl] = useState(user?.tenantDetails?.logoUrl || '');
@@ -50,25 +52,27 @@ export default function BrandingSettings() {
     }
   }, []);
 
-  // Compute the live preview theme config
-  const previewTheme = {
-    light: {
-      '--primary': `oklch(0.6723 ${chroma} ${hue})`,
-      '--ring': `oklch(0.6818 ${chroma} ${hue})`,
-      '--sidebar-primary': `oklch(0.6723 ${chroma} ${hue})`,
-      '--radius': `${radius}rem`,
-    },
-    dark: {
-      '--primary': `oklch(0.6692 ${chroma} ${hue})`,
-      '--ring': `oklch(0.6818 ${chroma} ${hue})`,
-      '--sidebar-primary': `oklch(0.6818 ${chroma} ${hue})`,
-    },
-    fonts: {
-      sans: fontSans,
-      serif: currentTheme.fonts?.serif || 'Georgia, serif',
-      mono: currentTheme.fonts?.mono || 'Menlo, monospace',
-    }
-  };
+  // Compute the live preview theme config using the powerful ThemeGenerator!
+  const previewTheme = useMemo(() => {
+    const generated = generateOklchTheme(hue, chroma);
+    
+    // Merge the radius manually since generator only does colors
+    return {
+      light: {
+        ...generated.light,
+        '--radius': `${radius}rem`,
+      },
+      dark: {
+        ...generated.dark,
+        '--radius': `${radius}rem`,
+      },
+      fonts: {
+        sans: fontSans,
+        serif: currentTheme.fonts?.serif || 'Georgia, serif',
+        mono: currentTheme.fonts?.mono || 'Menlo, monospace',
+      }
+    };
+  }, [hue, chroma, radius, fontSans, currentTheme.fonts]);
 
   // Inject preview CSS specifically scoped to the preview container
   useEffect(() => {
@@ -82,11 +86,11 @@ export default function BrandingSettings() {
 
     style.innerHTML = `
       .theme-preview-container {
-        ${Object.entries(previewTheme.light).map(([k, v]) => `${k}: ${v};`).join('\\n        ')}
+        ${Object.entries(previewTheme.light).map(([k, v]) => `${k}: ${v};`).join('\n        ')}
         --font-sans: ${previewTheme.fonts.sans};
       }
       .dark .theme-preview-container {
-        ${Object.entries(previewTheme.dark).map(([k, v]) => `${k}: ${v};`).join('\\n        ')}
+        ${Object.entries(previewTheme.dark).map(([k, v]) => `${k}: ${v};`).join('\n        ')}
       }
     `;
 
@@ -94,7 +98,6 @@ export default function BrandingSettings() {
       if (style) style.remove();
     };
   }, [previewTheme]);
-
 
   const saveMutation = useMutation({
     mutationFn: async () => {
@@ -110,8 +113,7 @@ export default function BrandingSettings() {
       });
       return res.data;
     },
-    onSuccess: (data) => {
-      // Sync the new theme immediately into global app state so it applies platform-wide
+    onSuccess: () => {
       setImpersonatedTenant(
         user!.tenantId,
         user!.tenantDetails!.name,
@@ -131,235 +133,270 @@ export default function BrandingSettings() {
   });
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto pb-20">
+    <div className="max-w-[1400px] mx-auto pb-20 space-y-8">
       
-      {/* Left Pane: Tweakcn-style Advanced Controls */}
-      <div className="lg:col-span-5 space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Theme Builder</h2>
-          <p className="text-muted-foreground text-sm">Fine-tune your brand's aesthetics using our advanced design engine.</p>
-        </div>
+      <div>
+        <h2 className="text-3xl font-bold tracking-tight text-foreground">Theme Builder</h2>
+        <p className="text-muted-foreground mt-1">Fine-tune your brand's aesthetics using our advanced design engine.</p>
+      </div>
 
-        <Tabs defaultValue="colors" className="w-full">
-          <TabsList className="grid grid-cols-4 w-full">
-            <TabsTrigger value="colors"><Palette className="h-4 w-4 mr-2" /> Colors</TabsTrigger>
-            <TabsTrigger value="geometry"><Square className="h-4 w-4 mr-2" /> Shape</TabsTrigger>
-            <TabsTrigger value="typography"><Type className="h-4 w-4 mr-2" /> Type</TabsTrigger>
-            <TabsTrigger value="assets"><ImageIcon className="h-4 w-4 mr-2" /> Assets</TabsTrigger>
-          </TabsList>
+      <div className="flex flex-col lg:flex-row gap-10 items-start">
+        
+        {/* Left Settings Sidebar & Controls */}
+        <div className="flex flex-col md:flex-row gap-6 w-full lg:w-[480px] shrink-0">
           
-          <div className="mt-6">
-            <Card className="border-border shadow-sm">
-              <CardContent className="p-6">
-                
-                {/* COLORS TAB */}
-                <TabsContent value="colors" className="m-0 space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <Label className="text-sm font-semibold">Primary Hue</Label>
-                      <span className="text-xs text-muted-foreground font-mono">{Math.round(hue)}</span>
-                    </div>
-                    <Slider
-                      value={[hue]}
-                      min={0}
-                      max={360}
-                      step={1}
-                      onValueChange={(v) => setHue(v[0])}
-                      className="[&_[role=slider]]:bg-primary"
-                    />
-                    <div className="h-2 w-full rounded-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 via-purple-500 to-red-500 opacity-50" />
-                  </div>
+          {/* Vertical Navigation (Classic Trendy UI) */}
+          <div className="w-full md:w-32 shrink-0 flex md:flex-col gap-2 overflow-x-auto pb-2 md:pb-0">
+            <button 
+              onClick={() => setActiveTab('colors')}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'colors' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+            >
+              <Palette className="w-4 h-4" /> <span>Colors</span>
+            </button>
+            <button 
+              onClick={() => setActiveTab('shape')}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'shape' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+            >
+              <Square className="w-4 h-4" /> <span>Shape</span>
+            </button>
+            <button 
+              onClick={() => setActiveTab('type')}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'type' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+            >
+              <Type className="w-4 h-4" /> <span>Type</span>
+            </button>
+            <button 
+              onClick={() => setActiveTab('assets')}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'assets' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+            >
+              <ImageIcon className="w-4 h-4" /> <span>Assets</span>
+            </button>
+          </div>
 
-                  <div className="space-y-4 pt-4 border-t border-border">
-                    <div className="flex items-center justify-between">
-                      <Label className="text-sm font-semibold">Color Intensity (Chroma)</Label>
-                      <span className="text-xs text-muted-foreground font-mono">{chroma.toFixed(2)}</span>
-                    </div>
-                    <Slider
-                      value={[chroma]}
-                      min={0}
-                      max={0.3}
-                      step={0.01}
-                      onValueChange={(v) => setChroma(v[0])}
-                    />
+          {/* Form Container */}
+          <div className="flex-1 bg-card border border-border shadow-sm rounded-xl p-6">
+            
+            {activeTab === 'colors' && (
+              <div className="space-y-8 animate-in fade-in duration-300">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm font-semibold">Primary Hue</Label>
+                    <span className="text-xs bg-muted px-2 py-0.5 rounded-md text-muted-foreground font-mono">{Math.round(hue)}</span>
                   </div>
+                  <Slider
+                    value={[hue]}
+                    min={0}
+                    max={360}
+                    step={1}
+                    onValueChange={(v: any) => setHue(Array.isArray(v) ? v[0] : v)}
+                    className="cursor-grab active:cursor-grabbing"
+                  />
+                  <div className="h-2 w-full rounded-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 via-purple-500 to-red-500 opacity-50" />
+                </div>
 
-                  <div className="space-y-4 pt-4 border-t border-border">
-                    <Label className="text-sm font-semibold">Appearance Mode</Label>
-                    <Select value={themeMode} onValueChange={setThemeMode}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select mode" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="system">System Default</SelectItem>
-                        <SelectItem value="light">Always Light</SelectItem>
-                        <SelectItem value="dark">Always Dark</SelectItem>
-                      </SelectContent>
-                    </Select>
+                <div className="space-y-4 pt-6 border-t border-border/50">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm font-semibold">Color Intensity (Chroma)</Label>
+                    <span className="text-xs bg-muted px-2 py-0.5 rounded-md text-muted-foreground font-mono">{chroma.toFixed(2)}</span>
                   </div>
-                </TabsContent>
+                  <Slider
+                    value={[chroma]}
+                    min={0}
+                    max={0.3}
+                    step={0.01}
+                    onValueChange={(v: any) => setChroma(Array.isArray(v) ? v[0] : v)}
+                    className="cursor-grab active:cursor-grabbing"
+                  />
+                  <div className="flex justify-between text-[10px] text-muted-foreground">
+                    <span>Grayscale</span>
+                    <span>Vibrant</span>
+                  </div>
+                </div>
 
-                {/* GEOMETRY TAB */}
-                <TabsContent value="geometry" className="m-0 space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <Label className="text-sm font-semibold">Border Radius</Label>
-                      <span className="text-xs text-muted-foreground font-mono">{radius}rem</span>
-                    </div>
-                    <Slider
-                      value={[radius]}
-                      min={0}
-                      max={2}
-                      step={0.1}
-                      onValueChange={(v) => setRadius(v[0])}
-                    />
-                    <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
-                      <span>0rem (Sharp)</span>
-                      <span>2rem (Pill)</span>
-                    </div>
-                  </div>
-                </TabsContent>
+                <div className="space-y-4 pt-6 border-t border-border/50">
+                  <Label className="text-sm font-semibold">Appearance Mode</Label>
+                  <Select value={themeMode} onValueChange={(v) => setThemeMode(v || 'system')}>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Select mode" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="system">System Default</SelectItem>
+                      <SelectItem value="light">Always Light</SelectItem>
+                      <SelectItem value="dark">Always Dark</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
 
-                {/* TYPOGRAPHY TAB */}
-                <TabsContent value="typography" className="m-0 space-y-6">
-                  <div className="space-y-4">
-                    <Label className="text-sm font-semibold">Primary Font (Sans-Serif)</Label>
-                    <Select value={fontSans} onValueChange={setFontSans}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select font" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Inter, sans-serif">Inter (Modern)</SelectItem>
-                        <SelectItem value="Roboto, sans-serif">Roboto (Clean)</SelectItem>
-                        <SelectItem value="'Open Sans', sans-serif">Open Sans (Friendly)</SelectItem>
-                        <SelectItem value="ui-sans-serif, system-ui, sans-serif">System UI (Native)</SelectItem>
-                      </SelectContent>
-                    </Select>
+            {activeTab === 'shape' && (
+              <div className="space-y-8 animate-in fade-in duration-300">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm font-semibold">Global Border Radius</Label>
+                    <span className="text-xs bg-muted px-2 py-0.5 rounded-md text-muted-foreground font-mono">{radius}rem</span>
                   </div>
-                </TabsContent>
+                  <Slider
+                    value={[radius]}
+                    min={0}
+                    max={2}
+                    step={0.1}
+                    onValueChange={(v: any) => setRadius(Array.isArray(v) ? v[0] : v)}
+                    className="cursor-grab active:cursor-grabbing"
+                  />
+                  <div className="flex justify-between text-[10px] text-muted-foreground">
+                    <span>0rem (Sharp)</span>
+                    <span>2rem (Pill)</span>
+                  </div>
+                </div>
+              </div>
+            )}
 
-                {/* ASSETS TAB */}
-                <TabsContent value="assets" className="m-0 space-y-4">
-                  <div className="space-y-2">
-                    <Label className="text-xs font-semibold">Logo (Light Mode)</Label>
-                    <Input 
-                      value={logoUrl} 
-                      onChange={(e) => setLogoUrl(e.target.value)} 
-                      placeholder="https://example.com/logo-light.svg" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-xs font-semibold">Logo (Dark Mode)</Label>
-                    <Input 
-                      value={logoDarkUrl} 
-                      onChange={(e) => setLogoDarkUrl(e.target.value)} 
-                      placeholder="https://example.com/logo-dark.svg" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-xs font-semibold">Favicon</Label>
-                    <Input 
-                      value={faviconUrl} 
-                      onChange={(e) => setFaviconUrl(e.target.value)} 
-                      placeholder="https://example.com/favicon.ico" 
-                    />
-                  </div>
-                </TabsContent>
+            {activeTab === 'type' && (
+              <div className="space-y-8 animate-in fade-in duration-300">
+                <div className="space-y-4">
+                  <Label className="text-sm font-semibold">Primary Font (Sans-Serif)</Label>
+                  <Select value={fontSans} onValueChange={(v) => setFontSans(v || 'Inter, sans-serif')}>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Select font" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Inter, sans-serif">Inter (Modern)</SelectItem>
+                      <SelectItem value="Roboto, sans-serif">Roboto (Clean)</SelectItem>
+                      <SelectItem value="'Open Sans', sans-serif">Open Sans (Friendly)</SelectItem>
+                      <SelectItem value="ui-sans-serif, system-ui, sans-serif">System UI (Native)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
 
-              </CardContent>
-            </Card>
+            {activeTab === 'assets' && (
+              <div className="space-y-6 animate-in fade-in duration-300">
+                <div className="space-y-2">
+                  <Label className="text-sm font-semibold">Logo (Light Mode)</Label>
+                  <Input 
+                    className="h-10"
+                    value={logoUrl} 
+                    onChange={(e) => setLogoUrl(e.target.value)} 
+                    placeholder="https://example.com/logo-light.svg" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm font-semibold">Logo (Dark Mode)</Label>
+                  <Input 
+                    className="h-10"
+                    value={logoDarkUrl} 
+                    onChange={(e) => setLogoDarkUrl(e.target.value)} 
+                    placeholder="https://example.com/logo-dark.svg" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm font-semibold">Favicon</Label>
+                  <Input 
+                    className="h-10"
+                    value={faviconUrl} 
+                    onChange={(e) => setFaviconUrl(e.target.value)} 
+                    placeholder="https://example.com/favicon.ico" 
+                  />
+                </div>
+              </div>
+            )}
 
-            <div className="mt-6 flex justify-end">
+            <div className="mt-10 pt-6 border-t border-border/50">
               <Button 
                 onClick={() => saveMutation.mutate()} 
                 disabled={saveMutation.isPending}
-                className="w-full sm:w-auto shadow-sm"
+                className="w-full h-11 text-base font-semibold shadow-sm"
               >
-                {saveMutation.isPending ? "Publishing Theme..." : "Publish Theme Engine"}
+                {saveMutation.isPending ? "Publishing Engine..." : "Publish Theme Engine"}
               </Button>
             </div>
-          </div>
-        </Tabs>
-      </div>
 
-      {/* Right Pane: Live Interactive Preview */}
-      <div className="lg:col-span-7">
-        <div className="sticky top-24 rounded-xl border border-border bg-background shadow-sm overflow-hidden theme-preview-container transition-all duration-300">
-          <div className="border-b border-border bg-muted/30 p-3 flex items-center justify-between">
-            <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red-400/80" />
-              <div className="w-3 h-3 rounded-full bg-amber-400/80" />
-              <div className="w-3 h-3 rounded-full bg-emerald-400/80" />
-            </div>
-            <div className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase flex items-center gap-1.5">
-              <Layout className="w-3 h-3" /> Live UI Mockup
-            </div>
-            <div className="w-10" />
           </div>
+        </div>
 
-          <div className="p-8 space-y-8 bg-background">
-            
-            {/* Top Stat Row */}
-            <div className="grid grid-cols-2 gap-4">
-              <Card className="shadow-sm">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Total Revenue</CardTitle>
+        {/* Right Pane: Live Interactive Preview */}
+        <div className="flex-1 w-full relative">
+          
+          <div className="sticky top-24 rounded-2xl border border-border/60 bg-muted/20 shadow-2xl overflow-hidden theme-preview-container ring-1 ring-border/50 transition-all duration-300">
+            {/* Mac OS Window Header */}
+            <div className="border-b border-border/50 bg-background/50 backdrop-blur-sm p-3.5 flex items-center justify-between">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-400/90 shadow-sm" />
+                <div className="w-3 h-3 rounded-full bg-amber-400/90 shadow-sm" />
+                <div className="w-3 h-3 rounded-full bg-emerald-400/90 shadow-sm" />
+              </div>
+              <div className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase flex items-center gap-1.5">
+                <Layout className="w-3 h-3" /> Live UI Mockup
+              </div>
+              <div className="w-10" />
+            </div>
+
+            <div className="p-8 space-y-8 bg-background h-full min-h-[600px] text-foreground font-sans">
+              
+              {/* Top Stat Row */}
+              <div className="grid grid-cols-2 gap-5">
+                <Card className="shadow-sm border-border/50 bg-card">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-medium text-muted-foreground">Total Revenue</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-3xl font-bold text-foreground tracking-tight">$45,231.89</div>
+                    <p className="text-xs mt-1 text-primary flex items-center font-semibold">
+                      +20.1% from last month
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="shadow-sm border-border/50 bg-card">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-medium text-muted-foreground">Active Subscriptions</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-3xl font-bold text-foreground tracking-tight">+2,350</div>
+                    <p className="text-xs mt-1 text-muted-foreground flex items-center">
+                      +180 new this week
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Interactive Components */}
+              <Card className="shadow-sm border-border/50 bg-card">
+                <CardHeader>
+                  <CardTitle className="text-lg">Interactive Elements</CardTitle>
+                  <CardDescription>Hover and click to test your theme's physics and responses.</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-foreground">$45,231.89</div>
-                  <p className="text-xs text-muted-foreground mt-1 text-primary flex items-center font-medium">
-                    +20.1% from last month
-                  </p>
+                <CardContent className="space-y-8">
+                  
+                  <div className="flex flex-wrap gap-3">
+                    <Button className="shadow-sm h-10 px-5 transition-transform active:scale-95">Primary Action</Button>
+                    <Button variant="secondary" className="shadow-sm h-10 px-5 transition-transform active:scale-95">Secondary</Button>
+                    <Button variant="outline" className="shadow-sm bg-background h-10 px-5 transition-transform active:scale-95">Outline</Button>
+                    <Button variant="ghost" className="h-10 px-5">Ghost Style</Button>
+                  </div>
+
+                  <div className="space-y-2.5 pt-6 border-t border-border/50">
+                    <Label className="text-sm font-medium">Email Address</Label>
+                    <div className="flex gap-3">
+                      <Input placeholder="m@example.com" className="max-w-xs shadow-sm h-10 bg-background" />
+                      <Button className="h-10 px-6 shadow-sm">Subscribe</Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground">This simulates a standard form input field.</p>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-6 border-t border-border/50">
+                    <div className="space-y-1">
+                      <Label className="text-base font-medium">Marketing Emails</Label>
+                      <p className="text-sm text-muted-foreground">Receive emails about new products.</p>
+                    </div>
+                    <Switch defaultChecked className="data-[state=checked]:bg-primary" />
+                  </div>
+
                 </CardContent>
               </Card>
-              <Card className="shadow-sm">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Active Subscriptions</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-foreground">+2,350</div>
-                  <p className="text-xs text-muted-foreground mt-1 flex items-center">
-                    +180 new this week
-                  </p>
-                </CardContent>
-              </Card>
+
             </div>
-
-            {/* Interactive Components */}
-            <Card className="shadow-sm">
-              <CardHeader>
-                <CardTitle className="text-lg">Interactive Elements</CardTitle>
-                <CardDescription>Hover and click to test your theme's physics and responses.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                
-                <div className="flex flex-wrap gap-4">
-                  <Button className="shadow-sm">Primary Action</Button>
-                  <Button variant="secondary" className="shadow-sm">Secondary</Button>
-                  <Button variant="outline" className="shadow-sm">Outline</Button>
-                  <Button variant="ghost">Ghost Style</Button>
-                </div>
-
-                <div className="space-y-3 pt-4 border-t border-border">
-                  <Label>Email Address</Label>
-                  <div className="flex gap-3">
-                    <Input placeholder="m@example.com" className="max-w-sm shadow-sm" />
-                    <Button>Subscribe</Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground">This simulates a standard form input field.</p>
-                </div>
-
-                <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <div className="space-y-0.5">
-                    <Label className="text-base">Marketing Emails</Label>
-                    <p className="text-sm text-muted-foreground">Receive emails about new products.</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-
-              </CardContent>
-            </Card>
-
           </div>
         </div>
       </div>

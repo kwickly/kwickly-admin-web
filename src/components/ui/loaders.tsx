@@ -5,9 +5,9 @@ export function TableSkeleton() {
   return (
     <div className="space-y-4 w-full animate-in fade-in duration-500">
       <Skeleton className="h-10 w-full rounded-lg" />
-      <div className="border border-slate-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-white dark:bg-zinc-900/50">
+      <div className="border border-border rounded-xl overflow-hidden bg-card">
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="flex p-4 border-b border-slate-100 dark:border-zinc-800/50 last:border-0 gap-4">
+          <div key={i} className="flex p-4 border-b border-border/50 last:border-0 gap-4">
             <Skeleton className="h-6 w-1/4 rounded-md" />
             <Skeleton className="h-6 w-1/4 rounded-md" />
             <Skeleton className="h-6 w-1/4 rounded-md" />
@@ -23,7 +23,7 @@ export function GridCardSkeleton({ count = 4 }: { count?: number }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-in fade-in duration-500">
       {Array.from({ length: count }).map((_, i) => (
-        <Card key={i} className="overflow-hidden bg-white/80 dark:bg-zinc-900/80 border-slate-200/60 dark:border-zinc-800/60">
+        <Card key={i} className="overflow-hidden bg-card border-border">
           <Skeleton className="h-1 w-full rounded-none" />
           <div className="p-5 flex flex-col h-full space-y-4">
             <div className="flex gap-4">
@@ -34,7 +34,7 @@ export function GridCardSkeleton({ count = 4 }: { count?: number }) {
               </div>
             </div>
             <Skeleton className="h-6 w-20 rounded-full" />
-            <div className="grid grid-cols-2 gap-2 pt-4 border-t border-slate-100 dark:border-zinc-800/50">
+            <div className="grid grid-cols-2 gap-2 pt-4 border-t border-border/50">
               <Skeleton className="h-4 w-full rounded-md" />
               <Skeleton className="h-4 w-full rounded-md" />
             </div>
@@ -49,7 +49,7 @@ export function DashboardKPISkeleton() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-in fade-in duration-500">
       {Array.from({ length: 4 }).map((_, i) => (
-        <Card key={i} className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-slate-200/60 dark:border-zinc-800/60">
+        <Card key={i} className="bg-card backdrop-blur-md border-border/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <Skeleton className="h-4 w-1/2 rounded-md" />
             <Skeleton className="h-8 w-8 rounded-lg" />
@@ -66,7 +66,7 @@ export function DashboardKPISkeleton() {
 
 export function ChartSkeleton() {
   return (
-    <Card className="h-full w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-slate-200/60 dark:border-zinc-800/60 animate-in fade-in duration-500">
+    <Card className="h-full w-full bg-card backdrop-blur-md border-border/60 animate-in fade-in duration-500">
       <CardHeader>
         <Skeleton className="h-6 w-1/3 rounded-md" />
       </CardHeader>
@@ -86,7 +86,7 @@ export function FormSkeleton() {
         <Skeleton className="h-8 w-1/4 rounded-md" />
         <Skeleton className="h-4 w-1/3 rounded-md" />
       </div>
-      <Card className="bg-white/80 dark:bg-zinc-900/80 border-slate-200/60 dark:border-zinc-800/60">
+      <Card className="bg-card border-border/60">
         <CardContent className="pt-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Array.from({ length: 4 }).map((_, i) => (
@@ -97,7 +97,7 @@ export function FormSkeleton() {
             ))}
           </div>
           <Skeleton className="h-24 w-full rounded-md" />
-          <div className="flex justify-end gap-4 pt-4 border-t border-slate-100 dark:border-zinc-800/50">
+          <div className="flex justify-end gap-4 pt-4 border-t border-border/50">
             <Skeleton className="h-10 w-24 rounded-md" />
             <Skeleton className="h-10 w-32 rounded-md" />
           </div>

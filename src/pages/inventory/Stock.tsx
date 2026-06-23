@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Package, Plus, Search, Settings2, ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { Package, Plus, Search, Settings2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +12,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -72,21 +71,21 @@ export default function Stock() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Package className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <Package className="h-6 w-6 text-primary" />
             Stock & Inventory
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Track raw ingredients, view current stock levels, and make manual ledger adjustments.
           </p>
         </div>
 
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-white dark:bg-zinc-900">
+          <Button variant="outline" className="bg-card">
             <Settings2 className="h-4 w-4 mr-2" />
             Export Ledger
           </Button>
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
+          <Button>
             <Plus className="h-4 w-4 mr-2" />
             New Material
           </Button>
@@ -95,22 +94,22 @@ export default function Stock() {
 
       {/* Stock Adjustment Dialog */}
       <Dialog open={isAdjustDialogOpen} onOpenChange={setIsAdjustDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-card border-border">
           <DialogHeader>
-            <DialogTitle>Manual Stock Adjustment</DialogTitle>
-            <DialogDescription>
-              Create a new double-entry ledger record for <span className="font-bold text-slate-900 dark:text-white">{selectedMaterial?.name}</span>.
+            <DialogTitle className="text-foreground">Manual Stock Adjustment</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Create a new double-entry ledger record for <span className="font-bold text-foreground">{selectedMaterial?.name}</span>.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleStockAdjustment} className="space-y-6 mt-4">
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="adjustmentType">Adjustment Type</Label>
+                <Label htmlFor="adjustmentType" className="text-foreground">Adjustment Type</Label>
                 <Select defaultValue="CREDIT">
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-transparent">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-card border-border">
                     <SelectItem value="CREDIT">Add Stock (Credit)</SelectItem>
                     <SelectItem value="DEBIT">Remove Stock (Debit/Spoilage)</SelectItem>
                   </SelectContent>
@@ -118,22 +117,22 @@ export default function Stock() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="quantity">Quantity ({selectedMaterial?.uom})</Label>
-                <Input id="quantity" type="number" step="0.01" placeholder="e.g. 10.5" required />
+                <Label htmlFor="quantity" className="text-foreground">Quantity ({selectedMaterial?.uom})</Label>
+                <Input id="quantity" type="number" step="0.01" placeholder="e.g. 10.5" className="bg-transparent" required />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="reason">Reason / Reference</Label>
-                <Input id="reason" placeholder="e.g. PO-1024 Arrival, or Spilled" required />
+                <Label htmlFor="reason" className="text-foreground">Reason / Reference</Label>
+                <Input id="reason" placeholder="e.g. PO-1024 Arrival, or Spilled" className="bg-transparent" required />
               </div>
             </div>
             
-            <div className="bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 p-3 rounded-md text-xs border border-amber-200 dark:border-amber-900">
+            <div className="bg-amber-500/10 text-amber-600 p-3 rounded-md text-xs border border-amber-500/20">
               <strong>Audit Trail Notice:</strong> This action creates an immutable ledger entry. It cannot be deleted, only offset by a future entry.
             </div>
 
             <div className="pt-2 flex justify-end">
-              <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button type="submit" className="w-full">
                 Submit Ledger Entry
               </Button>
             </div>
@@ -149,12 +148,12 @@ export default function Stock() {
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-slate-500 whitespace-nowrap">Unit of Measure:</span>
-              <Select value={filterUOM} onValueChange={setFilterUOM}>
-                <SelectTrigger className="w-[130px] bg-slate-50 dark:bg-zinc-900/50">
+              <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">Unit of Measure:</span>
+              <Select value={filterUOM} onValueChange={(v) => setFilterUOM(v || 'ALL')}>
+                <SelectTrigger className="w-[130px] bg-muted/50">
                   <SelectValue placeholder="UOM" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-card border-border">
                   <SelectItem value="ALL">All Units</SelectItem>
                   <SelectItem value="KG">Kilogram (KG)</SelectItem>
                   <SelectItem value="GRAM">Gram (G)</SelectItem>
@@ -167,21 +166,21 @@ export default function Stock() {
             </div>
 
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search materials..."
-                className="pl-9 w-64 bg-slate-50 dark:bg-zinc-900/50"
+                className="pl-9 w-64 bg-muted/50"
               />
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border border-slate-200 dark:border-zinc-800 mt-4">
+          <div className="rounded-md border border-border mt-4">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-muted/50">
                 <TableRow>
                   <TableHead>Material Name</TableHead>
                   <TableHead>UOM</TableHead>
@@ -193,40 +192,40 @@ export default function Stock() {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                       Loading inventory...
                     </TableCell>
                   </TableRow>
                 ) : filteredMaterials.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                       No raw materials match your search.
                     </TableCell>
                   </TableRow>
                 ) : (
                   filteredMaterials.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell className="font-medium text-slate-900 dark:text-white">
+                    <TableRow key={item.id} className="hover:bg-muted/50">
+                      <TableCell className="font-medium text-foreground">
                         {item.name}
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-200">
+                        <Badge variant="outline" className="bg-background text-muted-foreground border-border">
                           {item.uom}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right font-bold text-lg">
-                        <span className={item.currentStock < 10 ? 'text-rose-600' : 'text-slate-900 dark:text-white'}>
+                        <span className={item.currentStock < 10 ? 'text-destructive' : 'text-foreground'}>
                           {item.currentStock}
                         </span>
                       </TableCell>
-                      <TableCell className="text-sm text-slate-500">
+                      <TableCell className="text-sm text-muted-foreground">
                         {new Date(item.lastUpdated).toLocaleDateString()} {new Date(item.lastUpdated).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                       </TableCell>
                       <TableCell className="text-right">
                         <Button 
                           variant="outline" 
                           size="sm" 
-                          className="hover:bg-indigo-50 hover:text-indigo-600"
+                          className="hover:bg-primary/10 hover:text-primary"
                           onClick={() => openAdjustDialog(item)}
                         >
                           <Plus className="h-3 w-3 mr-1" />

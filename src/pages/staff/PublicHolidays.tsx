@@ -36,11 +36,11 @@ export default function PublicHolidays() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Calendar className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <Calendar className="h-6 w-6 text-primary" />
             Public Holidays
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Manage public holidays for the tenant. Staff working on these dates may receive holiday pay.
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function PublicHolidays() {
           {isManager && (
             <button
               onClick={() => setIsHolidayModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm shadow-indigo-200 dark:shadow-none"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
             >
               <Plus className="h-4 w-4" />
               Declare Holiday
@@ -58,30 +58,30 @@ export default function PublicHolidays() {
       </div>
 
       {/* Content */}
-      <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600 dark:text-zinc-400">
-            <thead className="bg-slate-50 dark:bg-zinc-800/50 text-slate-500 dark:text-zinc-400 font-medium border-b border-slate-200 dark:border-zinc-800">
+          <table className="w-full text-left text-sm text-muted-foreground">
+            <thead className="bg-muted/50 text-muted-foreground font-medium border-b border-border">
               <tr>
                 <th className="px-6 py-4">Holiday Name</th>
                 <th className="px-6 py-4">Date</th>
                 {isManager && <th className="px-6 py-4 text-right">Actions</th>}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-zinc-800">
+            <tbody className="divide-y divide-border">
               {loadingHolidays ? (
                 <tr>
-                  <td colSpan={3} className="px-6 py-8 text-center text-slate-500">Loading...</td>
+                  <td colSpan={3} className="px-6 py-8 text-center text-muted-foreground">Loading...</td>
                 </tr>
               ) : holidays?.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="px-6 py-8 text-center text-slate-500">No public holidays declared.</td>
+                  <td colSpan={3} className="px-6 py-8 text-center text-muted-foreground">No public holidays declared.</td>
                 </tr>
               ) : (
                 holidays?.map((holiday) => (
-                  <tr key={holiday.id} className="hover:bg-slate-50 dark:hover:bg-zinc-800/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-slate-900 dark:text-white flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-indigo-500" />
+                  <tr key={holiday.id} className="hover:bg-muted/50 transition-colors">
+                    <td className="px-6 py-4 font-medium text-foreground flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-primary/70" />
                       {holiday.name}
                     </td>
                     <td className="px-6 py-4">
@@ -92,7 +92,7 @@ export default function PublicHolidays() {
                         <button
                           onClick={() => removeHolidayMut.mutate(holiday.id)}
                           disabled={removeHolidayMut.isPending}
-                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 rounded transition-colors"
+                          className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -108,16 +108,16 @@ export default function PublicHolidays() {
 
       {/* Declare Holiday Modal */}
       {isHolidayModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-zinc-900 w-full max-w-md rounded-xl shadow-xl overflow-hidden border border-slate-200 dark:border-zinc-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
+          <div className="bg-card w-full max-w-md rounded-xl shadow-xl overflow-hidden border border-border">
             <form onSubmit={handleDeclareHoliday}>
-              <div className="p-6 border-b border-slate-200 dark:border-zinc-800">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Declare Public Holiday</h3>
-                <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">Staff working on this date will receive 1.5x holiday pay.</p>
+              <div className="p-6 border-b border-border">
+                <h3 className="text-lg font-semibold text-foreground">Declare Public Holiday</h3>
+                <p className="text-sm text-muted-foreground mt-1">Staff working on this date will receive 1.5x holiday pay.</p>
               </div>
               <div className="p-6 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300 mb-1">
+                  <label className="block text-sm font-medium text-foreground mb-1">
                     Holiday Name
                   </label>
                   <input
@@ -126,11 +126,11 @@ export default function PublicHolidays() {
                     placeholder="e.g. Independence Day"
                     value={newHoliday.name}
                     onChange={(e) => setNewHoliday({ ...newHoliday, name: e.target.value })}
-                    className="w-full px-3 py-2 bg-white dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500"
+                    className="w-full px-3 py-2 bg-transparent border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300 mb-1">
+                  <label className="block text-sm font-medium text-foreground mb-1">
                     Date
                   </label>
                   <input
@@ -138,22 +138,22 @@ export default function PublicHolidays() {
                     required
                     value={newHoliday.date}
                     onChange={(e) => setNewHoliday({ ...newHoliday, date: e.target.value })}
-                    className="w-full px-3 py-2 bg-white dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500"
+                    className="w-full px-3 py-2 bg-transparent border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                   />
                 </div>
               </div>
-              <div className="p-4 bg-slate-50 dark:bg-zinc-800/50 border-t border-slate-200 dark:border-zinc-800 flex justify-end gap-3">
+              <div className="p-4 bg-muted/30 border-t border-border flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsHolidayModalOpen(false)}
-                  className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-700"
+                  className="px-4 py-2 text-sm font-medium text-foreground bg-transparent border border-border rounded-lg hover:bg-muted/50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={declareHolidayMut.isPending}
-                  className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+                  className="px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 disabled:opacity-50"
                 >
                   Declare Holiday
                 </button>

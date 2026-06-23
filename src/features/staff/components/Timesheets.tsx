@@ -99,10 +99,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
           />
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <Select value={statusFilter} onValueChange={(val) => {
-            setStatusFilter(val);
-            setCurrentPage(1); // Reset page on filter change
-          }}>
+          <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v || 'ALL')}>
             <SelectTrigger className="w-full sm:w-[150px] bg-white dark:bg-zinc-900/50">
               <SelectValue placeholder="All Status" />
             </SelectTrigger>

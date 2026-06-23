@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import api from "@/lib/api";
 import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -31,22 +32,22 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-zinc-950 p-4">
-      <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-xl shadow-xl overflow-hidden border border-slate-200 dark:border-zinc-800">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="w-full max-w-md bg-card rounded-xl shadow-xl overflow-hidden border border-border">
         <div className="p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">Reset Password</h1>
-            <p className="text-slate-500 dark:text-zinc-400">
+            <h1 className="text-3xl font-bold text-primary mb-2">Reset Password</h1>
+            <p className="text-muted-foreground">
               Enter your email and we'll send you a link to reset your password.
             </p>
           </div>
           
           {isSuccess ? (
             <div className="text-center space-y-6">
-              <div className="bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 p-4 rounded-lg text-sm">
+              <div className="bg-emerald-500/10 text-emerald-600 p-4 rounded-lg text-sm">
                 If an account exists with {email}, you will receive a password reset link shortly. Please check your inbox (and spam folder).
               </div>
-              <Link to="/login" className="inline-flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline">
+              <Link to="/login" className="inline-flex items-center text-sm font-medium text-primary hover:underline">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Login
               </Link>
@@ -54,26 +55,26 @@ export default function ForgotPassword() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300 mb-2">Email Address</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Email Address</label>
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2 border border-slate-300 dark:border-zinc-700 rounded-md bg-transparent text-slate-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="w-full px-4 py-2 border border-border rounded-md bg-transparent text-foreground focus:ring-2 focus:ring-primary outline-none"
                   placeholder="admin@restaurant.com"
                   required
                 />
               </div>
-              <button 
+              <Button 
                 type="submit" 
                 disabled={resetMutation.isPending}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-medium py-2.5 rounded-md transition-colors"
+                className="w-full"
               >
                 {resetMutation.isPending ? "Sending Link..." : "Send Reset Link"}
-              </button>
+              </Button>
               
               <div className="text-center">
-                <Link to="/login" className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline">
+                <Link to="/login" className="text-sm font-medium text-primary hover:underline">
                   Back to Login
                 </Link>
               </div>

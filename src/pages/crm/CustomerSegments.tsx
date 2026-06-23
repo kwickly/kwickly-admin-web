@@ -69,11 +69,11 @@ export default function CustomerSegments() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Target className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <Target className="h-6 w-6 text-primary" />
             Customer Segments
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Define filter rules to group subscribers dynamically.
           </p>
         </div>
@@ -87,37 +87,37 @@ export default function CustomerSegments() {
           <Dialog open={segOpen} onOpenChange={setSegOpen}>
             {/* @ts-ignore */}
             <DialogTrigger asChild>
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2">
+              <Button className="flex items-center gap-2">
                 <Plus className="h-4 w-4" /> Create Segment
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+            <DialogContent className="sm:max-w-[425px] bg-card border-border">
             <DialogHeader>
-              <DialogTitle className="text-slate-900 dark:text-zinc-100">Create Customer Segment</DialogTitle>
-              <DialogDescription className="text-slate-500 dark:text-zinc-400">
+              <DialogTitle className="text-foreground">Create Customer Segment</DialogTitle>
+              <DialogDescription className="text-muted-foreground">
                 Define filter rules to group subscribers dynamically.
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleCreateSegment} className="space-y-4">
               <div className="grid gap-2">
-                <Label htmlFor="segName" className="text-slate-700 dark:text-zinc-300">Segment Name</Label>
+                <Label htmlFor="segName" className="text-foreground">Segment Name</Label>
                 <Input
                   id="segName"
                   value={segName}
                   onChange={(e) => setSegName(e.target.value)}
                   placeholder="e.g. Inactive Diners"
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  className="bg-transparent"
                   required
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="ruleType" className="text-slate-700 dark:text-zinc-300">Rule Trigger</Label>
+                <Label htmlFor="ruleType" className="text-foreground">Rule Trigger</Label>
                 <Select value={ruleType} onValueChange={(val: any) => setRuleType(val)}>
-                  <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                  <SelectTrigger className="bg-transparent">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectContent className="bg-card border-border">
                     <SelectItem value="days_since_scan">Days Since Last Meal Scan</SelectItem>
                     <SelectItem value="total_scans">Total Scans Ever</SelectItem>
                     <SelectItem value="signup_days">Signup Age (Days)</SelectItem>
@@ -126,20 +126,20 @@ export default function CustomerSegments() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="ruleValue" className="text-slate-700 dark:text-zinc-300">Rule Condition Value</Label>
+                <Label htmlFor="ruleValue" className="text-foreground">Rule Condition Value</Label>
                 <Input
                   id="ruleValue"
                   type="number"
                   value={ruleValue}
                   onChange={(e) => setRuleValue(e.target.value)}
                   placeholder="e.g. 5"
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  className="bg-transparent"
                   required
                 />
               </div>
 
               <DialogFooter className="pt-2">
-                <Button type="submit" disabled={createSegmentMutation.isPending} className="bg-indigo-600 hover:bg-indigo-700 text-white w-full">
+                <Button type="submit" disabled={createSegmentMutation.isPending} className="w-full">
                   {createSegmentMutation.isPending ? 'Saving...' : 'Save Segment'}
                 </Button>
               </DialogFooter>
@@ -152,13 +152,13 @@ export default function CustomerSegments() {
       {isSegsLoading ? (
         <GridCardSkeleton count={6} />
       ) : !segments || segments.length === 0 ? (
-        <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-500">
+        <div className="text-center py-12 bg-card border border-border rounded-xl text-muted-foreground">
           No segments configured yet.
         </div>
       ) : (
-        <div className="rounded-md border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
+        <div className="rounded-md border border-border bg-card overflow-hidden">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
+            <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead>Segment Name</TableHead>
                 <TableHead>Condition Rule</TableHead>
@@ -167,12 +167,12 @@ export default function CustomerSegments() {
             </TableHeader>
             <TableBody>
               {segments.map((seg) => (
-                <TableRow key={seg.id}>
-                  <TableCell className="font-medium text-slate-900 dark:text-zinc-100">{seg.name}</TableCell>
-                  <TableCell className="text-slate-500 dark:text-zinc-400 capitalize font-mono text-xs">
+                <TableRow key={seg.id} className="hover:bg-muted/50">
+                  <TableCell className="font-medium text-foreground">{seg.name}</TableCell>
+                  <TableCell className="text-muted-foreground capitalize font-mono text-xs">
                     {seg.ruleType.replace(/_/g, ' ')} &gt;= {seg.ruleValue}
                   </TableCell>
-                  <TableCell className="text-slate-900 dark:text-zinc-100 font-semibold">{seg.customerCount} users</TableCell>
+                  <TableCell className="text-foreground font-semibold">{seg.customerCount} users</TableCell>
                 </TableRow>
               ))}
             </TableBody>

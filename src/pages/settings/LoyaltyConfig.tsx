@@ -50,16 +50,16 @@ export default function LoyaltyConfig() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Award className="h-6 w-6 text-primary" />
           Loyalty & Wallet Config
         </h1>
-        <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+        <p className="text-sm text-muted-foreground mt-1">
           Configure rewards multipliers and checkout points calculation rules.
         </p>
       </div>
 
-      <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-slate-200 dark:border-zinc-800">
+      <div className="bg-card rounded-xl shadow-sm border border-border">
         <form onSubmit={handleLoyaltySave} className="p-6 space-y-6">
           {isLoyaltyLoading ? (
             <FormSkeleton />
@@ -67,52 +67,52 @@ export default function LoyaltyConfig() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h3 className="text-sm font-bold uppercase text-slate-400 tracking-wider">Tier Multipliers</h3>
+                  <h3 className="text-sm font-bold uppercase text-muted-foreground tracking-wider">Tier Multipliers</h3>
                   
                   <div className="grid gap-2">
-                    <Label htmlFor="bronze" className="text-slate-700 dark:text-zinc-300">Bronze Tier Multiplier</Label>
+                    <Label htmlFor="bronze" className="text-foreground">Bronze Tier Multiplier</Label>
                     <Input
                       id="bronze"
                       type="number"
                       step="0.1"
                       value={bronze}
                       onChange={(e) => setBronze(e.target.value)}
-                      className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                      className="bg-transparent border-border text-foreground"
                     />
                   </div>
 
                   <div className="grid gap-2">
-                    <Label htmlFor="silver" className="text-slate-700 dark:text-zinc-300">Silver Tier Multiplier</Label>
+                    <Label htmlFor="silver" className="text-foreground">Silver Tier Multiplier</Label>
                     <Input
                       id="silver"
                       type="number"
                       step="0.1"
                       value={silver}
                       onChange={(e) => setSilver(e.target.value)}
-                      className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                      className="bg-transparent border-border text-foreground"
                     />
                   </div>
 
                   <div className="grid gap-2">
-                    <Label htmlFor="gold" className="text-slate-700 dark:text-zinc-300">Gold Tier Multiplier</Label>
+                    <Label htmlFor="gold" className="text-foreground">Gold Tier Multiplier</Label>
                     <Input
                       id="gold"
                       type="number"
                       step="0.1"
                       value={gold}
                       onChange={(e) => setGold(e.target.value)}
-                      className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                      className="bg-transparent border-border text-foreground"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-sm font-bold uppercase text-slate-400 tracking-wider">Wallet & Point Accumulation</h3>
+                    <h3 className="text-sm font-bold uppercase text-muted-foreground tracking-wider">Wallet & Point Accumulation</h3>
                     
                     <div className="grid gap-2">
-                      <Label htmlFor="pointsRate" className="text-slate-700 dark:text-zinc-300 flex items-center gap-1.5">
-                        <Percent className="h-4 w-4 text-slate-400" />
+                      <Label htmlFor="pointsRate" className="text-foreground flex items-center gap-1.5">
+                        <Percent className="h-4 w-4 text-muted-foreground" />
                         Loyalty Points Earned Per ₹1 Spent
                       </Label>
                       <Input
@@ -121,14 +121,14 @@ export default function LoyaltyConfig() {
                         step="0.01"
                         value={pointsPerRupee}
                         onChange={(e) => setPointsPerRupee(e.target.value)}
-                        className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                        className="bg-transparent border-border text-foreground"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-3 pt-2">
-                    <h3 className="text-sm font-bold uppercase text-slate-400 tracking-wider flex items-center gap-1.5">
-                      <Wallet className="h-4 w-4 text-slate-400" /> Wallet Restrictions
+                    <h3 className="text-sm font-bold uppercase text-muted-foreground tracking-wider flex items-center gap-1.5">
+                      <Wallet className="h-4 w-4 text-muted-foreground" /> Wallet Restrictions
                     </h3>
                     
                     <div className="flex items-center space-x-2">
@@ -137,9 +137,9 @@ export default function LoyaltyConfig() {
                         id="walletTopUp"
                         checked={walletTopUp}
                         onChange={(e) => setWalletTopUp(e.target.checked)}
-                        className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-primary focus:ring-primary"
+                        className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                       />
-                      <Label htmlFor="walletTopUp" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
+                      <Label htmlFor="walletTopUp" className="text-sm font-normal text-muted-foreground cursor-pointer">
                         Enable In-App Wallet Top-Ups via Razorpay
                       </Label>
                     </div>
@@ -150,9 +150,9 @@ export default function LoyaltyConfig() {
                         id="partialDeduction"
                         checked={partialDeduction}
                         onChange={(e) => setPartialDeduction(e.target.checked)}
-                        className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-primary focus:ring-primary"
+                        className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                       />
-                      <Label htmlFor="partialDeduction" className="text-sm font-normal text-slate-600 dark:text-zinc-300 cursor-pointer">
+                      <Label htmlFor="partialDeduction" className="text-sm font-normal text-muted-foreground cursor-pointer">
                         Allow Partial Point Redemption during Checkout
                       </Label>
                     </div>
@@ -160,7 +160,7 @@ export default function LoyaltyConfig() {
                 </div>
               </div>
 
-              <div className="flex justify-end pt-4 border-t border-slate-200 dark:border-zinc-800">
+              <div className="flex justify-end pt-4 border-t border-border">
                 <button
                   type="submit"
                   disabled={updateLoyaltyMutation.isPending}

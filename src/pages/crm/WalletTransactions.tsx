@@ -26,11 +26,11 @@ export default function WalletTransactions() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <CreditCard className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <CreditCard className="h-6 w-6 text-primary" />
             Wallet & Transactions
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Global ledger of all customer wallet credits and debits.
           </p>
         </div>
@@ -42,10 +42,10 @@ export default function WalletTransactions() {
           <CardDescription>A complete log of all wallet activities.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border border-slate-200 dark:border-zinc-800">
+          <div className="rounded-md border border-border">
             <Table>
               <TableHeader>
-                <TableRow>
+                <TableRow className="hover:bg-muted/50">
                   <TableHead>Date</TableHead>
                   <TableHead>Customer</TableHead>
                   <TableHead>Type</TableHead>
@@ -56,41 +56,41 @@ export default function WalletTransactions() {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                       Loading transactions...
                     </TableCell>
                   </TableRow>
                 ) : transactions.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                       No wallet transactions found.
                     </TableCell>
                   </TableRow>
                 ) : (
                   transactions.map((tx) => (
-                    <TableRow key={tx.id}>
-                      <TableCell className="font-medium">
+                    <TableRow key={tx.id} className="hover:bg-muted/50">
+                      <TableCell className="font-medium text-foreground">
                         {new Date(tx.date).toLocaleDateString()} {new Date(tx.date).toLocaleTimeString()}
                       </TableCell>
-                      <TableCell>{tx.customerName}</TableCell>
+                      <TableCell className="text-foreground">{tx.customerName}</TableCell>
                       <TableCell>
                         {tx.type === 'CREDIT' ? (
-                          <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
+                          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
                             <ArrowUpRight className="h-3 w-3 mr-1" />
                             CREDIT
                           </Badge>
                         ) : (
-                          <Badge variant="outline" className="bg-rose-50 text-rose-700 border-rose-200">
+                          <Badge variant="outline" className="bg-rose-500/10 text-rose-600 border-rose-500/20">
                             <ArrowDownRight className="h-3 w-3 mr-1" />
                             DEBIT
                           </Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-slate-600 dark:text-zinc-300">
+                      <TableCell className="text-muted-foreground">
                         {tx.reason}
                       </TableCell>
                       <TableCell className="text-right font-bold">
-                        <span className={tx.type === 'CREDIT' ? 'text-emerald-600' : 'text-rose-600'}>
+                        <span className={tx.type === 'CREDIT' ? 'text-emerald-600' : 'text-destructive'}>
                           {tx.type === 'CREDIT' ? '+' : '-'}₹{tx.amount.toFixed(2)}
                         </span>
                       </TableCell>

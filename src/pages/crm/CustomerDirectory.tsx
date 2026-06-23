@@ -63,11 +63,11 @@ export default function CustomerDirectory() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Users className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <Users className="h-6 w-6 text-primary" />
             Customer Directory
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Manage your customer profiles, view lifetime value, and handle wallet balances.
           </p>
         </div>
@@ -75,13 +75,13 @@ export default function CustomerDirectory() {
 
       {/* Wallet Management Modal */}
       <Dialog open={isWalletModalOpen} onOpenChange={setIsWalletModalOpen}>
-        <DialogContent className="sm:max-w-2xl">
+        <DialogContent className="sm:max-w-2xl bg-card border-border">
           <DialogHeader>
-            <DialogTitle className="text-xl flex items-center gap-2">
-              <Wallet className="h-5 w-5 text-indigo-600" />
+            <DialogTitle className="text-xl flex items-center gap-2 text-foreground">
+              <Wallet className="h-5 w-5 text-primary" />
               Wallet Management: {selectedCustomer?.name}
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-muted-foreground">
               View transaction history and make manual wallet adjustments.
             </DialogDescription>
           </DialogHeader>
@@ -98,10 +98,10 @@ export default function CustomerDirectory() {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="history" className="mt-4 border rounded-md p-0 overflow-hidden">
-              <div className="bg-slate-50 dark:bg-zinc-900 p-4 border-b flex justify-between items-center">
-                <span className="text-sm font-medium text-slate-500">Current Balance</span>
-                <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">₹{selectedCustomer?.walletBalance.toFixed(2)}</span>
+            <TabsContent value="history" className="mt-4 border border-border rounded-md p-0 overflow-hidden">
+              <div className="bg-muted/50 p-4 border-b border-border flex justify-between items-center">
+                <span className="text-sm font-medium text-muted-foreground">Current Balance</span>
+                <span className="text-2xl font-bold text-primary">₹{selectedCustomer?.walletBalance.toFixed(2)}</span>
               </div>
               <Table>
                 <TableHeader>
@@ -115,7 +115,7 @@ export default function CustomerDirectory() {
                   <TableRow>
                     <TableCell className="text-sm">Today, 10:42 AM</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="bg-emerald-50 text-emerald-700">
+                      <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
                         <ArrowUpRight className="h-3 w-3 mr-1" /> CREDIT
                       </Badge>
                     </TableCell>
@@ -124,7 +124,7 @@ export default function CustomerDirectory() {
                   <TableRow>
                     <TableCell className="text-sm">Yesterday, 8:15 PM</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="bg-rose-50 text-rose-700">
+                      <Badge variant="outline" className="bg-rose-500/10 text-rose-600 border-rose-500/20">
                         <ArrowDownRight className="h-3 w-3 mr-1" /> DEBIT
                       </Badge>
                     </TableCell>
@@ -136,10 +136,10 @@ export default function CustomerDirectory() {
 
             <TabsContent value="adjust" className="mt-4">
               <form onSubmit={handleManualAdjustment} className="space-y-4">
-                <div className="bg-slate-50 dark:bg-zinc-900/50 p-4 rounded-lg border flex items-center justify-between mb-4">
+                <div className="bg-muted/50 p-4 rounded-lg border border-border flex items-center justify-between mb-4">
                   <div>
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Current Balance</p>
-                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">₹{selectedCustomer?.walletBalance.toFixed(2)}</p>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Current Balance</p>
+                    <p className="text-2xl font-bold text-foreground mt-1">₹{selectedCustomer?.walletBalance.toFixed(2)}</p>
                   </div>
                 </div>
 
@@ -167,7 +167,7 @@ export default function CustomerDirectory() {
                 </div>
                 
                 <div className="pt-4 flex justify-end">
-                  <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
+                  <Button type="submit" className="w-full">
                     Submit Ledger Entry
                   </Button>
                 </div>
@@ -184,16 +184,16 @@ export default function CustomerDirectory() {
             <CardDescription>View and manage all registered customers.</CardDescription>
           </div>
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search customers by name or phone..."
-              className="pl-9 w-72 bg-slate-50 dark:bg-zinc-900/50"
+              className="pl-9 w-72 bg-muted/50"
             />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border border-slate-200 dark:border-zinc-800 mt-4">
+          <div className="rounded-md border border-border mt-4">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -207,44 +207,44 @@ export default function CustomerDirectory() {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                       Loading customers...
                     </TableCell>
                   </TableRow>
                 ) : customers.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                       No customers found.
                     </TableCell>
                   </TableRow>
                 ) : (
                   customers.map((customer) => (
                     <TableRow key={customer.id}>
-                      <TableCell className="font-medium text-slate-900 dark:text-white">
+                      <TableCell className="font-medium text-foreground">
                         {customer.name}
-                        <div className="text-xs text-slate-500 font-normal mt-0.5">Last visit: {new Date(customer.lastVisit).toLocaleDateString()}</div>
+                        <div className="text-xs text-muted-foreground font-normal mt-0.5">Last visit: {new Date(customer.lastVisit).toLocaleDateString()}</div>
                       </TableCell>
                       <TableCell>
-                        <div className="text-sm">{customer.phone}</div>
-                        <div className="text-xs text-slate-500">{customer.email}</div>
+                        <div className="text-sm text-foreground">{customer.phone}</div>
+                        <div className="text-xs text-muted-foreground">{customer.email}</div>
                       </TableCell>
-                      <TableCell className="text-right text-slate-600 dark:text-zinc-300 font-medium">
+                      <TableCell className="text-right text-muted-foreground font-medium">
                         ₹{customer.lifetimeValue.toFixed(2)}
                       </TableCell>
                       <TableCell className="text-right">
                         {customer.walletBalance > 0 ? (
-                          <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-200 font-bold px-2 py-1">
+                          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 font-bold px-2 py-1">
                             ₹{customer.walletBalance.toFixed(2)}
                           </Badge>
                         ) : (
-                          <span className="text-slate-400 font-medium">₹0.00</span>
+                          <span className="text-muted-foreground/50 font-medium">₹0.00</span>
                         )}
                       </TableCell>
                       <TableCell className="text-right">
                         <Button 
                           variant="outline" 
                           size="sm" 
-                          className="hover:bg-indigo-50 hover:text-indigo-600"
+                          className="hover:bg-primary/10 hover:text-primary"
                           onClick={() => openWalletModal(customer)}
                         >
                           <Wallet className="h-4 w-4 mr-2" />

@@ -14,10 +14,10 @@ describe('useAuthStore', () => {
   });
 
   it('logs in and stores user + token', () => {
-    const mockUser = { id: '1', name: 'Alice', role: 'ADMIN', tenantId: 'tenant-1' };
+    const mockUser = { id: '1', name: 'Alice', email: 'alice@test.com', role: 'ADMIN', tenantId: 'tenant-1' };
     const mockToken = 'eyJhbGciOiJIUzI1NiJ9.mock';
 
-    useAuthStore.getState().login(mockUser, mockToken);
+    useAuthStore.getState().login(mockUser, mockToken, 'mock-refresh-token');
 
     const { user, token } = useAuthStore.getState();
     expect(user).toEqual(mockUser);
@@ -27,8 +27,9 @@ describe('useAuthStore', () => {
   it('logs out and clears user + token', () => {
     // First log in
     useAuthStore.getState().login(
-      { id: '1', name: 'Alice', role: 'ADMIN', tenantId: 'tenant-1' },
-      'some-token'
+      { id: '1', name: 'Alice', email: 'alice@test.com', role: 'ADMIN', tenantId: 'tenant-1' },
+      'some-token',
+      'some-refresh-token'
     );
     expect(useAuthStore.getState().token).not.toBeNull();
 

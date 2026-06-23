@@ -51,18 +51,18 @@ export default function PlatformStaff() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <ShieldAlert className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <ShieldAlert className="h-6 w-6 text-primary" />
             Platform Staff & Admins
           </h1>
-          <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Manage system administrators and platform owners.
           </p>
         </div>
       </div>
 
-      <Card className="border-slate-200 dark:border-zinc-800 shadow-sm">
-        <CardHeader className="border-b border-slate-100 dark:border-zinc-800/50 pb-4">
+      <Card className="border-border shadow-sm">
+        <CardHeader className="border-b border-border/50 pb-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <CardTitle>Admin Directory</CardTitle>
@@ -71,20 +71,20 @@ export default function PlatformStaff() {
               </CardDescription>
             </div>
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search staff..."
-                className="pl-9 w-64 bg-slate-50 dark:bg-zinc-900/50"
+                className="pl-9 w-64 bg-muted/50"
               />
             </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
+            <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead className="w-[300px]">Staff Member</TableHead>
                 <TableHead>Contact</TableHead>
@@ -97,7 +97,7 @@ export default function PlatformStaff() {
                 <TableRow>
                   <TableCell
                     colSpan={4}
-                    className="text-center py-8 text-slate-500"
+                    className="text-center py-8 text-muted-foreground"
                   >
                     Loading directory...
                   </TableCell>
@@ -105,8 +105,8 @@ export default function PlatformStaff() {
               ) : filteredStaff.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-12">
-                    <ShieldAlert className="h-10 w-10 text-slate-300 dark:text-zinc-700 mx-auto mb-3" />
-                    <p className="text-slate-500 dark:text-zinc-400 font-medium">
+                    <ShieldAlert className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                    <p className="text-muted-foreground font-medium">
                       No staff found
                     </p>
                   </TableCell>
@@ -115,17 +115,17 @@ export default function PlatformStaff() {
                 filteredStaff.map((member) => (
                   <TableRow
                     key={member.id}
-                    className="hover:bg-slate-50/50 dark:hover:bg-zinc-900/50"
+                    className="hover:bg-muted/50"
                   >
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
-                          <span className="font-bold text-indigo-600 dark:text-indigo-400">
+                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                          <span className="font-bold text-primary">
                             {member.name.charAt(0)}
                           </span>
                         </div>
                         <div>
-                          <div className="font-medium text-slate-900 dark:text-white">
+                          <div className="font-medium text-foreground">
                             {member.name}
                           </div>
                         </div>
@@ -134,13 +134,13 @@ export default function PlatformStaff() {
                     <TableCell>
                       <div className="space-y-1 text-sm">
                         {member.email && (
-                          <div className="flex items-center gap-1.5 text-slate-500">
+                          <div className="flex items-center gap-1.5 text-muted-foreground">
                             <Mail className="h-3 w-3" />
                             {member.email}
                           </div>
                         )}
                         {member.phone && (
-                          <div className="flex items-center gap-1.5 text-slate-500">
+                          <div className="flex items-center gap-1.5 text-muted-foreground">
                             <Phone className="h-3 w-3" />
                             {member.phone}
                           </div>
@@ -152,8 +152,8 @@ export default function PlatformStaff() {
                         variant="outline"
                         className={
                           member.role === "super_admin"
-                            ? "bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-900"
-                            : "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-900"
+                            ? "bg-destructive/10 text-destructive border-destructive/20"
+                            : "bg-primary/10 text-primary border-primary/20"
                         }
                       >
                         <Shield className="w-3 h-3 mr-1" />
@@ -163,7 +163,7 @@ export default function PlatformStaff() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1.5 text-sm text-slate-500">
+                      <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
                         <Clock className="h-3 w-3" />
                         {new Date(member.createdAt).toLocaleDateString()}
                       </div>

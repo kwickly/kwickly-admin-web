@@ -18,7 +18,7 @@ export default function Suppliers() {
     setIsLoading(true);
     try {
       const token = localStorage.getItem("kwickly_token");
-      const response = await fetch("http://localhost:3000/api/v1/inventory/suppliers", {
+      const response = await fetch("http://localhost:8080/api/v1/inventory/suppliers", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -45,7 +45,7 @@ export default function Suppliers() {
 
     try {
       const token = localStorage.getItem("kwickly_token");
-      const response = await fetch("http://localhost:3000/api/v1/inventory/suppliers", {
+      const response = await fetch("http://localhost:8080/api/v1/inventory/suppliers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

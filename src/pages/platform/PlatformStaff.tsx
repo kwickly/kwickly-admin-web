@@ -28,7 +28,7 @@ export default function PlatformStaff() {
     try {
       const token = localStorage.getItem("kwickly_token");
       const response = await fetch(
-        "http://localhost:3000/api/v1/platform/staff",
+        "http://localhost:8080/api/v1/platform/staff",
         {
           headers: {
             Authorization: `Bearer ${token}`,

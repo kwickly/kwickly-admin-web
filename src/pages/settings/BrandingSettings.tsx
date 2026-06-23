@@ -1,334 +1,368 @@
-import { useState, useEffect } from "react";
-import { useAuthStore } from "@/store/useAuth";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import api from "@/lib/api";
-import { getContrastColor, adjustColorBrightness, getHexOpacity } from "@/lib/colors";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { FormSkeleton } from "@/components/ui/loaders";
-import { Paintbrush, Image, Check, Layout, Sparkles } from "lucide-react";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { useAuthStore } from '@/store/useAuth';
+import { toast } from 'sonner';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { Palette, Type, Square, Layout, Moon, Image as ImageIcon, Sparkles, Check } from 'lucide-react';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
 
 export default function BrandingSettings() {
-  const queryClient = useQueryClient();
-  const { setImpersonatedTenant, impersonatedTenantId } = useAuthStore();
+  const { user, token, setImpersonatedTenant } = useAuthStore();
 
-  // 1. Fetch current tenant settings from DB
-  const { data: tenantSettings, isLoading } = useQuery({
-    queryKey: ["tenant", "settings"],
-    queryFn: async () => {
-      const { data } = await api.get("/tenant/settings");
-      return data.data; // { id, name, brandColor, logoUrl, ... }
-    },
-  });
-
-  // Local Form States
-  const [name, setName] = useState("");
-  const [brandColor, setBrandColor] = useState("#4f46e5");
-  const [logoUrl, setLogoUrl] = useState("");
-
-  // Sync Form States with fetched data
-  useEffect(() => {
-    if (tenantSettings) {
-      setName(tenantSettings.name || "");
-      setBrandColor(tenantSettings.brandColor || "#4f46e5");
-      setLogoUrl(tenantSettings.logoUrl || "");
-    }
-  }, [tenantSettings]);
-
-  // 2. Save Mutation
-  const saveMutation = useMutation({
-    mutationFn: async (payload: { name: string; brandColor: string; logoUrl: string }) => {
-      const { data } = await api.patch("/tenant/settings", payload);
-      return data.data;
-    },
-    onSuccess: (updatedTenant) => {
-      toast.success("Branding settings saved successfully!");
-      // Invalidate queries to refresh DB settings
-      queryClient.invalidateQueries({ queryKey: ["tenant", "settings"] });
-      
-      // Update Auth Store with new tenant details so app shell re-renders instantly
-      if (useAuthStore.getState().user) {
-        const currentUser = useAuthStore.getState().user!;
-        useAuthStore.setState({
-          user: {
-            ...currentUser,
-            tenantDetails: {
-              id: updatedTenant.id,
-              name: updatedTenant.name,
-              logoUrl: updatedTenant.logoUrl,
-              brandColor: updatedTenant.brandColor,
-            },
-          },
-        });
-      }
-
-      // If Platform Owner is impersonating, update the impersonation state too
-      if (impersonatedTenantId === updatedTenant.id) {
-        setImpersonatedTenant(
-          updatedTenant.id, 
-          updatedTenant.name, 
-          updatedTenant.brandColor, 
-          updatedTenant.logoUrl
-        );
-      }
-    },
-    onError: (err: any) => {
-      toast.error(err.response?.data?.error || "Failed to update branding.");
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    saveMutation.mutate({ name, brandColor, logoUrl });
+  const currentTheme = user?.tenantDetails?.themeConfig || {
+    light: {},
+    dark: {},
+    fonts: { sans: "Inter, sans-serif", serif: "Georgia, serif", mono: "Menlo, monospace" }
   };
 
-  // Preview derived values
-  const previewForeground = getContrastColor(brandColor);
-  const previewHover = adjustColorBrightness(brandColor, -12);
-  const previewTint = getHexOpacity(brandColor, 10);
-  const previewTintHover = getHexOpacity(brandColor, 20);
+  // State for Advanced Theme Builder
+  const [hue, setHue] = useState<number>(245); // Default indigo hue
+  const [chroma, setChroma] = useState<number>(0.16); // Default saturation
+  const [radius, setRadius] = useState<number>(0.5); // Default radius in rem
+  const [fontSans, setFontSans] = useState<string>(currentTheme.fonts?.sans || 'Inter, sans-serif');
+  const [themeMode, setThemeMode] = useState<string>(user?.tenantDetails?.themeMode || 'system');
+  const [logoUrl, setLogoUrl] = useState(user?.tenantDetails?.logoUrl || '');
+  const [logoDarkUrl, setLogoDarkUrl] = useState(user?.tenantDetails?.logoDarkUrl || '');
+  const [faviconUrl, setFaviconUrl] = useState(user?.tenantDetails?.faviconUrl || '');
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6 max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-        <FormSkeleton />
-      </div>
-    );
-  }
+  // Extract initial Hue/Chroma if previously saved
+  useEffect(() => {
+    const primary = currentTheme.light?.['--primary'];
+    if (primary && primary.includes('oklch')) {
+      const match = primary.match(/oklch\([.\d]+\s+([.\d]+)\s+([.\d]+)\)/);
+      if (match) {
+        setChroma(parseFloat(match[1]));
+        setHue(parseFloat(match[2]));
+      }
+    }
+    const storedRadius = currentTheme.light?.['--radius'];
+    if (storedRadius) {
+      setRadius(parseFloat(storedRadius.replace('rem', '')));
+    }
+  }, []);
+
+  // Compute the live preview theme config
+  const previewTheme = {
+    light: {
+      '--primary': `oklch(0.6723 ${chroma} ${hue})`,
+      '--ring': `oklch(0.6818 ${chroma} ${hue})`,
+      '--sidebar-primary': `oklch(0.6723 ${chroma} ${hue})`,
+      '--radius': `${radius}rem`,
+    },
+    dark: {
+      '--primary': `oklch(0.6692 ${chroma} ${hue})`,
+      '--ring': `oklch(0.6818 ${chroma} ${hue})`,
+      '--sidebar-primary': `oklch(0.6818 ${chroma} ${hue})`,
+    },
+    fonts: {
+      sans: fontSans,
+      serif: currentTheme.fonts?.serif || 'Georgia, serif',
+      mono: currentTheme.fonts?.mono || 'Menlo, monospace',
+    }
+  };
+
+  // Inject preview CSS specifically scoped to the preview container
+  useEffect(() => {
+    const styleId = 'tweakcn-preview-style';
+    let style = document.getElementById(styleId);
+    if (!style) {
+      style = document.createElement('style');
+      style.id = styleId;
+      document.head.appendChild(style);
+    }
+
+    style.innerHTML = `
+      .theme-preview-container {
+        ${Object.entries(previewTheme.light).map(([k, v]) => `${k}: ${v};`).join('\\n        ')}
+        --font-sans: ${previewTheme.fonts.sans};
+      }
+      .dark .theme-preview-container {
+        ${Object.entries(previewTheme.dark).map(([k, v]) => `${k}: ${v};`).join('\\n        ')}
+      }
+    `;
+
+    return () => {
+      if (style) style.remove();
+    };
+  }, [previewTheme]);
+
+
+  const saveMutation = useMutation({
+    mutationFn: async () => {
+      const payload = {
+        themeConfig: previewTheme,
+        themeMode,
+        logoUrl,
+        logoDarkUrl,
+        faviconUrl
+      };
+      const res = await axios.patch(`${API_URL}/tenant/settings`, payload, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      // Sync the new theme immediately into global app state so it applies platform-wide
+      setImpersonatedTenant(
+        user!.tenantId,
+        user!.tenantDetails!.name,
+        user!.tenantDetails!.brandColor,
+        logoUrl,
+        logoDarkUrl,
+        faviconUrl,
+        themeMode,
+        previewTheme
+      );
+      toast.success("Theme Published!", { description: "Your Advanced Theme has been saved and applied globally." });
+    },
+    onError: (err) => {
+      console.error(err);
+      toast.error("Error", { description: "Could not save theme configuration." });
+    }
+  });
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-300">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto pb-20">
       
-      {/* Settings Form Column */}
-      <div className="lg:col-span-7 space-y-6">
-        <Card className="border-slate-200 dark:border-zinc-800 shadow-sm bg-white dark:bg-zinc-900">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold flex items-center gap-2">
-              <Paintbrush className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-              Customize Portal Theme
-            </CardTitle>
-            <CardDescription>
-              Set your restaurant name, primary brand colors, and company logo. These will apply across your staff and customer-facing interfaces.
-            </CardDescription>
-          </CardHeader>
-          
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              
-              <div className="space-y-2">
-                <Label htmlFor="restaurant-name">Restaurant Name</Label>
-                <Input
-                  id="restaurant-name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g., Kwickly Burgers"
-                  className="bg-transparent border-slate-200 dark:border-zinc-800 focus:ring-1 focus:ring-indigo-500"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="brand-color">Primary Brand Color</Label>
-                  <div className="flex gap-3">
-                    <div 
-                      className="h-10 w-12 rounded-lg border border-slate-200 dark:border-zinc-800 shadow-inner cursor-pointer"
-                      style={{ backgroundColor: brandColor }}
-                      onClick={() => document.getElementById("color-picker")?.click()}
-                    />
-                    <Input
-                      id="brand-color"
-                      type="text"
-                      value={brandColor}
-                      onChange={(e) => setBrandColor(e.target.value)}
-                      placeholder="#6366F1"
-                      className="font-mono bg-transparent border-slate-200 dark:border-zinc-800 focus:ring-1 focus:ring-indigo-500"
-                      maxLength={7}
-                      required
-                    />
-                    <input
-                      id="color-picker"
-                      type="color"
-                      value={brandColor}
-                      onChange={(e) => setBrandColor(e.target.value)}
-                      className="sr-only"
-                    />
-                  </div>
-                  <p className="text-[10px] text-slate-500 mt-1">Select or type a hex color code representing your brand.</p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Preset Colors</Label>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {["#4F46E5", "#06B6D4", "#10B981", "#F59E0B", "#EF4444", "#EC4899", "#8B5CF6", "#09090b"].map((preset) => (
-                      <button
-                        key={preset}
-                        type="button"
-                        onClick={() => setBrandColor(preset)}
-                        className="h-6 w-6 rounded-full border border-white dark:border-zinc-900 shadow-sm transition-transform hover:scale-110 active:scale-95 flex items-center justify-center"
-                        style={{ backgroundColor: preset }}
-                      >
-                        {brandColor.toLowerCase() === preset.toLowerCase() && (
-                          <Check className="h-3 w-3 text-white" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="logo-url" className="flex items-center gap-2">
-                  <Image className="h-4 w-4 text-slate-400" />
-                  Logo Image URL
-                </Label>
-                <Input
-                  id="logo-url"
-                  type="url"
-                  value={logoUrl}
-                  onChange={(e) => setLogoUrl(e.target.value)}
-                  placeholder="https://example.com/logo.png"
-                  className="bg-transparent border-slate-200 dark:border-zinc-800 focus:ring-1 focus:ring-indigo-500"
-                />
-                <p className="text-[10px] text-slate-500">Provide an absolute URL pointing to your transparent logo PNG or SVG.</p>
-              </div>
-
-              <div className="pt-2 flex justify-end">
-                <Button 
-                  type="submit" 
-                  disabled={saveMutation.isPending}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-2 shadow-sm transition-colors"
-                >
-                  {saveMutation.isPending ? "Saving changes..." : "Save Branding"}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Interactive Mockup Column */}
+      {/* Left Pane: Tweakcn-style Advanced Controls */}
       <div className="lg:col-span-5 space-y-6">
-        <Card className="border-slate-200 dark:border-zinc-800 shadow-sm bg-white dark:bg-zinc-900 overflow-hidden sticky top-24">
-          <CardHeader className="border-b border-slate-100 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/50">
-            <CardTitle className="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-              <Layout className="h-4 w-4" /> Live Interactive Mockup
-            </CardTitle>
-            <CardDescription>
-              See how your selected theme details automatically style portal elements.
-            </CardDescription>
-          </CardHeader>
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Theme Builder</h2>
+          <p className="text-muted-foreground text-sm">Fine-tune your brand's aesthetics using our advanced design engine.</p>
+        </div>
+
+        <Tabs defaultValue="colors" className="w-full">
+          <TabsList className="grid grid-cols-4 w-full">
+            <TabsTrigger value="colors"><Palette className="h-4 w-4 mr-2" /> Colors</TabsTrigger>
+            <TabsTrigger value="geometry"><Square className="h-4 w-4 mr-2" /> Shape</TabsTrigger>
+            <TabsTrigger value="typography"><Type className="h-4 w-4 mr-2" /> Type</TabsTrigger>
+            <TabsTrigger value="assets"><ImageIcon className="h-4 w-4 mr-2" /> Assets</TabsTrigger>
+          </TabsList>
           
-          <CardContent className="p-6 space-y-6 bg-slate-50/30 dark:bg-zinc-950/20">
-            
-            {/* Sidebar Active Item Simulation */}
-            <div className="space-y-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Navigation Menu Item</span>
-              <div 
-                className="flex items-center gap-3 px-4 py-2.5 rounded-lg border transition-colors shadow-sm"
-                style={{ 
-                  backgroundColor: previewTint,
-                  borderColor: previewTintHover,
-                  color: brandColor
-                }}
-              >
-                <div className="h-4 w-4 rounded" style={{ backgroundColor: brandColor }} />
-                <span className="text-xs font-semibold">Active Menu Section</span>
-                <span className="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase" style={{ backgroundColor: brandColor, color: previewForeground }}>
-                  NEW
-                </span>
-              </div>
-            </div>
-
-            {/* Buttons Preview */}
-            <div className="space-y-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Action Buttons</span>
-              <div className="flex flex-wrap gap-3">
-                {/* Primary Button */}
-                <button
-                  type="button"
-                  className="px-4 py-2 text-xs font-semibold rounded-lg shadow-sm transition-colors cursor-default"
-                  style={{
-                    backgroundColor: brandColor,
-                    color: previewForeground
-                  }}
-                >
-                  Confirm Action
-                </button>
-
-                {/* Hover state simulation */}
-                <button
-                  type="button"
-                  className="px-4 py-2 text-xs font-semibold rounded-lg shadow-md transition-colors cursor-default"
-                  style={{
-                    backgroundColor: previewHover,
-                    color: previewForeground
-                  }}
-                >
-                  Hover State
-                </button>
-
-                {/* Tint/Secondary state */}
-                <button
-                  type="button"
-                  className="px-4 py-2 text-xs font-semibold rounded-lg border transition-colors cursor-default"
-                  style={{
-                    backgroundColor: previewTint,
-                    borderColor: previewTintHover,
-                    color: brandColor
-                  }}
-                >
-                  Secondary Tint
-                </button>
-              </div>
-            </div>
-
-            {/* Dashboard metrics card simulation */}
-            <div className="space-y-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Stats Card Accent</span>
-              <div className="p-4 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl shadow-sm space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-medium text-slate-500 dark:text-zinc-400">Total Live Scans</span>
-                  <div className="h-7 w-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: previewTint }}>
-                    <Sparkles className="h-4 w-4" style={{ color: brandColor }} />
+          <div className="mt-6">
+            <Card className="border-border shadow-sm">
+              <CardContent className="p-6">
+                
+                {/* COLORS TAB */}
+                <TabsContent value="colors" className="m-0 space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-semibold">Primary Hue</Label>
+                      <span className="text-xs text-muted-foreground font-mono">{Math.round(hue)}</span>
+                    </div>
+                    <Slider
+                      value={[hue]}
+                      min={0}
+                      max={360}
+                      step={1}
+                      onValueChange={(v) => setHue(v[0])}
+                      className="[&_[role=slider]]:bg-primary"
+                    />
+                    <div className="h-2 w-full rounded-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 via-purple-500 to-red-500 opacity-50" />
                   </div>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-xl font-extrabold text-slate-900 dark:text-white">4,892</span>
-                  <span className="text-[10px] font-bold text-emerald-500">+14.2%</span>
-                </div>
-              </div>
-            </div>
 
-            {/* Accessibility / Relative Contrast Indicator */}
-            <div className="space-y-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Accessibility Check</span>
-              <div className="p-3 bg-slate-100 dark:bg-zinc-800/50 rounded-lg text-xs flex items-center justify-between border border-slate-200/50 dark:border-zinc-800/40">
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-semibold text-slate-700 dark:text-zinc-200">Text Contrast Contrast</span>
-                  <span className="text-[10px] text-slate-500">Calculates luminance automatically</span>
-                </div>
-                <div 
-                  className="px-3 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase border shadow-sm"
-                  style={{ 
-                    backgroundColor: brandColor, 
-                    color: previewForeground,
-                    borderColor: previewHover
-                  }}
-                >
-                  Contrast: {previewForeground === "#ffffff" ? "Light Text" : "Dark Text"}
-                </div>
-              </div>
+                  <div className="space-y-4 pt-4 border-t border-border">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-semibold">Color Intensity (Chroma)</Label>
+                      <span className="text-xs text-muted-foreground font-mono">{chroma.toFixed(2)}</span>
+                    </div>
+                    <Slider
+                      value={[chroma]}
+                      min={0}
+                      max={0.3}
+                      step={0.01}
+                      onValueChange={(v) => setChroma(v[0])}
+                    />
+                  </div>
+
+                  <div className="space-y-4 pt-4 border-t border-border">
+                    <Label className="text-sm font-semibold">Appearance Mode</Label>
+                    <Select value={themeMode} onValueChange={setThemeMode}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select mode" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="system">System Default</SelectItem>
+                        <SelectItem value="light">Always Light</SelectItem>
+                        <SelectItem value="dark">Always Dark</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </TabsContent>
+
+                {/* GEOMETRY TAB */}
+                <TabsContent value="geometry" className="m-0 space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-semibold">Border Radius</Label>
+                      <span className="text-xs text-muted-foreground font-mono">{radius}rem</span>
+                    </div>
+                    <Slider
+                      value={[radius]}
+                      min={0}
+                      max={2}
+                      step={0.1}
+                      onValueChange={(v) => setRadius(v[0])}
+                    />
+                    <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
+                      <span>0rem (Sharp)</span>
+                      <span>2rem (Pill)</span>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                {/* TYPOGRAPHY TAB */}
+                <TabsContent value="typography" className="m-0 space-y-6">
+                  <div className="space-y-4">
+                    <Label className="text-sm font-semibold">Primary Font (Sans-Serif)</Label>
+                    <Select value={fontSans} onValueChange={setFontSans}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select font" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Inter, sans-serif">Inter (Modern)</SelectItem>
+                        <SelectItem value="Roboto, sans-serif">Roboto (Clean)</SelectItem>
+                        <SelectItem value="'Open Sans', sans-serif">Open Sans (Friendly)</SelectItem>
+                        <SelectItem value="ui-sans-serif, system-ui, sans-serif">System UI (Native)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </TabsContent>
+
+                {/* ASSETS TAB */}
+                <TabsContent value="assets" className="m-0 space-y-4">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-semibold">Logo (Light Mode)</Label>
+                    <Input 
+                      value={logoUrl} 
+                      onChange={(e) => setLogoUrl(e.target.value)} 
+                      placeholder="https://example.com/logo-light.svg" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs font-semibold">Logo (Dark Mode)</Label>
+                    <Input 
+                      value={logoDarkUrl} 
+                      onChange={(e) => setLogoDarkUrl(e.target.value)} 
+                      placeholder="https://example.com/logo-dark.svg" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs font-semibold">Favicon</Label>
+                    <Input 
+                      value={faviconUrl} 
+                      onChange={(e) => setFaviconUrl(e.target.value)} 
+                      placeholder="https://example.com/favicon.ico" 
+                    />
+                  </div>
+                </TabsContent>
+
+              </CardContent>
+            </Card>
+
+            <div className="mt-6 flex justify-end">
+              <Button 
+                onClick={() => saveMutation.mutate()} 
+                disabled={saveMutation.isPending}
+                className="w-full sm:w-auto shadow-sm"
+              >
+                {saveMutation.isPending ? "Publishing Theme..." : "Publish Theme Engine"}
+              </Button>
             </div>
-            
-          </CardContent>
-        </Card>
+          </div>
+        </Tabs>
       </div>
 
+      {/* Right Pane: Live Interactive Preview */}
+      <div className="lg:col-span-7">
+        <div className="sticky top-24 rounded-xl border border-border bg-background shadow-sm overflow-hidden theme-preview-container transition-all duration-300">
+          <div className="border-b border-border bg-muted/30 p-3 flex items-center justify-between">
+            <div className="flex gap-1.5">
+              <div className="w-3 h-3 rounded-full bg-red-400/80" />
+              <div className="w-3 h-3 rounded-full bg-amber-400/80" />
+              <div className="w-3 h-3 rounded-full bg-emerald-400/80" />
+            </div>
+            <div className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase flex items-center gap-1.5">
+              <Layout className="w-3 h-3" /> Live UI Mockup
+            </div>
+            <div className="w-10" />
+          </div>
+
+          <div className="p-8 space-y-8 bg-background">
+            
+            {/* Top Stat Row */}
+            <div className="grid grid-cols-2 gap-4">
+              <Card className="shadow-sm">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Total Revenue</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-foreground">$45,231.89</div>
+                  <p className="text-xs text-muted-foreground mt-1 text-primary flex items-center font-medium">
+                    +20.1% from last month
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="shadow-sm">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Active Subscriptions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-foreground">+2,350</div>
+                  <p className="text-xs text-muted-foreground mt-1 flex items-center">
+                    +180 new this week
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Interactive Components */}
+            <Card className="shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-lg">Interactive Elements</CardTitle>
+                <CardDescription>Hover and click to test your theme's physics and responses.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                
+                <div className="flex flex-wrap gap-4">
+                  <Button className="shadow-sm">Primary Action</Button>
+                  <Button variant="secondary" className="shadow-sm">Secondary</Button>
+                  <Button variant="outline" className="shadow-sm">Outline</Button>
+                  <Button variant="ghost">Ghost Style</Button>
+                </div>
+
+                <div className="space-y-3 pt-4 border-t border-border">
+                  <Label>Email Address</Label>
+                  <div className="flex gap-3">
+                    <Input placeholder="m@example.com" className="max-w-sm shadow-sm" />
+                    <Button>Subscribe</Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">This simulates a standard form input field.</p>
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t border-border">
+                  <div className="space-y-0.5">
+                    <Label className="text-base">Marketing Emails</Label>
+                    <p className="text-sm text-muted-foreground">Receive emails about new products.</p>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+
+              </CardContent>
+            </Card>
+
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

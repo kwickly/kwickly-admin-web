@@ -55,12 +55,14 @@ import TenantSettings from '@/pages/platform/TenantSettings'
 import TenantUsage from '@/pages/platform/TenantUsage'
 import PlatformSupportTickets from '@/pages/platform/SupportTickets'
 import TenantSupportTickets from '@/pages/SupportTickets'
+import { TenantThemeProvider } from '@/components/TenantThemeProvider'
 
 function App() {
   return (
-    <BrowserRouter>
-      <TooltipProvider>
-        <Routes>
+    <TenantThemeProvider>
+      <BrowserRouter>
+        <TooltipProvider>
+          <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
@@ -159,6 +161,7 @@ function App() {
         <PWABadge />
       </TooltipProvider>
     </BrowserRouter>
+    </TenantThemeProvider>
   )
 }
 

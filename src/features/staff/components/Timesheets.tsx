@@ -22,6 +22,16 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 export default function Timesheets({ isPlatform = false }: { isPlatform?: boolean }) {
   const tenantTimesheets = useTimesheets();
@@ -57,9 +67,54 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
     );
   };
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const filteredTimesheets = (timesheets || []).filter(ts => {
+    const matchesSearch = searchQuery === "" || 
+      ts.staffName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      ts.staffId?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = statusFilter === "ALL" || ts.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const totalPages = Math.ceil(filteredTimesheets.length / itemsPerPage);
+  const paginatedTimesheets = filteredTimesheets.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="space-y-6">
 
+
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="relative w-full sm:w-72">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+          <Input
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search staff or ID..."
+            className="pl-9 bg-white dark:bg-zinc-900/50"
+          />
+        </div>
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <Select value={statusFilter} onValueChange={(val) => {
+            setStatusFilter(val);
+            setCurrentPage(1); // Reset page on filter change
+          }}>
+            <SelectTrigger className="w-full sm:w-[150px] bg-white dark:bg-zinc-900/50">
+              <SelectValue placeholder="All Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">All Status</SelectItem>
+              <SelectItem value="PENDING">Pending</SelectItem>
+              <SelectItem value="APPROVED">Approved</SelectItem>
+              <SelectItem value="REJECTED">Rejected</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
 
       {isLoading ? (
         <div className="text-center py-6 text-slate-500">Loading timesheets...</div>
@@ -67,21 +122,26 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
         <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-500">
           No timesheet records found for this branch.
         </div>
+      ) : filteredTimesheets.length === 0 ? (
+        <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-500">
+          No timesheet records match your filters.
+        </div>
       ) : (
-        <div className="rounded-md border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
-          <Table>
-            <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
-              <TableRow>
-                <TableHead>Staff Name</TableHead>
-                <TableHead>Clock In</TableHead>
-                <TableHead>Clock Out</TableHead>
-                <TableHead>Total Hours</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {timesheets.map((record) => (
+        <div className="space-y-4">
+          <div className="rounded-md border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
+            <Table>
+              <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
+                <TableRow>
+                  <TableHead>Staff Name</TableHead>
+                  <TableHead>Clock In</TableHead>
+                  <TableHead>Clock Out</TableHead>
+                  <TableHead>Total Hours</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {paginatedTimesheets.map((record) => (
                 <TableRow key={record.id}>
                   <TableCell className="font-medium text-slate-900 dark:text-zinc-100">
                     {record.staffName}
@@ -167,8 +227,22 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                   </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
-          </Table>
+              </TableBody>
+            </Table>
+          </div>
+          
+          {totalPages > 1 && (
+            <div className="flex justify-between items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl shadow-sm mt-4">
+              <p className="text-sm text-slate-500 dark:text-zinc-400">
+                Showing <span className="font-medium text-slate-900 dark:text-white">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="font-medium text-slate-900 dark:text-white">{Math.min(currentPage * itemsPerPage, filteredTimesheets.length)}</span> of <span className="font-medium text-slate-900 dark:text-white">{filteredTimesheets.length}</span> results
+              </p>
+              <PaginationControls
+                page={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+            </div>
+          )}
         </div>
       )}
 

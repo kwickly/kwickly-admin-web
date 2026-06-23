@@ -18,6 +18,7 @@ import SettingsLayout from '@/layouts/SettingsLayout'
 // Pages
 import StaffDirectory from '@/pages/staff/StaffDirectory'
 import StaffTimesheets from '@/pages/staff/StaffTimesheets'
+import StaffPayroll from '@/pages/staff/StaffPayroll'
 import StaffRoles from '@/pages/staff/StaffRoles'
 import MenuItems from '@/pages/menus/MenuItems'
 import MenuCategories from '@/pages/menus/MenuCategories'
@@ -100,6 +101,7 @@ function App() {
                   <Route path="/staff/directory" element={<StaffDirectory />} />
                   <Route path="/staff/timesheets" element={<StaffTimesheets />} />
                   <Route path="/staff/roles" element={<StaffRoles />} />
+                  <Route path="/staff/payroll" element={<StaffPayroll />} />
                 </Route>
               </Route>
 

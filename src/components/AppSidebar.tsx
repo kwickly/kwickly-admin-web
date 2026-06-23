@@ -106,6 +106,7 @@ const navGroups: NavGroup[] = [
         items: [
           { title: "Employee Directory", url: "/staff/directory", permission: "staff:read" },
           { title: "Timesheets", url: "/staff/timesheets", permission: "staff:read" },
+          { title: "Payroll & Salaries", url: "/staff/payroll", permission: "staff:write" },
           { title: "Role Builder", url: "/staff/roles", permission: "staff:write" },
         ],
       },

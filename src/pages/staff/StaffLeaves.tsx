@@ -90,8 +90,8 @@ export default function StaffLeaves() {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                        leave.leaveType === 'VACATION' ? 'bg-blue-500/10 text-blue-600' :
-                        leave.leaveType === 'SICK' ? 'bg-orange-500/10 text-orange-600' :
+                        leave.leaveType === 'VACATION' ? 'bg-info/10 text-info' :
+                        leave.leaveType === 'SICK' ? 'bg-warning/10 text-warning' :
                         'bg-muted text-foreground'
                       }`}>
                         {leave.leaveType}
@@ -102,9 +102,9 @@ export default function StaffLeaves() {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
-                        leave.status === 'APPROVED' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600' :
-                        leave.status === 'REJECTED' ? 'bg-rose-500/10 border-rose-500/20 text-rose-600' :
-                        'bg-amber-500/10 border-amber-500/20 text-amber-600'
+                        leave.status === 'APPROVED' ? 'bg-success/10 border-success/20 text-success' :
+                        leave.status === 'REJECTED' ? 'bg-destructive/10 border-destructive/20 text-destructive' :
+                        'bg-warning/10 border-warning/20 text-warning'
                       }`}>
                         {leave.status}
                       </span>
@@ -116,14 +116,14 @@ export default function StaffLeaves() {
                             <button
                               onClick={() => updateLeaveMut.mutate({ id: leave.id, status: 'APPROVED' })}
                               disabled={updateLeaveMut.isPending}
-                              className="p-1.5 text-emerald-600 hover:bg-emerald-500/10 rounded transition-colors"
+                              className="p-1.5 text-success hover:bg-success/10 rounded transition-colors"
                             >
                               <CheckCircle className="h-5 w-5" />
                             </button>
                             <button
                               onClick={() => updateLeaveMut.mutate({ id: leave.id, status: 'REJECTED' })}
                               disabled={updateLeaveMut.isPending}
-                              className="p-1.5 text-rose-600 hover:bg-rose-500/10 rounded transition-colors"
+                              className="p-1.5 text-destructive hover:bg-destructive/10 rounded transition-colors"
                             >
                               <XCircle className="h-5 w-5" />
                             </button>

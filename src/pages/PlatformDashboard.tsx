@@ -76,17 +76,17 @@ export default function PlatformDashboard() {
           <CardContent className="relative z-10">
             <div className="text-3xl font-bold text-foreground">{metrics?.totalTenants}</div>
             <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
-              <span className="text-emerald-500 flex items-center"><TrendingUp className="h-3 w-3 mr-0.5"/> {metrics?.activeTenants} active</span>
+              <span className="text-[var(--chart-2)] flex items-center"><TrendingUp className="h-3 w-3 mr-0.5"/> {metrics?.activeTenants} active</span>
             </p>
           </CardContent>
         </Card>
 
         <Card className="bg-card backdrop-blur-md border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-emerald-500/5 blur-xl group-hover:bg-emerald-500/10 transition-colors"></div>
+          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-[var(--chart-2)]/5 blur-xl group-hover:bg-[var(--chart-2)]/10 transition-colors"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Platform Users</CardTitle>
-            <div className="p-2 rounded-lg bg-emerald-500/10">
-              <Users className="h-4 w-4 text-emerald-500" />
+            <div className="p-2 rounded-lg bg-[var(--chart-2)]/10">
+              <Users className="h-4 w-4 text-[var(--chart-2)]" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -98,11 +98,11 @@ export default function PlatformDashboard() {
         </Card>
 
         <Card className="bg-card backdrop-blur-md border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-amber-500/5 blur-xl group-hover:bg-amber-500/10 transition-colors"></div>
+          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-[var(--chart-3)]/5 blur-xl group-hover:bg-[var(--chart-3)]/10 transition-colors"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Orders</CardTitle>
-            <div className="p-2 rounded-lg bg-amber-500/10">
-              <Activity className="h-4 w-4 text-amber-500" />
+            <div className="p-2 rounded-lg bg-[var(--chart-3)]/10">
+              <Activity className="h-4 w-4 text-[var(--chart-3)]" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -114,11 +114,11 @@ export default function PlatformDashboard() {
         </Card>
 
         <Card className="bg-card backdrop-blur-md border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-rose-500/5 blur-xl group-hover:bg-rose-500/10 transition-colors"></div>
+          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-destructive/5 blur-xl group-hover:bg-destructive/10 transition-colors"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Platform GMV</CardTitle>
-            <div className="p-2 rounded-lg bg-rose-500/10">
-              <DollarSign className="h-4 w-4 text-rose-500" />
+            <div className="p-2 rounded-lg bg-destructive/10">
+              <DollarSign className="h-4 w-4 text-destructive" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -165,7 +165,7 @@ export default function PlatformDashboard() {
         <Card className="bg-card backdrop-blur-md border-border shadow-sm flex flex-col justify-between">
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
-              <Building className="h-5 w-5 text-emerald-500" />
+              <Building className="h-5 w-5 text-[var(--chart-2)]" />
               Plan Distribution
             </CardTitle>
           </CardHeader>

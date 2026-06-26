@@ -1,109 +1,41 @@
 import axios from 'axios';
-import { useAuthStore } from '@/store/useAuth';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/v1',
+// The base URL will automatically pick up VITE_API_URL from .env or .env.production
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+
+export const api = axios.create({
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request Interceptor: Attach JWT Token & Impersonation Header
+// Request Interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
-    const state = useAuthStore.getState();
-    const token = state.token;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    // We assume the token is stored in localStorage. Update this logic if using a zustand store.
+    const token = localStorage.getItem('kwickly_auth_token');
     
-    // Attach impersonated tenant ID if active
-    const impersonatedTenantId = state.impersonatedTenantId;
-    if (impersonatedTenantId) {
-      config.headers['x-impersonate-tenant-id'] = impersonatedTenantId;
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
-let isRefreshing = false;
-let failedQueue: any[] = [];
-
-const processQueue = (error: any, token: string | null = null) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
-  });
-  failedQueue = [];
-};
-
-// Response Interceptor: Handle Global Errors (like 401 Unauthorized)
+// Response Interceptor for global error handling
 api.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      if (originalRequest.url === '/auth/refresh' || originalRequest.url === '/auth/login') {
-        useAuthStore.getState().logout();
-        if (window.location.pathname !== '/login') {
-          window.location.href = '/login';
-        }
-        return Promise.reject(error);
-      }
-
-      originalRequest._retry = true;
-
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            return api(originalRequest);
-          })
-          .catch((err) => Promise.reject(err));
-      }
-
-      isRefreshing = true;
-
-      try {
-        const currentRefreshToken = useAuthStore.getState().refreshToken;
-        if (!currentRefreshToken) throw new Error('No refresh token available');
-
-        const response = await axios.post(
-          `${api.defaults.baseURL}/auth/refresh`,
-          { refreshToken: currentRefreshToken }
-        );
-        const token = response.data.accessToken;
-        
-        if (!token) throw new Error('Token refresh failed');
-
-        const currentUser = useAuthStore.getState().user;
-        useAuthStore.setState({ token, refreshToken: currentRefreshToken, user: currentUser });
-
-        processQueue(null, token);
-        isRefreshing = false;
-
-        originalRequest.headers.Authorization = `Bearer ${token}`;
-        return api(originalRequest);
-      } catch (refreshError) {
-        processQueue(refreshError, null);
-        isRefreshing = false;
-
-        useAuthStore.getState().logout();
-        if (window.location.pathname !== '/login') {
-          window.location.href = '/login';
-        }
-        return Promise.reject(refreshError);
-      }
+  (error) => {
+    // E.g. Global 401 Unauthorized handling -> redirect to login
+    if (error.response?.status === 401) {
+      console.warn("Unauthorized access - redirecting to login.");
+      // Optional: window.location.href = '/login';
     }
-
     return Promise.reject(error);
   }
 );

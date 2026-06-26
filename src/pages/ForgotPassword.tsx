@@ -44,7 +44,7 @@ export default function ForgotPassword() {
           
           {isSuccess ? (
             <div className="text-center space-y-6">
-              <div className="bg-emerald-500/10 text-emerald-600 p-4 rounded-lg text-sm">
+              <div className="bg-success/10 text-success p-4 rounded-lg text-sm">
                 If an account exists with {email}, you will receive a password reset link shortly. Please check your inbox (and spam folder).
               </div>
               <Link to="/login" className="inline-flex items-center text-sm font-medium text-primary hover:underline">

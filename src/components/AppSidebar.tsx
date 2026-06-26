@@ -263,12 +263,12 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="border-r border-sidebar-border/50">
       <SidebarHeader className="h-16 flex items-center justify-center group-data-[collapsible=icon]:px-0 px-4">
         <div className="flex items-center gap-3 px-2 group-data-[collapsible=icon]:px-0">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 shadow-lg shadow-indigo-600/20 text-white">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 text-primary-foreground">
             <span className="text-lg font-bold tracking-tighter">K</span>
           </div>
           <div className="flex flex-col gap-0.5 group-data-[collapsible=icon]:hidden">
-            <span className="text-sm font-bold leading-none tracking-tight text-slate-900 dark:text-white">Kwickly</span>
-            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Admin Portal</span>
+            <span className="text-sm font-bold leading-none tracking-tight text-foreground">Kwickly</span>
+            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Admin Portal</span>
           </div>
         </div>
       </SidebarHeader>
@@ -276,7 +276,7 @@ export function AppSidebar() {
       <SidebarContent>
         {filteredNavGroups.map((group) => (
           <SidebarGroup key={group.label} className="py-2">
-            <SidebarGroupLabel className="px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-zinc-500 mb-2 group-data-[collapsible=icon]:hidden">
+            <SidebarGroupLabel className="px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-2 group-data-[collapsible=icon]:hidden">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -298,17 +298,17 @@ export function AppSidebar() {
                                 className={cn(
                                   "h-9 px-3 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
                                   isActive 
-                                    ? "bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white font-semibold" 
-                                    : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-50 dark:hover:bg-zinc-800/50"
+                                    ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" 
+                                    : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
                                 )}
                               >
-                                {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-indigo-600 dark:text-indigo-400" : "text-slate-400 dark:text-zinc-500")} />}
+                                {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
                                 <span className="text-[13px] ml-1 group-data-[collapsible=icon]:hidden">{item.title}</span>
-                                <ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-slate-400 group-data-[collapsible=icon]:hidden" />
+                                <ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                               </SidebarMenuButton>
                             } />
                             <DropdownMenuContent side="right" align="start" sideOffset={8} className="w-48">
-                              <div className="px-2 py-1.5 text-xs text-slate-500 dark:text-zinc-400 font-semibold">{item.title}</div>
+                              <div className="px-2 py-1.5 text-xs text-muted-foreground font-semibold">{item.title}</div>
                               <DropdownMenuSeparator />
                               {item.items?.map((subItem) => (
                                 <DropdownMenuItem key={subItem.title} render={
@@ -333,17 +333,17 @@ export function AppSidebar() {
                               className={cn(
                                 "h-9 px-3 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
                                 isActive 
-                                  ? "bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white font-semibold" 
-                                  : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-50 dark:hover:bg-zinc-800/50"
+                                  ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" 
+                                  : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
                               )}
                             >
-                              {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-indigo-600 dark:text-indigo-400" : "text-slate-400 dark:text-zinc-500")} />}
+                              {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
                               <span className="text-[13px] ml-1 group-data-[collapsible=icon]:hidden">{item.title}</span>
-                              <ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-slate-400 group-data-[collapsible=icon]:hidden" />
+                              <ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                             </SidebarMenuButton>
                           } />
                           <CollapsibleContent>
-                            <SidebarMenuSub className="ml-5 border-l border-slate-200 dark:border-zinc-800/50 pl-3 mt-1.5 gap-0.5 group-data-[collapsible=icon]:hidden">
+                            <SidebarMenuSub className="ml-5 border-l border-sidebar-border pl-3 mt-1.5 gap-0.5 group-data-[collapsible=icon]:hidden">
                               {item.items?.map((subItem) => (
                                 <SidebarMenuSubItem key={subItem.title}>
                                   <SidebarMenuSubButton 
@@ -351,8 +351,8 @@ export function AppSidebar() {
                                     className={cn(
                                       "h-8 px-3 rounded-md transition-colors duration-200",
                                       location.pathname === subItem.url
-                                        ? "text-indigo-600 dark:text-indigo-400 font-medium bg-indigo-50 dark:bg-indigo-500/10"
-                                        : "text-slate-500 dark:text-zinc-500 hover:text-slate-900 dark:hover:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800/50"
+                                        ? "text-sidebar-primary font-medium bg-sidebar-accent"
+                                        : "text-muted-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
                                     )}
                                     render={
                                       <Link to={subItem.url}>
@@ -377,12 +377,12 @@ export function AppSidebar() {
                         className={cn(
                           "h-9 px-3 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
                           isActive 
-                            ? "bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white font-semibold" 
-                            : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-50 dark:hover:bg-zinc-800/50"
+                            ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" 
+                            : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
                         )}
                         render={
                           <Link to={item.url}>
-                            {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-indigo-600 dark:text-indigo-400" : "text-slate-400 dark:text-zinc-500")} />}
+                            {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
                             <span className="text-[13px] ml-1 group-data-[collapsible=icon]:hidden">{item.title}</span>
                           </Link>
                         }

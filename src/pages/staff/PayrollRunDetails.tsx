@@ -124,7 +124,7 @@ export default function PayrollRunDetails() {
 
         <div className="flex items-center gap-3">
           <Badge className={`text-sm px-4 py-1.5 uppercase tracking-wider ${
-            run.status === "PAID" ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" :
+            run.status === "PAID" ? "bg-success/10 text-success border border-success/20" :
             run.status === "PROCESSED" ? "bg-primary/10 text-primary border border-primary/20" :
             "bg-muted text-muted-foreground border border-border"
           }`}>
@@ -147,7 +147,7 @@ export default function PayrollRunDetails() {
           {run.status === "PROCESSED" && (
             <Button
               onClick={() => handleAdvance("PAID")}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              className="bg-success hover:bg-success/90 text-success-foreground"
             >
               <CheckCircle2 className="h-4 w-4 mr-2" />
               Mark as Paid
@@ -168,26 +168,26 @@ export default function PayrollRunDetails() {
             <div className="text-2xl font-mono font-semibold text-foreground">{formatCurrency(totalGross, currencyCode)}</div>
           </CardContent>
         </Card>
-        <Card className="border-emerald-500/20 shadow-sm bg-emerald-500/5">
+        <Card className="border-success/20 shadow-sm bg-success/5">
           <CardHeader className="pb-2 pt-4">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-emerald-600">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-success">
               Total Bonuses
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-mono font-semibold text-emerald-600">
+            <div className="text-2xl font-mono font-semibold text-success">
               +{formatCurrency(totalBonuses, currencyCode)}
             </div>
           </CardContent>
         </Card>
-        <Card className="border-rose-500/20 shadow-sm bg-rose-500/5">
+        <Card className="border-destructive/20 shadow-sm bg-destructive/5">
           <CardHeader className="pb-2 pt-4">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-rose-600">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-destructive">
               Total Deductions
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-mono font-semibold text-rose-600">
+            <div className="text-2xl font-mono font-semibold text-destructive">
               -{formatCurrency(totalDeductions, currencyCode)}
             </div>
           </CardContent>
@@ -217,8 +217,8 @@ export default function PayrollRunDetails() {
                 <TableHead className="w-[250px] text-muted-foreground">Staff Member</TableHead>
                 <TableHead className="text-right text-muted-foreground">Base ($)</TableHead>
                 <TableHead className="text-right text-muted-foreground">Overtime ($)</TableHead>
-                <TableHead className="text-right text-emerald-600">Bonus ($)</TableHead>
-                <TableHead className="text-right text-rose-600">Deductions ($)</TableHead>
+                <TableHead className="text-right text-success">Bonus ($)</TableHead>
+                <TableHead className="text-right text-destructive">Deductions ($)</TableHead>
                 <TableHead className="text-right font-bold text-foreground border-l border-border bg-muted/50">Net Payable</TableHead>
                 <TableHead className="text-center w-[80px] text-muted-foreground">Actions</TableHead>
               </TableRow>
@@ -238,10 +238,10 @@ export default function PayrollRunDetails() {
                   <TableCell className="text-right font-mono text-muted-foreground">
                     {formatCurrency(parseFloat(slip.overtimeAmount), currencyCode)}
                   </TableCell>
-                  <TableCell className="text-right font-mono text-emerald-600 font-medium">
+                  <TableCell className="text-right font-mono text-success font-medium">
                     {formatCurrency(parseFloat(slip.bonus), currencyCode)}
                   </TableCell>
-                  <TableCell className="text-right font-mono text-rose-600 font-medium">
+                  <TableCell className="text-right font-mono text-destructive font-medium">
                     {formatCurrency(parseFloat(slip.deductions), currencyCode)}
                   </TableCell>
                   <TableCell className="text-right font-mono font-bold text-foreground border-l border-border bg-muted/20 text-lg">
@@ -307,7 +307,7 @@ export default function PayrollRunDetails() {
               <Input
                 type="number"
                 step="0.01"
-                className="font-mono text-rose-600 bg-transparent border-border"
+                className="font-mono text-destructive bg-transparent border-border"
                 value={editingSlip?.deductions || ""}
                 onChange={(e) =>
                   setEditingSlip((prev) =>
@@ -346,7 +346,7 @@ export default function PayrollRunDetails() {
           <div className="grid grid-cols-2 gap-4 py-4">
             <Card className="cursor-pointer border-border hover:border-primary hover:bg-primary/5 transition-colors bg-card" onClick={() => handleExport('CSV')}>
               <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
-                <div className="h-12 w-12 bg-emerald-500/10 text-emerald-600 rounded-full flex items-center justify-center">
+                <div className="h-12 w-12 bg-success/10 text-success rounded-full flex items-center justify-center">
                   <FileSpreadsheet className="h-6 w-6" />
                 </div>
                 <div>
@@ -357,7 +357,7 @@ export default function PayrollRunDetails() {
             </Card>
             <Card className="cursor-pointer border-border hover:border-primary hover:bg-primary/5 transition-colors bg-card" onClick={() => handleExport('PDF')}>
               <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
-                <div className="h-12 w-12 bg-rose-500/10 text-rose-600 rounded-full flex items-center justify-center">
+                <div className="h-12 w-12 bg-destructive/10 text-destructive rounded-full flex items-center justify-center">
                   <FileText className="h-6 w-6" />
                 </div>
                 <div>

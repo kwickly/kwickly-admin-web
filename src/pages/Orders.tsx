@@ -72,9 +72,9 @@ export default function Orders() {
   }, [token, branchId, queryClient]);
 
   const columns = [
-    { title: "New Orders", status: "pending", icon: Package, color: "text-blue-500", bg: "bg-blue-500/10" },
-    { title: "Preparing", status: "preparing", icon: ChefHat, color: "text-amber-500", bg: "bg-amber-500/10" },
-    { title: "Ready for Pickup", status: "ready", icon: CheckCircle, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+    { title: "New Orders", status: "pending", icon: Package, color: "text-[var(--chart-1)]", bg: "bg-[var(--chart-1)]/10" },
+    { title: "Preparing", status: "preparing", icon: ChefHat, color: "text-[var(--chart-3)]", bg: "bg-[var(--chart-3)]/10" },
+    { title: "Ready for Pickup", status: "ready", icon: CheckCircle, color: "text-[var(--chart-2)]", bg: "bg-[var(--chart-2)]/10" },
     { title: "Completed", status: "completed", icon: Clock, color: "text-muted-foreground", bg: "bg-muted" },
   ];
 
@@ -94,8 +94,8 @@ export default function Orders() {
           <Badge 
             variant="outline" 
             className={`flex items-center gap-1.5 ${
-              wsStatus === 'Connected' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' :
-              wsStatus === 'Reconnecting' ? 'bg-amber-500/10 text-amber-600 border-amber-500/20' :
+              wsStatus === 'Connected' ? 'bg-success/10 text-success border-success/20' :
+              wsStatus === 'Reconnecting' ? 'bg-warning/10 text-warning border-warning/20' :
               'bg-muted/50 text-muted-foreground border-border'
             }`}
           >

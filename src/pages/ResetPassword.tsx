@@ -78,7 +78,7 @@ export default function ResetPassword() {
           
           {isSuccess ? (
             <div className="text-center space-y-6">
-              <div className="bg-emerald-500/10 text-emerald-600 p-4 rounded-lg text-sm">
+              <div className="bg-success/10 text-success p-4 rounded-lg text-sm">
                 Your password has been successfully reset!
               </div>
               <Button 

@@ -302,8 +302,8 @@ export default function PlatformTenants() {
                     {tenant.plan}
                   </Badge>
                   <div className="flex items-center gap-1.5 text-xs font-medium">
-                    <span className={`h-2 w-2 rounded-full ${tenant.isActive ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-destructive'}`}></span>
-                    <span className={tenant.isActive ? 'text-emerald-600' : 'text-destructive'}>
+                    <span className={`h-2 w-2 rounded-full ${tenant.isActive ? 'bg-success shadow-[0_0_8px_color-mix(in_oklch,var(--success)_50%,transparent)]' : 'bg-destructive'}`}></span>
+                    <span className={tenant.isActive ? 'text-success' : 'text-destructive'}>
                       {tenant.isActive ? "ACTIVE" : "SUSPENDED"}
                     </span>
                   </div>
@@ -358,7 +358,7 @@ export default function PlatformTenants() {
                   <Badge className="bg-background/90 text-foreground border-none shadow-sm backdrop-blur-sm">
                     {viewTenant.plan} PLAN
                   </Badge>
-                  <Badge variant={viewTenant.isActive ? "outline" : "destructive"} className={`bg-background/90 backdrop-blur-sm border-none shadow-sm ${viewTenant.isActive ? 'text-emerald-600' : ''}`}>
+                  <Badge variant={viewTenant.isActive ? "outline" : "destructive"} className={`bg-background/90 backdrop-blur-sm border-none shadow-sm ${viewTenant.isActive ? 'text-success' : ''}`}>
                     {viewTenant.isActive ? "ACTIVE" : "SUSPENDED"}
                   </Badge>
                 </div>
@@ -404,7 +404,7 @@ export default function PlatformTenants() {
                     <span className="text-xs text-muted-foreground">Total Branches</span>
                   </div>
                   <div className="p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
-                    <Users className="h-5 w-5 text-emerald-500 mb-2" />
+                    <Users className="h-5 w-5 text-[var(--chart-2)] mb-2" />
                     <span className="text-2xl font-bold text-foreground">{viewTenant.userCount}</span>
                     <span className="text-xs text-muted-foreground">Platform Users</span>
                   </div>

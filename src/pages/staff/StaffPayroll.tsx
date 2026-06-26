@@ -152,7 +152,7 @@ export default function StaffPayroll() {
                         }
                         className={
                           run.status === "PAID"
-                            ? "border-emerald-500/20 text-emerald-600 bg-emerald-500/10"
+                            ? "border-success/20 text-success bg-success/10"
                             : run.status === "PROCESSED"
                               ? "bg-primary text-primary-foreground"
                               : "bg-muted text-muted-foreground border border-border"

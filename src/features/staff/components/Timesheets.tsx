@@ -89,18 +89,18 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="relative w-full sm:w-72">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search staff or ID..."
-            className="pl-9 bg-white dark:bg-zinc-900/50"
+            className="pl-9 bg-background"
           />
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v || 'ALL')}>
-            <SelectTrigger className="w-full sm:w-[150px] bg-white dark:bg-zinc-900/50">
+            <SelectTrigger className="w-full sm:w-[150px] bg-background">
               <SelectValue placeholder="All Status" />
             </SelectTrigger>
             <SelectContent>
@@ -114,20 +114,20 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
       </div>
 
       {isLoading ? (
-        <div className="text-center py-6 text-slate-500">Loading timesheets...</div>
+      <div className="text-center py-6 text-muted-foreground">Loading timesheets...</div>
       ) : !timesheets || timesheets.length === 0 ? (
-        <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-500">
+        <div className="text-center py-12 bg-card border border-border rounded-xl text-muted-foreground">
           No timesheet records found for this branch.
         </div>
       ) : filteredTimesheets.length === 0 ? (
-        <div className="text-center py-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-500">
+        <div className="text-center py-12 bg-card border border-border rounded-xl text-muted-foreground">
           No timesheet records match your filters.
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="rounded-md border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
+          <div className="rounded-md border border-border bg-card overflow-hidden">
             <Table>
-              <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
+              <TableHeader className="bg-muted/50">
                 <TableRow>
                   <TableHead>Staff Name</TableHead>
                   <TableHead>Clock In</TableHead>
@@ -140,52 +140,52 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
               <TableBody>
                 {paginatedTimesheets.map((record) => (
                 <TableRow key={record.id}>
-                  <TableCell className="font-medium text-slate-900 dark:text-zinc-100">
+                  <TableCell className="font-medium text-foreground">
                     {record.staffName}
-                    <div className="text-xs text-slate-400 font-normal">ID: {record.staffId}</div>
+                    <div className="text-xs text-muted-foreground font-normal">ID: {record.staffId}</div>
                   </TableCell>
-                  <TableCell className="text-slate-500 dark:text-zinc-400 text-xs">
+                  <TableCell className="text-muted-foreground text-xs">
                     <div className="flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5 text-slate-400" />
+                      <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                       {new Date(record.clockIn).toLocaleDateString()}
                     </div>
                     <div className="flex items-center gap-1 mt-0.5 font-mono">
-                      <Clock className="h-3.5 w-3.5 text-slate-400" />
+                      <Clock className="h-3.5 w-3.5 text-muted-foreground" />
                       {new Date(record.clockIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </TableCell>
-                  <TableCell className="text-slate-500 dark:text-zinc-400 text-xs">
+                  <TableCell className="text-muted-foreground text-xs">
                     {record.clockOut ? (
                       <>
                         <div className="flex items-center gap-1">
-                          <Calendar className="h-3.5 w-3.5 text-slate-400" />
+                          <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                           {new Date(record.clockOut).toLocaleDateString()}
                         </div>
                         <div className="flex items-center gap-1 mt-0.5 font-mono">
-                          <Clock className="h-3.5 w-3.5 text-slate-400" />
+                          <Clock className="h-3.5 w-3.5 text-muted-foreground" />
                           {new Date(record.clockOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </div>
                       </>
                     ) : (
-                      <span className="text-amber-500 font-medium">Still Clocked In</span>
+                      <span className="text-warning font-medium">Still Clocked In</span>
                     )}
                   </TableCell>
-                  <TableCell className="text-slate-900 dark:text-zinc-100 font-mono font-semibold">
-                    {record.totalHours != null ? `${record.totalHours} hrs` : <span className="text-slate-400 font-normal">--</span>}
+                  <TableCell className="text-foreground font-mono font-semibold">
+                    {record.totalHours != null ? `${record.totalHours} hrs` : <span className="text-muted-foreground font-normal">--</span>}
                   </TableCell>
                   <TableCell>
                     <Badge
                       variant={record.status === 'APPROVED' ? 'outline' : record.status === 'REJECTED' ? 'destructive' : 'secondary'}
                       className={
                         record.status === 'APPROVED'
-                          ? 'border-emerald-500 text-emerald-600 bg-emerald-50/50 dark:bg-emerald-950/10'
+                          ? 'border-success text-success bg-success/5'
                           : ''
                       }
                     >
                       {record.status}
                     </Badge>
                     {record.reviewerNotes && (
-                      <div className="flex items-start gap-1 mt-2 text-[10px] text-slate-500 bg-slate-50 dark:bg-zinc-900/50 p-1.5 rounded border border-slate-100 dark:border-zinc-800">
+                      <div className="flex items-start gap-1 mt-2 text-[10px] text-muted-foreground bg-muted/50 p-1.5 rounded border border-border">
                         <MessageSquareText className="h-3 w-3 mt-0.5 shrink-0" />
                         <span className="leading-tight">{record.reviewerNotes}</span>
                       </div>
@@ -201,7 +201,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                             setRemark("");
                           }}
                           disabled={updateTimesheetMutation.isPending}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1 h-8 px-2.5"
+                          className="bg-success hover:bg-success/90 text-success-foreground flex items-center gap-1 h-8 px-2.5"
                         >
                           <Check className="h-3.5 w-3.5" /> Approve
                         </Button>
@@ -219,7 +219,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                         </Button>
                       </div>
                     ) : (
-                      <span className="text-xs text-slate-400">Processed</span>
+                      <span className="text-xs text-muted-foreground">Processed</span>
                     )}
                   </TableCell>
                 </TableRow>
@@ -229,9 +229,9 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
           </div>
           
           {totalPages > 1 && (
-            <div className="flex justify-between items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl shadow-sm mt-4">
-              <p className="text-sm text-slate-500 dark:text-zinc-400">
-                Showing <span className="font-medium text-slate-900 dark:text-white">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="font-medium text-slate-900 dark:text-white">{Math.min(currentPage * itemsPerPage, filteredTimesheets.length)}</span> of <span className="font-medium text-slate-900 dark:text-white">{filteredTimesheets.length}</span> results
+            <div className="flex justify-between items-center bg-card border border-border p-4 rounded-xl shadow-sm mt-4">
+              <p className="text-sm text-muted-foreground">
+                Showing <span className="font-medium text-foreground">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="font-medium text-foreground">{Math.min(currentPage * itemsPerPage, filteredTimesheets.length)}</span> of <span className="font-medium text-foreground">{filteredTimesheets.length}</span> results
               </p>
               <PaginationControls
                 page={currentPage}
@@ -274,7 +274,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
             </Button>
             <Button 
               variant={actionModal.type === 'REJECTED' ? 'destructive' : 'default'}
-              className={actionModal.type === 'APPROVED' ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : ''}
+              className={actionModal.type === 'APPROVED' ? 'bg-success hover:bg-success/90 text-success-foreground' : ''}
               onClick={handleActionConfirm}
               disabled={updateTimesheetMutation.isPending}
             >

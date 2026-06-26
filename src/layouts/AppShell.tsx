@@ -101,13 +101,13 @@ export default function AppShell() {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-slate-50 dark:bg-zinc-950">
+      <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
         <SidebarInset>
           {impersonatedTenantId && (
-            <div className="bg-amber-500 text-slate-950 text-xs font-bold py-1.5 px-4 flex items-center justify-between border-b border-amber-600 shadow-sm animate-in slide-in-from-top duration-200">
+            <div className="bg-warning text-warning-foreground text-xs font-bold py-1.5 px-4 flex items-center justify-between border-b border-warning/70 shadow-sm animate-in slide-in-from-top duration-200">
               <span className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-slate-950 animate-pulse" />
+                <span className="h-2 w-2 rounded-full bg-warning-foreground animate-pulse" />
                 ⚠️ INSPECTION MODE: Currently viewing <strong>{impersonatedTenantName}</strong>
               </span>
               <button 
@@ -115,28 +115,28 @@ export default function AppShell() {
                   setImpersonatedTenant(null, null);
                   setSelectedBranchId(null);
                 }} 
-                className="bg-slate-950 hover:bg-slate-800 text-white font-bold px-2 py-0.5 rounded text-[10px] uppercase tracking-wider transition-colors shadow-sm"
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/80 font-bold px-2 py-0.5 rounded text-[10px] uppercase tracking-wider transition-colors shadow-sm"
               >
                 Exit Inspection
               </button>
             </div>
           )}
-          <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-14">
+          <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b bg-background/80 backdrop-blur-md px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-14">
             <div className="flex items-center gap-2 px-2 h-full">
-              <SidebarTrigger className="-ml-1 text-slate-500" />
+              <SidebarTrigger className="-ml-1 text-muted-foreground" />
               <Separator orientation="vertical" className="mr-2 h-5" />
               
               {(!isPlatformAdmin || impersonatedTenantId) ? (
                 <div className="flex items-center gap-4">
                   <div className="flex items-center space-x-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Branch:</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Branch:</span>
                     <div className="w-48">
                       <Select 
                         value={selectedBranchId || undefined} 
                         onValueChange={(val) => setSelectedBranchId(val)}
                         disabled={isBranchesLoading || !branches || branches.length === 0}
                       >
-                        <SelectTrigger className="h-7 text-xs bg-slate-50 dark:bg-zinc-800 border-none shadow-none focus:ring-1 focus:ring-indigo-500">
+                        <SelectTrigger className="h-7 text-xs bg-muted border-none shadow-none focus:ring-1 focus:ring-ring">
                           <span className="line-clamp-1 flex-1 text-left">
                             {branches?.find(b => b.id === selectedBranchId)?.name || "Select a branch"}
                           </span>
@@ -154,7 +154,7 @@ export default function AppShell() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider border border-indigo-200/50 dark:border-indigo-800/30">
+                  <span className="bg-primary/10 text-primary text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider border border-primary/20">
                     System Portal
                   </span>
                 </div>
@@ -165,13 +165,13 @@ export default function AppShell() {
               <div className="hidden md:flex relative mr-2 group">
                 <button 
                   onClick={() => setCommandOpen(true)}
-                  className="flex items-center h-9 w-48 lg:w-72 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 px-3 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all text-slate-400 group-hover:text-slate-500 dark:group-hover:text-zinc-300"
+                  className="flex items-center h-9 w-48 lg:w-72 rounded-xl border border-border bg-muted px-3 text-xs focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-ring/50 transition-all text-muted-foreground group-hover:text-foreground/70"
                 >
-                  <Search className="h-3.5 w-3.5 mr-2 text-slate-400 group-hover:text-indigo-500 transition-colors" />
+                  <Search className="h-3.5 w-3.5 mr-2 text-muted-foreground group-hover:text-primary transition-colors" />
                   <span>Search anything...</span>
-                  <div className="ml-auto flex items-center gap-1 rounded border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-1.5 py-0.5 shadow-sm">
-                    <span className="text-[10px] font-medium text-slate-400">⌘</span>
-                    <span className="text-[10px] font-medium text-slate-400">K</span>
+                  <div className="ml-auto flex items-center gap-1 rounded border border-border bg-background px-1.5 py-0.5 shadow-sm">
+                    <span className="text-[10px] font-medium text-muted-foreground">⌘</span>
+                    <span className="text-[10px] font-medium text-muted-foreground">K</span>
                   </div>
                 </button>
               </div>
@@ -180,15 +180,15 @@ export default function AppShell() {
                 <Button 
                   variant="ghost" 
                   size="icon-sm" 
-                  className="text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400"
+                  className="text-muted-foreground hover:text-primary"
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 >
                   {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
                 </Button>
-                <Button variant="ghost" size="icon-sm" className="text-slate-500">
+                <Button variant="ghost" size="icon-sm" className="text-muted-foreground">
                   <Bell className="size-4" />
                 </Button>
-                <Button variant="ghost" size="icon-sm" className="text-slate-500">
+                <Button variant="ghost" size="icon-sm" className="text-muted-foreground">
                   <HelpCircle className="size-4" />
                 </Button>
               </div>
@@ -197,8 +197,8 @@ export default function AppShell() {
 
               <DropdownMenu>
                 <DropdownMenuTrigger render={
-                  <Button variant="ghost" className="h-9 px-2 gap-2 hover:bg-slate-100 dark:hover:bg-zinc-800">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg overflow-hidden bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
+                  <Button variant="ghost" className="h-9 px-2 gap-2 hover:bg-muted">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg overflow-hidden bg-primary/10 text-primary">
                       {activeLogoUrl ? (
                         <img src={activeLogoUrl} alt="Logo" className="h-full w-full object-cover" />
                       ) : (
@@ -206,15 +206,15 @@ export default function AppShell() {
                       )}
                     </div>
                     <div className="hidden lg:flex flex-col items-start gap-0">
-                      <span className="text-xs font-bold text-slate-900 dark:text-white leading-none">{user?.name}</span>
-                      <span className="text-[10px] text-slate-500 dark:text-zinc-500 uppercase font-medium leading-none mt-0.5">
+                      <span className="text-xs font-bold text-foreground leading-none">{user?.name}</span>
+                      <span className="text-[10px] text-muted-foreground uppercase font-medium leading-none mt-0.5">
                         {user?.roleDetails?.name || user?.role.replace('_', ' ')}
                       </span>
                     </div>
                   </Button>
                 } />
                 <DropdownMenuContent align="end" className="w-56" sideOffset={8}>
-                  <div className="px-2 py-1.5 text-xs font-semibold text-slate-500 dark:text-zinc-400 border-b border-slate-100 dark:border-zinc-800 mb-1">
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground border-b border-border mb-1">
                     My Account
                   </div>
                   <DropdownMenuItem render={<Link to="/settings/user-profile" className="cursor-pointer" />}>

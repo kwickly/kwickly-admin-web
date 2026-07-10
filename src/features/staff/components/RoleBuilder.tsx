@@ -88,40 +88,40 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {roles?.map(role => (
-          <div key={role.id} className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl shadow-sm overflow-hidden flex flex-col hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-colors">
-            <div className="p-5 border-b border-slate-100 dark:border-zinc-800/60 bg-slate-50/50 dark:bg-zinc-800/20 flex justify-between items-start">
+          <div key={role.id} className="bg-card border border-border rounded-xl shadow-sm overflow-hidden flex flex-col hover:border-primary/40 transition-colors">
+            <div className="p-5 border-b border-border bg-muted/20 flex justify-between items-start">
               <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                <h3 className="font-semibold text-card-foreground flex items-center gap-2">
                   {role.name}
-                  {role.isSystem && <Lock className="h-3 w-3 text-slate-400" />}
+                  {role.isSystem && <Lock className="h-3 w-3 text-muted-foreground/60" />}
                 </h3>
                 {role.isSystem ? (
-                  <Badge variant="outline" className="mt-2 text-[10px] text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-500/30 uppercase tracking-tighter bg-indigo-50 dark:bg-indigo-500/10">
+                  <Badge variant="outline" className="mt-2 text-[10px] text-primary border-primary/20 bg-primary/10 uppercase tracking-tighter">
                     System Role
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="mt-2 text-[10px] text-slate-500 uppercase tracking-tighter">
+                  <Badge variant="outline" className="mt-2 text-[10px] text-muted-foreground border-border uppercase tracking-tighter">
                     Custom Role
                   </Badge>
                 )}
               </div>
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-muted text-muted-foreground">
                 <Shield className="h-4 w-4" />
               </div>
             </div>
             <div className="p-5 flex-1 flex flex-col justify-between space-y-6">
               <div className="space-y-3">
-                <p className="text-sm text-slate-500 dark:text-zinc-400">
-                  <span className="font-semibold text-slate-700 dark:text-zinc-300">{role.permissions.length}</span> active permissions
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-semibold text-foreground">{role.permissions.length}</span> active permissions
                 </p>
                 <div className="flex flex-wrap gap-1">
                   {role.permissions.slice(0, 3).map((p: any) => (
-                    <span key={p.permission?.slug || p} className="px-2 py-0.5 bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 rounded-md text-[10px] truncate max-w-[100px]">
+                    <span key={p.permission?.slug || p} className="px-2 py-0.5 bg-muted text-muted-foreground rounded-md text-[10px] truncate max-w-[100px]">
                       {p.permission?.slug || p}
                     </span>
                   ))}
                   {role.permissions.length > 3 && (
-                    <span className="px-2 py-0.5 bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 rounded-md text-[10px]">
+                    <span className="px-2 py-0.5 bg-muted text-muted-foreground rounded-md text-[10px]">
                       +{role.permissions.length - 3}
                     </span>
                   )}
@@ -130,7 +130,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
               <div className="flex gap-2">
                 <Button 
                   variant="outline" 
-                  className="flex-1 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-500/30 hover:bg-indigo-50 dark:hover:bg-indigo-500/10"
+                  className="flex-1 text-primary border-primary/25 hover:bg-primary/10 cursor-pointer"
                   onClick={() => {
                     setSelectedRoleId(role.id);
                     setIsDialogOpen(true);
@@ -141,7 +141,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                 {(!role.isSystem && (user?.role === 'platform_owner' || user?.role === 'tenant_owner' || user?.role === 'super_admin')) && (
                   <Button 
                     variant="outline" 
-                    className="w-10 px-0 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-500/10"
+                    className="w-10 px-0 text-destructive border-destructive/25 hover:bg-destructive/10 cursor-pointer"
                     onClick={() => setDeleteRoleId(role.id)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -162,8 +162,8 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end gap-3 mt-4">
-            <Button variant="outline" onClick={() => setDeleteRoleId(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={() => deleteRoleId && deleteRoleMutation.mutate(deleteRoleId)} disabled={deleteRoleMutation.isPending}>
+            <Button variant="outline" className="cursor-pointer" onClick={() => setDeleteRoleId(null)}>Cancel</Button>
+            <Button variant="destructive" className="cursor-pointer" onClick={() => deleteRoleId && deleteRoleMutation.mutate(deleteRoleId)} disabled={deleteRoleMutation.isPending}>
               {deleteRoleMutation.isPending ? 'Deleting...' : 'Delete'}
             </Button>
           </div>
@@ -172,27 +172,27 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader className="flex flex-row justify-between items-center pr-6 sticky top-0 bg-white dark:bg-zinc-950 z-10 pb-4 border-b border-slate-100 dark:border-zinc-800">
+          <DialogHeader className="flex flex-row justify-between items-center pr-6 sticky top-0 bg-popover z-10 pb-4 border-b border-border">
             <div className="space-y-1 text-left">
               <DialogTitle className="flex items-center gap-2">
                 Configuring: 
-                <Badge className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 px-2.5 font-semibold text-sm">
+                <Badge className="bg-primary/10 text-primary border border-primary/20 px-2.5 font-semibold text-sm">
                   {selectedRole?.name}
                 </Badge>
                 {selectedRole?.isSystem && (
-                  <Badge variant="outline" className="text-[10px] text-slate-400 border-slate-200 uppercase tracking-tighter">
+                  <Badge variant="outline" className="text-[10px] text-muted-foreground border-border uppercase tracking-tighter">
                     System Role
                   </Badge>
                 )}
               </DialogTitle>
-              <p className="text-sm text-slate-500 dark:text-zinc-400">
+              <p className="text-sm text-muted-foreground">
                 Turn modules on or off for this specific role.
               </p>
             </div>
             <Button
               onClick={handleSave}
               disabled={updateRolePermissionsMutation.isPending || isLoading || !selectedRoleId}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2 h-9"
+              className="bg-primary hover:bg-primary/95 text-primary-foreground flex items-center gap-2 h-9 cursor-pointer"
             >
               <Save className="h-4 w-4" /> Save Configuration
             </Button>
@@ -201,7 +201,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
           <div className="space-y-6 pt-4">
             {Object.entries(groups).map(([groupName, perms]) => (
               <div key={groupName} className="space-y-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                   {groupName}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -214,22 +214,22 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                         key={p.token}
                         onClick={() => canAssign && togglePermission(p.token)}
                         className={`flex items-center justify-between p-4 border rounded-xl transition-all ${
-                          !canAssign ? 'opacity-60 bg-slate-50 dark:bg-zinc-900 cursor-not-allowed border-slate-200 dark:border-zinc-800' :
+                          !canAssign ? 'opacity-60 bg-muted/40 cursor-not-allowed border-border' :
                           isChecked
-                            ? 'cursor-pointer border-indigo-200 dark:border-indigo-500/30 bg-indigo-50/30 dark:bg-indigo-500/5'
-                            : 'cursor-pointer border-slate-200 dark:border-zinc-800 hover:bg-slate-50/50 dark:hover:bg-zinc-800/20'
+                            ? 'cursor-pointer border-primary/30 bg-primary/5'
+                            : 'cursor-pointer border-border hover:bg-muted/50'
                         }`}
                       >
                         <div>
-                          <p className="text-sm font-semibold text-slate-900 dark:text-zinc-100 flex items-center gap-2">
+                          <p className="text-sm font-semibold text-foreground flex items-center gap-2">
                             {p.label}
                             {!canAssign && (
                               <span title="You don't have this permission">
-                                <Lock className="h-3 w-3 text-slate-400" />
+                                <Lock className="h-3 w-3 text-muted-foreground" />
                               </span>
                             )}
                           </p>
-                          <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1 max-w-[200px] leading-relaxed">
+                          <p className="text-xs text-muted-foreground mt-1 max-w-[200px] leading-relaxed">
                             {p.desc}
                           </p>
                         </div>
@@ -237,6 +237,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                           disabled={!canAssign}
                           checked={isChecked} 
                           onCheckedChange={() => togglePermission(p.token)} 
+                          className="data-[state=checked]:bg-primary"
                         />
                       </div>
                     );

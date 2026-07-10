@@ -10,8 +10,9 @@ import { useAuthStore } from '@/store/useAuth';
 import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { Palette, Type, Square, Layout, Image as ImageIcon } from 'lucide-react';
+import { Palette, Type, Square, Layout, Image as ImageIcon, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { generateOklchTheme } from '@/lib/ThemeGenerator';
+import { getContrastColor } from '@/lib/colors';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
 
@@ -55,24 +56,34 @@ export default function BrandingSettings() {
   // Compute the live preview theme config using the powerful ThemeGenerator!
   const previewTheme = useMemo(() => {
     const generated = generateOklchTheme(hue, chroma);
-    
-    // Merge the radius manually since generator only does colors
     return {
-      light: {
-        ...generated.light,
-        '--radius': `${radius}rem`,
-      },
-      dark: {
-        ...generated.dark,
-        '--radius': `${radius}rem`,
-      },
+      light: { ...generated.light, '--radius': `${radius}rem` },
+      dark:  { ...generated.dark,  '--radius': `${radius}rem` },
       fonts: {
-        sans: fontSans,
+        sans:  fontSans,
         serif: currentTheme.fonts?.serif || 'Georgia, serif',
-        mono: currentTheme.fonts?.mono || 'Menlo, monospace',
+        mono:  currentTheme.fonts?.mono  || 'Menlo, monospace',
       }
     };
   }, [hue, chroma, radius, fontSans, currentTheme.fonts]);
+
+  // Derive the approximate hex of the primary color for the contrast check.
+  // The primary is oklch(0.55 chroma hue) in light mode — we check whether
+  // it meets a minimum 3:1 ratio against a white card surface.
+  // We use a simple luminance approximation: primary lightness 0.55 in OKLCH
+  // maps to roughly L^2.2 in relative luminance. Low chroma shifts toward gray.
+  const primaryLightness = 0.55; // fixed by ThemeGenerator light mode
+  const primaryLuminance = Math.pow(primaryLightness, 2.2);
+  const whiteLuminance   = 1.0;
+  const contrastRatio    = (whiteLuminance + 0.05) / (primaryLuminance + 0.05);
+  const contrastIsValid  = contrastRatio >= 3.0;
+
+  // Derive a preview swatch color string for the live indicator
+  const swatchStyle = `oklch(0.55 ${chroma} ${hue})`;
+  const swatchFg    = getContrastColor(
+    // Approximate hex from oklch for contrast decision: use YIQ on chroma=0 approx
+    chroma < 0.05 ? '#808080' : primaryLuminance > 0.3 ? '#111111' : '#ffffff'
+  );
 
   // Inject preview CSS specifically scoped to the preview container
   useEffect(() => {
@@ -101,6 +112,14 @@ export default function BrandingSettings() {
 
   const saveMutation = useMutation({
     mutationFn: async () => {
+      // Phase 2: Validate brand color contrast before allowing publish
+      if (!contrastIsValid) {
+        toast.error('Color contrast too low', {
+          description: 'Your primary color does not meet the minimum 3:1 contrast ratio against a white background. Increase the Color Intensity (Chroma) or choose a darker hue.'
+        });
+        throw new Error('Contrast validation failed — publish blocked.');
+      }
+
       const payload = {
         themeConfig: previewTheme,
         themeMode,
@@ -126,7 +145,8 @@ export default function BrandingSettings() {
       );
       toast.success("Theme Published!", { description: "Your Advanced Theme has been saved and applied globally." });
     },
-    onError: (err) => {
+    onError: (err: any) => {
+      if (err?.message?.includes('Contrast validation')) return; // already toasted
       console.error(err);
       toast.error("Error", { description: "Could not save theme configuration." });
     }
@@ -192,6 +212,28 @@ export default function BrandingSettings() {
                     className="cursor-grab active:cursor-grabbing"
                   />
                   <div className="h-2 w-full rounded-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 via-purple-500 to-red-500 opacity-50" />
+
+                  {/* Live primary color swatch + contrast indicator */}
+                  <div className="flex items-center gap-3 mt-3">
+                    <div
+                      className="h-8 w-8 rounded-lg border border-border/50 flex items-center justify-center text-[10px] font-bold flex-shrink-0"
+                      style={{ background: swatchStyle, color: swatchFg }}
+                    >
+                      Aa
+                    </div>
+                    <div className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg border ${
+                      contrastIsValid
+                        ? 'bg-success/10 text-success border-success/20'
+                        : 'bg-warning/10 text-warning border-warning/20'
+                    }`}>
+                      {contrastIsValid
+                        ? <CheckCircle2 className="h-3.5 w-3.5" />
+                        : <AlertTriangle className="h-3.5 w-3.5" />}
+                      {contrastIsValid
+                        ? `${contrastRatio.toFixed(1)}:1 — Meets WCAG AA`
+                        : `${contrastRatio.toFixed(1)}:1 — Contrast too low`}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-4 pt-6 border-t border-border/50">

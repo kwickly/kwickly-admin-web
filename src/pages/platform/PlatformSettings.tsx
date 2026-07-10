@@ -17,18 +17,18 @@ type TabId = "identity" | "smtp" | "features" | "plans" | "danger";
 
 const NAV: { id: TabId; label: string; icon: React.ElementType; color: string; bg: string; isDanger?: boolean }[] = [
   { id: "identity", label: "Identity",      icon: Fingerprint, color: "text-primary",      bg: "bg-primary/10" },
-  { id: "smtp",     label: "Email & SMTP",  icon: Mail,        color: "text-[var(--chart-2)]", bg: "bg-[var(--chart-2)]/10" },
-  { id: "features", label: "Feature Flags", icon: Zap,         color: "text-warning",       bg: "bg-warning/10" },
-  { id: "plans",    label: "Plan Limits",   icon: Layers,      color: "text-[var(--chart-4)]", bg: "bg-[var(--chart-4)]/10" },
-  { id: "danger",   label: "Danger Zone",   icon: ShieldAlert, color: "text-destructive",   bg: "bg-destructive/10", isDanger: true },
+  { id: "smtp",     label: "Email & SMTP",  icon: Mail,        color: "text-info",         bg: "bg-info/10" },
+  { id: "features", label: "Feature Flags", icon: Zap,         color: "text-warning",      bg: "bg-warning/10" },
+  { id: "plans",    label: "Plan Limits",   icon: Layers,      color: "text-success",      bg: "bg-success/10" },
+  { id: "danger",   label: "Danger Zone",   icon: ShieldAlert, color: "text-destructive",  bg: "bg-destructive/10", isDanger: true },
 ];
 
 const FEATURES = [
   { key: "loyalty",     label: "Loyalty & Wallet",  desc: "Points, rewards & digital wallets",      icon: BrainCircuit,   color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
-  { key: "crm",         label: "CRM & Customers",   desc: "Profiles, segments & campaigns",          icon: Users,          color: "text-[var(--chart-2)]",   bg: "bg-[var(--chart-2)]/10",     enabled: true  },
+  { key: "crm",         label: "CRM & Customers",   desc: "Profiles, segments & campaigns",          icon: Users,          color: "text-info",               bg: "bg-info/10",                 enabled: true  },
   { key: "ads",         label: "Promotions & Ads",  desc: "In-app advertisement engine",             icon: Megaphone,      color: "text-warning",            bg: "bg-warning/10",              enabled: true  },
-  { key: "payroll",     label: "Payroll & HR",      desc: "Salary runs, timesheets & leaves",        icon: Server,         color: "text-[var(--chart-4)]",   bg: "bg-[var(--chart-4)]/10",     enabled: true  },
-  { key: "inventory",   label: "Inventory",          desc: "Stock tracking & suppliers",              icon: Package,        color: "text-[var(--chart-5)]",   bg: "bg-[var(--chart-5)]/10",     enabled: true  },
+  { key: "payroll",     label: "Payroll & HR",      desc: "Salary runs, timesheets & leaves",        icon: Server,         color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
+  { key: "inventory",   label: "Inventory",          desc: "Stock tracking & suppliers",              icon: Package,        color: "text-info",               bg: "bg-info/10",                 enabled: true  },
   { key: "kds",         label: "Kitchen Display",   desc: "Real-time KDS order routing",             icon: MonitorCheck,   color: "text-success",            bg: "bg-success/10",              enabled: true  },
   { key: "analytics",   label: "Analytics",          desc: "Revenue, orders & staff reports",         icon: BarChart3,      color: "text-info",               bg: "bg-info/10",                 enabled: true  },
   { key: "multibranch", label: "Multi-Branch",       desc: "Branch hierarchy & reporting",            icon: ShoppingBag,   color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
@@ -37,11 +37,11 @@ const FEATURES = [
 ];
 
 type PlanKey = "FREE" | "STARTER" | "GROWTH" | "ENTERPRISE";
-const PLAN_TIERS: { key: PlanKey; gradient: string; badge: string; dot: string }[] = [
-  { key: "FREE",       gradient: "from-muted/60 to-muted/20",                         badge: "bg-muted text-muted-foreground",         dot: "bg-muted-foreground" },
-  { key: "STARTER",    gradient: "from-info/10 to-info/5",                            badge: "bg-info/15 text-info",                  dot: "bg-info"    },
-  { key: "GROWTH",     gradient: "from-warning/10 to-warning/5",                      badge: "bg-warning/15 text-warning",            dot: "bg-warning" },
-  { key: "ENTERPRISE", gradient: "from-primary/10 to-primary/5",                     badge: "bg-primary/15 text-primary",            dot: "bg-primary" },
+const PLAN_TIERS: { key: PlanKey; border: string; badge: string; dot: string }[] = [
+  { key: "FREE",       border: "border-t-muted",                                      badge: "bg-muted text-muted-foreground border-muted-foreground/20", dot: "bg-muted-foreground" },
+  { key: "STARTER",    border: "border-t-info",                                       badge: "bg-info/10 text-info border-info/20",                       dot: "bg-info" },
+  { key: "GROWTH",     border: "border-t-warning",                                    badge: "bg-warning/10 text-warning border-warning/20",              dot: "bg-warning" },
+  { key: "ENTERPRISE", border: "border-t-primary",                                    badge: "bg-primary/10 text-primary border-primary/20",              dot: "bg-primary" },
 ];
 const PLAN_DEFAULTS: Record<PlanKey, { branches: string; staff: string; items: string; storage: string }> = {
   FREE:       { branches: "1",   staff: "5",   items: "50",   storage: "500 MB" },
@@ -69,28 +69,23 @@ export default function PlatformSettings() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto flex flex-col h-[calc(100vh-110px)] animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-7xl mx-auto flex flex-col h-[calc(100vh-170px)] animate-in fade-in slide-in-from-bottom-4 duration-500">
 
       {/* ── Page Header ────────────────────────────────────────────────── */}
-      <div className="flex items-start justify-between shrink-0 mb-8">
-        <div className="space-y-2">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-widest">
-            <Settings className="h-3 w-3" />
-            <span>Admin Portal</span>
-            <ChevronRight className="h-3 w-3 opacity-50" />
-            <span className="text-foreground">Platform Settings</span>
-          </div>
-          <h1 className="text-4xl font-bold text-foreground tracking-tight leading-tight">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 shrink-0">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <Settings className="h-6 w-6 text-primary" />
             Platform Settings
           </h1>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-sm text-muted-foreground mt-1">
             Configure global identity, email delivery, module access, and plan quotas.
           </p>
         </div>
         <Button
           onClick={handleSave}
           disabled={saving}
-          className="h-10 px-6 gap-2 shadow-md font-semibold shrink-0 mt-2"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 h-9 rounded-md font-medium shadow-sm transition-colors cursor-pointer"
         >
           {saving
             ? <div className="h-4 w-4 rounded-full border-[2.5px] border-primary-foreground/30 border-t-primary-foreground animate-spin" />
@@ -102,7 +97,7 @@ export default function PlatformSettings() {
       <div className="flex gap-7 items-start flex-1 min-h-0">
 
         {/* ── Left Nav ────────────────────────────────────────────────── */}
-        <nav className="w-52 shrink-0 space-y-1 bg-card border border-border p-2 rounded-2xl shadow-sm">
+        <nav className="w-52 shrink-0 space-y-1 bg-card border border-border p-2 rounded-xl shadow-sm">
           {NAV.map((item) => {
             const active = tab === item.id;
             return (
@@ -110,19 +105,23 @@ export default function PlatformSettings() {
                 key={item.id}
                 onClick={() => setTab(item.id)}
                 className={cn(
-                  "group w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 text-left",
+                  "group w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 text-left cursor-pointer",
                   active
-                    ? cn(item.isDanger ? "bg-destructive/10 text-destructive" : "bg-muted text-foreground shadow-sm")
+                    ? cn(item.isDanger 
+                        ? "bg-destructive/10 text-destructive border border-destructive/20" 
+                        : "bg-primary/10 text-primary border border-primary/20 shadow-sm")
                     : item.isDanger
-                      ? "text-destructive/50 hover:text-destructive hover:bg-destructive/8"
+                      ? "text-destructive/60 hover:text-destructive hover:bg-destructive/5"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
                 <div className={cn(
                   "h-7 w-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-all",
-                  active ? item.bg : "bg-transparent group-hover:bg-muted"
+                  active 
+                    ? (item.isDanger ? "bg-destructive/20" : "bg-primary/20") 
+                    : "bg-transparent group-hover:bg-muted"
                 )}>
-                  <item.icon className={cn("h-3.5 w-3.5", active ? item.color : "text-muted-foreground group-hover:text-foreground")} />
+                  <item.icon className={cn("h-3.5 w-3.5", active ? (item.isDanger ? "text-destructive" : "text-primary") : "text-muted-foreground group-hover:text-foreground")} />
                 </div>
                 <span>{item.label}</span>
                 {active && <ChevronRight className="h-3 w-3 ml-auto opacity-30" />}
@@ -136,18 +135,17 @@ export default function PlatformSettings() {
 
           {/* Section banner */}
           <div className={cn(
-            "rounded-2xl p-5 border relative overflow-hidden",
+            "rounded-xl p-5 border relative overflow-hidden shadow-sm",
             activeNav.isDanger
               ? "bg-destructive/5 border-destructive/20"
-              : "bg-card border-border shadow-sm"
+              : "bg-card border-border"
           )}>
-            <div className={cn(
-              "absolute -top-8 -right-8 h-28 w-28 rounded-full blur-2xl opacity-40",
-              activeNav.isDanger ? "bg-destructive/20" : activeNav.bg.replace("/10", "/30")
-            )} />
             <div className="relative flex items-center gap-4">
-              <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shadow-sm flex-shrink-0", activeNav.bg)}>
-                <activeNav.icon className={cn("h-5 w-5", activeNav.color)} />
+              <div className={cn(
+                "h-12 w-12 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0", 
+                activeNav.isDanger ? "bg-destructive/10" : "bg-primary/10"
+              )}>
+                <activeNav.icon className={cn("h-5 w-5", activeNav.isDanger ? "text-destructive" : "text-primary")} />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-foreground tracking-tight">{activeNav.label}</h2>
@@ -165,7 +163,7 @@ export default function PlatformSettings() {
           {/* ── IDENTITY ─────────────────────────────────────────────── */}
           {tab === "identity" && (
             <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-3">
-              <div className="rounded-2xl bg-card border border-border shadow-sm overflow-hidden">
+              <div className="rounded-xl bg-card border border-border shadow-sm overflow-hidden">
                 {[
                   { id: "platformName", label: "Platform Name", hint: "Shown in browser tabs and email subjects", value: identity.platformName, onChange: (v: string) => setIdentity(s => ({ ...s, platformName: v })) },
                   { id: "tagline",      label: "Tagline",       hint: "One-liner used in onboarding and landing pages", value: identity.tagline,      onChange: (v: string) => setIdentity(s => ({ ...s, tagline: v })) },
@@ -177,7 +175,7 @@ export default function PlatformSettings() {
                       <p className="text-xs text-muted-foreground">{hint}</p>
                     </div>
                     <div className="col-span-3">
-                      <Input id={id} value={value} onChange={(e) => onChange(e.target.value)} className={cn("h-9 bg-background", mono && "font-mono text-sm")} />
+                      <Input id={id} value={value} onChange={(e) => onChange(e.target.value)} className={cn("h-9 bg-transparent focus-visible:ring-primary", mono && "font-mono text-sm")} />
                     </div>
                   </div>
                 ))}
@@ -189,8 +187,8 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">Linked from the sidebar Help button</p>
                   </div>
                   <div className="col-span-3 relative">
-                    <Input value={identity.supportUrl} onChange={(e) => setIdentity(s => ({ ...s, supportUrl: e.target.value }))} className="h-9 font-mono text-sm pr-9 bg-background" />
-                    <ExternalLink className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground/40 pointer-events-none" />
+                    <Input value={identity.supportUrl} onChange={(e) => setIdentity(s => ({ ...s, supportUrl: e.target.value }))} className="h-9 font-mono text-sm pr-9 bg-transparent focus-visible:ring-primary" />
+                    <ExternalLink className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground/60 pointer-events-none" />
                   </div>
                 </div>
 
@@ -203,11 +201,11 @@ export default function PlatformSettings() {
                   <div className="col-span-3 grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Terms of Service</p>
-                      <Input value={identity.termsUrl} onChange={(e) => setIdentity(s => ({ ...s, termsUrl: e.target.value }))} className="h-9 font-mono text-xs bg-background" />
+                      <Input value={identity.termsUrl} onChange={(e) => setIdentity(s => ({ ...s, termsUrl: e.target.value }))} className="h-9 font-mono text-xs bg-transparent focus-visible:ring-primary" />
                     </div>
                     <div className="space-y-1.5">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Privacy Policy</p>
-                      <Input value={identity.privacyUrl} onChange={(e) => setIdentity(s => ({ ...s, privacyUrl: e.target.value }))} className="h-9 font-mono text-xs bg-background" />
+                      <Input value={identity.privacyUrl} onChange={(e) => setIdentity(s => ({ ...s, privacyUrl: e.target.value }))} className="h-9 font-mono text-xs bg-transparent focus-visible:ring-primary" />
                     </div>
                   </div>
                 </div>
@@ -220,7 +218,7 @@ export default function PlatformSettings() {
           {/* ── SMTP ─────────────────────────────────────────────────── */}
           {tab === "smtp" && (
             <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-3">
-              <div className="rounded-2xl bg-card border border-border shadow-sm overflow-hidden">
+              <div className="rounded-xl bg-card border border-border shadow-sm overflow-hidden">
 
                 <div className="grid grid-cols-5 gap-6 items-center px-6 py-5 border-b border-border/50">
                   <div className="col-span-2 space-y-0.5">
@@ -228,7 +226,7 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">Hostname of your outbound mail relay</p>
                   </div>
                   <div className="col-span-3">
-                    <Input value={smtp.host} onChange={(e) => setSmtp(s => ({ ...s, host: e.target.value }))} className="h-9 font-mono text-sm bg-background" placeholder="smtp.resend.com" />
+                    <Input value={smtp.host} onChange={(e) => setSmtp(s => ({ ...s, host: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-primary" placeholder="smtp.resend.com" />
                   </div>
                 </div>
 
@@ -238,9 +236,9 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">465 = SSL · 587 = STARTTLS</p>
                   </div>
                   <div className="col-span-3 flex items-center gap-4">
-                    <Input value={smtp.port} onChange={(e) => setSmtp(s => ({ ...s, port: e.target.value }))} className="h-9 font-mono w-24 bg-background" placeholder="465" />
+                    <Input value={smtp.port} onChange={(e) => setSmtp(s => ({ ...s, port: e.target.value }))} className="h-9 font-mono w-24 bg-transparent focus-visible:ring-primary" placeholder="465" />
                     <label className="flex items-center gap-2.5 cursor-pointer select-none">
-                      <Switch checked={smtp.secure} onCheckedChange={(v) => setSmtp(s => ({ ...s, secure: v }))} />
+                      <Switch checked={smtp.secure} onCheckedChange={(v) => setSmtp(s => ({ ...s, secure: v }))} className="data-[state=checked]:bg-primary" />
                       <span className="text-sm text-foreground font-medium">Use TLS / SSL</span>
                     </label>
                   </div>
@@ -252,16 +250,16 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">Username and API key from your email provider</p>
                   </div>
                   <div className="col-span-3 grid grid-cols-2 gap-3">
-                    <Input value={smtp.user} onChange={(e) => setSmtp(s => ({ ...s, user: e.target.value }))} className="h-9 font-mono text-sm bg-background" placeholder="Username" />
+                    <Input value={smtp.user} onChange={(e) => setSmtp(s => ({ ...s, user: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-primary" placeholder="Username" />
                     <div className="relative">
                       <Input
                         type={showPass ? "text" : "password"}
                         value={smtp.password}
                         onChange={(e) => setSmtp(s => ({ ...s, password: e.target.value }))}
-                        className="h-9 font-mono text-sm bg-background pr-9"
+                        className="h-9 font-mono text-sm bg-transparent pr-9 focus-visible:ring-primary"
                         placeholder="API key / password"
                       />
-                      <button onClick={() => setShowPass(!showPass)} className="absolute right-2.5 top-2 text-muted-foreground hover:text-foreground transition-colors">
+                      <button onClick={() => setShowPass(!showPass)} className="absolute right-2.5 top-2.5 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
                         {showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
                     </div>
@@ -274,14 +272,19 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">Name and address recipients see in their inbox</p>
                   </div>
                   <div className="col-span-3 grid grid-cols-2 gap-3">
-                    <Input value={smtp.fromName} onChange={(e) => setSmtp(s => ({ ...s, fromName: e.target.value }))} className="h-9 bg-background" placeholder="Kwickly Platform" />
-                    <Input type="email" value={smtp.fromEmail} onChange={(e) => setSmtp(s => ({ ...s, fromEmail: e.target.value }))} className="h-9 font-mono text-sm bg-background" placeholder="noreply@kwickly.com" />
+                    <Input value={smtp.fromName} onChange={(e) => setSmtp(s => ({ ...s, fromName: e.target.value }))} className="h-9 bg-transparent focus-visible:ring-primary" placeholder="Kwickly Platform" />
+                    <Input type="email" value={smtp.fromEmail} onChange={(e) => setSmtp(s => ({ ...s, fromEmail: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-primary" placeholder="noreply@kwickly.com" />
                   </div>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 px-1">
-                <Button variant="outline" size="sm" className="gap-2 h-8 text-sm" onClick={() => toast.info("Test email dispatched to your admin account.")}>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="gap-2 h-8 text-xs font-semibold text-primary border-primary/20 hover:bg-primary/10 cursor-pointer" 
+                  onClick={() => toast.info("Test email dispatched to your admin account.")}
+                >
                   <Send className="h-3.5 w-3.5" /> Send Test Email
                 </Button>
                 <p className="text-xs text-muted-foreground">Sends a verification email to the current platform owner account.</p>
@@ -295,24 +298,23 @@ export default function PlatformSettings() {
               <p className="text-xs text-muted-foreground px-1">
                 Toggling a module <strong>off</strong> immediately hides it from all tenant dashboards, regardless of their plan.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 {features.map((f) => (
                   <button
                     key={f.key}
                     onClick={() => setFeatures(prev => prev.map(x => x.key === f.key ? { ...x, enabled: !x.enabled } : x))}
                     className={cn(
-                      "group relative flex items-center gap-3.5 p-4 rounded-2xl border text-left transition-all duration-200 overflow-hidden",
+                      "group relative flex items-center gap-3.5 p-4 rounded-xl border text-left transition-all duration-200 overflow-hidden cursor-pointer",
                       f.enabled
-                        ? "bg-card border-border hover:border-primary/30 shadow-sm hover:shadow"
-                        : "bg-muted/20 border-dashed border-border/40 hover:border-border hover:bg-muted/40"
+                        ? "bg-card border-border hover:border-primary/30 shadow-sm hover:shadow-md"
+                        : "bg-muted/20 border-dashed border-border/40 opacity-60 hover:opacity-85"
                     )}
                   >
-                    {/* Glow orb */}
-                    {f.enabled && (
-                      <div className={cn("absolute -top-4 -right-4 h-16 w-16 rounded-full blur-xl opacity-30 transition-opacity group-hover:opacity-50", f.bg)} />
-                    )}
-                    <div className={cn("relative h-9 w-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all", f.enabled ? f.bg : "bg-muted")}>
-                      <f.icon className={cn("h-4 w-4", f.enabled ? f.color : "text-muted-foreground")} />
+                    <div className={cn(
+                      "relative h-9 w-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all", 
+                      f.enabled ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
+                    )}>
+                      <f.icon className="h-4 w-4" />
                     </div>
                     <div className="flex-1 min-w-0 relative">
                       <p className={cn("text-sm font-semibold leading-none mb-1", f.enabled ? "text-foreground" : "text-muted-foreground")}>
@@ -324,7 +326,7 @@ export default function PlatformSettings() {
                       <Switch
                         checked={f.enabled}
                         onCheckedChange={() => setFeatures(prev => prev.map(x => x.key === f.key ? { ...x, enabled: !x.enabled } : x))}
-                        className="pointer-events-none"
+                        className="pointer-events-none data-[state=checked]:bg-primary"
                       />
                     </div>
                   </button>
@@ -335,19 +337,17 @@ export default function PlatformSettings() {
 
           {/* ── PLAN LIMITS ──────────────────────────────────────────── */}
           {tab === "plans" && (
-            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-3">
-              {PLAN_TIERS.map(({ key, gradient, badge, dot }) => {
+            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-4">
+              {PLAN_TIERS.map(({ key, border, badge, dot }) => {
                 const isEnterprise = key === "ENTERPRISE";
                 const data = PLAN_DEFAULTS[key];
                 return (
-                  <div key={key} className={cn("rounded-2xl border border-border bg-gradient-to-br p-5 relative overflow-hidden", gradient)}>
-                    {/* Background glow */}
-                    <div className={cn("absolute -bottom-6 -right-6 h-24 w-24 rounded-full blur-2xl opacity-20", dot)} />
+                  <div key={key} className={cn("bg-card rounded-xl border border-border border-t-4 p-5 relative overflow-hidden transition-all hover:border-primary/40 shadow-sm", border)}>
                     <div className="relative">
                       <div className="flex items-center gap-2.5 mb-4">
-                        <span className={cn("h-2 w-2 rounded-full", dot)} />
-                        <span className={cn("text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-full", badge)}>{key}</span>
-                        {isEnterprise && <span className="text-[11px] text-muted-foreground">— all limits are uncapped</span>}
+                        <span className={cn("h-2.5 w-2.5 rounded-full", dot)} />
+                        <span className={cn("text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border", badge)}>{key}</span>
+                        {isEnterprise && <span className="text-[11px] text-muted-foreground font-medium">— all limits are uncapped</span>}
                       </div>
                       <div className="grid grid-cols-4 gap-3">
                         {(["branches", "staff", "items", "storage"] as const).map((k) => (
@@ -359,9 +359,9 @@ export default function PlatformSettings() {
                               <Input
                                 value={data[k]}
                                 readOnly={isEnterprise}
-                                className={cn("h-9 text-sm font-mono bg-background/80", isEnterprise && "opacity-50 cursor-not-allowed")}
+                                className={cn("h-9 text-sm font-mono bg-transparent focus-visible:ring-primary", isEnterprise && "opacity-50 cursor-not-allowed")}
                               />
-                              {isEnterprise && <Lock className="absolute right-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground/30 pointer-events-none" />}
+                              {isEnterprise && <Lock className="absolute right-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground/40 pointer-events-none" />}
                             </div>
                           </div>
                         ))}
@@ -376,17 +376,17 @@ export default function PlatformSettings() {
 
           {/* ── DANGER ZONE ──────────────────────────────────────────── */}
           {tab === "danger" && (
-            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-4">
+            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-5">
               {/* Warning strip */}
-              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-destructive/8 border border-destructive/20">
-                <AlertTriangle className="h-4 w-4 text-destructive flex-shrink-0" />
-                <p className="text-sm font-medium text-destructive">
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                <AlertTriangle className="h-4 w-4 text-destructive flex-shrink-0 animate-pulse" />
+                <p className="font-medium">
                   Changes here are instant and affect <strong>every tenant and user</strong> on the platform.
                 </p>
               </div>
 
               {/* Danger switches */}
-              <div className="rounded-2xl bg-card border border-destructive/15 overflow-hidden shadow-sm">
+              <div className="rounded-xl bg-card border border-destructive/20 overflow-hidden shadow-sm">
                 {([
                   { key: "maintenance"      as const, label: "Maintenance Mode",         desc: "All tenant dashboards show a maintenance screen. Only platform admins retain login access.",    badge: true  },
                   { key: "noRegistrations"  as const, label: "Disable Registrations",    desc: "Blocks the tenant sign-up flow entirely. All existing tenants are completely unaffected.",       badge: false },
@@ -414,14 +414,14 @@ export default function PlatformSettings() {
                         if (v) toast.warning(`${label} activated`, { description: "All tenants are affected immediately." });
                         setDanger(s => ({ ...s, [key]: v }));
                       }}
-                      className={cn("flex-shrink-0", danger[key] && "data-[state=checked]:bg-destructive")}
+                      className={cn("flex-shrink-0 data-[state=checked]:bg-destructive")}
                     />
                   </div>
                 ))}
               </div>
 
               {/* System status */}
-              <div className="rounded-2xl bg-card border border-border shadow-sm p-5">
+              <div className="rounded-xl bg-card border border-border shadow-sm p-5">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">Live System Status</p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[
@@ -431,15 +431,20 @@ export default function PlatformSettings() {
                     { label: "Email Relay", icon: Wifi,     ok: true },
                   ].map(({ label, icon: Icon, ok }) => (
                     <div key={label} className="relative flex items-center gap-3 p-3 rounded-xl border border-border bg-muted/20 overflow-hidden group hover:bg-card transition-colors">
-                      <div className={cn("absolute -top-3 -right-3 h-10 w-10 rounded-full blur-xl opacity-0 group-hover:opacity-40 transition-opacity", ok ? "bg-success" : "bg-destructive")} />
-                      <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center flex-shrink-0 relative", ok ? "bg-success/10" : "bg-destructive/10")}>
-                        <Icon className={cn("h-4 w-4", ok ? "text-success" : "text-destructive")} />
+                      <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center flex-shrink-0 relative border", ok ? "bg-success/10 text-success border-success/10" : "bg-destructive/10 text-destructive border-destructive/10")}>
+                        <Icon className="h-4 w-4" />
                       </div>
                       <div className="relative">
                         <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wide leading-none mb-1">{label}</p>
                         <div className="flex items-center gap-1">
-                          <CheckCircle2 className="h-3 w-3 text-success" />
-                          <p className="text-xs font-semibold text-success">Healthy</p>
+                          {ok ? (
+                            <CheckCircle2 className="h-3 w-3 text-success" />
+                          ) : (
+                            <AlertTriangle className="h-3 w-3 text-destructive" />
+                          )}
+                          <p className={cn("text-xs font-semibold", ok ? "text-success" : "text-destructive")}>
+                            {ok ? "Healthy" : "Failing"}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -459,7 +464,9 @@ function InfoTip({ icon: Icon, text, variant = "info" }: { icon: React.ElementTy
   return (
     <div className={cn(
       "flex items-start gap-3 px-4 py-3.5 rounded-xl border text-xs leading-relaxed",
-      variant === "warning" ? "bg-warning/5 border-warning/20 text-warning" : "bg-info/5 border-info/20 text-info"
+      variant === "warning" 
+        ? "bg-warning/5 border-warning/20 text-warning" 
+        : "bg-info/5 border-info/20 text-info"
     )}>
       <Icon className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
       {text}

@@ -35,7 +35,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
-import { getContrastColor, adjustColorBrightness, getHexOpacity } from "@/lib/colors";
+import { getContrastColor, isValidHex } from "@/lib/colors";
 
 export default function AppShell() {
   const { 
@@ -62,26 +62,27 @@ export default function AppShell() {
     ? impersonatedTenantLogoUrl 
     : user?.tenantDetails?.logoUrl;
 
-  // Inject dynamic brand custom variables into Document root for tailwind v4 styles mapping
+  // v2 Brand Token Injection: writes merchant brand color directly onto --primary
+  // so all standard Tailwind utilities (bg-primary, text-primary, border-primary)
+  // automatically reflect the active merchant's branding. No var(--brand-*) needed.
   useEffect(() => {
     const root = document.documentElement;
-    if (activeBrandColor) {
+    if (activeBrandColor && isValidHex(activeBrandColor)) {
       const foreground = getContrastColor(activeBrandColor);
-      const hover = adjustColorBrightness(activeBrandColor, -12);
-      const tint = getHexOpacity(activeBrandColor, 10);
-      const tintHover = getHexOpacity(activeBrandColor, 20);
-      
-      root.style.setProperty('--brand-primary', activeBrandColor);
-      root.style.setProperty('--brand-primary-hover', hover);
-      root.style.setProperty('--brand-foreground', foreground);
-      root.style.setProperty('--brand-tint', tint);
-      root.style.setProperty('--brand-tint-hover', tintHover);
+      root.style.setProperty('--primary',                       activeBrandColor);
+      root.style.setProperty('--primary-foreground',            foreground);
+      root.style.setProperty('--ring',                          activeBrandColor);
+      root.style.setProperty('--sidebar-primary',               activeBrandColor);
+      root.style.setProperty('--sidebar-primary-foreground',    foreground);
+      root.style.setProperty('--accent-foreground',             activeBrandColor);
     } else {
-      root.style.removeProperty('--brand-primary');
-      root.style.removeProperty('--brand-primary-hover');
-      root.style.removeProperty('--brand-foreground');
-      root.style.removeProperty('--brand-tint');
-      root.style.removeProperty('--brand-tint-hover');
+      // Restore index.css defaults by removing inline overrides
+      root.style.removeProperty('--primary');
+      root.style.removeProperty('--primary-foreground');
+      root.style.removeProperty('--ring');
+      root.style.removeProperty('--sidebar-primary');
+      root.style.removeProperty('--sidebar-primary-foreground');
+      root.style.removeProperty('--accent-foreground');
     }
   }, [activeBrandColor]);
 

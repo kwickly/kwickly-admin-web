@@ -252,7 +252,7 @@ export default function PayrollRunDetails() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10"
+                        className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/10"
                         onClick={() =>
                           setEditingSlip({
                             id: slip.id,

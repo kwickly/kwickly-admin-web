@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Building, Plus, Eye, Edit, Trash, ShieldAlert, MoreVertical, MapPin, Users, Phone, Mail, Globe } from "lucide-react";
 import { useAuthStore } from "@/store/useAuth";
+import { getContrastColor } from "@/lib/colors";
 import { usePlatformTenants, useCreateTenant, useUpdateTenant, useDeleteTenant, type TenantStats } from "@/hooks/api/usePlatform";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -34,6 +35,18 @@ import { toast } from "sonner";
 import { GridCardSkeleton } from "@/components/ui/loaders";
 import { PaginationControls } from "@/components/ui/pagination-controls";
 import { SearchInput } from "@/components/ui/search-input";
+
+// Maps subscription plan tier to semantic badge classes from the global theme token set.
+// Colors carry meaning: ENTERPRISE=brand primary, GROWTH=success, STARTER=info, FREE=muted.
+function getPlanBadgeClass(plan: string): string {
+  switch (plan) {
+    case 'ENTERPRISE': return 'bg-primary/10 text-primary border-primary/20';
+    case 'GROWTH':     return 'bg-success/10 text-success border-success/20';
+    case 'STARTER':    return 'bg-info/10 text-info border-info/20';
+    case 'FREE':       return 'bg-muted text-muted-foreground border-border';
+    default:           return 'bg-muted text-muted-foreground border-border';
+  }
+}
 
 export default function PlatformTenants() {
   const navigate = useNavigate();
@@ -191,7 +204,7 @@ export default function PlatformTenants() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -229,11 +242,12 @@ export default function PlatformTenants() {
           {tenantsList.map((tenant) => (
             <Card 
               key={tenant.id} 
-              className="bg-card border-border overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
+              className="bg-card border-border overflow-hidden shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
               onClick={() => handleCardClick(tenant)}
             >
+              {/* Brand accent bar — uses tenant brand color, falls back to system --primary */}
               <div 
-                className="absolute top-0 left-0 w-full h-1" 
+                className="w-full h-1.5 flex-shrink-0" 
                 style={{ backgroundColor: tenant.brandColor || 'var(--primary)' }} 
               />
               
@@ -242,7 +256,7 @@ export default function PlatformTenants() {
                 <div className="absolute top-4 right-4 z-10">
                   <DropdownMenu>
                     <DropdownMenuTrigger 
-                      className="h-8 w-8 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none"
+                      className="h-10 w-10 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <MoreVertical className="h-4 w-4" />
@@ -277,8 +291,11 @@ export default function PlatformTenants() {
 
                 <div className="flex items-start gap-4 mb-4 pr-8">
                   <div 
-                    className="h-12 w-12 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-sm"
-                    style={{ backgroundColor: tenant.brandColor || 'var(--primary)' }}
+                    className="h-12 w-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm"
+                    style={{
+                      backgroundColor: tenant.brandColor || 'var(--primary)',
+                      color: tenant.brandColor ? getContrastColor(tenant.brandColor) : 'var(--primary-foreground)'
+                    }}
                   >
                     {tenant.logoUrl ? (
                       <img src={tenant.logoUrl} alt={tenant.name} className="h-8 w-8 object-contain" />
@@ -298,11 +315,12 @@ export default function PlatformTenants() {
                 </div>
 
                 <div className="flex items-center gap-2 mb-6">
-                  <Badge variant="secondary" className="text-[10px] uppercase font-bold shadow-none">
+                  {/* Semantic color-coded plan badge */}
+                  <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] uppercase font-bold border ${getPlanBadgeClass(tenant.plan)}`}>
                     {tenant.plan}
-                  </Badge>
+                  </span>
                   <div className="flex items-center gap-1.5 text-xs font-medium">
-                    <span className={`h-2 w-2 rounded-full ${tenant.isActive ? 'bg-success shadow-[0_0_8px_color-mix(in_oklch,var(--success)_50%,transparent)]' : 'bg-destructive'}`}></span>
+                    <span className={`h-2 w-2 rounded-full ${tenant.isActive ? 'bg-success' : 'bg-destructive'}`}></span>
                     <span className={tenant.isActive ? 'text-success' : 'text-destructive'}>
                       {tenant.isActive ? "ACTIVE" : "SUSPENDED"}
                     </span>
@@ -310,13 +328,13 @@ export default function PlatformTenants() {
                 </div>
 
                 <div className="mt-auto grid grid-cols-2 gap-2 pt-4 border-t border-border/50">
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <MapPin className="h-4 w-4 text-muted-foreground/70" />
-                    <span className="text-sm font-medium">{tenant.branchCount} <span className="text-xs font-normal">loc</span></span>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground/70 flex-shrink-0" />
+                    <span className="text-sm font-semibold text-foreground">{tenant.branchCount} <span className="text-xs font-normal text-muted-foreground">loc</span></span>
                   </div>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Users className="h-4 w-4 text-muted-foreground/70" />
-                    <span className="text-sm font-medium">{tenant.userCount} <span className="text-xs font-normal">users</span></span>
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-muted-foreground/70 flex-shrink-0" />
+                    <span className="text-sm font-semibold text-foreground">{tenant.userCount} <span className="text-xs font-normal text-muted-foreground">users</span></span>
                   </div>
                 </div>
               </div>
@@ -338,33 +356,41 @@ export default function PlatformTenants() {
         <DialogContent className="sm:max-w-[500px] bg-card border border-border p-0 overflow-hidden shadow-xl rounded-2xl">
           {viewTenant && (
             <>
+              {/* Flat brand accent bar — no gradient, no blur */}
               <div 
-                className="h-24 w-full relative"
-                style={{ background: `linear-gradient(to right, ${viewTenant.brandColor}80, ${viewTenant.brandColor}20)` }}
-              >
-                <div className="absolute -bottom-10 left-6">
+                className="h-1.5 w-full"
+                style={{ backgroundColor: viewTenant.brandColor || 'var(--primary)' }}
+              />
+
+              <div className="px-6 pt-6 pb-0">
+                <div className="flex items-center gap-4">
                   <div 
-                    className="h-20 w-20 rounded-2xl flex items-center justify-center text-white shadow-md border-4 border-background"
-                    style={{ backgroundColor: viewTenant.brandColor || 'var(--primary)' }}
+                    className="h-16 w-16 rounded-2xl flex items-center justify-center shadow-sm border border-border flex-shrink-0"
+                    style={{
+                      backgroundColor: viewTenant.brandColor || 'var(--primary)',
+                      color: viewTenant.brandColor ? getContrastColor(viewTenant.brandColor) : 'var(--primary-foreground)'
+                    }}
                   >
                     {viewTenant.logoUrl ? (
-                      <img src={viewTenant.logoUrl} alt={viewTenant.name} className="h-12 w-12 object-contain" />
+                      <img src={viewTenant.logoUrl} alt={viewTenant.name} className="h-10 w-10 object-contain" />
                     ) : (
-                      <span className="text-3xl font-bold uppercase">{viewTenant.name.substring(0, 2)}</span>
+                      <span className="text-2xl font-bold uppercase">{viewTenant.name.substring(0, 2)}</span>
                     )}
                   </div>
-                </div>
-                <div className="absolute top-4 right-4 flex gap-2">
-                  <Badge className="bg-background/90 text-foreground border-none shadow-sm backdrop-blur-sm">
-                    {viewTenant.plan} PLAN
-                  </Badge>
-                  <Badge variant={viewTenant.isActive ? "outline" : "destructive"} className={`bg-background/90 backdrop-blur-sm border-none shadow-sm ${viewTenant.isActive ? 'text-success' : ''}`}>
-                    {viewTenant.isActive ? "ACTIVE" : "SUSPENDED"}
-                  </Badge>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <Badge className="bg-muted text-muted-foreground border-border shadow-none text-[10px] uppercase font-bold">
+                        {viewTenant.plan} PLAN
+                      </Badge>
+                      <Badge variant={viewTenant.isActive ? "outline" : "destructive"} className={`shadow-none text-[10px] uppercase font-bold ${viewTenant.isActive ? 'text-success border-success/30 bg-success/10' : ''}`}>
+                        {viewTenant.isActive ? "ACTIVE" : "SUSPENDED"}
+                      </Badge>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="pt-14 pb-6 px-6 space-y-6">
+              <div className="pt-4 pb-6 px-6 space-y-6">
                 <div>
                   <h2 className="text-2xl font-bold text-foreground">{viewTenant.name}</h2>
                   <p className="text-sm text-muted-foreground font-mono mt-1 flex items-center gap-1.5">

@@ -40,6 +40,7 @@ import Orders from '@/pages/Orders'
 import Ads from '@/pages/Ads'
 import Subscriptions from '@/pages/Subscriptions'
 import ProtectedRoute from '@/components/ProtectedRoute'
+import TenantLockScreen from '@/pages/TenantLockScreen'
 import Stock from '@/pages/inventory/Stock'
 import Suppliers from '@/pages/inventory/Suppliers'
 import Discounts from '@/pages/promotions/Discounts'
@@ -75,6 +76,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/tenant-lock" element={<TenantLockScreen />} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>

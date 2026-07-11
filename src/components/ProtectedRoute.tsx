@@ -24,6 +24,12 @@ export default function ProtectedRoute({ permission, requirePlatform }: Protecte
     return <Navigate to="/dashboard" replace />;
   }
 
+  // Intercept suspended or terminated tenants (except for platform owners operating on the platform itself)
+  const tenantStatus = user.tenantDetails?.status;
+  if ((tenantStatus === 'SUSPENDED' || tenantStatus === 'TERMINATED') && !requirePlatform) {
+    return <Navigate to="/tenant-lock" replace />;
+  }
+
   // Render child routes
   return <Outlet />;
 }

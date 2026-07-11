@@ -5,14 +5,7 @@ import { useMenuCategories, useUpdateCategory, useDeleteCategory, type MenuCateg
 import { useBranchStore } from "@/store/useBranch";
 import { TableSkeleton } from "@/components/ui/loaders";
 import { PaginationControls } from "@/components/ui/pagination-controls";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import {
   Dialog,
   DialogContent,
@@ -119,54 +112,44 @@ export default function MenuCategories() {
           <p className="mt-2">Use the "Create Category" button to add new categories.</p>
         </div>
       ) : (
-        <div className="rounded-md border border-border bg-card overflow-hidden shadow-sm">
-          <Table>
-            <TableHeader className="bg-muted/50">
-              <TableRow>
-                <TableHead>Category Name</TableHead>
-                <TableHead>Sort Order</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {categories.map((category) => (
-                <TableRow key={category.id} className="hover:bg-muted/50">
-                  <TableCell className="font-semibold text-foreground">
-                    {category.name}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground font-mono">
-                    {category.sortOrder}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={category.isActive ? 'outline' : 'destructive'} className="text-[10px] font-bold">
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {categories.map((category) => (
+              <div key={category.id} className="bg-card rounded-xl border border-border shadow-sm overflow-hidden flex flex-col">
+                <div className="p-4 flex-1 flex flex-col justify-between">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="font-semibold text-lg text-foreground truncate" title={category.name}>{category.name}</h3>
+                    <Badge variant={category.isActive ? 'outline' : 'destructive'} className="text-[10px] font-bold shrink-0">
                       {category.isActive ? 'Active' : 'Inactive'}
                     </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-1.5">
-                      <Button
-                        size="icon-sm"
-                        variant="ghost"
-                        onClick={() => handleEditClick(category)}
-                        className="text-muted-foreground hover:text-foreground hover:bg-muted"
-                      >
-                        <Edit className="size-4" />
-                      </Button>
-                      <Button
-                        size="icon-sm"
-                        variant="ghost"
-                        onClick={() => handleDeleteClick(category.id)}
-                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                      >
-                        <Trash className="size-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                  </div>
+                  <p className="text-sm text-muted-foreground font-mono">
+                    Sort Order: {category.sortOrder}
+                  </p>
+                </div>
+                <div className="bg-muted/30 border-t border-border p-3 flex justify-end gap-2">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => handleEditClick(category)}
+                    className="text-muted-foreground hover:text-foreground hover:bg-muted min-h-[44px] min-w-[44px]"
+                  >
+                    <Edit className="size-4 mr-2" />
+                    Edit
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => handleDeleteClick(category.id)}
+                    className="text-destructive hover:text-destructive hover:bg-destructive/10 min-h-[44px] min-w-[44px]"
+                  >
+                    <Trash className="size-4 mr-2" />
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
 
           {meta && (
             <PaginationControls 

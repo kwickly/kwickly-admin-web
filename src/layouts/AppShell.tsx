@@ -137,7 +137,7 @@ export default function AppShell() {
                         onValueChange={(val) => setSelectedBranchId(val)}
                         disabled={isBranchesLoading || !branches || branches.length === 0}
                       >
-                        <SelectTrigger className="h-7 text-xs bg-muted border-none shadow-none focus:ring-1 focus:ring-ring">
+                        <SelectTrigger className="h-11 text-xs bg-muted border-none shadow-none focus:ring-1 focus:ring-ring">
                           <span className="line-clamp-1 flex-1 text-left">
                             {branches?.find(b => b.id === selectedBranchId)?.name || "Select a branch"}
                           </span>
@@ -166,7 +166,7 @@ export default function AppShell() {
               <div className="hidden md:flex relative mr-2 group">
                 <button 
                   onClick={() => setCommandOpen(true)}
-                  className="flex items-center h-9 w-48 lg:w-72 rounded-xl border border-border bg-muted px-3 text-xs focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-ring/50 transition-all text-muted-foreground group-hover:text-foreground/70"
+                  className="flex items-center h-11 w-48 lg:w-72 rounded-xl border border-border bg-muted px-4 text-xs focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-ring/50 transition-all text-muted-foreground group-hover:text-foreground/70"
                 >
                   <Search className="h-3.5 w-3.5 mr-2 text-muted-foreground group-hover:text-primary transition-colors" />
                   <span>Search anything...</span>
@@ -180,17 +180,16 @@ export default function AppShell() {
               <div className="flex items-center gap-1 mr-2">
                 <Button 
                   variant="ghost" 
-                  size="icon-sm" 
-                  className="text-muted-foreground hover:text-primary"
+                  className="h-11 w-11 p-0 text-muted-foreground hover:text-primary"
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 >
-                  {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
+                  {theme === 'dark' ? <Sun className="size-5" /> : <Moon className="size-5" />}
                 </Button>
-                <Button variant="ghost" size="icon-sm" className="text-muted-foreground">
-                  <Bell className="size-4" />
+                <Button variant="ghost" className="h-11 w-11 p-0 text-muted-foreground">
+                  <Bell className="size-5" />
                 </Button>
-                <Button variant="ghost" size="icon-sm" className="text-muted-foreground">
-                  <HelpCircle className="size-4" />
+                <Button variant="ghost" className="h-11 w-11 p-0 text-muted-foreground">
+                  <HelpCircle className="size-5" />
                 </Button>
               </div>
 
@@ -198,7 +197,7 @@ export default function AppShell() {
 
               <DropdownMenu>
                 <DropdownMenuTrigger render={
-                  <Button variant="ghost" className="h-9 px-2 gap-2 hover:bg-muted">
+                  <Button variant="ghost" className="h-11 px-3 gap-2 hover:bg-muted rounded-xl">
                     <div className="flex h-7 w-7 items-center justify-center rounded-lg overflow-hidden bg-primary/10 text-primary">
                       {activeLogoUrl ? (
                         <img src={activeLogoUrl} alt="Logo" className="h-full w-full object-cover" />

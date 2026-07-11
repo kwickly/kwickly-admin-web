@@ -55,7 +55,7 @@ export default function TenantDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Can perform="analytics:read" fallback={
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4 opacity-50 grayscale">
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-4 bg-muted rounded-lg">
                 <DollarSign className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
@@ -65,7 +65,7 @@ export default function TenantDashboard() {
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-              <div className="p-3 bg-primary/10 rounded-lg">
+              <div className="p-4 bg-primary/10 rounded-lg">
                 <DollarSign className="h-6 w-6 text-primary" />
               </div>
               <div>
@@ -79,7 +79,7 @@ export default function TenantDashboard() {
 
           <Can perform="orders:read" fallback={
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4 opacity-50 grayscale">
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-4 bg-muted rounded-lg">
                 <ShoppingCart className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
@@ -89,7 +89,7 @@ export default function TenantDashboard() {
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-              <div className="p-3 bg-primary/10 rounded-lg">
+              <div className="p-4 bg-primary/10 rounded-lg">
                 <ShoppingCart className="h-6 w-6 text-primary" />
               </div>
               <div>
@@ -103,7 +103,7 @@ export default function TenantDashboard() {
 
           <Can perform="analytics:read" fallback={
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4 opacity-50 grayscale">
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-4 bg-muted rounded-lg">
                 <TrendingUp className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
@@ -113,7 +113,7 @@ export default function TenantDashboard() {
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-              <div className="p-3 bg-primary/10 rounded-lg">
+              <div className="p-4 bg-primary/10 rounded-lg">
                 <TrendingUp className="h-6 w-6 text-primary" />
               </div>
               <div>
@@ -127,7 +127,7 @@ export default function TenantDashboard() {
 
           <Can perform="staff:read" fallback={
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4 opacity-50 grayscale">
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-4 bg-muted rounded-lg">
                 <Users className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
@@ -137,7 +137,7 @@ export default function TenantDashboard() {
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-              <div className="p-3 bg-primary/10 rounded-lg">
+              <div className="p-4 bg-primary/10 rounded-lg">
                 <Users className="h-6 w-6 text-primary" />
               </div>
               <div>
@@ -164,7 +164,7 @@ export default function TenantDashboard() {
             <div className="lg:col-span-2 bg-card p-6 rounded-xl border border-border shadow-sm">
               <h3 className="text-lg font-semibold text-foreground mb-6">Revenue (Last 7 Days)</h3>
               <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                   <BarChart data={REVENUE_DATA}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.5} />
                     <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: 'var(--muted-foreground)'}} />
@@ -179,7 +179,7 @@ export default function TenantDashboard() {
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm">
               <h3 className="text-lg font-semibold text-foreground mb-6">Top Categories</h3>
               <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                   <PieChart>
                     <Pie
                       data={pieData}

@@ -53,7 +53,7 @@ export default function BranchProfile() {
           ) : (
             <>
               <div className="space-y-4 max-w-xl">
-                <div className="space-y-2">
+                <div className="space-y-4">
                   <label htmlFor="name" className="text-sm font-medium text-foreground flex items-center gap-2">
                     <Store className="h-4 w-4 text-muted-foreground" />
                     Branch Name
@@ -64,12 +64,12 @@ export default function BranchProfile() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
+                    className="w-full min-h-[44px] rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
                     placeholder="e.g. Kwickly Downtown"
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-4">
                   <label htmlFor="phone" className="text-sm font-medium text-foreground flex items-center gap-2">
                     <Phone className="h-4 w-4 text-muted-foreground" />
                     Phone Number
@@ -79,12 +79,12 @@ export default function BranchProfile() {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
+                    className="w-full min-h-[44px] rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
                     placeholder="e.g. (555) 123-4567"
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-4">
                   <label htmlFor="address" className="text-sm font-medium text-foreground flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-muted-foreground" />
                     Address
@@ -94,7 +94,7 @@ export default function BranchProfile() {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     rows={3}
-                    className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground resize-none"
+                    className="w-full min-h-[44px] rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground resize-none"
                     placeholder="Enter full address"
                   />
                 </div>
@@ -104,7 +104,7 @@ export default function BranchProfile() {
                 <button
                   type="submit"
                   disabled={isBranchSaving || !currentBranch}
-                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 min-h-[44px] bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
                 >
                   <Save className="h-4 w-4" />
                   {isBranchSaving ? 'Saving...' : 'Save Changes'}

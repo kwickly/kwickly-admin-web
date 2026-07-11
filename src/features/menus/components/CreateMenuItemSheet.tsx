@@ -51,32 +51,32 @@ export default function CreateMenuItemSheet() {
     <Sheet open={open} onOpenChange={setOpen}>
       {/* @ts-ignore - Radix UI type bug with TS 5.7+ */}
       <SheetTrigger asChild>
-        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">Add Menu Item</Button>
+        <Button className="h-11">Add Menu Item</Button>
       </SheetTrigger>
-      <SheetContent className="bg-white dark:bg-zinc-950 border-l border-slate-200 dark:border-zinc-800 w-full sm:max-w-md overflow-y-auto">
+      <SheetContent className="bg-background border-l border-border w-full sm:max-w-md overflow-y-auto">
         <SheetHeader className="mb-6">
-          <SheetTitle className="text-slate-900 dark:text-zinc-100">Create Menu Item</SheetTitle>
-          <SheetDescription className="text-slate-500 dark:text-zinc-400">
+          <SheetTitle className="text-foreground">Create Menu Item</SheetTitle>
+          <SheetDescription className="text-muted-foreground">
             Add a new item to your menu. You can configure categories and modifiers here.
           </SheetDescription>
         </SheetHeader>
         <form onSubmit={handleSubmit}>
           <div className="space-y-6">
             <div className="space-y-2">
-            <Label htmlFor="name" className="text-slate-700 dark:text-zinc-300">Item Name</Label>
+            <Label htmlFor="name" className="text-foreground">Item Name</Label>
               <Input 
                 id="name" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Double Cheeseburger" 
-                className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100" 
+                className="h-11 bg-transparent border-border text-foreground" 
                 required
               />
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="price" className="text-slate-700 dark:text-zinc-300">Price ($)</Label>
+                <Label htmlFor="price" className="text-foreground">Price ($)</Label>
                 <Input 
                   id="price" 
                   type="number" 
@@ -84,17 +84,17 @@ export default function CreateMenuItemSheet() {
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="0.00" 
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100" 
+                  className="h-11 bg-transparent border-border text-foreground" 
                   required
                 />
               </div>
             <div className="space-y-2">
-              <Label htmlFor="category" className="text-slate-700 dark:text-zinc-300">Category</Label>
+              <Label htmlFor="category" className="text-foreground">Category</Label>
               <Select value={categoryId} onValueChange={(val: any) => setCategoryId(val)} required>
-                <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                <SelectTrigger className="h-11 bg-transparent border-border text-foreground">
                   <SelectValue placeholder="Select..." />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                <SelectContent className="bg-popover border-border">
                   {categories?.data?.map((cat: any) => (
                     <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
                   ))}
@@ -107,12 +107,12 @@ export default function CreateMenuItemSheet() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="modifiers" className="text-slate-700 dark:text-zinc-300">Modifier Groups</Label>
+            <Label htmlFor="modifiers" className="text-foreground">Modifier Groups</Label>
             <Select>
-              <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+              <SelectTrigger className="h-11 bg-transparent border-border text-foreground">
                 <SelectValue placeholder="Attach modifier group..." />
               </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+              <SelectContent className="bg-popover border-border">
                 <SelectItem value="cheese">Cheese Options (+ $0.50)</SelectItem>
                 <SelectItem value="temps">Meat Temperatures</SelectItem>
                 <SelectItem value="sauces">Extra Sauces</SelectItem>
@@ -121,13 +121,13 @@ export default function CreateMenuItemSheet() {
           </div>
 
         </div>
-        <div className="mt-8 pt-6 border-t border-slate-200 dark:border-zinc-800">
+        <div className="mt-8 pt-6 border-t border-border">
           <SheetFooter>
             {/* @ts-ignore - Radix UI type bug with TS 5.7+ */}
             <SheetClose asChild>
-              <Button type="button" variant="outline" className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent hover:bg-slate-100 dark:hover:bg-zinc-800">Cancel</Button>
+              <Button type="button" variant="outline" className="h-11">Cancel</Button>
             </SheetClose>
-            <Button type="submit" disabled={isPending} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+            <Button type="submit" disabled={isPending} className="h-11">
               {isPending ? 'Saving...' : 'Save Item'}
             </Button>
           </SheetFooter>

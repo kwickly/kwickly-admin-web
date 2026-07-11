@@ -85,7 +85,7 @@ export default function Suppliers() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger
             render={
-              <Button>
+              <Button className="h-11">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Supplier
               </Button>
@@ -103,47 +103,47 @@ export default function Suppliers() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Company Name *</Label>
-                  <Input id="name" name="name" placeholder="e.g. Metro Cash & Carry" required />
+                  <Input id="name" name="name" placeholder="e.g. Metro Cash & Carry" className="h-11 bg-transparent border-border" required />
                 </div>
                 
                 <div className="space-y-2">
                   <Label htmlFor="contactPerson">Contact Person</Label>
-                  <Input id="contactPerson" name="contactPerson" placeholder="e.g. John Doe" />
+                  <Input id="contactPerson" name="contactPerson" placeholder="e.g. John Doe" className="h-11 bg-transparent border-border" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" name="phone" placeholder="+91 98765 43210" />
+                    <Input id="phone" name="phone" placeholder="+91 98765 43210" className="h-11 bg-transparent border-border" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" name="email" type="email" placeholder="john@supplier.com" />
+                    <Input id="email" name="email" type="email" placeholder="john@supplier.com" className="h-11 bg-transparent border-border" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="address">Address</Label>
-                  <Input id="address" name="address" placeholder="123 Business Park, City" />
+                  <Input id="address" name="address" placeholder="123 Business Park, City" className="h-11 bg-transparent border-border" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="gstNumber">GST Number</Label>
-                    <Input id="gstNumber" name="gstNumber" placeholder="22AAAAA0000A1Z5" className="uppercase" />
+                    <Input id="gstNumber" name="gstNumber" placeholder="22AAAAA0000A1Z5" className="h-11 uppercase bg-transparent border-border" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="taxId">Tax ID (Optional)</Label>
-                    <Input id="taxId" name="taxId" placeholder="TAX-12345" className="uppercase" />
+                    <Input id="taxId" name="taxId" placeholder="TAX-12345" className="h-11 uppercase bg-transparent border-border" />
                   </div>
                 </div>
               </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t border-border">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="h-11">
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting} className="h-11">
                   {isSubmitting ? "Saving..." : "Save Supplier"}
                 </Button>
               </div>
@@ -160,13 +160,13 @@ export default function Suppliers() {
               <CardDescription>A complete list of your approved vendors.</CardDescription>
             </div>
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-3.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search suppliers..."
-                className="pl-9 w-64 bg-muted/50"
+                className="h-11 pl-9 w-64 bg-muted/50 border-border"
               />
             </div>
           </div>
@@ -251,7 +251,7 @@ export default function Suppliers() {
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
+                      <Button variant="ghost" className="h-11 px-4 text-muted-foreground hover:text-primary">
                         Edit
                       </Button>
                     </TableCell>

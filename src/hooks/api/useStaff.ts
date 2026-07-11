@@ -21,6 +21,16 @@ export interface Role {
   permissions: string[];
 }
 
+export function usePermissions() {
+  return useQuery({
+    queryKey: ['permissions'],
+    queryFn: async (): Promise<{ id: string; name: string; slug: string; description: string }[]> => {
+      const { data } = await api.get('/staff/permissions');
+      return data.data;
+    },
+  });
+}
+
 export function useRoles(enabled: boolean = true) {
   return useQuery({
     queryKey: ['staff', 'roles'],
@@ -39,6 +49,20 @@ export function useUpdateRolePermissions() {
   return useMutation({
     mutationFn: async ({ id, permissions }: { id: string; permissions: string[] }) => {
       const { data } = await api.patch(`/staff/roles/${id}`, { permissions });
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['staff', 'roles'] });
+    },
+  });
+}
+
+export function useCreateRole() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (payload: { name: string; permissions: string[] }) => {
+      const { data } = await api.post('/staff/roles', payload);
       return data.data;
     },
     onSuccess: () => {
@@ -153,6 +177,21 @@ export function useUpdateStaff() {
     }) => {
       const { data } = await api.patch(`/staff/${id}`, payload);
       return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['staff'] });
+    },
+  });
+}
+
+// PATCH /v1/staff/:id/pin
+export function useUpdateStaffPin() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async ({ id, pin }: { id: string; pin: string }) => {
+      const { data } = await api.post(`/staff/${id}/pin`, { pin });
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['staff'] });

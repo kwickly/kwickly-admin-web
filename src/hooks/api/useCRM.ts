@@ -25,6 +25,38 @@ export interface Customer {
   phone: string;
   email?: string;
   isActive: boolean;
+  walletBalance: string;
+  lifetimeValue: string;
+  marketingOptIn: boolean;
+  loyaltyPoints: string;
+}
+
+export interface WalletTransaction {
+  id: string;
+  amount: string;
+  type: 'CREDIT' | 'DEBIT';
+  reason: string;
+  createdAt: string;
+}
+
+export interface LoyaltyLedger {
+  id: string;
+  points: string;
+  reason: string;
+  createdAt: string;
+}
+
+export interface CustomerProfileDetails {
+  id: string;
+  userId: string;
+  dateOfBirth?: string;
+  anniversaryDate?: string;
+  marketingOptIn: boolean;
+  walletBalance: string;
+  lifetimeValue: string;
+  loyaltyPointsBalance: string;
+  walletTransactions: WalletTransaction[];
+  loyaltyLedgers: LoyaltyLedger[];
 }
 
 export function useSegments(page: number = 1, limit: number = 12, search: string = '') {
@@ -81,6 +113,45 @@ export function useCustomers(page: number = 1, limit: number = 50) {
     queryFn: async (): Promise<PaginatedResponse<Customer>> => {
       const { data } = await api.get(`/crm/customers?page=${page}&limit=${limit}`);
       return data;
+    },
+  });
+}
+
+export function useCustomerProfile(id: string) {
+  return useQuery({
+    queryKey: ['crm', 'customers', id],
+    queryFn: async (): Promise<CustomerProfileDetails> => {
+      const { data } = await api.get(`/crm/customers/${id}`);
+      return data.data;
+    },
+    enabled: !!id,
+  });
+}
+
+export function useAdjustWallet(id: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { amount: string; type: 'CREDIT' | 'DEBIT'; reason: string }) => {
+      const { data } = await api.post(`/crm/customers/${id}/wallet`, payload);
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['crm', 'customers', id] });
+      queryClient.invalidateQueries({ queryKey: ['crm', 'customers'] });
+    },
+  });
+}
+
+export function useAdjustLoyalty(id: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { points: string; reason: string }) => {
+      const { data } = await api.post(`/crm/customers/${id}/loyalty`, payload);
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['crm', 'customers', id] });
+      queryClient.invalidateQueries({ queryKey: ['crm', 'customers'] });
     },
   });
 }

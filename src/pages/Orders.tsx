@@ -140,7 +140,7 @@ export default function Orders() {
                     ))}
                   </ul>
                   {col.status !== 'completed' && (
-                    <button className="w-full py-2 bg-primary/10 text-primary hover:bg-primary/20 rounded-md text-sm font-semibold transition-colors">
+                    <button className="w-full min-h-[44px] bg-primary/10 text-primary hover:bg-primary/20 rounded-md text-sm font-semibold transition-colors">
                       Advance Stage
                     </button>
                   )}

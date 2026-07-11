@@ -12,6 +12,7 @@ export type Permission =
   | "payroll:manage"
   | "crm:manage"
   | "promotions:manage"
+  | "settings:manage"
   | "wallet:manage";
 
 export const hasPermission = (requiredPermission: Permission | Permission[]): boolean => {

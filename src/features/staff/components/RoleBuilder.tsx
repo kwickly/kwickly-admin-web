@@ -1,9 +1,10 @@
-import { Shield, Save, Lock, Edit2, Trash2 } from "lucide-react";
+import { Shield, Save, Lock, Edit2, Trash2, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useRoles, useUpdateRolePermissions, usePlatformRoles, useUpdatePlatformRolePermissions, useDeleteRole, useDeletePlatformRole } from "@/hooks/api/useStaff";
+import { useRoles, useUpdateRolePermissions, usePlatformRoles, useUpdatePlatformRolePermissions, useDeleteRole, useDeletePlatformRole, useCreateRole, usePermissions } from "@/hooks/api/useStaff";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useAuthStore } from "@/store/useAuth";
 import { toast } from "sonner";
@@ -35,14 +36,21 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
   const updatePlatformMutation = useUpdatePlatformRolePermissions();
   const deleteTenantMutation = useDeleteRole();
   const deletePlatformMutation = useDeletePlatformRole();
+  const createTenantRoleMutation = useCreateRole();
   
   const updateRolePermissionsMutation = isPlatform ? updatePlatformMutation : updateTenantMutation;
   const deleteRoleMutation = isPlatform ? deletePlatformMutation : deleteTenantMutation;
+  const createRoleMutation = isPlatform ? null : createTenantRoleMutation;
+
+  const { data: dbPermissions } = usePermissions();
 
   const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
   const [deleteRoleId, setDeleteRoleId] = useState<string | null>(null);
   const [rolePermissions, setRolePermissions] = useState<string[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [newRoleName, setNewRoleName] = useState("");
+  const [newRolePermissions, setNewRolePermissions] = useState<string[]>([]);
 
   const currentUser = useAuthStore(state => state.user);
   const isPlatformOwner = currentUser?.role === 'platform_owner' || currentUser?.role === 'super_admin';
@@ -76,8 +84,41 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
     );
   };
 
+  const handleCreate = () => {
+    if (!newRoleName.trim() || !createRoleMutation) return;
+    
+    createRoleMutation.mutate(
+      { name: newRoleName, permissions: newRolePermissions },
+      {
+        onSuccess: () => {
+          toast.success(`Role ${newRoleName} created successfully!`);
+          setIsCreateDialogOpen(false);
+          setNewRoleName("");
+          setNewRolePermissions([]);
+        }
+      }
+    );
+  };
+
+  const toggleCreatePermission = (token: string) => {
+    setNewRolePermissions(prev =>
+      prev.includes(token) ? prev.filter(t => t !== token) : [...prev, token]
+    );
+  };
+
+  // Merge DB permissions with AVAILABLE_PERMISSIONS to get groups
+  const mergedPermissions = (dbPermissions || []).map(dbP => {
+    const existing = AVAILABLE_PERMISSIONS.find(p => p.token === dbP.slug);
+    return {
+      group: existing?.group || "General",
+      token: dbP.slug,
+      label: dbP.name || existing?.label || dbP.slug,
+      desc: dbP.description || existing?.desc || ""
+    };
+  });
+
   // Group permissions
-  const groups = AVAILABLE_PERMISSIONS.reduce((acc, curr) => {
+  const groups = mergedPermissions.reduce((acc, curr) => {
     if (!acc[curr.group]) acc[curr.group] = [];
     acc[curr.group].push(curr);
     return acc;
@@ -85,6 +126,13 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
 
   return (
     <div className="space-y-6">
+      {!isPlatform && (
+        <div className="flex justify-end">
+          <Button onClick={() => setIsCreateDialogOpen(true)} className="cursor-pointer">
+            <Plus className="h-4 w-4 mr-2" /> Create Custom Role
+          </Button>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {roles?.map(role => (
@@ -237,6 +285,85 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                           disabled={!canAssign}
                           checked={isChecked} 
                           onCheckedChange={() => togglePermission(p.token)} 
+                          className="data-[state=checked]:bg-primary"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader className="flex flex-row justify-between items-center pr-6 sticky top-0 bg-popover z-10 pb-4 border-b border-border">
+            <div className="space-y-1 text-left w-full max-w-md">
+              <DialogTitle>Create Custom Role</DialogTitle>
+              <DialogDescription>
+                Define a new role and configure its permissions.
+              </DialogDescription>
+            </div>
+            <Button
+              onClick={handleCreate}
+              disabled={!newRoleName.trim() || createRoleMutation?.isPending}
+              className="bg-primary hover:bg-primary/95 text-primary-foreground flex items-center gap-2 h-9 cursor-pointer"
+            >
+              <Save className="h-4 w-4" /> Save Custom Role
+            </Button>
+          </DialogHeader>
+
+          <div className="space-y-6 pt-4">
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold">Role Name</h3>
+              <Input
+                placeholder="e.g. Shift Supervisor"
+                value={newRoleName}
+                onChange={(e) => setNewRoleName(e.target.value)}
+                className="max-w-md"
+              />
+            </div>
+
+            {Object.entries(groups).map(([groupName, perms]) => (
+              <div key={groupName} className="space-y-3">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  {groupName}
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {perms.map(p => {
+                    const isChecked = newRolePermissions.includes(p.token);
+                    const canAssign = isPlatformOwner || currentUserPermissions.includes(p.token);
+
+                    return (
+                      <div
+                        key={p.token}
+                        onClick={() => canAssign && toggleCreatePermission(p.token)}
+                        className={`flex items-center justify-between p-4 border rounded-xl transition-all ${
+                          !canAssign ? 'opacity-60 bg-muted/40 cursor-not-allowed border-border' :
+                          isChecked
+                            ? 'cursor-pointer border-primary/30 bg-primary/5'
+                            : 'cursor-pointer border-border hover:bg-muted/50'
+                        }`}
+                      >
+                        <div>
+                          <p className="text-sm font-semibold text-foreground flex items-center gap-2">
+                            {p.label}
+                            {!canAssign && (
+                              <span title="You don't have this permission">
+                                <Lock className="h-3 w-3 text-muted-foreground" />
+                              </span>
+                            )}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1 max-w-[200px] leading-relaxed">
+                            {p.desc}
+                          </p>
+                        </div>
+                        <Switch 
+                          disabled={!canAssign}
+                          checked={isChecked} 
+                          onCheckedChange={() => toggleCreatePermission(p.token)} 
                           className="data-[state=checked]:bg-primary"
                         />
                       </div>

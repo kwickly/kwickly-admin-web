@@ -116,14 +116,14 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
             <Button
               size="sm"
               onClick={() => handleViewClick(item)}
-              className="bg-white hover:bg-slate-100 text-slate-900 font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-8"
+              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-10 px-4"
             >
               View
             </Button>
             <Button
               size="sm"
               onClick={() => handleEditClick(item)}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-8"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-10 px-4"
             >
               Edit
             </Button>
@@ -131,7 +131,7 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
               size="sm"
               variant="destructive"
               onClick={() => handleDeleteClick(item.id)}
-              className="bg-red-600 hover:bg-red-750 text-white font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-8"
+              className="font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-10 px-4"
             >
               Delete
             </Button>
@@ -147,10 +147,10 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <DialogContent className="sm:max-w-[400px] bg-background border-border">
           <DialogHeader>
-            <DialogTitle className="text-slate-900 dark:text-zinc-100">Delete Menu Item</DialogTitle>
-            <DialogDescription className="text-slate-500 dark:text-zinc-400">
+            <DialogTitle className="text-foreground">Delete Menu Item</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Are you sure you want to delete this menu item? This action will permanently remove it from the menu lists.
             </DialogDescription>
           </DialogHeader>
@@ -159,15 +159,16 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
               type="button"
               variant="outline"
               onClick={() => setDeleteOpen(false)}
-              className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent hover:bg-slate-100 dark:hover:bg-zinc-850"
+              className="h-11"
             >
               Cancel
             </Button>
             <Button
               type="button"
+              variant="destructive"
               onClick={handleDeleteConfirm}
               disabled={deleteItemMutation.isPending}
-              className="bg-red-650 hover:bg-red-700 text-white"
+              className="h-11"
             >
               {deleteItemMutation.isPending ? "Deleting..." : "Delete"}
             </Button>

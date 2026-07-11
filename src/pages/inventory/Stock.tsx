@@ -81,11 +81,11 @@ export default function Stock() {
         </div>
 
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-card">
+          <Button variant="outline" className="h-11 bg-card">
             <Settings2 className="h-4 w-4 mr-2" />
             Export Ledger
           </Button>
-          <Button>
+          <Button className="h-11">
             <Plus className="h-4 w-4 mr-2" />
             New Material
           </Button>
@@ -106,7 +106,7 @@ export default function Stock() {
               <div className="space-y-2">
                 <Label htmlFor="adjustmentType" className="text-foreground">Adjustment Type</Label>
                 <Select defaultValue="CREDIT">
-                  <SelectTrigger className="bg-transparent">
+                  <SelectTrigger className="h-11 bg-transparent border-border">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                   <SelectContent className="bg-card border-border">
@@ -118,12 +118,12 @@ export default function Stock() {
 
               <div className="space-y-2">
                 <Label htmlFor="quantity" className="text-foreground">Quantity ({selectedMaterial?.uom})</Label>
-                <Input id="quantity" type="number" step="0.01" placeholder="e.g. 10.5" className="bg-transparent" required />
+                <Input id="quantity" type="number" step="0.01" placeholder="e.g. 10.5" className="h-11 bg-transparent border-border" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="reason" className="text-foreground">Reason / Reference</Label>
-                <Input id="reason" placeholder="e.g. PO-1024 Arrival, or Spilled" className="bg-transparent" required />
+                <Input id="reason" placeholder="e.g. PO-1024 Arrival, or Spilled" className="h-11 bg-transparent border-border" required />
               </div>
             </div>
             
@@ -132,7 +132,7 @@ export default function Stock() {
             </div>
 
             <div className="pt-2 flex justify-end">
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="h-11 w-full">
                 Submit Ledger Entry
               </Button>
             </div>
@@ -150,7 +150,7 @@ export default function Stock() {
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">Unit of Measure:</span>
               <Select value={filterUOM} onValueChange={(v) => setFilterUOM(v || 'ALL')}>
-                <SelectTrigger className="w-[130px] bg-muted/50">
+                <SelectTrigger className="h-11 w-[130px] bg-muted/50 border-border">
                   <SelectValue placeholder="UOM" />
                 </SelectTrigger>
                 <SelectContent className="bg-card border-border">
@@ -166,13 +166,13 @@ export default function Stock() {
             </div>
 
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-3.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search materials..."
-                className="pl-9 w-64 bg-muted/50"
+                className="h-11 pl-9 w-64 bg-muted/50 border-border"
               />
             </div>
           </div>
@@ -224,8 +224,7 @@ export default function Stock() {
                       <TableCell className="text-right">
                         <Button 
                           variant="outline" 
-                          size="sm" 
-                          className="hover:bg-primary/10 hover:text-primary"
+                          className="h-11 px-4 hover:bg-primary/10 hover:text-primary"
                           onClick={() => openAdjustDialog(item)}
                         >
                           <Plus className="h-3 w-3 mr-1" />

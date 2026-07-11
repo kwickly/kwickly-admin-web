@@ -1,3 +1,6 @@
+> [!WARNING]
+> **SUPERSEDED:** This document was superseded by `theme-v2-implementation-tracker.md` on June 28, 2026. Kept only for historical context.
+
 # Theme Implementation Tracker & UI Audit
 
 This document serves as a comprehensive tracker for ensuring a "classic, professional, trendy" UI/UX across the entire Kwickly platform. It tracks the status of all UI components, standardizes the icon strategy, and provides a clear progress tracker for the theme implementation.

@@ -13,6 +13,8 @@ import {
   Sparkles,
   Package,
   Tag,
+  HeartHandshake,
+  ShieldCheck,
   DollarSign,
   ShieldAlert,
   Sliders,
@@ -164,8 +166,16 @@ const navGroups: NavGroup[] = [
         items: [
           { title: "Branch Profile", url: "/settings/profile", permission: "billing:manage" },
           { title: "Loyalty & Wallet", url: "/settings/loyalty", permission: "billing:manage" },
+          { title: "Hardware & Devices", url: "/settings/devices", permission: "settings:manage" },
           { title: "Branding & Colors", url: "/settings/branding", permission: "billing:manage" },
+          { title: "Audit & Security Logs", url: "/tenant/audit-logs", permission: "settings:manage" },
         ],
+      },
+      {
+        title: "Loyalty Plans",
+        url: "/tenant/loyalty",
+        icon: HeartHandshake,
+        permission: "subscriptions:manage",
       },
     ]
   }
@@ -195,11 +205,7 @@ const platformNavGroups: NavGroup[] = [
         url: "/platform/tenants",
         icon: Building,
       },
-      {
-        title: "Tenant Features & Plans",
-        url: "/platform/tenant-settings",
-        icon: Sliders,
-      },
+
       {
         title: "Usage & Quotas",
         url: "/platform/usage",
@@ -296,7 +302,7 @@ export function AppSidebar() {
                               <SidebarMenuButton 
                                 isActive={isActive}
                                 className={cn(
-                                  "h-9 px-3 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
+                                  "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
                                   isActive 
                                     ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" 
                                     : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
@@ -331,7 +337,7 @@ export function AppSidebar() {
                               tooltip={item.title} 
                               isActive={isActive}
                               className={cn(
-                                "h-9 px-3 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
+                                "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
                                 isActive 
                                   ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" 
                                   : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
@@ -349,7 +355,7 @@ export function AppSidebar() {
                                   <SidebarMenuSubButton 
                                     isActive={location.pathname === subItem.url}
                                     className={cn(
-                                      "h-8 px-3 rounded-md transition-colors duration-200",
+                                      "min-h-[44px] px-3 py-2 rounded-md transition-colors duration-200",
                                       location.pathname === subItem.url
                                         ? "text-sidebar-primary font-medium bg-sidebar-accent"
                                         : "text-muted-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
@@ -375,7 +381,7 @@ export function AppSidebar() {
                         isActive={isActive} 
                         tooltip={item.title}
                         className={cn(
-                          "h-9 px-3 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
+                          "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
                           isActive 
                             ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" 
                             : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"

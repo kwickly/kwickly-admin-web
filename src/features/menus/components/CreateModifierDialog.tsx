@@ -40,30 +40,30 @@ export default function CreateModifierDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       {/* @ts-ignore */}
       <DialogTrigger asChild>
-        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">Create Modifier</Button>
+        <Button className="h-11">Create Modifier</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+      <DialogContent className="sm:max-w-[425px] bg-background border-border">
         <DialogHeader>
-          <DialogTitle className="text-slate-900 dark:text-zinc-100">Create Modifier / Add-on</DialogTitle>
-          <DialogDescription className="text-slate-500 dark:text-zinc-400">
+          <DialogTitle className="text-foreground">Create Modifier / Add-on</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Create a global modifier that can be added to orders (e.g. Extra Cheese, Extra Sauce).
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="name" className="text-slate-700 dark:text-zinc-300">Modifier Name</Label>
+              <Label htmlFor="name" className="text-foreground">Modifier Name</Label>
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Extra Cheese"
-                className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                className="h-11 bg-transparent border-border text-foreground"
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="price" className="text-slate-700 dark:text-zinc-300">Additional Price (₹)</Label>
+              <Label htmlFor="price" className="text-foreground">Additional Price (₹)</Label>
               <Input
                 id="price"
                 type="number"
@@ -71,13 +71,13 @@ export default function CreateModifierDialog() {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="e.g. 20"
-                className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                className="h-11 bg-transparent border-border text-foreground"
                 required
               />
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" disabled={isPending} className="bg-indigo-600 hover:bg-indigo-700 text-white w-full sm:w-auto">
+            <Button type="submit" disabled={isPending} className="h-11 w-full sm:w-auto">
               {isPending ? 'Creating...' : 'Create Modifier'}
             </Button>
           </DialogFooter>

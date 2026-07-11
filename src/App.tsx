@@ -27,13 +27,14 @@ import MenuItems from '@/pages/menus/MenuItems'
 import MenuCategories from '@/pages/menus/MenuCategories'
 import MenuModifiers from '@/pages/menus/MenuModifiers'
 import CustomerDirectory from '@/pages/crm/CustomerDirectory'
+import CustomerDetails from '@/pages/crm/CustomerDetails'
 import CustomerSegments from '@/pages/crm/CustomerSegments'
 import CampaignLogs from '@/pages/crm/CampaignLogs'
 import WalletTransactions from '@/pages/crm/WalletTransactions'
 import BranchProfile from '@/pages/settings/BranchProfile'
 import UserProfile from '@/pages/settings/UserProfile'
 import LoyaltyConfig from '@/pages/settings/LoyaltyConfig'
-import BrandingSettings from '@/pages/settings/BrandingSettings'
+import DeviceManagement from '@/pages/settings/DeviceManagement'
 import Combos from '@/pages/Combos'
 import Orders from '@/pages/Orders'
 import Ads from '@/pages/Ads'
@@ -42,6 +43,10 @@ import ProtectedRoute from '@/components/ProtectedRoute'
 import Stock from '@/pages/inventory/Stock'
 import Suppliers from '@/pages/inventory/Suppliers'
 import Discounts from '@/pages/promotions/Discounts'
+
+// New Tenant Dashboard Pages
+import LoyaltySubscriptions from '@/pages/tenant/LoyaltySubscriptions'
+import AuditLogs from '@/pages/tenant/AuditLogs'
 
 // Platform Owner administrative screens (Directory, System Metrics, and Logs)
 import PlatformTenants from '@/pages/PlatformTenants'
@@ -56,6 +61,10 @@ import TenantUsage from '@/pages/platform/TenantUsage'
 import PlatformSupportTickets from '@/pages/platform/SupportTickets'
 import TenantSupportTickets from '@/pages/SupportTickets'
 import { TenantThemeProvider } from '@/components/TenantThemeProvider'
+
+import PlatformTenantSettingsLayout from '@/layouts/PlatformTenantSettingsLayout'
+import TenantBranding from '@/pages/platform/TenantBranding'
+import TenantWhiteLabel from '@/pages/platform/TenantWhiteLabel'
 
 function App() {
   return (
@@ -84,9 +93,15 @@ function App() {
               <Route path="/platform/staff" element={<PlatformStaff />} />
               <Route path="/platform/staff/timesheets" element={<PlatformTimesheets />} />
               <Route path="/platform/staff/roles" element={<PlatformRoles />} />
-              <Route path="/platform/tenant-settings" element={<TenantSettings />} />
               <Route path="/platform/usage" element={<TenantUsage />} />
               <Route path="/platform/support" element={<PlatformSupportTickets />} />
+
+              <Route path="/platform/tenants/:tenantId/settings" element={<PlatformTenantSettingsLayout />}>
+                <Route path="" element={<Navigate to="features" replace />} />
+                <Route path="features" element={<TenantSettings />} />
+                <Route path="branding" element={<TenantBranding />} />
+                <Route path="whitelabel" element={<TenantWhiteLabel />} />
+              </Route>
 
               {/* Menus Routes */}
               <Route element={<ProtectedRoute permission="menu:read" />}>
@@ -118,6 +133,7 @@ function App() {
                 <Route element={<CrmLayout />}>
                   <Route path="/crm" element={<Navigate to="/crm/directory" replace />} />
                   <Route path="/crm/directory" element={<CustomerDirectory />} />
+                  <Route path="/crm/customers/:id" element={<CustomerDetails />} />
                   <Route path="/crm/segments" element={<CustomerSegments />} />
                   <Route path="/crm/campaigns" element={<CampaignLogs />} />
                   <Route path="/crm/wallet" element={<WalletTransactions />} />
@@ -151,8 +167,16 @@ function App() {
                   <Route path="/settings/profile" element={<BranchProfile />} />
                   <Route path="/settings/user-profile" element={<UserProfile />} />
                   <Route path="/settings/loyalty" element={<LoyaltyConfig />} />
-                  <Route path="/settings/branding" element={<BrandingSettings />} />
+                  <Route path="/settings/devices" element={<DeviceManagement />} />
                 </Route>
+              </Route>
+
+              {/* New Tenant Scoped Pages */}
+              <Route element={<ProtectedRoute permission="subscriptions:manage" />}>
+                <Route path="/tenant/loyalty" element={<LoyaltySubscriptions />} />
+              </Route>
+              <Route element={<ProtectedRoute permission="settings:manage" />}>
+                <Route path="/tenant/audit-logs" element={<AuditLogs />} />
               </Route>
             </Route>
           </Route>

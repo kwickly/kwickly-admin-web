@@ -131,7 +131,7 @@ export default function LoyaltyConfig() {
                       <Wallet className="h-4 w-4 text-muted-foreground" /> Wallet Restrictions
                     </h3>
                     
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 min-h-[44px]">
                       <input
                         type="checkbox"
                         id="walletTopUp"
@@ -139,12 +139,12 @@ export default function LoyaltyConfig() {
                         onChange={(e) => setWalletTopUp(e.target.checked)}
                         className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                       />
-                      <Label htmlFor="walletTopUp" className="text-sm font-normal text-muted-foreground cursor-pointer">
+                      <Label htmlFor="walletTopUp" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 h-full flex items-center py-3">
                         Enable In-App Wallet Top-Ups via Razorpay
                       </Label>
                     </div>
 
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 min-h-[44px]">
                       <input
                         type="checkbox"
                         id="partialDeduction"
@@ -152,7 +152,7 @@ export default function LoyaltyConfig() {
                         onChange={(e) => setPartialDeduction(e.target.checked)}
                         className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                       />
-                      <Label htmlFor="partialDeduction" className="text-sm font-normal text-muted-foreground cursor-pointer">
+                      <Label htmlFor="partialDeduction" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 h-full flex items-center py-3">
                         Allow Partial Point Redemption during Checkout
                       </Label>
                     </div>
@@ -164,7 +164,7 @@ export default function LoyaltyConfig() {
                 <button
                   type="submit"
                   disabled={updateLoyaltyMutation.isPending}
-                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium shadow-sm"
+                  className="flex items-center gap-2 px-4 py-2 min-h-[44px] bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium shadow-sm"
                 >
                   <Save className="h-4 w-4" />
                   {updateLoyaltyMutation.isPending ? 'Saving...' : 'Save Settings'}

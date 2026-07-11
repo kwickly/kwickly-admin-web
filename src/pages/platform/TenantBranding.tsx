@@ -18,7 +18,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
 
 type TabType = 'colors' | 'shape' | 'type' | 'assets';
 
-export default function BrandingSettings() {
+export default function TenantBranding() {
   const { user, token, setImpersonatedTenant } = useAuthStore();
 
   const currentTheme = user?.tenantDetails?.themeConfig || {
@@ -153,14 +153,7 @@ export default function BrandingSettings() {
   });
 
   return (
-    <div className="max-w-[1400px] mx-auto pb-20 space-y-8">
-      
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight text-foreground">Theme Builder</h2>
-        <p className="text-muted-foreground mt-1">Fine-tune your brand's aesthetics using our advanced design engine.</p>
-      </div>
-
-      <div className="flex flex-col lg:flex-row gap-10 items-start">
+      <div className="flex flex-col xl:flex-row gap-10 items-start w-full">
         
         {/* Left Settings Sidebar & Controls */}
         <div className="flex flex-col md:flex-row gap-6 w-full lg:w-[480px] shrink-0">
@@ -442,6 +435,5 @@ export default function BrandingSettings() {
           </div>
         </div>
       </div>
-    </div>
   );
 }

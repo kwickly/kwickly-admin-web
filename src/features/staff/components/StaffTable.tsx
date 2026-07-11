@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useStaffList, useUpdateStaff, useDeleteStaff, type StaffMember } from "@/hooks/api/useStaff"
+import { useStaffList, useUpdateStaff, useDeleteStaff, useUpdateStaffPin, type StaffMember } from "@/hooks/api/useStaff"
 import { useBranchStore } from "@/store/useBranch"
 import { Can } from "@/components/shared/Can"
 
@@ -37,10 +37,12 @@ export default function StaffTable() {
 
   const { mutate: updateStaff, isPending: isUpdating } = useUpdateStaff();
   const { mutate: deleteStaff, isPending: isDeleting } = useDeleteStaff();
+  const { mutate: updatePin, isPending: isUpdatingPin } = useUpdateStaffPin();
 
   const [editingStaff, setEditingStaff] = useState<StaffMember | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isPinDialogOpen, setIsPinDialogOpen] = useState(false);
 
   // Form State
   const [name, setName] = useState('');
@@ -50,6 +52,7 @@ export default function StaffTable() {
   const [salaryType, setSalaryType] = useState<'HOURLY' | 'MONTHLY' | ''>('');
   const [baseSalary, setBaseSalary] = useState('');
   const [hourlyRate, setHourlyRate] = useState('');
+  const [newPin, setNewPin] = useState('');
 
   const handleEditClick = (staff: StaffMember) => {
     setEditingStaff(staff);
@@ -103,6 +106,22 @@ export default function StaffTable() {
     });
   };
 
+  const handleSetPinSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingStaff || newPin.length !== 4) return;
+    
+    updatePin(
+      { id: editingStaff.id, pin: newPin },
+      {
+        onSuccess: () => {
+          setIsPinDialogOpen(false);
+          setEditingStaff(null);
+          setNewPin('');
+        }
+      }
+    );
+  };
+
   return (
     <div className="rounded-md border border-slate-200 dark:border-zinc-800">
       <Table>
@@ -148,8 +167,15 @@ export default function StaffTable() {
                     {staff.isActive ? 'Active' : 'Inactive'}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-right flex items-center justify-end gap-2">
                   <Can perform="staff:write">
+                    <button
+                      onClick={() => { setEditingStaff(staff); setNewPin(''); setIsPinDialogOpen(true); }}
+                      className="text-indigo-600 dark:text-indigo-400 hover:underline text-sm font-medium"
+                    >
+                      Set PIN
+                    </button>
+                    <span className="text-muted-foreground">|</span>
                     <button
                       onClick={() => handleEditClick(staff)}
                       className="text-indigo-600 dark:text-indigo-400 hover:underline text-sm font-medium"
@@ -326,6 +352,54 @@ export default function StaffTable() {
               {isDeleting ? 'Deleting...' : 'Confirm Delete'}
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Set PIN Dialog */}
+      <Dialog open={isPinDialogOpen} onOpenChange={setIsPinDialogOpen}>
+        <DialogContent className="sm:max-w-[400px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+          <DialogHeader>
+            <DialogTitle className="text-slate-900 dark:text-zinc-100">Set POS PIN</DialogTitle>
+            <DialogDescription className="text-slate-500 dark:text-zinc-400">
+              Set a 4-digit PIN for {editingStaff?.name} to log in to the POS and KDS devices.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSetPinSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="new-pin" className="text-slate-700 dark:text-zinc-300">4-Digit PIN</Label>
+                <Input
+                  id="new-pin"
+                  type="password"
+                  maxLength={4}
+                  value={newPin}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, '');
+                    setNewPin(val);
+                  }}
+                  className="bg-transparent text-center tracking-[1em] font-mono text-2xl border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 h-14"
+                  required
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsPinDialogOpen(false)}
+                className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={isUpdatingPin || newPin.length !== 4}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white"
+              >
+                {isUpdatingPin ? 'Saving...' : 'Save PIN'}
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

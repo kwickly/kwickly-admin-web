@@ -40,7 +40,12 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       console.warn("Unauthorized access - redirecting to login.");
       useAuthStore.getState().logout();
-      window.location.href = '/login';
+      
+      // Do not force a page reload if the user is already on the login page
+      // This allows local error handling (like Toasts) to work correctly.
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

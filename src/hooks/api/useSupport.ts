@@ -8,7 +8,7 @@ export const useSupport = () => {
     return useQuery({
       queryKey: ['support_tickets', 'tenant'],
       queryFn: async () => {
-        const { data } = await api.get('/v1/support/tickets');
+        const { data } = await api.get('/support/tickets');
         return data.data;
       },
     });
@@ -18,7 +18,7 @@ export const useSupport = () => {
     return useQuery({
       queryKey: ['support_tickets', 'platform'],
       queryFn: async () => {
-        const { data } = await api.get('/v1/platform/support/tickets');
+        const { data } = await api.get('/platform/support/tickets');
         return data.data;
       },
     });
@@ -29,8 +29,8 @@ export const useSupport = () => {
       queryKey: ['support_tickets', ticketId],
       queryFn: async () => {
         const url = isPlatform 
-          ? `/v1/platform/support/tickets/${ticketId}`
-          : `/v1/support/tickets/${ticketId}`;
+          ? `/platform/support/tickets/${ticketId}`
+          : `/support/tickets/${ticketId}`;
         const { data } = await api.get(url);
         return data.data;
       },
@@ -41,7 +41,7 @@ export const useSupport = () => {
   const useCreateTicket = () => {
     return useMutation({
       mutationFn: async (payload: { subject: string; description: string; priority: string; category: string }) => {
-        const { data } = await api.post('/v1/support/tickets', payload);
+        const { data } = await api.post('/support/tickets', payload);
         return data.data;
       },
       onSuccess: () => {
@@ -54,8 +54,8 @@ export const useSupport = () => {
     return useMutation({
       mutationFn: async ({ ticketId, message }: { ticketId: string; message: string }) => {
         const url = isPlatform 
-          ? `/v1/platform/support/tickets/${ticketId}/messages`
-          : `/v1/support/tickets/${ticketId}/messages`;
+          ? `/platform/support/tickets/${ticketId}/messages`
+          : `/support/tickets/${ticketId}/messages`;
         const { data } = await api.post(url, { message });
         return data.data;
       },
@@ -69,7 +69,7 @@ export const useSupport = () => {
   const useUpdateTicketStatus = () => {
     return useMutation({
       mutationFn: async ({ ticketId, status }: { ticketId: string; status: string }) => {
-        const { data } = await api.patch(`/v1/platform/support/tickets/${ticketId}/status`, { status });
+        const { data } = await api.patch(`/platform/support/tickets/${ticketId}/status`, { status });
         return data.data;
       },
       onSuccess: (_, variables) => {

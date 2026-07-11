@@ -67,30 +67,30 @@ export default function EditMenuItemDialog({ open, onOpenChange, item }: EditMen
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 sm:max-w-md">
+      <DialogContent className="bg-background border-border sm:max-w-md">
         <DialogHeader className="mb-4">
-          <DialogTitle className="text-slate-900 dark:text-zinc-100 font-bold text-xl">Edit Menu Item</DialogTitle>
-          <DialogDescription className="text-slate-500 dark:text-zinc-400">
+          <DialogTitle className="text-foreground font-bold text-xl">Edit Menu Item</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Modify menu item pricing, categorization, or active status.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-slate-700 dark:text-zinc-300">Item Name</Label>
+              <Label htmlFor="name" className="text-foreground">Item Name</Label>
               <Input 
                 id="name" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Double Cheeseburger" 
-                className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100" 
+                className="h-11 bg-transparent border-border text-foreground" 
                 required
               />
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="price" className="text-slate-700 dark:text-zinc-300">Price (₹)</Label>
+                <Label htmlFor="price" className="text-foreground">Price (₹)</Label>
                 <Input 
                   id="price" 
                   type="number" 
@@ -98,21 +98,21 @@ export default function EditMenuItemDialog({ open, onOpenChange, item }: EditMen
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="0.00" 
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100" 
+                  className="h-11 bg-transparent border-border text-foreground" 
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="category" className="text-slate-700 dark:text-zinc-300">Category</Label>
+                <Label htmlFor="category" className="text-foreground">Category</Label>
                 <Select value={categoryId} onValueChange={(val: any) => setCategoryId(val)} required>
-                  <SelectTrigger className="w-full bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                  <SelectTrigger className="h-11 w-full bg-transparent border-border text-foreground">
                     <div className="truncate">
                       <SelectValue placeholder="Select...">
                         {categories?.data?.find((c: any) => c.id === categoryId)?.name || 'Select Category...'}
                       </SelectValue>
                     </div>
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectContent className="bg-popover border-border">
                     {categories?.data?.map((cat: any) => (
                       <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
                     ))}
@@ -127,19 +127,19 @@ export default function EditMenuItemDialog({ open, onOpenChange, item }: EditMen
                 id="isActive"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
               />
-              <Label htmlFor="isActive" className="text-sm text-slate-600 dark:text-zinc-300 cursor-pointer font-normal">
+              <Label htmlFor="isActive" className="text-sm text-foreground cursor-pointer font-normal">
                 Available (In Stock)
               </Label>
             </div>
           </div>
-          <div className="mt-8 pt-4">
+          <div className="mt-8 pt-4 border-t border-border">
             <DialogFooter className="flex space-x-2 justify-end">
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent hover:bg-slate-100 dark:hover:bg-zinc-800">
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-11">
                 Cancel
               </Button>
-              <Button type="submit" disabled={isPending} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button type="submit" disabled={isPending} className="h-11">
                 {isPending ? 'Saving...' : 'Save Changes'}
               </Button>
             </DialogFooter>

@@ -8,7 +8,7 @@ export interface StaffMember {
   phone: string;
   role: string;
   pin: string | null;
-  isActive: boolean;
+  status: 'ACTIVE' | 'SUSPENDED' | 'TERMINATED' | 'ON_LEAVE';
   joiningDate: string;
   salaryType: string;
 }
@@ -169,7 +169,7 @@ export function useUpdateStaff() {
         phone: string;
         role: 'manager' | 'cashier' | 'kitchen_staff' | 'qr_scanner';
         branchId: string | null;
-        isActive: boolean;
+        status: 'ACTIVE' | 'SUSPENDED' | 'TERMINATED' | 'ON_LEAVE';
         salaryType: 'HOURLY' | 'MONTHLY';
         baseSalary: string | null;
         hourlyRate: string | null;

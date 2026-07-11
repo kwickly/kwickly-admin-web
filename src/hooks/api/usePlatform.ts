@@ -21,7 +21,7 @@ export interface TenantStats {
   email: string | null;
   address: string | null;
   plan: 'FREE' | 'STARTER' | 'GROWTH' | 'ENTERPRISE';
-  isActive: boolean;
+  status: 'ACTIVE' | 'SUSPENDED' | 'TERMINATED';
   createdAt: string;
   branchCount: number;
   userCount: number;
@@ -113,7 +113,7 @@ export function useUpdateTenant() {
       phone?: string;
       address?: string;
       plan?: 'FREE' | 'STARTER' | 'GROWTH' | 'ENTERPRISE';
-      isActive?: boolean;
+      status?: 'ACTIVE' | 'SUSPENDED' | 'TERMINATED';
     }}) => {
       const { data } = await api.patch(`/platform/tenants/${id}`, payload);
       return data.data;

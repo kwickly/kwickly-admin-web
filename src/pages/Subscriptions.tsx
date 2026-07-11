@@ -71,7 +71,7 @@ export default function Subscriptions() {
   const [editPlanType, setEditPlanType] = useState<'meal_count' | 'monthly' | 'custom'>('meal_count');
   const [editCarryForward, setEditCarryForward] = useState(false);
   const [editAllowHoliday, setEditAllowHoliday] = useState(false);
-  const [editIsActive, setEditIsActive] = useState('true');
+  const [editStatus, setEditStatus] = useState<'ACTIVE' | 'GRANDFATHERED' | 'ARCHIVED'>('ACTIVE');
 
   const handleCreateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,7 +118,7 @@ export default function Subscriptions() {
     setEditPlanType(plan.planType);
     setEditCarryForward(plan.carryForward);
     setEditAllowHoliday(plan.allowHoliday);
-    setEditIsActive(plan.isActive ? 'true' : 'false');
+    setEditStatus(plan.status);
     setEditOpen(true);
   };
 
@@ -139,7 +139,7 @@ export default function Subscriptions() {
           planType: editPlanType,
           carryForward: editCarryForward,
           allowHoliday: editAllowHoliday,
-          isActive: editIsActive === 'true',
+          status: editStatus,
         },
       },
       {
@@ -333,8 +333,8 @@ export default function Subscriptions() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {plans.map((plan) => (
-            <Card key={plan.id} className={`bg-card border-border overflow-hidden flex flex-col justify-between shadow-sm relative ${!plan.isActive ? 'opacity-70 border-dashed' : ''}`}>
-              {!plan.isActive && (
+            <Card key={plan.id} className={`bg-card border-border overflow-hidden flex flex-col justify-between shadow-sm relative ${plan.status !== 'ACTIVE' ? 'opacity-70 border-dashed' : ''}`}>
+              {plan.status !== 'ACTIVE' && (
                 <div className="absolute top-2 right-2 flex items-center gap-1 bg-destructive/10 text-destructive text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
                   <ShieldAlert className="h-3 w-3" /> Inactive
                 </div>
@@ -500,14 +500,15 @@ export default function Subscriptions() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="edit-isActive" className="text-foreground">Purchase Status</Label>
-                <Select value={editIsActive} onValueChange={(val: any) => setEditIsActive(val || 'true')}>
+                <Label htmlFor="edit-status" className="text-foreground">Purchase Status</Label>
+                <Select value={editStatus} onValueChange={(val: any) => setEditStatus(val)}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="true">Active (For Purchase)</SelectItem>
-                    <SelectItem value="false">Inactive (Suspended)</SelectItem>
+                    <SelectItem value="ACTIVE">Active (For Purchase)</SelectItem>
+                    <SelectItem value="GRANDFATHERED">Grandfathered</SelectItem>
+                    <SelectItem value="ARCHIVED">Archived (Suspended)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

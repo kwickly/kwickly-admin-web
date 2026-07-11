@@ -33,7 +33,7 @@ export default function EditMenuItemDialog({ open, onOpenChange, item }: EditMen
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [categoryId, setCategoryId] = useState('')
-  const [isActive, setIsActive] = useState(true)
+  const [status, setStatus] = useState<"AVAILABLE" | "OUT_OF_STOCK" | "HIDDEN">("AVAILABLE")
 
   const { data: categories } = useMenuCategories(branchId)
   const { mutate: updateItem, isPending } = useUpdateMenuItem()
@@ -43,7 +43,7 @@ export default function EditMenuItemDialog({ open, onOpenChange, item }: EditMen
       setName(item.name)
       setPrice(item.price)
       setCategoryId(item.categoryId)
-      setIsActive(item.isActive ?? true)
+      setStatus(item.status ?? 'AVAILABLE')
     }
   }, [item])
 
@@ -55,7 +55,7 @@ export default function EditMenuItemDialog({ open, onOpenChange, item }: EditMen
       {
         id: item.id,
         branchId,
-        payload: { name, price, categoryId, isActive }
+        payload: { name, price, categoryId, status }
       },
       {
         onSuccess: () => {
@@ -121,17 +121,18 @@ export default function EditMenuItemDialog({ open, onOpenChange, item }: EditMen
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 pt-2">
-              <input
-                type="checkbox"
-                id="isActive"
-                checked={isActive}
-                onChange={(e) => setIsActive(e.target.checked)}
-                className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
-              />
-              <Label htmlFor="isActive" className="text-sm text-foreground cursor-pointer font-normal">
-                Available (In Stock)
-              </Label>
+            <div className="space-y-2 pt-2">
+              <Label htmlFor="status" className="text-foreground">Availability Status</Label>
+              <Select value={status} onValueChange={(val: any) => setStatus(val)} required>
+                <SelectTrigger className="h-11 w-full bg-transparent border-border text-foreground">
+                  <SelectValue placeholder="Select Status..." />
+                </SelectTrigger>
+                <SelectContent className="bg-popover border-border">
+                  <SelectItem value="AVAILABLE">Available</SelectItem>
+                  <SelectItem value="OUT_OF_STOCK">Out of Stock</SelectItem>
+                  <SelectItem value="HIDDEN">Hidden</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div className="mt-8 pt-4 border-t border-border">

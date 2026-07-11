@@ -30,6 +30,7 @@ interface User {
     brandColor: string;
     themeMode: string;
     themeConfig: TenantThemeConfig;
+    status?: 'ACTIVE' | 'ONBOARDING' | 'SUSPENDED' | 'TERMINATED';
   } | null;
 }
 

@@ -74,7 +74,7 @@ export default function AuditLogs() {
                         {log.path}
                       </TableCell>
                       <TableCell>
-                        <span className={log.statusCode >= 400 ? 'text-destructive font-medium' : 'text-green-600 font-medium'}>
+                        <span className={log.statusCode >= 400 ? 'text-destructive font-medium' : 'text-success font-medium'}>
                           {log.statusCode}
                         </span>
                       </TableCell>

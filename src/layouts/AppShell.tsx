@@ -222,7 +222,7 @@ export default function AppShell() {
                     <span>Profile</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-600 dark:text-red-400 cursor-pointer focus:bg-red-50 dark:focus:bg-red-900/20" onClick={() => logout()}>
+                  <DropdownMenuItem className="text-destructive cursor-pointer focus:bg-destructive/10" onClick={() => logout()}>
                     <LogOut className="mr-2 size-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>

@@ -55,7 +55,7 @@ export default function CreateComboSheet() {
     <Sheet open={open} onOpenChange={setOpen}>
       {/* @ts-ignore */}
       <SheetTrigger asChild>
-        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">Create Combo</Button>
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Create Combo</Button>
       </SheetTrigger>
       <SheetContent className="bg-white dark:bg-zinc-950 border-l border-slate-200 dark:border-zinc-800 sm:max-w-md w-full overflow-y-auto">
         <SheetHeader className="mb-6">
@@ -111,11 +111,11 @@ export default function CreateComboSheet() {
                       key={item.id}
                       onClick={() => toggleItem(item.id)}
                       className={`p-2 rounded-md cursor-pointer flex justify-between items-center transition-colors ${
-                        isSelected ? 'bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/30' : 'hover:bg-slate-50 dark:hover:bg-zinc-900'
+                        isSelected ? 'bg-primary/10 border border-primary/30' : 'hover:bg-accent'
                       }`}
                     >
                       <span className="text-sm text-slate-900 dark:text-zinc-100">{item.name}</span>
-                      {isSelected && <span className="text-xs text-indigo-600 dark:text-indigo-400 font-medium">Selected</span>}
+                      {isSelected && <span className="text-xs text-primary font-medium">Selected</span>}
                     </div>
                   )
                 })}
@@ -126,7 +126,7 @@ export default function CreateComboSheet() {
             </div>
           </div>
 
-          <Button type="submit" disabled={isPending || selectedItems.length === 0} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
+          <Button type="submit" disabled={isPending || selectedItems.length === 0} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
             {isPending ? 'Saving...' : 'Save Combo'}
           </Button>
         </form>

@@ -119,8 +119,8 @@ export default function MenuCategories() {
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="font-semibold text-lg text-foreground truncate" title={category.name}>{category.name}</h3>
-                    <Badge variant={category.isActive ? 'outline' : 'destructive'} className="text-[10px] font-bold shrink-0">
-                      {category.isActive ? 'Active' : 'Inactive'}
+                    <Badge variant={category.status ? 'outline' : 'destructive'} className="text-[10px] font-bold shrink-0">
+                      {category.status ? 'Active' : 'Inactive'}
                     </Badge>
                   </div>
                   <p className="text-sm text-muted-foreground font-mono">

@@ -12,7 +12,7 @@ export interface SubscriptionPlan {
   price: string;
   carryForward: boolean;
   allowHoliday: boolean;
-  isActive: boolean;
+  status: 'ACTIVE' | 'GRANDFATHERED' | 'ARCHIVED';
   createdAt?: string;
 }
 
@@ -73,7 +73,7 @@ export function useUpdateSubscriptionPlan() {
         branchId: string | null;
         carryForward: boolean;
         allowHoliday: boolean;
-        isActive: boolean;
+        status: 'ACTIVE' | 'GRANDFATHERED' | 'ARCHIVED';
       }>;
     }) => {
       const { data } = await api.patch(`/subscriptions/plans/${id}`, payload);

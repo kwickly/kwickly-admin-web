@@ -83,7 +83,7 @@ export default function PlatformTenants() {
   const [editPhone, setEditPhone] = useState("");
   const [editAddress, setEditAddress] = useState("");
   const [editPlan, setEditPlan] = useState<"FREE" | "STARTER" | "GROWTH" | "ENTERPRISE">("FREE");
-  const [editIsActive, setEditIsActive] = useState(true);
+  const [editStatus, setEditStatus] = useState<"ACTIVE" | "SUSPENDED" | "TERMINATED">("ACTIVE");
 
   // Delete Modal State
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -128,7 +128,7 @@ export default function PlatformTenants() {
     setEditPhone(tenant.phone || "");
     setEditAddress(tenant.address || "");
     setEditPlan(tenant.plan);
-    setEditIsActive(tenant.isActive);
+    setEditStatus(tenant.status);
     setEditOpen(true);
   };
 
@@ -145,7 +145,7 @@ export default function PlatformTenants() {
           phone: editPhone,
           address: editAddress,
           plan: editPlan,
-          isActive: editIsActive,
+          status: editStatus,
         },
       },
       {
@@ -161,7 +161,7 @@ export default function PlatformTenants() {
               phone: editPhone,
               address: editAddress,
               plan: editPlan,
-              isActive: editIsActive,
+              status: editStatus,
             });
           }
         },
@@ -320,10 +320,8 @@ export default function PlatformTenants() {
                     {tenant.plan}
                   </span>
                   <div className="flex items-center gap-1.5 text-xs font-medium">
-                    <span className={`h-2 w-2 rounded-full ${tenant.isActive ? 'bg-success' : 'bg-destructive'}`}></span>
-                    <span className={tenant.isActive ? 'text-success' : 'text-destructive'}>
-                      {tenant.isActive ? "ACTIVE" : "SUSPENDED"}
-                    </span>
+                    <span className={`h-2 w-2 rounded-full ${tenant.status === "ACTIVE" ? "bg-success" : tenant.status === "SUSPENDED" ? "bg-warning" : "bg-destructive"}`}></span>
+                    <span className={tenant.status === "ACTIVE" ? "text-success" : tenant.status === "SUSPENDED" ? "text-warning" : "text-destructive"}>{tenant.status}</span>
                   </div>
                 </div>
 
@@ -382,9 +380,7 @@ export default function PlatformTenants() {
                       <Badge className="bg-muted text-muted-foreground border-border shadow-none text-[10px] uppercase font-bold">
                         {viewTenant.plan} PLAN
                       </Badge>
-                      <Badge variant={viewTenant.isActive ? "outline" : "destructive"} className={`shadow-none text-[10px] uppercase font-bold ${viewTenant.isActive ? 'text-success border-success/30 bg-success/10' : ''}`}>
-                        {viewTenant.isActive ? "ACTIVE" : "SUSPENDED"}
-                      </Badge>
+                      <Badge variant="outline" className={`shadow-none text-[10px] uppercase font-bold ${viewTenant.status === "ACTIVE" ? "text-success border-success/30 bg-success/10" : viewTenant.status === "SUSPENDED" ? "text-warning border-warning/30 bg-warning/10" : "text-destructive border-destructive/30 bg-destructive/10"}`}>{viewTenant.status}</Badge>
                     </div>
                   </div>
                 </div>
@@ -631,17 +627,18 @@ export default function PlatformTenants() {
                 </Select>
               </div>
 
-              <div className="flex items-center space-x-2 pt-2">
-                <input
-                  type="checkbox"
-                  id="editIsActive"
-                  checked={editIsActive}
-                  onChange={(e) => setEditIsActive(e.target.checked)}
-                  className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
-                />
-                <Label htmlFor="editIsActive" className="text-sm text-foreground cursor-pointer font-normal">
-                  Active Status (suspends all staff on uncheck)
-                </Label>
+              <div className="grid gap-1">
+                <Label htmlFor="edit-status" className="text-foreground">Platform Status</Label>
+                <Select value={editStatus} onValueChange={(val: any) => setEditStatus(val)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ACTIVE">Active</SelectItem>
+                    <SelectItem value="SUSPENDED">Suspended</SelectItem>
+                    <SelectItem value="TERMINATED">Terminated</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 

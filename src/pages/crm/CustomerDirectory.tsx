@@ -78,7 +78,7 @@ export default function CustomerDirectory() {
                       <TableCell className="font-medium text-foreground">
                         {customer.name}
                         {customer.marketingOptIn && (
-                          <Badge variant="outline" className="ml-2 text-[10px] bg-green-500/10 text-green-600 border-green-500/20">
+                          <Badge variant="outline" className="ml-2 text-[10px] bg-success/10 text-success border-success/20">
                             Opt-in
                           </Badge>
                         )}

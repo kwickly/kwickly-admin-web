@@ -79,7 +79,7 @@ export default function PlatformSupportTickets() {
                 <div className="flex gap-4 items-start">
                   <div className="mt-1">
                     <div className={`h-2.5 w-2.5 rounded-full ${
-                      ticket.status === 'OPEN' ? 'bg-blue-500' :
+                      ticket.status === 'OPEN' ? 'bg-info' :
                       ticket.status === 'IN_PROGRESS' ? 'bg-amber-500' :
                       ticket.status === 'RESOLVED' ? 'bg-emerald-500' :
                       'bg-muted-foreground'
@@ -112,7 +112,7 @@ export default function PlatformSupportTickets() {
                 <div className="flex flex-col items-end gap-2">
                   <span className={`px-2 py-1 text-[10px] font-bold rounded-md uppercase tracking-wider ${
                     ticket.priority === 'URGENT' ? 'bg-destructive/10 text-destructive border border-destructive/20' :
-                    ticket.priority === 'HIGH' ? 'bg-orange-500/10 text-orange-600 border border-orange-500/20' :
+                    ticket.priority === 'HIGH' ? 'bg-warning/10 text-warning border border-warning/20' :
                     ticket.priority === 'MEDIUM' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' :
                     'bg-background text-foreground border border-border'
                   }`}>

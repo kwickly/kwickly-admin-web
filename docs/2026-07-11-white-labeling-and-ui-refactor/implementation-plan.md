@@ -44,15 +44,15 @@ To ensure future changes instantly cascade without manually editing hundreds of 
 Due to the massive scope of touching every single page, we should execute in phases to prevent breaking the application:
 
 ### Phase 1: Data Architecture, White Labeling, & Platform UI
-- Execute the `tenants` table schema split in the API, adding the White Label columns.
-- Move the `BrandingSettings.tsx` logic over to the Platform Admin portal, adding the new White Label configuration options.
+- [x] Execute the `tenants` table schema split in the API, adding the White Label columns.
+- [x] Move the `BrandingSettings.tsx` logic over to the Platform Admin portal, adding the new White Label configuration options.
 
 ### Phase 2: Core Layouts & Navigational Components
-- Refactor the global `Sidebar`, `Header`, and `Auth` layouts to strictly use the global semantic tokens and 44px touch targets.
-- Implement the "Hide Kwickly Branding" logic in public-facing layouts based on the `tenant_brandings` record.
+- [x] Refactor the global `Sidebar`, `Header`, and `Auth` layouts to strictly use the global semantic tokens and 44px touch targets.
+- [x] Implement the "Hide Kwickly Branding" logic in public-facing layouts based on the `tenant_brandings` record.
 
 ### Phase 3: Tenant Dashboard & Settings Pages
-- Refactor the Tenant Dashboard, Branch Profile, and Loyalty Config to follow the 60-30-10 color rule and 8-pt grid.
+- [x] Refactor the Tenant Dashboard, Branch Profile, and Loyalty Config to follow the 60-30-10 color rule and 8-pt grid.
 
 ### Phase 4: Operational Pages (Menu, Orders, Inventory, POS)
-- Refactor the heaviest pages. Implement strict data tables for Orders/Inventory, and Cards for POS terminal buttons.
+- [x] Refactor the heaviest pages. Implement strict data tables for Orders/Inventory, and Cards for POS terminal buttons.

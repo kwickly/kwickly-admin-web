@@ -60,20 +60,20 @@ The Tenant Owner (`tenant_owner`) manages their restaurant brand across multiple
 To build this into a production-grade system, we will execute in the following phases:
 
 ### Phase 1: RBAC UI & Security Hardening (Immediate)
-- `[ ]` **Backend:** Update the API auth middleware to validate granular `permissions` via `roleId`, rather than relying solely on the `userRoleEnum`.
-- `[ ]` **Frontend:** Build the `settings/RolesAndPermissions.tsx` UI matrix.
-- `[ ]` **Frontend:** Implement React Route Guards to block access to routes if the `user.permissions` array lacks the required token.
+- `[x]` **Backend:** Update the API auth middleware to validate granular `permissions` via `roleId`, rather than relying solely on the `userRoleEnum`.
+- `[x]` **Frontend:** Build the `settings/RolesAndPermissions.tsx` UI matrix.
+- `[x]` **Frontend:** Implement React Route Guards to block access to routes if the `user.permissions` array lacks the required token.
 
 ### Phase 2: Operations & Customer Subscriptions (Short-Term)
-- `[ ]` **Frontend:** Build the "Customer Subscriptions & Loyalty" dashboard to expose the `customerSubscriptions` table logic (managing active/paused meal plans).
-- `[ ]` **Frontend:** Build the scoped Tenant Audit Log viewer to track staff actions (e.g., tracing unauthorized refunds).
+- `[x]` **Frontend:** Build the "Customer Subscriptions & Loyalty" dashboard to expose the `customerSubscriptions` table logic (managing active/paused meal plans).
+- `[x]` **Frontend:** Build the scoped Tenant Audit Log viewer to track staff actions (e.g., tracing unauthorized refunds).
 
 ### Phase 3: Platform Admin Upgrades (Medium-Term)
-- `[ ]` **Backend:** Create a `/api/admin/impersonate` endpoint.
-- `[ ]` **Frontend:** Add a "Login As Tenant" button for Super Admins.
-- `[ ]` **Frontend:** Build the Global Audit Logs view.
+- `[x]` **Backend:** Create a `/api/admin/impersonate` endpoint.
+- `[x]` **Frontend:** Add a "Login As Tenant" button for Super Admins.
+- `[x]` **Frontend:** Build the Global Audit Logs view.
 
 ### Phase 4: Hardware & POS Authentication (Long-Term)
-- `[ ]` **Backend:** Add a `devices` table to the schema. Add a `pos_pin` (hashed) column to the `users` table.
-- `[ ]` **Frontend:** Build the "Device Management" page to generate 6-digit iPad pairing codes.
-- `[ ]` **Frontend:** Build the rapid PIN-entry lock screen for the POS app.
+- `[x]` **Backend:** Add a `devices` table to the schema. Add a `pos_pin` (hashed) column to the `users` table.
+- `[x]` **Frontend:** Build the "Device Management" page to generate 6-digit iPad pairing codes.
+- `[x]` **Frontend:** Build the rapid PIN-entry lock screen for the POS app.

@@ -98,7 +98,7 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
               <h3 className="font-semibold text-slate-900 dark:text-zinc-100 truncate pr-2" title={item.name}>
                 {item.name}
               </h3>
-              <p className="font-medium text-indigo-650 dark:text-indigo-400 shrink-0">
+              <p className="font-medium text-primary shrink-0">
                 ₹{Number(item.price).toFixed(2)}
               </p>
             </div>
@@ -106,8 +106,8 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
               <span className="text-xs text-slate-500 dark:text-zinc-400 truncate max-w-[120px]">
                 {item.categoryName || 'Uncategorized'}
               </span>
-              <Badge variant={item.isActive ? 'outline' : 'destructive'} className="text-[10px] font-bold">
-                {item.isActive ? 'Active' : 'Out of Stock'}
+              <Badge variant={item.status ? 'outline' : 'destructive'} className="text-[10px] font-bold">
+                {item.status ? 'Active' : 'Out of Stock'}
               </Badge>
             </div>
           </div>

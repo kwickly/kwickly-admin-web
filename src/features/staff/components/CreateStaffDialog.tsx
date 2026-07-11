@@ -67,7 +67,7 @@ export default function CreateStaffDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       {/* @ts-ignore - Radix UI type bug with TS 5.7+ */}
       <DialogTrigger asChild>
-        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">Add Staff Member</Button>
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Add Staff Member</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
         <DialogHeader>
@@ -171,7 +171,7 @@ export default function CreateStaffDialog() {
             )}
           </div>
           <DialogFooter>
-            <Button type="submit" disabled={isPending} className="bg-indigo-600 hover:bg-indigo-700 text-white w-full sm:w-auto">
+            <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto">
               {isPending ? 'Creating...' : 'Create Account'}
             </Button>
           </DialogFooter>

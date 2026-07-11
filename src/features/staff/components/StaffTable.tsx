@@ -48,7 +48,7 @@ export default function StaffTable() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [role, setRole] = useState<'manager' | 'cashier' | 'kitchen_staff' | 'qr_scanner' | ''>('');
-  const [isActive, setIsActive] = useState<string>('true');
+  const [status, setIsActive] = useState<string>('true');
   const [salaryType, setSalaryType] = useState<'HOURLY' | 'MONTHLY' | ''>('');
   const [baseSalary, setBaseSalary] = useState('');
   const [hourlyRate, setHourlyRate] = useState('');
@@ -59,7 +59,7 @@ export default function StaffTable() {
     setName(staff.name);
     setPhone(staff.phone || '');
     setRole(staff.role as any);
-    setIsActive(staff.isActive ? 'true' : 'false');
+    setIsActive(staff.status ? 'true' : 'false');
     
     // Typecast or map optional fields
     const s = staff as any;
@@ -78,7 +78,7 @@ export default function StaffTable() {
       name,
       phone,
       role: role as any,
-      isActive: isActive === 'true',
+      status: status === 'true',
       salaryType: salaryType || null,
       baseSalary: salaryType === 'MONTHLY' ? baseSalary || null : null,
       hourlyRate: salaryType === 'HOURLY' ? hourlyRate || null : null,
@@ -163,22 +163,22 @@ export default function StaffTable() {
                   {staff.pin ? '****' : 'Not Set'}
                 </TableCell>
                 <TableCell>
-                  <Badge variant={staff.isActive ? 'outline' : 'destructive'}>
-                    {staff.isActive ? 'Active' : 'Inactive'}
+                  <Badge variant={staff.status ? 'outline' : 'destructive'}>
+                    {staff.status ? 'Active' : 'Inactive'}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right flex items-center justify-end gap-2">
                   <Can perform="staff:write">
                     <button
                       onClick={() => { setEditingStaff(staff); setNewPin(''); setIsPinDialogOpen(true); }}
-                      className="text-indigo-600 dark:text-indigo-400 hover:underline text-sm font-medium"
+                      className="text-primary hover:underline text-sm font-medium"
                     >
                       Set PIN
                     </button>
                     <span className="text-muted-foreground">|</span>
                     <button
                       onClick={() => handleEditClick(staff)}
-                      className="text-indigo-600 dark:text-indigo-400 hover:underline text-sm font-medium"
+                      className="text-primary hover:underline text-sm font-medium"
                     >
                       Edit
                     </button>
@@ -240,7 +240,7 @@ export default function StaffTable() {
 
               <div className="grid gap-2">
                 <Label htmlFor="edit-status" className="text-slate-700 dark:text-zinc-300">Status</Label>
-                <Select value={isActive} onValueChange={(val: any) => setIsActive(val || 'true')} required>
+                <Select value={status} onValueChange={(val: any) => setIsActive(val || 'true')} required>
                   <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
                     <SelectValue />
                   </SelectTrigger>
@@ -298,7 +298,7 @@ export default function StaffTable() {
                 type="button"
                 variant="destructive"
                 onClick={() => setIsDeleteDialogOpen(true)}
-                className="bg-red-600 hover:bg-red-700 text-white"
+                className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
               >
                 Delete Staff
               </Button>
@@ -314,7 +314,7 @@ export default function StaffTable() {
                 <Button
                   type="submit"
                   disabled={isUpdating}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   {isUpdating ? 'Saving...' : 'Save Changes'}
                 </Button>
@@ -347,7 +347,7 @@ export default function StaffTable() {
               variant="destructive"
               onClick={handleDeleteSubmit}
               disabled={isDeleting}
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
             >
               {isDeleting ? 'Deleting...' : 'Confirm Delete'}
             </Button>
@@ -394,7 +394,7 @@ export default function StaffTable() {
               <Button
                 type="submit"
                 disabled={isUpdatingPin || newPin.length !== 4}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 {isUpdatingPin ? 'Saving...' : 'Save PIN'}
               </Button>

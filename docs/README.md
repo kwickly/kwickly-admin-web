@@ -20,3 +20,5 @@ Welcome to the Kwickly docs folder. We maintain a strict chronological Architect
 ## Audit Log of Changed Decisions
 
 - **28th Jun, 26**: The original `theme_implementation_tracker.md` (from 24th Jun) was superseded by `theme-v2-implementation-tracker.md` to reflect the updated styling strategy.
+- **[2026-07-12-schema-audit-completion](./2026-07-12-schema-audit-completion)**: Summary of the successful database schema overhaul across the API (global soft deletes, indexing, and tenant lifecycle enums).
+- **[2026-07-12-global-status-enums](./2026-07-12-global-status-enums)**: Industry standard Global Status Enums architecture and Tenant Lock Screen documentation.

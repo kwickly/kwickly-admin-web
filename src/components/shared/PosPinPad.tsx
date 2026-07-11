@@ -46,7 +46,7 @@ export function PosPinPad({ onPinSubmit, pinLength = 4, isLoading = false, error
           i < pin.length
             ? "bg-primary border-primary scale-110"
             : "bg-transparent border-slate-300 dark:border-zinc-700",
-          error && "border-red-500 bg-red-500/20"
+          error && "border-destructive bg-destructive/20"
         )}
       />
     ));
@@ -68,7 +68,7 @@ export function PosPinPad({ onPinSubmit, pinLength = 4, isLoading = false, error
       </div>
 
       {error && (
-        <div className="text-sm text-red-500 font-medium mb-4 text-center animate-pulse">
+        <div className="text-sm text-destructive font-medium mb-4 text-center animate-pulse">
           {error}
         </div>
       )}

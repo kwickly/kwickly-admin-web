@@ -8,7 +8,7 @@ export interface MenuItem {
   price: string;
   description: string | null;
   isVeg: boolean | null;
-  isActive: boolean | null;
+  status: 'AVAILABLE' | 'OUT_OF_STOCK' | 'HIDDEN' | null;
   categoryId: string;
   categoryName?: string;
 }
@@ -18,7 +18,7 @@ export interface MenuCategory {
   name: string;
   description: string | null;
   sortOrder: number;
-  isActive: boolean | null;
+  status: 'AVAILABLE' | 'OUT_OF_STOCK' | 'HIDDEN' | null;
   items?: MenuItem[];
 }
 
@@ -26,7 +26,7 @@ export interface MenuAddon {
   id: string;
   name: string;
   price: string;
-  isActive: boolean;
+  status: 'AVAILABLE' | 'OUT_OF_STOCK' | 'HIDDEN';
   menuItemId?: string;
 }
 

@@ -358,7 +358,7 @@ export default function TenantBranding() {
             {/* Mac OS Window Header */}
             <div className="border-b border-border/50 bg-background/50 backdrop-blur-sm p-3.5 flex items-center justify-between">
               <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-400/90 shadow-sm" />
+                <div className="w-3 h-3 rounded-full bg-destructive/90 shadow-sm" />
                 <div className="w-3 h-3 rounded-full bg-amber-400/90 shadow-sm" />
                 <div className="w-3 h-3 rounded-full bg-emerald-400/90 shadow-sm" />
               </div>

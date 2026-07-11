@@ -86,21 +86,23 @@ function App() {
               <Route path="/analytics" element={<TenantAnalytics />} />
 
               {/* Platform Management Routes */}
-              <Route path="/platform/tenants" element={<PlatformTenants />} />
-              <Route path="/platform/logs" element={<PlatformAuditLogs />} />
-              <Route path="/platform/billing" element={<GlobalBilling />} />
-              <Route path="/platform/settings" element={<PlatformSettings />} />
-              <Route path="/platform/staff" element={<PlatformStaff />} />
-              <Route path="/platform/staff/timesheets" element={<PlatformTimesheets />} />
-              <Route path="/platform/staff/roles" element={<PlatformRoles />} />
-              <Route path="/platform/usage" element={<TenantUsage />} />
-              <Route path="/platform/support" element={<PlatformSupportTickets />} />
+              <Route element={<ProtectedRoute requirePlatform />}>
+                <Route path="/platform/tenants" element={<PlatformTenants />} />
+                <Route path="/platform/logs" element={<PlatformAuditLogs />} />
+                <Route path="/platform/billing" element={<GlobalBilling />} />
+                <Route path="/platform/settings" element={<PlatformSettings />} />
+                <Route path="/platform/staff" element={<PlatformStaff />} />
+                <Route path="/platform/staff/timesheets" element={<PlatformTimesheets />} />
+                <Route path="/platform/staff/roles" element={<PlatformRoles />} />
+                <Route path="/platform/usage" element={<TenantUsage />} />
+                <Route path="/platform/support" element={<PlatformSupportTickets />} />
 
-              <Route path="/platform/tenants/:tenantId/settings" element={<PlatformTenantSettingsLayout />}>
-                <Route path="" element={<Navigate to="features" replace />} />
-                <Route path="features" element={<TenantSettings />} />
-                <Route path="branding" element={<TenantBranding />} />
-                <Route path="whitelabel" element={<TenantWhiteLabel />} />
+                <Route path="/platform/tenants/:tenantId/settings" element={<PlatformTenantSettingsLayout />}>
+                  <Route path="" element={<Navigate to="features" replace />} />
+                  <Route path="features" element={<TenantSettings />} />
+                  <Route path="branding" element={<TenantBranding />} />
+                  <Route path="whitelabel" element={<TenantWhiteLabel />} />
+                </Route>
               </Route>
 
               {/* Menus Routes */}

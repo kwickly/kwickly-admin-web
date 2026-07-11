@@ -47,13 +47,13 @@ export default function ViewMenuItemDialog({ open, onOpenChange, item }: ViewMen
             </div>
             <div>
               <p className="text-sm text-slate-500 dark:text-zinc-400 mb-1">Status</p>
-              <Badge variant={item.isActive ? 'outline' : 'destructive'} className="text-xs font-bold">
-                {item.isActive ? 'Available' : 'Out of Stock'}
+              <Badge variant={item.status ? 'outline' : 'destructive'} className="text-xs font-bold">
+                {item.status ? 'Available' : 'Out of Stock'}
               </Badge>
             </div>
             <div>
               <p className="text-sm text-slate-500 dark:text-zinc-400 mb-1">Dietary</p>
-              <Badge className={item.isVeg ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+              <Badge className={item.isVeg ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'}>
                 {item.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
               </Badge>
             </div>

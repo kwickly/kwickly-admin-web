@@ -110,7 +110,7 @@ export default function TenantSupportTickets() {
                     {ticket.category.replace('_', ' ')}
                   </span>
                   <span className={`px-2 py-0.5 text-[10px] font-medium rounded-full uppercase tracking-wider ${
-                    ticket.status === 'OPEN' ? 'bg-blue-500/10 text-blue-600' :
+                    ticket.status === 'OPEN' ? 'bg-info/10 text-info' :
                     ticket.status === 'IN_PROGRESS' ? 'bg-amber-500/10 text-amber-600' :
                     ticket.status === 'RESOLVED' || ticket.status === 'CLOSED' ? 'bg-emerald-500/10 text-emerald-600' :
                     'bg-muted text-muted-foreground'
@@ -131,7 +131,7 @@ export default function TenantSupportTickets() {
               <div className="flex flex-col items-end gap-2">
                 <span className={`text-xs font-semibold ${
                   ticket.priority === 'URGENT' ? 'text-destructive' :
-                  ticket.priority === 'HIGH' ? 'text-orange-500' :
+                  ticket.priority === 'HIGH' ? 'text-warning' :
                   ticket.priority === 'MEDIUM' ? 'text-amber-500' :
                   'text-muted-foreground'
                 }`}>

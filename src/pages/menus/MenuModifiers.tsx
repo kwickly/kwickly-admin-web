@@ -73,8 +73,8 @@ export default function MenuModifiers() {
                     ₹{addon.price}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={addon.isActive ? 'outline' : 'destructive'} className={addon.isActive ? 'border-border text-foreground bg-background' : ''}>
-                      {addon.isActive ? 'Active' : 'Inactive'}
+                    <Badge variant={addon.status ? 'outline' : 'destructive'} className={addon.status ? 'border-border text-foreground bg-background' : ''}>
+                      {addon.status ? 'Active' : 'Inactive'}
                     </Badge>
                   </TableCell>
                 </TableRow>

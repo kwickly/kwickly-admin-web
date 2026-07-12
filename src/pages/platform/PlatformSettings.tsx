@@ -98,16 +98,18 @@ export default function PlatformSettings() {
       <Tabs value={tab} onValueChange={(v) => setTab(v as TabId)} orientation="horizontal" className="flex flex-col flex-1 min-w-0 min-h-0 gap-6">
 
         {/* ── Top Nav ────────────────────────────────────────────────── */}
-        <TabsList className="h-auto p-1.5 bg-card border border-border rounded-xl shadow-sm self-start justify-start flex-wrap">
+        <TabsList className="w-full justify-start h-auto p-0 bg-transparent border-b border-border rounded-none shadow-none gap-6 flex-wrap">
           {NAV.map((item) => (
             <TabsTrigger
               key={item.id}
               value={item.id}
               className={cn(
-                "flex items-center gap-2.5 px-4 py-2.5 rounded-lg text-sm font-medium transition-all border-none focus-visible:ring-0 after:hidden",
+                "relative flex items-center gap-2 px-1 pb-3 pt-2 rounded-none text-sm font-medium transition-colors border-none focus-visible:ring-0",
+                "bg-transparent hover:bg-transparent data-active:bg-transparent data-active:shadow-none",
+                "after:absolute after:bottom-[-1px] after:left-0 after:right-0 after:h-0.5 after:rounded-t-full after:transition-opacity after:opacity-0 data-active:after:opacity-100",
                 item.isDanger
-                  ? "data-active:bg-destructive/10 data-active:text-destructive data-active:shadow-none text-destructive/70 hover:text-destructive hover:bg-destructive/5"
-                  : "data-active:bg-primary/10 data-active:text-primary data-active:shadow-none text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  ? "data-active:text-destructive data-active:after:bg-destructive text-destructive/60 hover:text-destructive"
+                  : "data-active:text-primary data-active:after:bg-primary text-muted-foreground hover:text-foreground"
               )}
             >
               <item.icon className="h-4 w-4" />

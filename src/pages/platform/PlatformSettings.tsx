@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSearchParams } from "react-router-dom";
 
 type TabId = "identity" | "smtp" | "features" | "plans" | "danger";
 
@@ -52,7 +52,8 @@ const PLAN_DEFAULTS: Record<PlanKey, { branches: string; staff: string; items: s
 };
 
 export default function PlatformSettings() {
-  const [tab, setTab] = useState<TabId>("identity");
+  const [searchParams] = useSearchParams();
+  const tab = (searchParams.get("tab") as TabId) || "identity";
   const [identity, setIdentity] = useState({ platformName: "Kwickly", tagline: "Restaurant OS for the Modern Era", supportEmail: "support@kwickly.com", supportUrl: "https://help.kwickly.com", termsUrl: "https://kwickly.com/terms", privacyUrl: "https://kwickly.com/privacy" });
   const [smtp, setSmtp] = useState({ host: "smtp.resend.com", port: "465", secure: true, user: "resend", password: "", fromName: "Kwickly Platform", fromEmail: "noreply@kwickly.com" });
   const [showPass, setShowPass] = useState(false);
@@ -95,28 +96,7 @@ export default function PlatformSettings() {
         </Button>
       </div>
 
-      <Tabs value={tab} onValueChange={(v) => setTab(v as TabId)} orientation="horizontal" className="flex flex-col flex-1 min-w-0 min-h-0 gap-6">
-
-        {/* ── Top Nav ────────────────────────────────────────────────── */}
-        <TabsList className="w-full justify-start h-auto p-0 bg-transparent border-b border-border rounded-none shadow-none gap-6 flex-wrap">
-          {NAV.map((item) => (
-            <TabsTrigger
-              key={item.id}
-              value={item.id}
-              className={cn(
-                "relative flex items-center gap-2 px-1 pb-3 pt-2 rounded-none text-sm font-medium transition-colors border-none focus-visible:ring-0",
-                "bg-transparent hover:bg-transparent data-active:bg-transparent data-active:shadow-none",
-                "after:absolute after:bottom-[-1px] after:left-0 after:right-0 after:h-0.5 after:rounded-t-full after:transition-opacity after:opacity-0 data-active:after:opacity-100",
-                item.isDanger
-                  ? "data-active:text-destructive data-active:after:bg-destructive text-destructive/60 hover:text-destructive"
-                  : "data-active:text-primary data-active:after:bg-primary text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <item.icon className="h-4 w-4" />
-              {item.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      <div className="flex flex-col flex-1 min-w-0 min-h-0 gap-6">
 
         {/* ── Content Area ────────────────────────────────────────────── */}
         <div className="flex-1 min-w-0 space-y-5 h-full overflow-y-auto no-scrollbar pb-12">
@@ -443,7 +423,7 @@ export default function PlatformSettings() {
           )}
 
         </div>
-      </Tabs>
+      </div>
     </div>
   );
 }

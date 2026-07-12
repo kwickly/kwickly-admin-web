@@ -236,6 +236,13 @@ const platformNavGroups: NavGroup[] = [
         title: "Platform Settings",
         url: "/platform/settings",
         icon: Settings,
+        items: [
+          { title: "Identity", url: "/platform/settings?tab=identity" },
+          { title: "Email & SMTP", url: "/platform/settings?tab=smtp" },
+          { title: "Feature Flags", url: "/platform/settings?tab=features" },
+          { title: "Plan Limits", url: "/platform/settings?tab=plans" },
+          { title: "Danger Zone", url: "/platform/settings?tab=danger" },
+        ]
       },
     ]
   }
@@ -351,24 +358,31 @@ export function AppSidebar() {
                           } />
                           <CollapsibleContent>
                             <SidebarMenuSub className="ml-5 border-l border-sidebar-border pl-3 mt-1.5 gap-0.5 group-data-[collapsible=icon]:hidden">
-                              {item.items?.map((subItem) => (
-                                <SidebarMenuSubItem key={subItem.title}>
-                                  <SidebarMenuSubButton 
-                                    isActive={location.pathname === subItem.url}
-                                    className={cn(
-                                      "min-h-[44px] px-3 py-2 rounded-md transition-colors duration-200",
-                                      location.pathname === subItem.url
-                                        ? "text-sidebar-primary font-medium bg-sidebar-accent"
-                                        : "text-muted-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
-                                    )}
-                                    render={
-                                      <Link to={subItem.url}>
-                                        <span className="text-[12px]">{subItem.title}</span>
-                                      </Link>
-                                    }
-                                  />
-                                </SidebarMenuSubItem>
-                              ))}
+                              {item.items?.map((subItem) => {
+                                const currentUrl = location.pathname + location.search;
+                                const isSubActive = currentUrl === subItem.url || 
+                                                    (location.pathname === subItem.url && !subItem.url.includes("?")) ||
+                                                    (location.pathname === "/platform/settings" && !location.search && subItem.url === "/platform/settings?tab=identity");
+
+                                return (
+                                  <SidebarMenuSubItem key={subItem.title}>
+                                    <SidebarMenuSubButton 
+                                      isActive={isSubActive}
+                                      className={cn(
+                                        "min-h-[44px] px-3 py-2 rounded-md transition-colors duration-200",
+                                        isSubActive
+                                          ? "text-sidebar-primary font-medium bg-sidebar-accent"
+                                          : "text-muted-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
+                                      )}
+                                      render={
+                                        <Link to={subItem.url}>
+                                          <span className="text-[12px]">{subItem.title}</span>
+                                        </Link>
+                                      }
+                                    />
+                                  </SidebarMenuSubItem>
+                                );
+                              })}
                             </SidebarMenuSub>
                           </CollapsibleContent>
                         </SidebarMenuItem>

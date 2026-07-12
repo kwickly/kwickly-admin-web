@@ -110,7 +110,7 @@ export default function PlatformAuditLogs() {
                     <TableCell className="font-mono text-xs text-foreground font-semibold max-w-xs truncate">
                       {log.path}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-right">
                       {log.statusCode ? (
                         <Badge variant="outline" className={`font-bold text-[10px] ${getStatusBadgeClasses(log.statusCode)}`}>
                           {log.statusCode}

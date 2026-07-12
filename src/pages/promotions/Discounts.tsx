@@ -303,7 +303,7 @@ export default function Discounts() {
                       <TableCell className="font-bold text-primary">
                         {coupon.code}
                       </TableCell>
-                      <TableCell className="text-foreground">
+                      <TableCell className="text-foreground text-right">
                         {coupon.discountType === "PERCENTAGE"
                           ? `${coupon.discountValue}% OFF`
                           : `₹${coupon.discountValue} OFF`}
@@ -313,13 +313,13 @@ export default function Discounts() {
                           </div>
                         )}
                       </TableCell>
-                      <TableCell className="text-muted-foreground">
+                      <TableCell className="text-muted-foreground text-right">
                         {coupon.minOrderValue &&
                         parseFloat(coupon.minOrderValue) > 0
                           ? `₹${coupon.minOrderValue}`
                           : "None"}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-right">
                         <div className="text-sm text-foreground">
                           {coupon.usedCount}{" "}
                           {coupon.usageLimit && `/ ${coupon.usageLimit}`}

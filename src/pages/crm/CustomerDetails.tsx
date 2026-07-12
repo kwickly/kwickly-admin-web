@@ -98,7 +98,7 @@ export default function CustomerDetails() {
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
             {/* The users table isn't joined for the name in `getCustomerProfile` directly inside crm.service in this simplified view, we'll just display User ID for MVP or you can assume the API returns it */}
-            Customer ID: {customer.userId}
+            Customer ID: #{customer.userId.slice(0,8)}
           </p>
         </div>
       </div>

@@ -132,7 +132,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                   <TableHead>Staff Name</TableHead>
                   <TableHead>Clock In</TableHead>
                   <TableHead>Clock Out</TableHead>
-                  <TableHead>Total Hours</TableHead>
+                  <TableHead className="text-right">Total Hours</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -142,7 +142,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                 <TableRow key={record.id}>
                   <TableCell className="font-medium text-foreground">
                     {record.staffName}
-                    <div className="text-xs text-muted-foreground font-normal">ID: {record.staffId}</div>
+                    <div className="text-xs text-muted-foreground font-normal">ID: #{record.staffId.slice(0,8)}</div>
                   </TableCell>
                   <TableCell className="text-muted-foreground text-xs">
                     <div className="flex items-center gap-1">
@@ -170,7 +170,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                       <span className="text-warning font-medium">Still Clocked In</span>
                     )}
                   </TableCell>
-                  <TableCell className="text-foreground font-mono font-semibold">
+                  <TableCell className="text-foreground font-mono font-semibold text-right">
                     {record.totalHours != null ? `${record.totalHours} hrs` : <span className="text-muted-foreground font-normal">--</span>}
                   </TableCell>
                   <TableCell>

@@ -266,7 +266,7 @@ export default function TenantAnalytics() {
                     <TableCell className="text-muted-foreground text-xs">
                       {new Date(cust.lastScanAt).toLocaleString()}
                     </TableCell>
-                    <TableCell className="text-foreground font-mono text-xs font-semibold">{cust.totalVisits} scans</TableCell>
+                    <TableCell className="text-foreground font-mono text-xs font-semibold text-right">{cust.totalVisits} scans</TableCell>
                     <TableCell>
                       <Badge variant="destructive" className="bg-destructive/10 text-destructive border border-destructive/20 text-[10px] font-extrabold uppercase">
                         {cust.riskScore} RISK

@@ -69,7 +69,7 @@ export default function MenuModifiers() {
                   <TableCell className="font-medium text-foreground">
                     {addon.name}
                   </TableCell>
-                  <TableCell className="text-muted-foreground font-mono">
+                  <TableCell className="text-muted-foreground font-mono text-right">
                     ₹{addon.price}
                   </TableCell>
                   <TableCell>

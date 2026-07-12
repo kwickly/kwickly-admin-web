@@ -71,7 +71,7 @@ export default function LoyaltySubscriptions() {
                           {sub.status}
                         </Badge>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-right">
                         <div className="font-medium">
                           {sub.balanceRemaining} / {sub.totalMeals}
                         </div>

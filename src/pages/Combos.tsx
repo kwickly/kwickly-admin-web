@@ -68,7 +68,7 @@ export default function Combos() {
                       </div>
                     )}
                   </TableCell>
-                  <TableCell className="text-muted-foreground font-mono">
+                  <TableCell className="text-muted-foreground font-mono text-right">
                     ₹{combo.price}
                   </TableCell>
                   <TableCell>

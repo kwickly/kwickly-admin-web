@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Users, Search, Wallet, ChevronRight } from "lucide-react";
+import { Users, Search, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +9,7 @@ import { useCustomers } from "@/hooks/api/useCRM";
 import { Link } from "react-router-dom";
 
 export default function CustomerDirectory() {
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const [search, setSearch] = useState("");
   const { data, isLoading } = useCustomers(page, 50);
 
@@ -54,7 +54,7 @@ export default function CustomerDirectory() {
                   <TableHead>Customer</TableHead>
                   <TableHead>Contact</TableHead>
                   <TableHead className="text-right">Lifetime Value</TableHead>
-                  <TableHead className="text-right">Wallet Balance</TableHead>
+                  <TableHead className="text-right">Balance</TableHead>
                   <TableHead className="text-right">Loyalty Points</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>

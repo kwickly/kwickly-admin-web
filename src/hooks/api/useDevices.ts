@@ -15,15 +15,13 @@ export interface Device {
   updatedAt: string;
 }
 
-export function useDevices(branchId: string | null) {
+export function useDevices() {
   return useQuery({
-    queryKey: ['devices', branchId],
+    queryKey: ['devices'],
     queryFn: async (): Promise<Device[]> => {
-      if (!branchId) return [];
-      const { data } = await api.get(`/devices?branchId=${branchId}`);
+      const { data } = await api.get(`/devices`);
       return data;
     },
-    enabled: !!branchId,
   });
 }
 
@@ -45,7 +43,7 @@ export function useRevokeDevice() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, branchId }: { id: string; branchId: string }) => {
+    mutationFn: async ({ id }: { id: string; branchId: string }) => {
       const { data } = await api.patch(`/devices/${id}/revoke`);
       return data.data;
     },

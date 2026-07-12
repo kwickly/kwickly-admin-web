@@ -34,7 +34,7 @@ import { toast } from "sonner";
 
 export default function DeviceManagement() {
   const { selectedBranchId } = useBranchStore();
-  const { data: devices, isLoading } = useDevices(selectedBranchId);
+  const { data: devices, isLoading } = useDevices();
   const registerDevice = useRegisterDevice();
   const revokeDevice = useRevokeDevice();
 
@@ -110,7 +110,7 @@ export default function DeviceManagement() {
             setNewDeviceType("POS");
           }
         }}>
-          <DialogTrigger asChild>
+          <DialogTrigger>
             <Button disabled={!selectedBranchId} className="h-11 px-6 rounded-xl shadow-sm">
               <Plus className="mr-2 h-4 w-4" />
               Pair New Device
@@ -150,7 +150,7 @@ export default function DeviceManagement() {
                 </div>
                 <div className="space-y-2">
                   <Label>Device Type</Label>
-                  <Select value={newDeviceType} onValueChange={(val: "POS" | "KDS") => setNewDeviceType(val)}>
+                  <Select value={newDeviceType} onValueChange={(val) => setNewDeviceType(val as "POS" | "KDS")}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>

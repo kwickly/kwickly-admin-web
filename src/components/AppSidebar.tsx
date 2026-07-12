@@ -14,12 +14,10 @@ import {
   Package,
   Tag,
   HeartHandshake,
-  ShieldCheck,
   DollarSign,
-  ShieldAlert,
-  Sliders,
   Activity,
   LifeBuoy,
+  ShieldAlert,
 } from "lucide-react";
 import {
   Sidebar,

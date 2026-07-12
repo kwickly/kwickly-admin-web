@@ -147,9 +147,6 @@ export default function AppShell() {
               <SidebarTrigger className="-ml-1 text-muted-foreground" />
               <Separator orientation="vertical" className="mr-2 h-5" />
               
-              <PageBreadcrumbs items={breadcrumbs} className="hidden md:flex mr-4" />
-              <Separator orientation="vertical" className="hidden md:block mr-2 h-5" />
-              
               {(!isPlatformAdmin || impersonatedTenantId) ? (
                 <div className="flex items-center gap-4">
                   <div className="flex items-center space-x-2">
@@ -255,6 +252,7 @@ export default function AppShell() {
           </header>
           <main className="flex-1 min-w-0 p-6 md:p-8 lg:p-10 overflow-y-auto">
             <div className="max-w-[1600px] mx-auto">
+              <PageBreadcrumbs items={breadcrumbs} className="mb-6 opacity-70 hover:opacity-100 transition-opacity" />
               <Outlet />
             </div>
           </main>

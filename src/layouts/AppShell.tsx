@@ -1,9 +1,10 @@
-import { Outlet, Navigate, Link, useNavigate } from "react-router-dom"
+import { Outlet, Navigate, Link, useNavigate, useLocation } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { useBranchStore } from "@/store/useBranch"
 import { useBranches } from "@/hooks/api/useSettings"
 import { useEffect, useState } from "react"
 import { CommandMenu } from "@/components/CommandMenu"
+import { PageBreadcrumbs } from "@/components/ui/breadcrumbs"
 import {
   Select,
   SelectContent,
@@ -39,6 +40,7 @@ import { getContrastColor, isValidHex } from "@/lib/colors";
 
 export default function AppShell() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { 
     user, 
     logout, 
@@ -54,6 +56,22 @@ export default function AppShell() {
   const [commandOpen, setCommandOpen] = useState(false)
 
   const isPlatformAdmin = user?.role === 'platform_owner' || user?.role === 'super_admin';
+
+  // Generate dynamic breadcrumbs
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const breadcrumbs = pathSegments.map((segment, index) => {
+    const url = `/${pathSegments.slice(0, index + 1).join('/')}`;
+    const title = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+    return { label: title, href: url };
+  });
+
+  const tab = new URLSearchParams(location.search).get("tab");
+  if (tab) {
+    breadcrumbs.push({
+      label: tab.charAt(0).toUpperCase() + tab.slice(1).replace(/-/g, ' '),
+      href: location.pathname + location.search
+    });
+  }
 
   const activeBrandColor = impersonatedTenantId 
     ? impersonatedTenantBrandColor 
@@ -128,6 +146,9 @@ export default function AppShell() {
             <div className="flex items-center gap-2 px-2 h-full">
               <SidebarTrigger className="-ml-1 text-muted-foreground" />
               <Separator orientation="vertical" className="mr-2 h-5" />
+              
+              <PageBreadcrumbs items={breadcrumbs} className="hidden md:flex mr-4" />
+              <Separator orientation="vertical" className="hidden md:block mr-2 h-5" />
               
               {(!isPlatformAdmin || impersonatedTenantId) ? (
                 <div className="flex items-center gap-4">

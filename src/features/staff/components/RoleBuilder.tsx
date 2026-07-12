@@ -236,8 +236,8 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
       </Dialog>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader className="flex flex-row justify-between items-center pr-6 sticky top-0 bg-popover z-10 pb-4 border-b border-border">
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0">
+          <DialogHeader className="flex flex-row justify-between items-center px-6 pt-6 sticky top-0 bg-popover z-10 pb-4 border-b border-border">
             <div className="space-y-1 text-left">
               <DialogTitle className="flex items-center gap-2">
                 Configuring: 
@@ -263,7 +263,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
             </Button>
           </DialogHeader>
 
-          <div className="space-y-6 pt-4">
+          <div className="space-y-6 px-6 pb-6 pt-4">
             {Object.entries(groups).map(([groupName, perms]) => (
               <div key={groupName} className="space-y-3">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">

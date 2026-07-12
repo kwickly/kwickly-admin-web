@@ -124,7 +124,7 @@ export default function Stock() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="adjustmentType" className="text-foreground">Adjustment Type</Label>
-                <Select value={adjustType} onValueChange={setAdjustType}>
+                <Select value={adjustType} onValueChange={(v) => { if (v) setAdjustType(v); }}>
                   <SelectTrigger className="h-11 bg-transparent border-border">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>

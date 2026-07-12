@@ -8,21 +8,16 @@ import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { useAuthStore } from '@/store/useAuth';
 import { toast } from 'sonner';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { Palette, Type, Square, Layout, Image as ImageIcon, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { generateOklchTheme } from '@/lib/ThemeGenerator';
 import { getContrastColor } from '@/lib/colors';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
 
 type TabType = 'colors' | 'shape' | 'type' | 'assets';
 
 export default function TenantBranding() {
   const { tenantId } = useParams();
-  const { data: tenantData, isLoading } = usePlatformTenantSettings(tenantId as string);
+  const { data: tenantData } = usePlatformTenantSettings(tenantId as string);
   const updateMutation = useUpdatePlatformTenantSettings();
   
   const [activeTab, setActiveTab] = useState<TabType>('colors');
@@ -73,7 +68,7 @@ export default function TenantBranding() {
         mono:  tenantData?.themeConfig?.fonts?.mono  || 'Menlo, monospace',
       }
     };
-  }, [hue, chroma, radius, fontSans, currentTheme.fonts]);
+  }, [hue, chroma, radius, fontSans, tenantData]);
 
   // Derive the approximate hex of the primary color for the contrast check.
   // The primary is oklch(0.55 chroma hue) in light mode — we check whether

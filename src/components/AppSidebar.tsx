@@ -76,6 +76,9 @@ const navGroups: NavGroup[] = [
         url: "/analytics",
         icon: Sparkles,
         permission: "analytics:read",
+        items: [
+          { title: "Revenue Analytics", url: "/analytics/revenue", permission: "analytics:read" },
+        ],
       },
     ]
   },

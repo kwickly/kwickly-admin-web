@@ -8,6 +8,7 @@ import ForgotPassword from '@/pages/ForgotPassword'
 import ResetPassword from '@/pages/ResetPassword'
 import Dashboard from '@/pages/Dashboard'
 import TenantAnalytics from '@/pages/TenantAnalytics'
+import RevenueAnalytics from '@/pages/RevenueAnalytics'
 
 // Nested Workspace Layouts
 import MenusLayout from '@/layouts/MenusLayout'
@@ -86,6 +87,7 @@ function App() {
               <Route path="/support" element={<TenantSupportTickets />} />
               <Route path="/settings" element={<TenantSettings />} />
               <Route path="/analytics" element={<TenantAnalytics />} />
+              <Route path="/analytics/revenue" element={<RevenueAnalytics />} />
 
               {/* Platform Management Routes */}
               <Route element={<ProtectedRoute requirePlatform />}>

@@ -1,4 +1,4 @@
-import { Outlet, Navigate, Link } from "react-router-dom"
+import { Outlet, Navigate, Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { useBranchStore } from "@/store/useBranch"
 import { useBranches } from "@/hooks/api/useSettings"
@@ -38,6 +38,7 @@ import { useTheme } from "@/components/theme-provider";
 import { getContrastColor, isValidHex } from "@/lib/colors";
 
 export default function AppShell() {
+  const navigate = useNavigate();
   const { 
     user, 
     logout, 
@@ -115,6 +116,7 @@ export default function AppShell() {
                 onClick={() => {
                   setImpersonatedTenant(null, null);
                   setSelectedBranchId(null);
+                  navigate('/platform/tenants');
                 }} 
                 className="bg-secondary text-secondary-foreground hover:bg-secondary/80 font-bold px-2 py-0.5 rounded text-[10px] uppercase tracking-wider transition-colors shadow-sm"
               >

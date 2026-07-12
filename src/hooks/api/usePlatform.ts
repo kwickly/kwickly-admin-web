@@ -152,3 +152,32 @@ export function usePlatformAuditLogs(page: number = 1, limit: number = 50, searc
     },
   });
 }
+
+// GET /v1/platform/tenants/:id/settings
+export function usePlatformTenantSettings(tenantId: string) {
+  return useQuery({
+    queryKey: ['platform', 'tenant-settings', tenantId],
+    queryFn: async () => {
+      const { data } = await api.get(`/platform/tenants/${tenantId}/settings`);
+      return data.data;
+    },
+    enabled: !!tenantId,
+  });
+}
+
+// PATCH /v1/platform/tenants/:id/settings
+export function useUpdatePlatformTenantSettings() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, payload }: { id: string; payload: any }) => {
+      const { data } = await api.patch(`/platform/tenants/${id}/settings`, payload);
+      return data.data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['platform', 'tenant-settings', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['platform', 'tenants'] });
+    },
+  });
+}
+

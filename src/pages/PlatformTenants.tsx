@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Building, Plus, Eye, Edit, Trash, ShieldAlert, MoreVertical, MapPin, Users, Phone, Mail, Globe } from "lucide-react";
+import { Building, Plus, Eye, Edit, Trash, ShieldAlert, MoreVertical, MapPin, Users, Phone, Mail, Globe, Settings } from "lucide-react";
 import { useAuthStore } from "@/store/useAuth";
 import { getContrastColor } from "@/lib/colors";
 import { usePlatformTenants, useCreateTenant, useUpdateTenant, useDeleteTenant, type TenantStats } from "@/hooks/api/usePlatform";
@@ -277,6 +277,16 @@ export default function PlatformTenants() {
                       >
                         <Edit className="mr-2 h-4 w-4 text-muted-foreground" />
                         <span>Edit Configuration</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/platform/tenants/${tenant.id}/settings`);
+                        }}
+                        className="cursor-pointer text-foreground focus:bg-muted"
+                      >
+                        <Settings className="mr-2 h-4 w-4 text-muted-foreground" />
+                        <span>Advanced Settings</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={(e) => handleDeleteClick(e, tenant)}

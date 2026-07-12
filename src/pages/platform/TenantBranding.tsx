@@ -1,4 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { usePlatformTenantSettings, useUpdatePlatformTenantSettings } from '@/hooks/api/usePlatform';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -19,39 +21,45 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
 type TabType = 'colors' | 'shape' | 'type' | 'assets';
 
 export default function TenantBranding() {
-  const { user, token, setImpersonatedTenant } = useAuthStore();
-
-  const currentTheme = user?.tenantDetails?.themeConfig || {
-    light: {},
-    dark: {},
-    fonts: { sans: "Inter, sans-serif", serif: "Georgia, serif", mono: "Menlo, monospace" }
-  };
-
+  const { tenantId } = useParams();
+  const { data: tenantData, isLoading } = usePlatformTenantSettings(tenantId as string);
+  const updateMutation = useUpdatePlatformTenantSettings();
+  
   const [activeTab, setActiveTab] = useState<TabType>('colors');
   const [hue, setHue] = useState<number>(245);
   const [chroma, setChroma] = useState<number>(0.16);
   const [radius, setRadius] = useState<number>(0.5);
-  const [fontSans, setFontSans] = useState<string>(currentTheme.fonts?.sans || 'Inter, sans-serif');
-  const [themeMode, setThemeMode] = useState<string>(user?.tenantDetails?.themeMode || 'system');
-  const [logoUrl, setLogoUrl] = useState(user?.tenantDetails?.logoUrl || '');
-  const [logoDarkUrl, setLogoDarkUrl] = useState(user?.tenantDetails?.logoDarkUrl || '');
-  const [faviconUrl, setFaviconUrl] = useState(user?.tenantDetails?.faviconUrl || '');
+  const [fontSans, setFontSans] = useState<string>('Inter, sans-serif');
+  const [themeMode, setThemeMode] = useState<string>('system');
+  const [logoUrl, setLogoUrl] = useState('');
+  const [logoDarkUrl, setLogoDarkUrl] = useState('');
+  const [faviconUrl, setFaviconUrl] = useState('');
 
-  // Extract initial Hue/Chroma if previously saved
+  // Extract initial values when tenantData loads
   useEffect(() => {
-    const primary = currentTheme.light?.['--primary'];
-    if (primary && primary.includes('oklch')) {
-      const match = primary.match(/oklch\([.\d]+\s+([.\d]+)\s+([.\d]+)\)/);
-      if (match) {
-        setChroma(parseFloat(match[1]));
-        setHue(parseFloat(match[2]));
+    if (tenantData) {
+      setThemeMode(tenantData.themeMode || 'system');
+      setLogoUrl(tenantData.logoUrl || '');
+      setLogoDarkUrl(tenantData.logoDarkUrl || '');
+      setFaviconUrl(tenantData.faviconUrl || '');
+      
+      const themeConfig = tenantData.themeConfig || {};
+      setFontSans(themeConfig.fonts?.sans || 'Inter, sans-serif');
+      
+      const primary = themeConfig.light?.['--primary'];
+      if (primary && primary.includes('oklch')) {
+        const match = primary.match(/oklch\([.\d]+\s+([.\d]+)\s+([.\d]+)\)/);
+        if (match) {
+          setChroma(parseFloat(match[1]));
+          setHue(parseFloat(match[2]));
+        }
+      }
+      const storedRadius = themeConfig.light?.['--radius'];
+      if (storedRadius) {
+        setRadius(parseFloat(storedRadius.replace('rem', '')));
       }
     }
-    const storedRadius = currentTheme.light?.['--radius'];
-    if (storedRadius) {
-      setRadius(parseFloat(storedRadius.replace('rem', '')));
-    }
-  }, []);
+  }, [tenantData]);
 
   // Compute the live preview theme config using the powerful ThemeGenerator!
   const previewTheme = useMemo(() => {
@@ -61,8 +69,8 @@ export default function TenantBranding() {
       dark:  { ...generated.dark,  '--radius': `${radius}rem` },
       fonts: {
         sans:  fontSans,
-        serif: currentTheme.fonts?.serif || 'Georgia, serif',
-        mono:  currentTheme.fonts?.mono  || 'Menlo, monospace',
+        serif: tenantData?.themeConfig?.fonts?.serif || 'Georgia, serif',
+        mono:  tenantData?.themeConfig?.fonts?.mono  || 'Menlo, monospace',
       }
     };
   }, [hue, chroma, radius, fontSans, currentTheme.fonts]);
@@ -110,47 +118,36 @@ export default function TenantBranding() {
     };
   }, [previewTheme]);
 
-  const saveMutation = useMutation({
-    mutationFn: async () => {
-      // Phase 2: Validate brand color contrast before allowing publish
-      if (!contrastIsValid) {
-        toast.error('Color contrast too low', {
-          description: 'Your primary color does not meet the minimum 3:1 contrast ratio against a white background. Increase the Color Intensity (Chroma) or choose a darker hue.'
-        });
-        throw new Error('Contrast validation failed — publish blocked.');
-      }
-
-      const payload = {
-        themeConfig: previewTheme,
-        themeMode,
-        logoUrl,
-        logoDarkUrl,
-        faviconUrl
-      };
-      const res = await axios.patch(`${API_URL}/tenant/settings`, payload, {
-        headers: { Authorization: `Bearer ${token}` }
+  const handleSave = () => {
+    if (!contrastIsValid) {
+      toast.error('Color contrast too low', {
+        description: 'Your primary color does not meet the minimum 3:1 contrast ratio against a white background. Increase the Color Intensity (Chroma) or choose a darker hue.'
       });
-      return res.data;
-    },
-    onSuccess: () => {
-      setImpersonatedTenant(
-        user!.tenantId,
-        user!.tenantDetails!.name,
-        user!.tenantDetails!.brandColor,
-        logoUrl,
-        logoDarkUrl,
-        faviconUrl,
-        themeMode,
-        previewTheme
-      );
-      toast.success("Theme Published!", { description: "Your Advanced Theme has been saved and applied globally." });
-    },
-    onError: (err: any) => {
-      if (err?.message?.includes('Contrast validation')) return; // already toasted
-      console.error(err);
-      toast.error("Error", { description: "Could not save theme configuration." });
+      return;
     }
-  });
+
+    const payload = {
+      themeConfig: previewTheme,
+      themeMode,
+      logoUrl,
+      logoDarkUrl,
+      faviconUrl,
+      brandColor: `oklch(0.55 ${chroma} ${hue})`
+    };
+
+    updateMutation.mutate({
+      id: tenantId as string,
+      payload
+    }, {
+      onSuccess: () => {
+        toast.success("Theme Published!", { description: "Your Advanced Theme has been saved and applied to the tenant." });
+      },
+      onError: (err: any) => {
+        console.error(err);
+        toast.error("Error", { description: "Could not save theme configuration." });
+      }
+    });
+  };
 
   return (
       <div className="flex flex-col xl:flex-row gap-10 items-start w-full">
@@ -340,11 +337,11 @@ export default function TenantBranding() {
 
             <div className="mt-10 pt-6 border-t border-border/50">
               <Button 
-                onClick={() => saveMutation.mutate()} 
-                disabled={saveMutation.isPending}
+                onClick={handleSave} 
+                disabled={updateMutation.isPending}
                 className="w-full h-11 text-base font-semibold shadow-sm"
               >
-                {saveMutation.isPending ? "Publishing Engine..." : "Publish Theme Engine"}
+                {updateMutation.isPending ? "Publishing Engine..." : "Publish Theme Engine"}
               </Button>
             </div>
 

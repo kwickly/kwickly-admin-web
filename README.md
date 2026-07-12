@@ -19,6 +19,8 @@ The central management portal for the Kwickly POS ecosystem. This application is
 - **📦 Inventory & Supply Chain:** Real-time inventory tracking, low-stock threshold alerting, and recipe-to-ingredient mapping.
 - **👥 Staff & Payroll Management:** End-to-end staff management including Timesheets (POS PIN-based clock in/out), Leave tracking, Public Holidays, and automated Payroll processing with integrated salary slips.
 - **🔥 Live KDS (Kitchen Display System):** A zero-latency, native WebSocket-powered Kanban board providing real-time synchronization between the POS and kitchen staff.
+- **💰 Omnichannel CRM & Digital Wallets:** Link customer emails at the POS, sell offline subscriptions, and process points-to-cash conversions to drive retention via the digital wallet system.
+- **🌐 Wildcard Subdomain Storefronts:** The backend seamlessly provisions distinct subdomains (e.g., `restaurant.kwickly.in`) for each tenant's customer-facing Next.js portal.
 - **📊 Advanced Operations:** Daily revenue analytics dashboard, dynamic routing, and global branch configuration settings.
 
 ## 🛠️ Getting Started

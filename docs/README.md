@@ -1,24 +1,38 @@
-# Documentation Master Index & Audit Log
+# Kwickly Admin Web Documentation
 
-Welcome to the Kwickly docs folder. We maintain a strict chronological Architecture Decision Record (ADR) format.
+Welcome to the documentation for the Kwickly Admin Web repository. 
+This folder contains Architecture Decision Records (ADRs), UX/UI guidelines, and implementation plans.
 
-## How to Maintain This Folder
+## 📂 Documentation Structure
+To prevent documentation fatigue, we organize files by **Domain (Topic) -> Chronological Order**. 
+Deprecated or superseded decisions are moved to the `archive/` folder.
 
-1. **New Topics:** Any new research, tracker, or architectural decision MUST be placed in a new folder.
-2. **Naming Convention:** Use the ISO 8601 date standard in kebab-case format. Example: `2026-07-11-ux-ui-guidelines`. This guarantees perfect chronological sorting.
-3. **Supersession Rule:** When a document is ruled out or replaced, you MUST edit the old document to include a `> [!WARNING] SUPERSEDED` block at the top, pointing to the new document. You must also record this change in the **Audit Log** below.
+### 🏛️ Architecture & Infrastructure
+Decisions regarding the core systems, RBAC, state management, and overarching platform architecture.
+- [2026-06-23: Core Architecture](architecture-and-infrastructure/2026-06-23-core-architecture/core-architecture.md)
+- [2026-07-11: RBAC Platform Architecture](architecture-and-infrastructure/2026-07-11-rbac-platform-architecture/rbac-platform-architecture.md)
 
-## Project Timeline & Master Index
+### 🎨 Frontend & UX
+Guidelines for UI/UX, styling, theming, and white-labeling configurations.
+- [2026-06-28: Theme System V2](frontend-and-ux/2026-06-28-theme-system-v2/theme-system-v2.md)
+- [2026-07-11: UX/UI Guidelines](frontend-and-ux/2026-07-11-ux-ui-guidelines/ux-ui-guidelines.md)
+- [2026-07-11: White Labeling and UI Refactor](frontend-and-ux/2026-07-11-white-labeling-and-ui-refactor/white-labeling-and-ui-refactor.md)
 
-- **[2026-06-17-initial-testing](./2026-06-17-initial-testing)**: Legacy testing progress checklist.
-- **[2026-06-23-core-architecture](./2026-06-23-core-architecture)**: Deployment architecture, PWA setup, and high-level project context.
-- **[2026-06-28-theme-system-v2](./2026-06-28-theme-system-v2)**: The definitive documentation for the V2 design token system (`theme-system.md`, `tokens.json`).
-- **[2026-07-11-ux-ui-guidelines](./2026-07-11-ux-ui-guidelines)**: Core design styles, data density strategies, and F/Z scanning patterns for the POS/Admin interfaces.
-- **[2026-07-11-rbac-platform-architecture](./2026-07-11-rbac-platform-architecture)**: Database schema audit covering RBAC, tenant vs platform roles, hardware authentication, and a phase-wise roadmap.
-- **[2026-07-11-white-labeling-and-ui-refactor](./2026-07-11-white-labeling-and-ui-refactor)**: Plan to separate tenant branding from core schema, implement Enterprise White Labeling, and rigorously enforce UI guidelines globally.
+### 🗄️ Database & Schema
+Documentation mirroring schema decisions from the API repository that impact the frontend (e.g. Enums, Statuses).
+- [2026-07-12: Global Status Enums](database-and-schema/2026-07-12-global-status-enums/global-status-enums.md)
+- [2026-07-12: Schema Audit Completion](database-and-schema/2026-07-12-schema-audit-completion/schema-audit-completion.md)
 
-## Audit Log of Changed Decisions
+### 🧪 Testing & QA
+- [2026-06-17: Initial Testing](testing-and-qa/2026-06-17-initial-testing/testing-progress.md)
 
-- **28th Jun, 26**: The original `theme_implementation_tracker.md` (from 24th Jun) was superseded by `theme-v2-implementation-tracker.md` to reflect the updated styling strategy.
-- **[2026-07-12-schema-audit-completion](./2026-07-12-schema-audit-completion)**: Summary of the successful database schema overhaul across the API (global soft deletes, indexing, and tenant lifecycle enums).
-- **[2026-07-12-global-status-enums](./2026-07-12-global-status-enums)**: Industry standard Global Status Enums architecture and Tenant Lock Screen documentation.
+### 📦 Archive
+*(Superseded or deprecated decisions live in `docs/archive/`)*
+
+---
+
+**Rule of Thumb for adding new Docs:**
+1. Pick the correct domain folder (or create one if it doesn't fit).
+2. Create a folder named `YYYY-MM-DD-short-topic-name`.
+3. Add your markdown file inside.
+4. Update this `README.md` to link to your new file!

@@ -242,16 +242,10 @@ export default function PlatformTenants() {
           {tenantsList.map((tenant) => (
             <Card 
               key={tenant.id} 
-              className="bg-card border-border overflow-hidden shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
+              className="bg-card rounded-xl border border-border shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
               onClick={() => handleCardClick(tenant)}
             >
-              {/* Brand accent bar — uses tenant brand color, falls back to system --primary */}
-              <div 
-                className="w-full h-1.5 flex-shrink-0" 
-                style={{ backgroundColor: tenant.brandColor || 'var(--primary)' }} 
-              />
-              
-              <div className="p-5 flex flex-col h-full relative">
+              <div className="p-6 flex flex-col h-full relative">
                 {/* 3 Dots Menu */}
                 <div className="absolute top-4 right-4 z-10">
                   <DropdownMenu>
@@ -313,13 +307,13 @@ export default function PlatformTenants() {
                       <span className="text-xl font-bold uppercase">{tenant.name.substring(0, 2)}</span>
                     )}
                   </div>
-                  <div>
-                    <h3 className="font-bold text-foreground truncate w-full group-hover:text-primary transition-colors">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-foreground truncate group-hover:text-primary transition-colors">
                       {tenant.name}
                     </h3>
                     <p className="text-xs text-muted-foreground font-mono mt-0.5 truncate flex items-center gap-1">
-                      <Globe className="h-3 w-3" />
-                      {tenant.slug}.kwickly.com
+                      <Globe className="h-3 w-3 flex-shrink-0" />
+                      <span className="truncate">{tenant.slug}.kwickly.com</span>
                     </p>
                   </div>
                 </div>

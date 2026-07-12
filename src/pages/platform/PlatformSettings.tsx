@@ -94,7 +94,7 @@ export default function PlatformSettings() {
         </Button>
       </div>
 
-      <div className="flex gap-7 items-start flex-1 min-h-0">
+      <div className="flex gap-7 items-start flex-1 min-w-0 min-h-0">
 
         {/* ── Left Nav ────────────────────────────────────────────────── */}
         <nav className="w-52 shrink-0 space-y-1 bg-card border border-border p-2 rounded-xl shadow-sm">
@@ -421,7 +421,7 @@ export default function PlatformSettings() {
               </div>
 
               {/* System status */}
-              <div className="rounded-xl bg-card border border-border shadow-sm p-5">
+              <div className="rounded-xl bg-card border border-border shadow-sm p-6">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">Live System Status</p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[

@@ -355,7 +355,7 @@ export default function PlatformTenants() {
 
       {/* DETAILED INFO MODAL */}
       <Dialog open={viewOpen} onOpenChange={setViewOpen}>
-        <DialogContent className="sm:max-w-[500px] bg-card border border-border p-0 overflow-hidden shadow-sm rounded-2xl">
+        <DialogContent className="sm:max-w-[500px] bg-card border border-border p-0 overflow-hidden shadow-sm rounded-xl">
           {viewTenant && (
             <>
               {/* Flat brand accent bar — no gradient, no blur */}
@@ -438,7 +438,7 @@ export default function PlatformTenants() {
 
                 <div className="flex gap-3 pt-2">
                   <Button 
-                    className="flex-1"
+                    className="flex-1 min-w-0"
                     onClick={(e) => handleImpersonate(e, viewTenant)}
                   >
                     <Eye className="mr-2 h-4 w-4" />
@@ -545,7 +545,7 @@ export default function PlatformTenants() {
                     value={brandColor}
                     onChange={(e) => setBrandColor(e.target.value)}
                     placeholder="#6366F1"
-                    className="font-mono flex-1"
+                    className="font-mono flex-1 min-w-0"
                     maxLength={7}
                   />
                   <input

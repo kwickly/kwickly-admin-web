@@ -180,7 +180,7 @@ export default function PlatformStaff() {
             </TableBody>
           </Table>
           {filteredStaff.length > pageSize && (
-            <div className="p-4 border-t border-border/50 bg-card">
+            <div className="p-6 border-t border-border/50 bg-card">
               <PaginationControls
                 page={page}
                 totalPages={totalPages}

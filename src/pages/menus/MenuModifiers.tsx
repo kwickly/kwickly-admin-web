@@ -49,7 +49,7 @@ export default function MenuModifiers() {
       {isAddonsLoading ? (
         <TableSkeleton />
       ) : !addons || addons.length === 0 ? (
-        <div className="p-8 text-center text-muted-foreground bg-card rounded-xl border border-border">
+        <div className="p-6 text-center text-muted-foreground bg-card rounded-xl border border-border">
           <h3 className="text-lg font-medium text-foreground">No Modifiers</h3>
           <p className="mt-2">Use the "Create Modifier" button to add new global add-ons.</p>
         </div>

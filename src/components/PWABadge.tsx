@@ -23,7 +23,7 @@ export function PWABadge() {
   if (!needRefresh) return null
 
   return (
-    <Card className="fixed bottom-4 right-4 z-50 p-4 shadow-lg border bg-card text-card-foreground">
+    <Card className="fixed bottom-4 right-4 z-50 p-6 shadow-lg border bg-card text-card-foreground">
       <div className="flex flex-col gap-3">
         <div className="text-sm">
           <span>New content available, click on reload button to update.</span>

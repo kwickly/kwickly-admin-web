@@ -227,7 +227,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
           </div>
           
           {totalPages > 1 && (
-            <div className="flex justify-between items-center bg-card border border-border p-4 rounded-xl shadow-sm mt-4">
+            <div className="flex justify-between items-center bg-card border border-border p-6 rounded-xl shadow-sm mt-4">
               <p className="text-sm text-muted-foreground">
                 Showing <span className="font-medium text-foreground">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="font-medium text-foreground">{Math.min(currentPage * itemsPerPage, filteredTimesheets.length)}</span> of <span className="font-medium text-foreground">{filteredTimesheets.length}</span> results
               </p>

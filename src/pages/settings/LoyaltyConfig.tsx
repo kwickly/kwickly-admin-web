@@ -139,7 +139,7 @@ export default function LoyaltyConfig() {
                         onChange={(e) => setWalletTopUp(e.target.checked)}
                         className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                       />
-                      <Label htmlFor="walletTopUp" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 h-full flex items-center py-3">
+                      <Label htmlFor="walletTopUp" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 min-w-0 h-full flex items-center py-3">
                         Enable In-App Wallet Top-Ups via Razorpay
                       </Label>
                     </div>
@@ -152,7 +152,7 @@ export default function LoyaltyConfig() {
                         onChange={(e) => setPartialDeduction(e.target.checked)}
                         className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                       />
-                      <Label htmlFor="partialDeduction" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 h-full flex items-center py-3">
+                      <Label htmlFor="partialDeduction" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 min-w-0 h-full flex items-center py-3">
                         Allow Partial Point Redemption during Checkout
                       </Label>
                     </div>

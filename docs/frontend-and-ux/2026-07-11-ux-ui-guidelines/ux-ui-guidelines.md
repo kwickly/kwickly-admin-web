@@ -79,6 +79,12 @@ Choosing between cards and tables is critical for a high-density SaaS platform.
   - Use consistent heights (e.g., standardizing card height in a grid).
   - Include quick actions directly on the card for efficiency.
 
+### Card Anatomy
+- **Spacing:** Internal spacing must be `p-6` (24px) for breathable design.
+- **Border Radius:** Border radius must be exactly `rounded-xl`. Do not use `rounded-lg` or `rounded-2xl` on cards.
+- **Visuals:** Avoid thick blocky top borders for branding; use avatar colors or subtle left accents if branding is required.
+- **Text Truncation:** Text wrapping in flex containers must use `flex-1 min-w-0` to enable proper `truncate` handling for long strings like domains or names.
+
 ## 7. Data Density: Landing Pages vs. Detail Views
 
 Industry best practices dictate a strategy of **Progressive Disclosure**—only showing the user what they need at that exact moment to prevent cognitive overload.

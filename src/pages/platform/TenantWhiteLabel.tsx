@@ -52,7 +52,7 @@ export default function TenantWhiteLabel() {
   };
 
   return (
-    <div className="flex-1 bg-card border border-border shadow-sm rounded-xl p-6 lg:max-w-3xl">
+    <div className="flex-1 min-w-0 bg-card border border-border shadow-sm rounded-xl p-6 lg:max-w-3xl">
       <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
         <div>
           <h3 className="text-xl font-bold text-foreground">

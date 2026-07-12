@@ -107,7 +107,7 @@ export default function MenuCategories() {
       {isCategoriesLoading ? (
         <TableSkeleton />
       ) : !categories || categories.length === 0 ? (
-        <div className="p-8 text-center text-muted-foreground bg-card rounded-xl border border-border">
+        <div className="p-6 text-center text-muted-foreground bg-card rounded-xl border border-border">
           <h3 className="text-lg font-medium text-foreground">No Categories</h3>
           <p className="mt-2">Use the "Create Category" button to add new categories.</p>
         </div>
@@ -116,7 +116,7 @@ export default function MenuCategories() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {categories.map((category) => (
               <div key={category.id} className="bg-card rounded-xl border border-border shadow-sm overflow-hidden flex flex-col">
-                <div className="p-4 flex-1 flex flex-col justify-between">
+                <div className="p-4 flex-1 min-w-0 flex flex-col justify-between">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="font-semibold text-lg text-foreground truncate" title={category.name}>{category.name}</h3>
                     <Badge variant={category.status ? 'outline' : 'destructive'} className="text-[10px] font-bold shrink-0">

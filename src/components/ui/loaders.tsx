@@ -28,7 +28,7 @@ export function GridCardSkeleton({ count = 4 }: { count?: number }) {
           <div className="p-5 flex flex-col h-full space-y-4">
             <div className="flex gap-4">
               <Skeleton className="h-12 w-12 rounded-xl" />
-              <div className="space-y-2 flex-1">
+              <div className="space-y-2 flex-1 min-w-0">
                 <Skeleton className="h-5 w-3/4 rounded-md" />
                 <Skeleton className="h-3 w-1/2 rounded-md" />
               </div>

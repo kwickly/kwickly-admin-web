@@ -179,7 +179,7 @@ export default function TenantBranding() {
           </div>
 
           {/* Form Container */}
-          <div className="flex-1 bg-card border border-border shadow-sm rounded-xl p-6">
+          <div className="flex-1 min-w-0 bg-card border border-border shadow-sm rounded-xl p-6">
             
             {activeTab === 'colors' && (
               <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
@@ -344,7 +344,7 @@ export default function TenantBranding() {
         </div>
 
         {/* Right Pane: Live Interactive Preview */}
-        <div className="flex-1 w-full relative">
+        <div className="flex-1 min-w-0 w-full relative">
           
           <div className="sticky top-24 rounded-2xl border border-border/60 bg-muted/20 shadow-md overflow-hidden theme-preview-container ring-1 ring-border/50 transition-all duration-300">
             {/* Mac OS Window Header */}

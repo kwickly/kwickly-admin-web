@@ -623,7 +623,7 @@ function SidebarMenuSkeleton({
         />
       )}
       <Skeleton
-        className="h-4 max-w-(--skeleton-width) flex-1"
+        className="h-4 max-w-(--skeleton-width) flex-1 min-w-0"
         data-sidebar="menu-skeleton-text"
         style={
           {

@@ -12,7 +12,7 @@ export function PaginationControls({ page, totalPages, onPageChange }: Paginatio
 
   return (
     <div className="flex items-center justify-between border-t border-border bg-background px-4 py-3 sm:px-6 mt-4 rounded-xl shadow-sm">
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+      <div className="hidden sm:flex sm:flex-1 min-w-0 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-muted-foreground">
             Showing page <span className="font-medium text-foreground">{page}</span> of{" "}

@@ -163,7 +163,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                 <Shield className="h-4 w-4" />
               </div>
             </div>
-            <div className="p-5 flex-1 flex flex-col justify-between space-y-6">
+            <div className="p-5 flex-1 min-w-0 flex flex-col justify-between space-y-6">
               <div className="space-y-3">
                 <p className="text-sm text-muted-foreground">
                   <span className="font-semibold text-foreground">{role.permissions.length}</span> active permissions
@@ -184,7 +184,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
               <div className="flex gap-2">
                 <Button 
                   variant="outline" 
-                  className="flex-1 text-primary border-primary/25 hover:bg-primary/10 cursor-pointer"
+                  className="flex-1 min-w-0 text-primary border-primary/25 hover:bg-primary/10 cursor-pointer"
                   onClick={() => {
                     setSelectedRoleId(role.id);
                     setIsDialogOpen(true);

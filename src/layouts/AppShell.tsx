@@ -140,7 +140,7 @@ export default function AppShell() {
                         disabled={isBranchesLoading || !branches || branches.length === 0}
                       >
                         <SelectTrigger className="h-11 text-xs bg-muted border-none shadow-none focus:ring-1 focus:ring-ring">
-                          <span className="line-clamp-1 flex-1 text-left">
+                          <span className="line-clamp-1 flex-1 min-w-0 text-left">
                             {branches?.find(b => b.id === selectedBranchId)?.name || "Select a branch"}
                           </span>
                         </SelectTrigger>
@@ -232,7 +232,7 @@ export default function AppShell() {
               </DropdownMenu>
             </div>
           </header>
-          <main className="flex-1 p-6 md:p-8 lg:p-10 overflow-y-auto">
+          <main className="flex-1 min-w-0 p-6 md:p-8 lg:p-10 overflow-y-auto">
             <div className="max-w-[1600px] mx-auto">
               <Outlet />
             </div>

@@ -105,7 +105,7 @@ export default function Orders() {
         </div>
       </div>
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-6 overflow-hidden">
+      <div className="flex-1 min-w-0 grid grid-cols-1 lg:grid-cols-4 gap-6 overflow-hidden">
         {columns.map((col) => (
           <div key={col.status} className={`flex flex-col rounded-xl border border-border bg-card/50 overflow-hidden`}>
             {/* Column Header */}
@@ -120,9 +120,9 @@ export default function Orders() {
             </div>
             
             {/* Column Body / Scrollable Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 min-w-0 overflow-y-auto p-4 space-y-4">
               {orders.filter(o => o.status === col.status).map((order) => (
-                <div key={order.id} className="bg-card rounded-lg p-4 border border-border shadow-sm hover:shadow-md transition-shadow cursor-grab">
+                <div key={order.id} className="bg-card rounded-xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow cursor-grab">
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <span className="font-bold text-lg text-foreground">#{order.id.slice(0, 6)}</span>

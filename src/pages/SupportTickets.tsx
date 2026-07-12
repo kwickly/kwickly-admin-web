@@ -102,7 +102,7 @@ export default function TenantSupportTickets() {
       ) : (
         <div className="grid gap-4">
           {filteredTickets?.map((ticket: any) => (
-            <div key={ticket.id} className="p-4 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors cursor-pointer flex justify-between items-center">
+            <div key={ticket.id} className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors cursor-pointer flex justify-between items-center">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <h3 className="font-semibold text-foreground">{ticket.subject}</h3>

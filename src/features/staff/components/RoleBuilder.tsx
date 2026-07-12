@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import { useAuthStore } from "@/store/useAuth";
 import { toast } from "sonner";
 
@@ -51,6 +52,9 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [newRoleName, setNewRoleName] = useState("");
   const [newRolePermissions, setNewRolePermissions] = useState<string[]>([]);
+  const [page, setPage] = useState(1);
+  const pageSize = 9; // 3x3 grid
+
 
   const currentUser = useAuthStore(state => state.user);
   const isPlatformOwner = currentUser?.role === 'platform_owner' || currentUser?.role === 'super_admin';
@@ -134,8 +138,10 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {roles?.map(role => (
+      {roles && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {roles.slice((page - 1) * pageSize, page * pageSize).map(role => (
           <div key={role.id} className="bg-card border border-border rounded-xl shadow-sm overflow-hidden flex flex-col hover:border-primary/40 transition-colors">
             <div className="p-5 border-b border-border bg-muted/20 flex justify-between items-start">
               <div>
@@ -198,8 +204,19 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
               </div>
             </div>
           </div>
-        ))}
-      </div>
+          ))}
+          </div>
+          {roles.length > pageSize && (
+            <div className="mt-4">
+              <PaginationControls
+                page={page}
+                totalPages={Math.ceil(roles.length / pageSize)}
+                onPageChange={setPage}
+              />
+            </div>
+          )}
+        </>
+      )}
 
       <Dialog open={!!deleteRoleId} onOpenChange={(open) => !open && setDeleteRoleId(null)}>
         <DialogContent>

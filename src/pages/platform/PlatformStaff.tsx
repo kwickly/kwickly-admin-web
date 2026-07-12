@@ -18,11 +18,14 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 export default function PlatformStaff() {
   const [staff, setStaff] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
 
   const fetchStaff = async () => {
     setIsLoading(true);
@@ -46,6 +49,9 @@ export default function PlatformStaff() {
       item.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.email?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  const totalPages = Math.ceil(filteredStaff.length / pageSize);
+  const paginatedStaff = filteredStaff.slice((page - 1) * pageSize, page * pageSize);
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -112,7 +118,7 @@ export default function PlatformStaff() {
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredStaff.map((member) => (
+                paginatedStaff.map((member) => (
                   <TableRow
                     key={member.id}
                     className="hover:bg-muted/50"
@@ -173,6 +179,15 @@ export default function PlatformStaff() {
               )}
             </TableBody>
           </Table>
+          {filteredStaff.length > pageSize && (
+            <div className="p-4 border-t border-border/50 bg-card">
+              <PaginationControls
+                page={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

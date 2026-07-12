@@ -11,7 +11,7 @@ export default function PlatformDashboard() {
 
   if (isLoading) {
     return (
-      <div className="space-y-8">
+      <div className="max-w-7xl mx-auto space-y-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -65,7 +65,7 @@ export default function PlatformDashboard() {
 
       {/* Premium KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-card backdrop-blur-md border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+        <Card className="bg-card border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-primary/5 blur-xl group-hover:bg-primary/10 transition-colors"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Tenants</CardTitle>
@@ -81,7 +81,7 @@ export default function PlatformDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-card backdrop-blur-md border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+        <Card className="bg-card border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-[var(--chart-2)]/5 blur-xl group-hover:bg-[var(--chart-2)]/10 transition-colors"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Platform Users</CardTitle>
@@ -97,7 +97,7 @@ export default function PlatformDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-card backdrop-blur-md border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+        <Card className="bg-card border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-[var(--chart-3)]/5 blur-xl group-hover:bg-[var(--chart-3)]/10 transition-colors"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Orders</CardTitle>
@@ -113,7 +113,7 @@ export default function PlatformDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-card backdrop-blur-md border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+        <Card className="bg-card border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-destructive/5 blur-xl group-hover:bg-destructive/10 transition-colors"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Platform GMV</CardTitle>
@@ -132,7 +132,7 @@ export default function PlatformDashboard() {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 bg-card backdrop-blur-md border-border shadow-sm relative overflow-hidden">
+        <Card className="lg:col-span-2 bg-card border-border shadow-sm relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-primary"></div>
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
@@ -162,7 +162,7 @@ export default function PlatformDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-card backdrop-blur-md border-border shadow-sm flex flex-col justify-between">
+        <Card className="bg-card border-border shadow-sm flex flex-col justify-between">
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
               <Building className="h-5 w-5 text-[var(--chart-2)]" />

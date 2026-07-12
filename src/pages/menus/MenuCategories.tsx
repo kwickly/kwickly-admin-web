@@ -90,7 +90,7 @@ export default function MenuCategories() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function MenuCategories() {
                 </div>
                 <div className="bg-muted/30 border-t border-border p-3 flex justify-end gap-2">
                   <Button
-                    size="sm"
+                    size="default"
                     variant="ghost"
                     onClick={() => handleEditClick(category)}
                     className="text-muted-foreground hover:text-foreground hover:bg-muted min-h-[44px] min-w-[44px]"
@@ -138,7 +138,7 @@ export default function MenuCategories() {
                     Edit
                   </Button>
                   <Button
-                    size="sm"
+                    size="default"
                     variant="ghost"
                     onClick={() => handleDeleteClick(category.id)}
                     className="text-destructive hover:text-destructive hover:bg-destructive/10 min-h-[44px] min-w-[44px]"

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CalendarDays, CheckCircle, XCircle } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuth';
 import { format } from 'date-fns';
+import { PaginationControls } from '@/components/ui/pagination-controls';
 import {
   useLeaves,
   useRequestLeave,
@@ -21,6 +22,11 @@ export default function StaffLeaves() {
   // State
   const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
   const [newLeave, setNewLeave] = useState({ leaveType: 'VACATION', startDate: '', endDate: '' });
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
+
+  const totalPages = Math.ceil((leaves?.length || 0) / pageSize);
+  const paginatedLeaves = (leaves || []).slice((page - 1) * pageSize, page * pageSize);
 
   const isManager = user?.roleDetails?.permissions?.includes('attendance:manage') || 
                     user?.role === 'platform_owner' || user?.role === 'tenant_owner' || user?.role === 'super_admin';
@@ -78,7 +84,7 @@ export default function StaffLeaves() {
                   <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">No leave requests found.</td>
                 </tr>
               ) : (
-                leaves?.map((leave) => (
+                paginatedLeaves.map((leave) => (
                   <tr key={leave.id} className="hover:bg-muted/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="font-medium text-foreground">
@@ -137,12 +143,15 @@ export default function StaffLeaves() {
             </tbody>
           </table>
         </div>
+        <div className="p-4 border-t border-border">
+          <PaginationControls page={page} totalPages={totalPages} onPageChange={setPage} />
+        </div>
       </div>
 
       {/* Leave Request Modal */}
       {isLeaveModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
-          <div className="bg-card w-full max-w-md rounded-xl shadow-xl overflow-hidden border border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/95">
+          <div className="bg-card w-full max-w-md rounded-xl shadow-sm overflow-hidden border border-border">
             <form onSubmit={handleRequestLeave}>
               <div className="p-6 border-b border-border">
                 <h3 className="text-lg font-semibold text-foreground">Request Leave</h3>

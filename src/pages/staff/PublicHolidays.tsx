@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, Plus, Trash2 } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuth';
 import { format } from 'date-fns';
+import { PaginationControls } from '@/components/ui/pagination-controls';
 import {
   usePublicHolidays,
   useDeclareHoliday,
@@ -21,6 +22,11 @@ export default function PublicHolidays() {
   // State
   const [isHolidayModalOpen, setIsHolidayModalOpen] = useState(false);
   const [newHoliday, setNewHoliday] = useState({ name: '', date: '' });
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
+
+  const totalPages = Math.ceil((holidays?.length || 0) / pageSize);
+  const paginatedHolidays = (holidays || []).slice((page - 1) * pageSize, page * pageSize);
 
   const isManager = user?.roleDetails?.permissions?.includes('attendance:manage') || 
                     user?.role === 'platform_owner' || user?.role === 'tenant_owner' || user?.role === 'super_admin';
@@ -78,7 +84,7 @@ export default function PublicHolidays() {
                   <td colSpan={3} className="px-6 py-8 text-center text-muted-foreground">No public holidays declared.</td>
                 </tr>
               ) : (
-                holidays?.map((holiday) => (
+                paginatedHolidays.map((holiday) => (
                   <tr key={holiday.id} className="hover:bg-muted/50 transition-colors">
                     <td className="px-6 py-4 font-medium text-foreground flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-primary/70" />
@@ -104,12 +110,15 @@ export default function PublicHolidays() {
             </tbody>
           </table>
         </div>
+        <div className="p-4 border-t border-border">
+          <PaginationControls page={page} totalPages={totalPages} onPageChange={setPage} />
+        </div>
       </div>
 
       {/* Declare Holiday Modal */}
       {isHolidayModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
-          <div className="bg-card w-full max-w-md rounded-xl shadow-xl overflow-hidden border border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/95">
+          <div className="bg-card w-full max-w-md rounded-xl shadow-sm overflow-hidden border border-border">
             <form onSubmit={handleDeclareHoliday}>
               <div className="p-6 border-b border-border">
                 <h3 className="text-lg font-semibold text-foreground">Declare Public Holiday</h3>

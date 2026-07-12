@@ -361,7 +361,7 @@ export default function PlatformTenants() {
 
       {/* DETAILED INFO MODAL */}
       <Dialog open={viewOpen} onOpenChange={setViewOpen}>
-        <DialogContent className="sm:max-w-[500px] bg-card border border-border p-0 overflow-hidden shadow-xl rounded-2xl">
+        <DialogContent className="sm:max-w-[500px] bg-card border border-border p-0 overflow-hidden shadow-sm rounded-2xl">
           {viewTenant && (
             <>
               {/* Flat brand accent bar — no gradient, no blur */}

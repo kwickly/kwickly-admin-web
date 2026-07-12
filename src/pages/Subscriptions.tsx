@@ -388,7 +388,7 @@ export default function Subscriptions() {
                 <Can perform="subscriptions:manage">
                   <div className="flex gap-1">
                     <Button
-                      size="sm"
+                      size="default"
                       variant="ghost"
                       onClick={() => handleEditClick(plan)}
                       className="h-7 w-7 p-0 text-muted-foreground hover:bg-muted"

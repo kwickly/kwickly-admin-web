@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useAuditLogs } from '@/hooks/api/useAuditLogs';
+import { PaginationControls } from '@/components/ui/pagination-controls';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -6,7 +8,11 @@ import { Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function AuditLogs() {
-  const { data: logs, loading, error } = useAuditLogs();
+  const [page, setPage] = useState(1);
+  const { data: response, isLoading: loading, error } = useAuditLogs(page, 20);
+
+  const logs = response?.data || [];
+  const meta = response?.meta;
 
   return (
     <div className="p-4 md:p-8 space-y-6 max-w-7xl mx-auto">
@@ -27,7 +33,7 @@ export default function AuditLogs() {
               <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </div>
           ) : error ? (
-            <div className="text-destructive text-center py-8">{error}</div>
+            <div className="text-destructive text-center py-8">{error instanceof Error ? error.message : "An error occurred"}</div>
           ) : logs.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               No audit logs found.
@@ -85,6 +91,16 @@ export default function AuditLogs() {
                   ))}
                 </TableBody>
               </Table>
+            </div>
+          )}
+          
+          {meta && (
+            <div className="mt-4 border-t border-border pt-4">
+              <PaginationControls 
+                page={meta.page} 
+                totalPages={meta.totalPages} 
+                onPageChange={setPage} 
+              />
             </div>
           )}
         </CardContent>

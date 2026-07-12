@@ -122,7 +122,7 @@ export default function TenantAnalytics() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-300">
+    <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
       
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -216,7 +216,7 @@ export default function TenantAnalytics() {
                   <div className="flex justify-between items-center pt-3 border-t border-border/50">
                     <span className="text-xs text-muted-foreground">Rec. Price: <strong className="text-foreground">₹{combo.recommendedPrice}</strong></span>
                     <Button
-                      size="sm"
+                      size="default"
                       onClick={() => handleOpenAdoptCombo(combo)}
                       className="h-7 text-xs px-3.5 shadow-sm"
                     >
@@ -274,7 +274,7 @@ export default function TenantAnalytics() {
                     </TableCell>
                     <TableCell className="text-right">
                       <Button
-                        size="sm"
+                        size="default"
                         variant="outline"
                         onClick={() => handleOpenPromo(cust)}
                         className="text-xs h-8 hover:bg-primary/10 hover:text-primary transition-colors"

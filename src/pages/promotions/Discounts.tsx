@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import {
   Dialog,
   DialogContent,
@@ -41,6 +42,8 @@ export default function Discounts() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState("ALL");
   const [filterType, setFilterType] = useState("ALL");
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
 
   const filteredCoupons = coupons.filter((coupon) => {
     if (filterStatus === "ACTIVE" && !coupon.isActive) return false;
@@ -49,6 +52,9 @@ export default function Discounts() {
       return false;
     return true;
   });
+
+  const totalPages = Math.ceil(filteredCoupons.length / pageSize);
+  const paginatedCoupons = filteredCoupons.slice((page - 1) * pageSize, page * pageSize);
 
   useEffect(() => {
     fetchCoupons();
@@ -266,7 +272,7 @@ export default function Discounts() {
               <TableHeader className="bg-muted/50">
                 <TableRow>
                   <TableHead>Code</TableHead>
-                  <TableHead>Discount</TableHead>
+                  <TableHead className="text-right">Discount</TableHead>
                   <TableHead>Min. Order</TableHead>
                   <TableHead>Usage</TableHead>
                   <TableHead>Status</TableHead>
@@ -292,7 +298,7 @@ export default function Discounts() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredCoupons.map((coupon) => (
+                  paginatedCoupons.map((coupon) => (
                     <TableRow key={coupon.id} className="hover:bg-muted/50">
                       <TableCell className="font-bold text-primary">
                         {coupon.code}
@@ -352,6 +358,16 @@ export default function Discounts() {
               </TableBody>
             </Table>
           </div>
+          
+          {filteredCoupons.length > pageSize && (
+            <div className="mt-4">
+              <PaginationControls
+                page={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

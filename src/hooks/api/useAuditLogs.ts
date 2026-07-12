@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import type { PaginatedResponse } from './usePlatform';
 
 export interface AuditLog {
   id: string;
@@ -17,26 +18,13 @@ export interface AuditLog {
   } | null;
 }
 
-export function useAuditLogs() {
-  const [data, setData] = useState<AuditLog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchLogs = async (limit: number = 50, offset: number = 0) => {
-    try {
-      setLoading(true);
-      const response = await api.get(`/tenant/audit-logs?limit=${limit}&offset=${offset}`);
-      setData(response.data.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch audit logs');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchLogs();
-  }, []);
-
-  return { data, loading, error, refetch: fetchLogs };
+export function useAuditLogs(page: number = 1, limit: number = 20) {
+  return useQuery({
+    queryKey: ['tenant', 'audit-logs', page, limit],
+    queryFn: async (): Promise<PaginatedResponse<AuditLog>> => {
+      const offset = (page - 1) * limit;
+      const { data } = await api.get(`/tenant/audit-logs?limit=${limit}&offset=${offset}`);
+      return data;
+    },
+  });
 }

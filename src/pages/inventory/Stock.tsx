@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 import { useInventoryStock, useAdjustStock } from "@/hooks/api/useInventory";
 import { useBranchStore } from "@/store/useBranch";
@@ -34,6 +35,8 @@ export default function Stock() {
   const [selectedMaterial, setSelectedMaterial] = useState<any | null>(null);
   const [filterUOM, setFilterUOM] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
   
   // Form state
   const [adjustType, setAdjustType] = useState("CREDIT");
@@ -50,6 +53,9 @@ export default function Stock() {
     if (searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
   });
+
+  const totalPages = Math.ceil(filteredMaterials.length / pageSize);
+  const paginatedMaterials = filteredMaterials.slice((page - 1) * pageSize, page * pageSize);
 
   const handleStockAdjustment = (e: React.FormEvent) => {
     e.preventDefault();
@@ -222,7 +228,7 @@ export default function Stock() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredMaterials.map((item) => (
+                  paginatedMaterials.map((item) => (
                     <TableRow key={item.id} className="hover:bg-muted/50">
                       <TableCell className="font-medium text-foreground">
                         {item.name}
@@ -255,6 +261,14 @@ export default function Stock() {
                 )}
               </TableBody>
             </Table>
+          </div>
+          
+          <div className="mt-4">
+            <PaginationControls 
+              page={page} 
+              totalPages={totalPages} 
+              onPageChange={setPage} 
+            />
           </div>
         </CardContent>
       </Card>

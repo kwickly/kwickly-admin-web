@@ -51,7 +51,7 @@ export default function PlatformAuditLogs() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <ScrollText className="h-6 w-6 text-primary" />
@@ -93,8 +93,7 @@ export default function PlatformAuditLogs() {
                   <TableHead>Status</TableHead>
                   <TableHead>Admin User</TableHead>
                   <TableHead>Tenant Context</TableHead>
-                  <TableHead>Device/Browser</TableHead>
-                  <TableHead className="text-right">IP Address</TableHead>
+                  <TableHead className="text-right">Client Details</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -136,26 +135,28 @@ export default function PlatformAuditLogs() {
                         {log.tenantName}
                       </Badge>
                     </TableCell>
-                    <TableCell>
-                      {log.userAgent ? (
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger className="cursor-help text-left">
-                              <div className="max-w-[150px] truncate text-xs text-muted-foreground font-mono">
-                                {log.userAgent}
-                              </div>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p className="max-w-xs text-xs font-mono break-words">{log.userAgent}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      ) : (
-                        <span className="text-muted-foreground text-xs">-</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right font-mono text-xs text-muted-foreground">
-                      {log.ipAddress || "Local"}
+                    <TableCell className="text-right">
+                      <div className="flex flex-col items-end gap-1">
+                        <span className="font-mono text-[10px] text-foreground font-semibold bg-muted px-1.5 py-0.5 rounded">
+                          {log.ipAddress || "Local"}
+                        </span>
+                        {log.userAgent ? (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger className="cursor-help">
+                                <div className="max-w-[120px] truncate text-[10px] text-muted-foreground font-mono text-right">
+                                  {log.userAgent}
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent side="left">
+                                <p className="max-w-xs text-xs font-mono break-words">{log.userAgent}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        ) : (
+                          <span className="text-muted-foreground text-xs">-</span>
+                        )}
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -3,10 +3,13 @@ import { CreditCard, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 export default function WalletTransactions() {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
 
   useEffect(() => {
     // In a real scenario, this would fetch from the backend:
@@ -21,6 +24,9 @@ export default function WalletTransactions() {
       setIsLoading(false);
     }, 1000);
   }, []);
+
+  const totalPages = Math.ceil(transactions.length / pageSize);
+  const paginatedTransactions = transactions.slice((page - 1) * pageSize, page * pageSize);
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -67,7 +73,7 @@ export default function WalletTransactions() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  transactions.map((tx) => (
+                  paginatedTransactions.map((tx) => (
                     <TableRow key={tx.id} className="hover:bg-muted/50">
                       <TableCell className="font-medium text-foreground">
                         {new Date(tx.date).toLocaleDateString()} {new Date(tx.date).toLocaleTimeString()}
@@ -100,6 +106,12 @@ export default function WalletTransactions() {
               </TableBody>
             </Table>
           </div>
+          
+          <PaginationControls 
+            page={page} 
+            totalPages={totalPages} 
+            onPageChange={setPage} 
+          />
         </CardContent>
       </Card>
     </div>

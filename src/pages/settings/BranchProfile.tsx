@@ -52,7 +52,7 @@ export default function BranchProfile() {
             <FormSkeleton />
           ) : (
             <>
-              <div className="space-y-4 max-w-xl">
+              <div className="max-w-7xl mx-auto space-y-4 max-w-xl">
                 <div className="space-y-4">
                   <label htmlFor="name" className="text-sm font-medium text-foreground flex items-center gap-2">
                     <Store className="h-4 w-4 text-muted-foreground" />

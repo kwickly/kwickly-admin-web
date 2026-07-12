@@ -81,7 +81,7 @@ function StatCard({
 function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-popover border border-border rounded-lg px-4 py-3 shadow-xl text-sm">
+    <div className="bg-popover border border-border rounded-lg px-4 py-3 shadow-sm text-sm">
       <p className="font-semibold text-foreground mb-1">{label}</p>
       {payload.map((p: any) => (
         <p key={p.dataKey} style={{ color: p.color }} className="text-xs">
@@ -165,7 +165,7 @@ export default function RevenueAnalytics() {
   ];
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-300">
+    <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
       {/* ── Page Header ─────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>

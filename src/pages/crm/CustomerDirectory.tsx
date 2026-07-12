@@ -7,13 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCustomers } from "@/hooks/api/useCRM";
 import { Link } from "react-router-dom";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 export default function CustomerDirectory() {
-  const [page] = useState(1);
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  const { data, isLoading } = useCustomers(page, 50);
+  const { data, isLoading } = useCustomers(page, 20);
 
   const customers = data?.data || [];
+  const meta = data?.meta;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -106,7 +108,7 @@ export default function CustomerDirectory() {
                         <Link to={`/crm/customers/${customer.id}`}>
                           <Button 
                             variant="ghost" 
-                            size="sm" 
+                            size="default" 
                             className="hover:bg-primary/10 hover:text-primary"
                           >
                             Details
@@ -120,6 +122,16 @@ export default function CustomerDirectory() {
               </TableBody>
             </Table>
           </div>
+          
+          {meta && (
+            <div className="mt-4">
+              <PaginationControls 
+                page={meta.page} 
+                totalPages={meta.totalPages} 
+                onPageChange={setPage} 
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

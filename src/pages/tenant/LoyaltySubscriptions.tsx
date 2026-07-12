@@ -45,7 +45,7 @@ export default function LoyaltySubscriptions() {
                     <TableHead>Customer</TableHead>
                     <TableHead>Plan Details</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Balance</TableHead>
+                    <TableHead className="text-right">Balance</TableHead>
                     <TableHead>Expires At</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
@@ -83,7 +83,7 @@ export default function LoyaltySubscriptions() {
                         {sub.status === 'active' && (
                           <Button 
                             variant="outline" 
-                            size="sm" 
+                            size="default" 
                             className="min-h-[44px] min-w-[44px]"
                             onClick={() => handleStatusChange(sub.id, 'paused')}
                             title="Pause Subscription"
@@ -94,7 +94,7 @@ export default function LoyaltySubscriptions() {
                         {sub.status === 'paused' && (
                           <Button 
                             variant="outline" 
-                            size="sm" 
+                            size="default" 
                             className="min-h-[44px] min-w-[44px]"
                             onClick={() => handleStatusChange(sub.id, 'active')}
                             title="Resume Subscription"
@@ -105,7 +105,7 @@ export default function LoyaltySubscriptions() {
                         {(sub.status === 'active' || sub.status === 'paused') && (
                           <Button 
                             variant="destructive" 
-                            size="sm"
+                            size="default"
                             className="min-h-[44px] min-w-[44px]"
                             onClick={() => {
                               if (confirm('Are you sure you want to cancel this subscription?')) {

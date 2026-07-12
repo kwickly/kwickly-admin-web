@@ -8,12 +8,15 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 export default function Suppliers() {
   const [suppliers, setSuppliers] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
 
   const fetchSuppliers = async () => {
     setIsLoading(true);
@@ -68,6 +71,9 @@ export default function Suppliers() {
     item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
     (item.contactPerson && item.contactPerson.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  const totalPages = Math.ceil(filteredSuppliers.length / pageSize);
+  const paginatedSuppliers = filteredSuppliers.slice((page - 1) * pageSize, page * pageSize);
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -197,7 +203,7 @@ export default function Suppliers() {
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredSuppliers.map((supplier) => (
+                paginatedSuppliers.map((supplier) => (
                   <TableRow key={supplier.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
@@ -260,6 +266,15 @@ export default function Suppliers() {
               )}
             </TableBody>
           </Table>
+          {filteredSuppliers.length > pageSize && (
+            <div className="p-4 border-t border-border/50 bg-card">
+              <PaginationControls
+                page={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

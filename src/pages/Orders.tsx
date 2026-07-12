@@ -131,7 +131,7 @@ export default function Orders() {
                       </p>
                     </div>
                   </div>
-                  <ul className="space-y-2 mb-4">
+                  <ul className="max-w-7xl mx-auto space-y-2 mb-4">
                     {order.items?.map((item, idx) => (
                       <li key={idx} className="text-sm font-medium text-foreground flex items-start gap-2">
                         <span className="text-primary mt-0.5">•</span>

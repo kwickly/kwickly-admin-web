@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import {
   Dialog,
   DialogContent,
@@ -42,6 +43,11 @@ export default function DeviceManagement() {
   const [newDeviceName, setNewDeviceName] = useState("");
   const [newDeviceType, setNewDeviceType] = useState<"POS" | "KDS">("POS");
   const [pairingCode, setPairingCode] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
+
+  const totalPages = Math.ceil((devices?.length || 0) / pageSize);
+  const paginatedDevices = (devices || []).slice((page - 1) * pageSize, page * pageSize);
 
   const handleRegister = async () => {
     if (!selectedBranchId) {
@@ -202,7 +208,7 @@ export default function DeviceManagement() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {devices.map((device) => (
+              {paginatedDevices.map((device) => (
                 <TableRow key={device.id}>
                   <TableCell>
                     <div className="font-medium text-foreground">{device.name}</div>
@@ -228,7 +234,7 @@ export default function DeviceManagement() {
                     {device.status !== 'revoked' && (
                       <Button 
                         variant="ghost" 
-                        size="sm" 
+                        size="default" 
                         className="text-destructive hover:text-destructive hover:bg-destructive/10 dark:hover:bg-destructive/20"
                         onClick={() => handleRevoke(device.id)}
                         disabled={revokeDevice.isPending}
@@ -242,6 +248,16 @@ export default function DeviceManagement() {
               ))}
             </TableBody>
           </Table>
+          
+          {(devices?.length || 0) > pageSize && (
+            <div className="p-4 border-t border-border/50">
+              <PaginationControls
+                page={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

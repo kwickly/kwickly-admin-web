@@ -182,7 +182,7 @@ export default function TenantBranding() {
           <div className="flex-1 bg-card border border-border shadow-sm rounded-xl p-6">
             
             {activeTab === 'colors' && (
-              <div className="space-y-8 animate-in fade-in duration-300">
+              <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label className="text-sm font-semibold">Primary Hue</Label>
@@ -346,9 +346,9 @@ export default function TenantBranding() {
         {/* Right Pane: Live Interactive Preview */}
         <div className="flex-1 w-full relative">
           
-          <div className="sticky top-24 rounded-2xl border border-border/60 bg-muted/20 shadow-2xl overflow-hidden theme-preview-container ring-1 ring-border/50 transition-all duration-300">
+          <div className="sticky top-24 rounded-2xl border border-border/60 bg-muted/20 shadow-md overflow-hidden theme-preview-container ring-1 ring-border/50 transition-all duration-300">
             {/* Mac OS Window Header */}
-            <div className="border-b border-border/50 bg-background/50 backdrop-blur-sm p-3.5 flex items-center justify-between">
+            <div className="border-b border-border/50 bg-background/50 p-3.5 flex items-center justify-between">
               <div className="flex gap-2">
                 <div className="w-3 h-3 rounded-full bg-destructive/90 shadow-sm" />
                 <div className="w-3 h-3 rounded-full bg-amber-400/90 shadow-sm" />

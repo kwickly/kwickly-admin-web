@@ -281,7 +281,7 @@ export default function PlatformSettings() {
               <div className="flex items-center gap-3 px-1">
                 <Button 
                   variant="outline" 
-                  size="sm" 
+                  size="default" 
                   className="gap-2 h-8 text-xs font-semibold text-primary border-primary/20 hover:bg-primary/10 cursor-pointer" 
                   onClick={() => toast.info("Test email dispatched to your admin account.")}
                 >

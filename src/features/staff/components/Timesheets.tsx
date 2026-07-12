@@ -195,7 +195,6 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                     {record.status === 'PENDING' ? (
                       <div className="flex justify-end gap-2">
                         <Button
-                          size="sm"
                           onClick={() => {
                             setActionModal({ isOpen: true, type: 'APPROVED', recordId: record.id });
                             setRemark("");
@@ -206,7 +205,6 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                           <Check className="h-3.5 w-3.5" /> Approve
                         </Button>
                         <Button
-                          size="sm"
                           variant="destructive"
                           onClick={() => {
                             setActionModal({ isOpen: true, type: 'REJECTED', recordId: record.id });

@@ -29,10 +29,10 @@ export function PWABadge() {
           <span>New content available, click on reload button to update.</span>
         </div>
         <div className="flex justify-end gap-2">
-          <Button variant="outline" size="sm" onClick={close}>
+          <Button variant="outline" onClick={close}>
             Close
           </Button>
-          <Button size="sm" onClick={() => updateServiceWorker(true)}>
+          <Button onClick={() => updateServiceWorker(true)}>
             Reload
           </Button>
         </div>

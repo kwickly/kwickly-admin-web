@@ -114,21 +114,18 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
           {/* Action Overlay */}
           <div className="absolute inset-0 bg-slate-950/65 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2.5 backdrop-blur-[2px] rounded-xl duration-200">
             <Button
-              size="sm"
               onClick={() => handleViewClick(item)}
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-10 px-4"
             >
               View
             </Button>
             <Button
-              size="sm"
               onClick={() => handleEditClick(item)}
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-10 px-4"
             >
               Edit
             </Button>
             <Button
-              size="sm"
               variant="destructive"
               onClick={() => handleDeleteClick(item.id)}
               className="font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-10 px-4"

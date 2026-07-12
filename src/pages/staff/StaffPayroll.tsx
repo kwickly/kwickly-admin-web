@@ -162,7 +162,7 @@ export default function StaffPayroll() {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="h-8 text-foreground hover:bg-muted">
+                      <Button variant="ghost" size="default" className="h-8 text-foreground hover:bg-muted">
                         View Details <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </TableCell>

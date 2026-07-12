@@ -53,7 +53,7 @@ export default function Combos() {
             <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead>Combo Name</TableHead>
-                <TableHead>Price</TableHead>
+                <TableHead className="text-right">Price</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>

@@ -236,7 +236,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
       </Dialog>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0" showCloseButton={false}>
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0 no-scrollbar" showCloseButton={false}>
           <DialogHeader className="flex flex-row justify-between items-center px-6 pt-6 sticky top-0 bg-popover z-10 pb-4 border-b border-border">
             <div className="space-y-1 text-left">
               <DialogTitle className="flex items-center gap-2">

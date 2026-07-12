@@ -1,10 +1,9 @@
-import { Outlet, Navigate, Link, useNavigate, useLocation } from "react-router-dom"
+import { Outlet, Navigate, Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { useBranchStore } from "@/store/useBranch"
 import { useBranches } from "@/hooks/api/useSettings"
 import { useEffect, useState } from "react"
 import { CommandMenu } from "@/components/CommandMenu"
-import { PageBreadcrumbs } from "@/components/ui/breadcrumbs"
 import {
   Select,
   SelectContent,
@@ -40,7 +39,6 @@ import { getContrastColor, isValidHex } from "@/lib/colors";
 
 export default function AppShell() {
   const navigate = useNavigate();
-  const location = useLocation();
   const { 
     user, 
     logout, 
@@ -56,22 +54,6 @@ export default function AppShell() {
   const [commandOpen, setCommandOpen] = useState(false)
 
   const isPlatformAdmin = user?.role === 'platform_owner' || user?.role === 'super_admin';
-
-  // Generate dynamic breadcrumbs
-  const pathSegments = location.pathname.split('/').filter(Boolean);
-  const breadcrumbs = pathSegments.map((segment, index) => {
-    const url = `/${pathSegments.slice(0, index + 1).join('/')}`;
-    const title = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
-    return { label: title, href: url };
-  });
-
-  const tab = new URLSearchParams(location.search).get("tab");
-  if (tab) {
-    breadcrumbs.push({
-      label: tab.charAt(0).toUpperCase() + tab.slice(1).replace(/-/g, ' '),
-      href: location.pathname + location.search
-    });
-  }
 
   const activeBrandColor = impersonatedTenantId 
     ? impersonatedTenantBrandColor 
@@ -251,8 +233,7 @@ export default function AppShell() {
             </div>
           </header>
           <main className="flex-1 min-w-0 p-6 md:p-8 lg:p-10 overflow-y-auto">
-            <div className="max-w-7xl mx-auto w-full flex flex-col">
-              <PageBreadcrumbs items={breadcrumbs} className="mb-6 opacity-70 hover:opacity-100 transition-opacity" />
+            <div className="max-w-[1600px] mx-auto">
               <Outlet />
             </div>
           </main>

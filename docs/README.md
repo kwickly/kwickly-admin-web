@@ -26,6 +26,10 @@ Documentation mirroring schema decisions from the API repository that impact the
 ### 🧪 Testing & QA
 - [2026-06-17: Initial Testing](testing-and-qa/2026-06-17-initial-testing/testing-progress.md)
 
+### 📈 Progress & Planning
+Documentation acting as a high-level roadmap and project status tracker for the AI assistant and developers.
+- [2026-07-12: Project Roadmap & Epic Tracking](progress-and-planning/2026-07-12-epic-roadmap/epic-roadmap.md)
+
 ### 📦 Archive
 *(Superseded or deprecated decisions live in `docs/archive/`)*
 

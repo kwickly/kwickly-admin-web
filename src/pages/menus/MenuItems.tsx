@@ -3,6 +3,7 @@ import MenuGrid from "@/features/menus/components/MenuGrid";
 import CreateMenuItemSheet from "@/features/menus/components/CreateMenuItemSheet";
 import CreateCategoryDialog from "@/features/menus/components/CreateCategoryDialog";
 import CreateModifierDialog from "@/features/menus/components/CreateModifierDialog";
+import SyncMenuButton from "@/features/menus/components/SyncMenuButton";
 import { Can } from "@/components/shared/Can";
 import { useState } from "react";
 import { SearchInput } from "@/components/ui/search-input";
@@ -30,6 +31,7 @@ export default function MenuItems() {
               placeholder="Search items..." 
               className="w-56"
             />
+            <SyncMenuButton />
             <CreateCategoryDialog />
             <CreateModifierDialog />
             <CreateMenuItemSheet />

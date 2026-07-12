@@ -22,6 +22,14 @@ export interface MenuCategory {
   items?: MenuItem[];
 }
 
+export interface MenuItemVariant {
+  id: string;
+  menuItemId: string;
+  name: string;
+  priceDelta: string;
+  isDefault: boolean;
+}
+
 export interface MenuAddon {
   id: string;
   name: string;
@@ -205,3 +213,63 @@ export function useDeleteCategory() {
   });
 }
 
+
+
+// POST /v1/menus/items/:id/variants
+export function useCreateVariant() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async ({ itemId, branchId, payload }: { itemId: string; branchId?: string; payload: { name: string; priceDelta: string; isDefault?: boolean } }) => {
+      const { data } = await api.post(`/menus/items/${itemId}/variants`, payload, {
+        headers: { 'x-branch-id': branchId || 'default' }
+      });
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+
+// PATCH /v1/menus/variants/:id
+export function useUpdateVariant() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, branchId, payload }: { id: string; branchId?: string; payload: Partial<MenuItemVariant> }) => {
+      const { data } = await api.patch(`/menus/variants/${id}`, payload, {
+        headers: { 'x-branch-id': branchId || 'default' }
+      });
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+
+// DELETE /v1/menus/variants/:id
+export function useDeleteVariant() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, branchId }: { id: string; branchId?: string }) => {
+      const { data } = await api.delete(`/menus/variants/${id}`, {
+        headers: { 'x-branch-id': branchId || 'default' }
+      });
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['menus'] });
+    },
+  });
+}
+
+// POST /v1/menus/sync/:branchId
+export function useSyncMenu() {
+  return useMutation({
+    mutationFn: async (branchId: string) => {
+      const { data } = await api.post(`/menus/sync/${branchId}`);
+      return data;
+    },
+  });
+}

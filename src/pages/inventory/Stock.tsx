@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Package, Plus, Search, Settings2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -21,13 +21,29 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { useInventoryStock, useAdjustStock } from "@/hooks/api/useInventory";
+import { useBranchStore } from "@/store/useBranch";
+import { toast } from "sonner";
+
 export default function Stock() {
-  const [materials, setMaterials] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { selectedBranchId } = useBranchStore();
+  const { data: stockData = [], isLoading } = useInventoryStock(selectedBranchId);
+  const adjustStockMutation = useAdjustStock();
+
   const [isAdjustDialogOpen, setIsAdjustDialogOpen] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState<any | null>(null);
   const [filterUOM, setFilterUOM] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Form state
+  const [adjustType, setAdjustType] = useState("CREDIT");
+  const [quantity, setQuantity] = useState("");
+  const [reason, setReason] = useState("");
+
+  const materials = stockData.map(item => ({
+    ...item,
+    lastUpdated: new Date().toISOString() // Fallback if backend doesn't send it yet
+  }));
 
   const filteredMaterials = materials.filter(item => {
     if (filterUOM !== "ALL" && item.uom !== filterUOM) return false;
@@ -35,31 +51,34 @@ export default function Stock() {
     return true;
   });
 
-  useEffect(() => {
-    fetchStock();
-  }, []);
-
-  const fetchStock = () => {
-    setIsLoading(true);
-    // Simulating API Fetch: GET /api/v1/inventory/materials
-    // In a real app, the backend calculates currentStock = SUM(quantityChange) from stockLedgers
-    setTimeout(() => {
-      setMaterials([
-        { id: '1', name: 'Premium Flour', uom: 'KG', currentStock: 150.5, lastUpdated: new Date().toISOString() },
-        { id: '2', name: 'Mozzarella Cheese', uom: 'KG', currentStock: 25.0, lastUpdated: new Date(Date.now() - 3600000).toISOString() },
-        { id: '3', name: 'Pizza Boxes (Large)', uom: 'PIECE', currentStock: 500, lastUpdated: new Date(Date.now() - 86400000).toISOString() },
-        { id: '4', name: 'Tomato Sauce', uom: 'LITER', currentStock: 12.5, lastUpdated: new Date().toISOString() },
-        { id: '5', name: 'Olive Oil', uom: 'LITER', currentStock: 4.2, lastUpdated: new Date(Date.now() - 172800000).toISOString() },
-      ]);
-      setIsLoading(false);
-    }, 800);
-  };
-
   const handleStockAdjustment = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsAdjustDialogOpen(false);
-    // Refresh table after ledger entry is created
-    fetchStock();
+    if (!selectedBranchId || !selectedMaterial) return;
+
+    let qtyChange = quantity;
+    if (adjustType === "DEBIT") {
+      qtyChange = `-${quantity}`; // Make negative for debit
+    }
+
+    adjustStockMutation.mutate(
+      {
+        branchId: selectedBranchId,
+        rawMaterialId: selectedMaterial.id,
+        quantityChange: qtyChange,
+        reason: reason,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Stock adjusted successfully!");
+          setIsAdjustDialogOpen(false);
+          setQuantity("");
+          setReason("");
+        },
+        onError: () => {
+          toast.error("Failed to adjust stock.");
+        }
+      }
+    );
   };
 
   const openAdjustDialog = (material: any) => {
@@ -105,7 +124,7 @@ export default function Stock() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="adjustmentType" className="text-foreground">Adjustment Type</Label>
-                <Select defaultValue="CREDIT">
+                <Select value={adjustType} onValueChange={setAdjustType}>
                   <SelectTrigger className="h-11 bg-transparent border-border">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
@@ -118,12 +137,12 @@ export default function Stock() {
 
               <div className="space-y-2">
                 <Label htmlFor="quantity" className="text-foreground">Quantity ({selectedMaterial?.uom})</Label>
-                <Input id="quantity" type="number" step="0.01" placeholder="e.g. 10.5" className="h-11 bg-transparent border-border" required />
+                <Input id="quantity" type="number" step="0.01" value={quantity} onChange={e => setQuantity(e.target.value)} placeholder="e.g. 10.5" className="h-11 bg-transparent border-border" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="reason" className="text-foreground">Reason / Reference</Label>
-                <Input id="reason" placeholder="e.g. PO-1024 Arrival, or Spilled" className="h-11 bg-transparent border-border" required />
+                <Input id="reason" value={reason} onChange={e => setReason(e.target.value)} placeholder="e.g. PO-1024 Arrival, or Spilled" className="h-11 bg-transparent border-border" required />
               </div>
             </div>
             
@@ -132,8 +151,8 @@ export default function Stock() {
             </div>
 
             <div className="pt-2 flex justify-end">
-              <Button type="submit" className="h-11 w-full">
-                Submit Ledger Entry
+              <Button type="submit" className="h-11 w-full" disabled={adjustStockMutation.isPending}>
+                {adjustStockMutation.isPending ? "Submitting..." : "Submit Ledger Entry"}
               </Button>
             </div>
           </form>

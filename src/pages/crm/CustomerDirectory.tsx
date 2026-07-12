@@ -107,7 +107,7 @@ export default function CustomerDirectory() {
                       <TableCell className="text-right">
                         <Link to={`/crm/customers/${customer.id}`}>
                           <Button 
-                            variant="ghost" 
+                            variant="outline" 
                             size="default" 
                             className="hover:bg-primary/10 hover:text-primary"
                           >

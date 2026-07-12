@@ -250,7 +250,7 @@ export default function PayrollRunDetails() {
                   <TableCell className="text-center">
                     {run.status === "DRAFT" ? (
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="icon"
                         className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/10"
                         onClick={() =>

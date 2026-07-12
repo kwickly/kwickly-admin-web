@@ -233,7 +233,7 @@ export default function DeviceManagement() {
                   <TableCell className="text-right">
                     {device.status !== 'revoked' && (
                       <Button 
-                        variant="ghost" 
+                        variant="outline" 
                         size="default" 
                         className="text-destructive hover:text-destructive hover:bg-destructive/10 dark:hover:bg-destructive/20"
                         onClick={() => handleRevoke(device.id)}

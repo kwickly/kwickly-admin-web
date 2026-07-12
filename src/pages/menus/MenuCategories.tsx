@@ -130,7 +130,7 @@ export default function MenuCategories() {
                 <div className="bg-muted/30 border-t border-border p-3 flex justify-end gap-2">
                   <Button
                     size="default"
-                    variant="ghost"
+                    variant="outline"
                     onClick={() => handleEditClick(category)}
                     className="text-muted-foreground hover:text-foreground hover:bg-muted min-h-[44px] min-w-[44px]"
                   >
@@ -139,7 +139,7 @@ export default function MenuCategories() {
                   </Button>
                   <Button
                     size="default"
-                    variant="ghost"
+                    variant="outline"
                     onClick={() => handleDeleteClick(category.id)}
                     className="text-destructive hover:text-destructive hover:bg-destructive/10 min-h-[44px] min-w-[44px]"
                   >

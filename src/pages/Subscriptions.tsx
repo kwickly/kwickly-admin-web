@@ -389,7 +389,7 @@ export default function Subscriptions() {
                   <div className="flex gap-1">
                     <Button
                       size="default"
-                      variant="ghost"
+                      variant="outline"
                       onClick={() => handleEditClick(plan)}
                       className="h-7 w-7 p-0 text-muted-foreground hover:bg-muted"
                     >

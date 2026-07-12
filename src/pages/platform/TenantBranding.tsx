@@ -400,7 +400,7 @@ export default function TenantBranding() {
                     <Button className="shadow-sm h-10 px-5 transition-transform active:scale-95">Primary Action</Button>
                     <Button variant="secondary" className="shadow-sm h-10 px-5 transition-transform active:scale-95">Secondary</Button>
                     <Button variant="outline" className="shadow-sm bg-background h-10 px-5 transition-transform active:scale-95">Outline</Button>
-                    <Button variant="ghost" className="h-10 px-5">Ghost Style</Button>
+                    <Button variant="outline" className="h-10 px-5">Ghost Style</Button>
                   </div>
 
                   <div className="space-y-2.5 pt-6 border-t border-border/50">

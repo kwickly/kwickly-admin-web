@@ -257,7 +257,7 @@ export default function Suppliers() {
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" className="h-11 px-4 text-muted-foreground hover:text-primary">
+                      <Button variant="outline" className="h-11 px-4 text-muted-foreground hover:text-primary">
                         Edit
                       </Button>
                     </TableCell>

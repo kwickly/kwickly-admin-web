@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { PaginationControls } from "@/components/ui/pagination-controls";
 import { useAuthStore } from "@/store/useAuth";
 import { toast } from "sonner";
@@ -256,13 +256,6 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
             </div>
             <div className="flex items-center gap-3">
               <Button
-                onClick={handleSave}
-                disabled={updateRolePermissionsMutation.isPending || isLoading || !selectedRoleId}
-                className="bg-primary hover:bg-primary/95 text-primary-foreground flex items-center gap-2 h-9 cursor-pointer"
-              >
-                <Save className="h-4 w-4" /> Save Configuration
-              </Button>
-              <Button
                 variant="ghost"
                 size="icon"
                 className="h-9 w-9 cursor-pointer text-muted-foreground hover:bg-muted"
@@ -321,6 +314,17 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
               </div>
             ))}
           </div>
+
+          <DialogFooter className="m-0 mt-0 sticky bottom-0 bg-popover z-10 p-4 px-6 border-t border-border rounded-none rounded-b-lg">
+            <Button variant="outline" className="h-9 cursor-pointer" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+            <Button
+              onClick={handleSave}
+              disabled={updateRolePermissionsMutation.isPending || isLoading || !selectedRoleId}
+              className="bg-primary hover:bg-primary/95 text-primary-foreground flex items-center gap-2 h-9 cursor-pointer"
+            >
+              <Save className="h-4 w-4" /> Save Configuration
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 

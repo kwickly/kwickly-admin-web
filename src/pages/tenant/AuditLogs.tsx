@@ -4,7 +4,8 @@ import { PaginationControls } from '@/components/ui/pagination-controls';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ShieldAlert } from 'lucide-react';
+import { PageHeader } from '@/components/ui/page-header';
 import { format } from 'date-fns';
 
 export default function AuditLogs() {
@@ -15,13 +16,12 @@ export default function AuditLogs() {
   const meta = response?.meta;
 
   return (
-    <div className="p-4 md:p-8 space-y-6 max-w-7xl mx-auto">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-primary">Security & Audit Logs</h1>
-        <p className="text-muted-foreground mt-2">
-          Track staff actions and security events across your restaurant.
-        </p>
-      </div>
+    <div className="w-full space-y-6 max-w-7xl mx-auto">
+      <PageHeader 
+        title="Security & Audit Logs" 
+        description="Track staff actions and security events across your restaurant."
+        icon={ShieldAlert}
+      />
 
       <Card>
         <CardHeader>

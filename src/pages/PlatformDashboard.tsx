@@ -3,6 +3,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, AreaChart, Area, Car
 import { usePlatformMetrics } from "@/hooks/api/usePlatform";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardKPISkeleton, ChartSkeleton } from "@/components/ui/loaders";
+import { PageHeader } from "@/components/ui/page-header";
 
 const COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)'];
 
@@ -11,18 +12,12 @@ export default function PlatformDashboard() {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-              <LayoutDashboard className="h-6 w-6 text-primary" />
-              Platform Overview
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Monitor global SaaS subscriptions, platform orders, and system-wide performance.
-            </p>
-          </div>
-        </div>
+      <div className="w-full space-y-8">
+        <PageHeader 
+          title="Platform Overview" 
+          description="Monitor global SaaS subscriptions, platform orders, and system-wide performance."
+          icon={LayoutDashboard}
+        />
         <DashboardKPISkeleton />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2"><ChartSkeleton /></div>
@@ -50,18 +45,12 @@ export default function PlatformDashboard() {
   ];
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <LayoutDashboard className="h-6 w-6 text-primary" />
-            Platform Overview
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Monitor global SaaS subscriptions, platform orders, and system-wide performance.
-          </p>
-        </div>
-      </div>
+    <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+      <PageHeader 
+        title="Platform Overview" 
+        description="Monitor global SaaS subscriptions, platform orders, and system-wide performance."
+        icon={LayoutDashboard}
+      />
 
       {/* Premium KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

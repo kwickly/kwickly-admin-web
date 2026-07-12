@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {
-  Settings, Mail, Globe, ShieldAlert, Layers,
+  Mail, Globe, ShieldAlert, Layers,
   Lock, ExternalLink, CheckCircle2, AlertTriangle, Save,
   Send, Wifi, Database, Cpu, BrainCircuit, Users, ShoppingBag,
   BarChart3, Megaphone, Package, MonitorCheck, Fingerprint,
@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "react-router-dom";
+import { PageHeader } from "@/components/ui/page-header";
 
 type TabId = "identity" | "smtp" | "features" | "plans" | "danger";
 
@@ -70,20 +71,25 @@ export default function PlatformSettings() {
     toast.success("Settings saved successfully");
   };
 
-  return (
-    <div className="max-w-7xl mx-auto flex flex-col h-[calc(100vh-170px)] animate-in fade-in slide-in-from-bottom-4 duration-500">
+  const getDescription = () => {
+    switch(tab) {
+      case "identity": return "Public-facing details shown in emails, footers, and legal pages.";
+      case "smtp": return "Outbound mailer config. All system notifications route through this.";
+      case "features": return "Toggle platform modules on or off for all tenants simultaneously.";
+      case "plans": return "Resource quotas enforced per subscription tier at object creation.";
+      case "danger": return "These controls take effect immediately across all tenants and users.";
+      default: return "";
+    }
+  };
 
-      {/* ── Page Header ────────────────────────────────────────────────── */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 shrink-0">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Settings className="h-6 w-6 text-primary" />
-            Platform Settings
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Configure global identity, email delivery, module access, and plan quotas.
-          </p>
-        </div>
+  return (
+    <div className="max-w-7xl mx-auto flex flex-col h-full w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+
+      <PageHeader 
+        title={activeNav.label} 
+        description={getDescription()} 
+        icon={activeNav.icon}
+      >
         <Button
           onClick={handleSave}
           disabled={saving}
@@ -94,39 +100,12 @@ export default function PlatformSettings() {
             : <Save className="h-4 w-4" />}
           {saving ? "Saving…" : "Save Changes"}
         </Button>
-      </div>
+      </PageHeader>
 
-      <div className="flex flex-col flex-1 min-w-0 min-h-0 gap-6">
+      <div className="flex flex-col flex-1 min-w-0 min-h-0">
 
         {/* ── Content Area ────────────────────────────────────────────── */}
         <div className="flex-1 min-w-0 space-y-5 h-full overflow-y-auto no-scrollbar pb-12">
-
-          {/* Section banner */}
-          <div className={cn(
-            "rounded-xl p-5 border relative overflow-hidden shadow-sm",
-            activeNav.isDanger
-              ? "bg-destructive/5 border-destructive/20"
-              : "bg-card border-border"
-          )}>
-            <div className="relative flex items-center gap-4">
-              <div className={cn(
-                "h-12 w-12 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0", 
-                activeNav.isDanger ? "bg-destructive/10" : "bg-primary/10"
-              )}>
-                <activeNav.icon className={cn("h-5 w-5", activeNav.isDanger ? "text-destructive" : "text-primary")} />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-foreground tracking-tight">{activeNav.label}</h2>
-                <p className="text-sm text-muted-foreground mt-0.5">
-                  {tab === "identity" && "Public-facing details shown in emails, footers, and legal pages."}
-                  {tab === "smtp"     && "Outbound mailer config. All system notifications route through this."}
-                  {tab === "features" && "Toggle platform modules on or off for all tenants simultaneously."}
-                  {tab === "plans"    && "Resource quotas enforced per subscription tier at object creation."}
-                  {tab === "danger"   && "These controls take effect immediately across all tenants and users."}
-                </p>
-              </div>
-            </div>
-          </div>
 
           {/* ── IDENTITY ─────────────────────────────────────────────── */}
           {tab === "identity" && (

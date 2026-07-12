@@ -124,8 +124,8 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
           No timesheet records match your filters.
         </div>
       ) : (
-        <div className="space-y-4">
-          <div className="rounded-md border border-border bg-card overflow-hidden">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-x-auto">
             <Table>
               <TableHeader className="bg-muted/50">
                 <TableRow>
@@ -195,25 +195,26 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                     {record.status === 'PENDING' ? (
                       <div className="flex justify-end gap-2">
                         <Button
+                          variant="outline"
                           onClick={() => {
                             setActionModal({ isOpen: true, type: 'APPROVED', recordId: record.id });
                             setRemark("");
                           }}
                           disabled={updateTimesheetMutation.isPending}
-                          className="bg-success hover:bg-success/90 text-success-foreground flex items-center gap-1 h-8 px-2.5"
+                          className="flex items-center gap-1 h-8 px-2.5 hover:text-success hover:bg-success/10"
                         >
-                          <Check className="h-3.5 w-3.5" /> Approve
+                          <Check className="h-3.5 w-3.5 text-success" /> Approve
                         </Button>
                         <Button
-                          variant="destructive"
+                          variant="outline"
                           onClick={() => {
                             setActionModal({ isOpen: true, type: 'REJECTED', recordId: record.id });
                             setRemark("");
                           }}
                           disabled={updateTimesheetMutation.isPending}
-                          className="flex items-center gap-1 h-8 px-2.5"
+                          className="flex items-center gap-1 h-8 px-2.5 hover:text-destructive hover:bg-destructive/10"
                         >
-                          <X className="h-3.5 w-3.5" /> Reject
+                          <X className="h-3.5 w-3.5 text-destructive" /> Reject
                         </Button>
                       </div>
                     ) : (
@@ -227,7 +228,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
           </div>
           
           {totalPages > 1 && (
-            <div className="flex justify-between items-center bg-card border border-border p-6 rounded-xl shadow-sm mt-4">
+            <div className="flex justify-between items-center border-t border-border px-4 py-3 sm:px-6">
               <p className="text-sm text-muted-foreground">
                 Showing <span className="font-medium text-foreground">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="font-medium text-foreground">{Math.min(currentPage * itemsPerPage, filteredTimesheets.length)}</span> of <span className="font-medium text-foreground">{filteredTimesheets.length}</span> results
               </p>

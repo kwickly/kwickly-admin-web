@@ -11,16 +11,8 @@ export function PaginationControls({ page, totalPages, onPageChange }: Paginatio
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between border-t border-border bg-background px-4 py-3 sm:px-6 mt-4 rounded-xl shadow-sm">
-      <div className="hidden sm:flex sm:flex-1 min-w-0 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-muted-foreground">
-            Showing page <span className="font-medium text-foreground">{page}</span> of{" "}
-            <span className="font-medium text-foreground">{totalPages}</span>
-          </p>
-        </div>
-        <div>
-          <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+    <div className="flex items-center justify-end">
+      <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
             <Button
               variant="outline"
               className="rounded-l-md rounded-r-none border-r-0"
@@ -45,8 +37,6 @@ export function PaginationControls({ page, totalPages, onPageChange }: Paginatio
               <ChevronRight className="h-4 w-4" aria-hidden="true" />
             </Button>
           </nav>
-        </div>
-      </div>
     </div>
   );
 }

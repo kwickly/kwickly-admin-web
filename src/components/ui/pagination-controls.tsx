@@ -23,7 +23,7 @@ export function PaginationControls({ page, totalPages, onPageChange }: Paginatio
               <ChevronLeft className="h-4 w-4" aria-hidden="true" />
             </Button>
             
-            <div className="flex items-center px-4 border border-border bg-muted/50 text-sm font-semibold text-foreground">
+            <div className="flex items-center px-4 h-9 border border-border bg-muted/50 text-sm font-semibold text-foreground">
               {page}
             </div>
 

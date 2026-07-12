@@ -252,7 +252,9 @@ export default function AppShell() {
           </header>
           <main className="flex-1 min-w-0 p-6 md:p-8 lg:p-10 overflow-y-auto">
             <div className="max-w-[1600px] mx-auto">
-              <PageBreadcrumbs items={breadcrumbs} className="mb-6 opacity-70 hover:opacity-100 transition-opacity" />
+              <div className="max-w-7xl mx-auto w-full">
+                <PageBreadcrumbs items={breadcrumbs} className="mb-6 opacity-70 hover:opacity-100 transition-opacity" />
+              </div>
               <Outlet />
             </div>
           </main>

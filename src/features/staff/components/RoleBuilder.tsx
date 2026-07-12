@@ -1,4 +1,4 @@
-import { Shield, Save, Lock, Edit2, Trash2, Plus } from "lucide-react";
+import { Shield, Save, Lock, Edit2, Trash2, Plus, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRoles, useUpdateRolePermissions, usePlatformRoles, useUpdatePlatformRolePermissions, useDeleteRole, useDeletePlatformRole, useCreateRole, usePermissions } from "@/hooks/api/useStaff";
 import { Button } from "@/components/ui/button";
@@ -236,7 +236,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
       </Dialog>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0">
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0" showCloseButton={false}>
           <DialogHeader className="flex flex-row justify-between items-center px-6 pt-6 sticky top-0 bg-popover z-10 pb-4 border-b border-border">
             <div className="space-y-1 text-left">
               <DialogTitle className="flex items-center gap-2">
@@ -254,13 +254,23 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                 Turn modules on or off for this specific role.
               </p>
             </div>
-            <Button
-              onClick={handleSave}
-              disabled={updateRolePermissionsMutation.isPending || isLoading || !selectedRoleId}
-              className="bg-primary hover:bg-primary/95 text-primary-foreground flex items-center gap-2 h-9 cursor-pointer"
-            >
-              <Save className="h-4 w-4" /> Save Configuration
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={handleSave}
+                disabled={updateRolePermissionsMutation.isPending || isLoading || !selectedRoleId}
+                className="bg-primary hover:bg-primary/95 text-primary-foreground flex items-center gap-2 h-9 cursor-pointer"
+              >
+                <Save className="h-4 w-4" /> Save Configuration
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 cursor-pointer text-muted-foreground hover:bg-muted"
+                onClick={() => setIsDialogOpen(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </DialogHeader>
 
           <div className="space-y-6 px-6 pb-6 pt-4">

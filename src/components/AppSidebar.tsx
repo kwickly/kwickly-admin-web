@@ -78,6 +78,8 @@ const navGroups: NavGroup[] = [
         permission: "analytics:read",
         items: [
           { title: "Revenue Analytics", url: "/analytics/revenue", permission: "analytics:read" },
+          { title: "Staff Analytics", url: "/analytics/staff", permission: "analytics:read" },
+          { title: "Inventory Forecast", url: "/analytics/inventory", permission: "analytics:read" },
         ],
       },
     ]

@@ -27,6 +27,23 @@ export interface HourlySalesPoint {
   orders: number;
 }
 
+export interface StaffPerformancePoint {
+  id: string;
+  name: string;
+  role: string;
+  ordersProcessed: number;
+  revenueGenerated: number;
+}
+
+export interface InventoryForecastPoint {
+  id: string;
+  name: string;
+  uom: string;
+  currentStock: number;
+  avgDailyUsage: number;
+  daysRemaining: number;
+}
+
 // GET /v1/analytics/sales
 export function useDailySales(branchId: string, date: string) {
   return useQuery({
@@ -76,6 +93,34 @@ export function useHourlySales(branchId: string, days: number = 7) {
     queryFn: async (): Promise<HourlySalesPoint[]> => {
       const { data } = await api.get('/analytics/hourly-sales', {
         params: { branchId, days: days.toString() }
+      });
+      return data.data;
+    },
+    enabled: !!branchId,
+  });
+}
+
+// GET /v1/analytics/staff-performance
+export function useStaffPerformance(branchId: string, days: number = 30) {
+  return useQuery({
+    queryKey: ['analytics', 'staff-performance', branchId, days],
+    queryFn: async (): Promise<StaffPerformancePoint[]> => {
+      const { data } = await api.get('/analytics/staff-performance', {
+        params: { branchId, days: days.toString() }
+      });
+      return data.data;
+    },
+    enabled: !!branchId,
+  });
+}
+
+// GET /v1/analytics/inventory-forecast
+export function useInventoryForecast(branchId: string) {
+  return useQuery({
+    queryKey: ['analytics', 'inventory-forecast', branchId],
+    queryFn: async (): Promise<InventoryForecastPoint[]> => {
+      const { data } = await api.get('/analytics/inventory-forecast', {
+        params: { branchId }
       });
       return data.data;
     },

@@ -11,6 +11,7 @@ Deprecated or superseded decisions are moved to the `archive/` folder.
 Decisions regarding the core systems, RBAC, state management, and overarching platform architecture.
 - [2026-06-23: Core Architecture](architecture-and-infrastructure/2026-06-23-core-architecture/core-architecture.md)
 - [2026-07-11: RBAC Platform Architecture](architecture-and-infrastructure/2026-07-11-rbac-platform-architecture/rbac-platform-architecture.md)
+- [2026-07-16: API Client Integration](architecture-and-infrastructure/2026-07-16-api-client-integration/api-client-integration.md)
 
 ### 🎨 Frontend & UX
 Guidelines for UI/UX, styling, theming, and white-labeling configurations.
@@ -25,6 +26,7 @@ Documentation mirroring schema decisions from the API repository that impact the
 
 ### 🧪 Testing & QA
 - [2026-06-17: Initial Testing](testing-and-qa/2026-06-17-initial-testing/testing-progress.md)
+- [2026-07-16: End-to-End Testing Strategy](testing-and-qa/2026-07-16-e2e-testing-strategy/e2e-testing-strategy.md)
 
 ### 📈 Progress & Planning
 Documentation acting as a high-level roadmap and project status tracker for the AI assistant and developers.

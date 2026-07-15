@@ -18,16 +18,16 @@
 
 ## Upcoming Epics
 
-### Phase 6: Advanced Analytics & Reporting
+### Platform-M6: Advanced Analytics & Reporting
 **Goal:** Deep-dive dashboards for daily/weekly revenue trends, staff performance metrics, and inventory forecasting. Target: Admin Web analytics page.
 
-### Phase 7: Online Payments Integration (Razorpay)
+### Platform-M7: Online Payments Integration (Razorpay)
 **Goal:** Wire the checkout flow in `kwickly-client` to Razorpay orders API for live UPI/card payments. Webhook handler on `kwickly-api` to mark orders as `paid`.
 
-### Phase 8: Customer-Facing Mobile App (React Native)
+### Platform-M8: Customer-Facing Mobile App (React Native)
 **Goal:** Port the customer-facing storefront features into a native iOS/Android app with deep-link QR code support for table-scanning.
 
-### Phase 9: PWA & Push Notifications
+### Platform-M9: PWA & Push Notifications
 **Goal:** Dynamic `/manifest.json` route handler per tenant for "Add to Home Screen". Web Push via service workers for order-ready notifications.
 
 ## Next Action

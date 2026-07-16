@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useSupport } from '@/hooks/api/useSupport';
 import { formatDistanceToNow } from 'date-fns';
+import TicketThreadModal from '@/components/support/TicketThreadModal';
 
 export default function TenantSupportTickets() {
   const { useTenantTickets, useCreateTicket } = useSupport();
@@ -18,6 +19,7 @@ export default function TenantSupportTickets() {
   const [formData, setFormData] = useState({ subject: '', description: '', priority: 'MEDIUM', category: 'OTHER' });
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
+  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
 
   const filteredTickets = tickets?.filter((t: any) => {
     const matchesSearch = search === "" || t.subject.toLowerCase().includes(search.toLowerCase());
@@ -102,7 +104,11 @@ export default function TenantSupportTickets() {
       ) : (
         <div className="grid gap-4">
           {filteredTickets?.map((ticket: any) => (
-            <div key={ticket.id} className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors cursor-pointer flex justify-between items-center">
+            <div 
+              key={ticket.id} 
+              onClick={() => setSelectedTicketId(ticket.id)}
+              className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors cursor-pointer flex justify-between items-center"
+            >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <h3 className="font-semibold text-foreground">{ticket.subject}</h3>
@@ -211,6 +217,13 @@ export default function TenantSupportTickets() {
           </form>
         </DialogContent>
       </Dialog>
+
+      <TicketThreadModal 
+        ticketId={selectedTicketId} 
+        isOpen={!!selectedTicketId} 
+        onClose={() => setSelectedTicketId(null)} 
+        isPlatform={false}
+      />
     </div>
   );
 }

@@ -29,6 +29,7 @@ export function useOrders(branchId: string) {
     },
     enabled: !!branchId,
     refetchInterval: 5000, // Poll every 5s for live KDS updates until WebSockets are ready
+    staleTime: 0, // Never cache stale orders for the KDS
   });
 }
 

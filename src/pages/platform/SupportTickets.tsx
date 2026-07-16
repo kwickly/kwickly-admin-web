@@ -4,12 +4,14 @@ import { useSupport } from '@/hooks/api/useSupport';
 import { formatDistanceToNow } from 'date-fns';
 import { SearchInput } from "@/components/ui/search-input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import TicketThreadModal from '@/components/support/TicketThreadModal';
 
 export default function PlatformSupportTickets() {
   const { usePlatformTickets } = useSupport();
   const { data: tickets, isLoading } = usePlatformTickets();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
+  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
 
   const filteredTickets = tickets?.filter((t: any) => {
     const matchesSearch = search === "" || 
@@ -74,61 +76,74 @@ export default function PlatformSupportTickets() {
               </p>
             </div>
           ) : (
-            filteredTickets?.map((ticket: any) => (
-              <div key={ticket.id} className="p-4 hover:bg-muted/50 transition-colors cursor-pointer flex justify-between items-center group">
-                <div className="flex gap-4 items-start">
-                  <div className="mt-1">
-                    <div className={`h-2.5 w-2.5 rounded-full ${
-                      ticket.status === 'OPEN' ? 'bg-info' :
-                      ticket.status === 'IN_PROGRESS' ? 'bg-amber-500' :
-                      ticket.status === 'RESOLVED' ? 'bg-emerald-500' :
-                      'bg-muted-foreground'
-                    }`} />
+            <div className="grid divide-y divide-border">
+              {filteredTickets?.map((ticket: any) => (
+                <div 
+                  key={ticket.id} 
+                  onClick={() => setSelectedTicketId(ticket.id)}
+                  className="p-4 hover:bg-muted/50 transition-colors cursor-pointer flex justify-between items-center group"
+                >
+                  <div className="flex gap-4 items-start">
+                    <div className="mt-1">
+                      <div className={`h-2.5 w-2.5 rounded-full ${
+                        ticket.status === 'OPEN' ? 'bg-info' :
+                        ticket.status === 'IN_PROGRESS' ? 'bg-amber-500' :
+                        ticket.status === 'RESOLVED' ? 'bg-emerald-500' :
+                        'bg-muted-foreground'
+                      }`} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-semibold text-muted-foreground">#{ticket.id.split('-')[0].toUpperCase()}</span>
+                        <h4 className="font-medium text-foreground group-hover:text-primary transition-colors">
+                          {ticket.subject}
+                        </h4>
+                        <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-background text-muted-foreground border border-border uppercase tracking-wider">
+                          {ticket.category.replace('_', ' ')}
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-1 max-w-2xl">{ticket.description}</p>
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground/70">
+                        <span className="flex items-center gap-1 font-medium text-foreground/70">
+                          {ticket.tenant?.name || 'Unknown Tenant'}
+                        </span>
+                        <span className="flex items-center gap-1 text-muted-foreground">
+                          <Clock className="h-3.5 w-3.5" /> {formatDistanceToNow(new Date(ticket.createdAt), { addSuffix: true })}
+                        </span>
+                        <span className="flex items-center gap-1 text-muted-foreground">
+                          <MessageCircle className="h-3.5 w-3.5" /> {ticket.createdBy?.name || 'User'}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-muted-foreground">#{ticket.id.split('-')[0].toUpperCase()}</span>
-                      <h4 className="font-medium text-foreground group-hover:text-primary transition-colors">
-                        {ticket.subject}
-                      </h4>
-                      <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-background text-muted-foreground border border-border uppercase tracking-wider">
-                        {ticket.category.replace('_', ' ')}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground line-clamp-1 max-w-2xl">{ticket.description}</p>
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground/70">
-                      <span className="flex items-center gap-1 font-medium text-foreground/70">
-                        {ticket.tenant?.name || 'Unknown Tenant'}
-                      </span>
-                      <span className="flex items-center gap-1 text-muted-foreground">
-                        <Clock className="h-3.5 w-3.5" /> {formatDistanceToNow(new Date(ticket.createdAt), { addSuffix: true })}
-                      </span>
-                      <span className="flex items-center gap-1 text-muted-foreground">
-                        <MessageCircle className="h-3.5 w-3.5" /> {ticket.createdBy?.name || 'User'}
-                      </span>
-                    </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <span className={`px-2 py-1 text-[10px] font-bold rounded-md uppercase tracking-wider ${
+                      ticket.priority === 'URGENT' ? 'bg-destructive/10 text-destructive border border-destructive/20' :
+                      ticket.priority === 'HIGH' ? 'bg-warning/10 text-warning border border-warning/20' :
+                      ticket.priority === 'MEDIUM' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' :
+                      'bg-background text-foreground border border-border'
+                    }`}>
+                      {ticket.priority}
+                    </span>
+                    {ticket.assignedTo ? (
+                      <span className="text-xs text-muted-foreground">Assigned: {ticket.assignedTo.name}</span>
+                    ) : (
+                      <span className="text-xs text-muted-foreground/70 italic">Unassigned</span>
+                    )}
                   </div>
                 </div>
-                <div className="flex flex-col items-end gap-2">
-                  <span className={`px-2 py-1 text-[10px] font-bold rounded-md uppercase tracking-wider ${
-                    ticket.priority === 'URGENT' ? 'bg-destructive/10 text-destructive border border-destructive/20' :
-                    ticket.priority === 'HIGH' ? 'bg-warning/10 text-warning border border-warning/20' :
-                    ticket.priority === 'MEDIUM' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' :
-                    'bg-background text-foreground border border-border'
-                  }`}>
-                    {ticket.priority}
-                  </span>
-                  {ticket.assignedTo ? (
-                    <span className="text-xs text-muted-foreground">Assigned: {ticket.assignedTo.name}</span>
-                  ) : (
-                    <span className="text-xs text-muted-foreground/70 italic">Unassigned</span>
-                  )}
-                </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </div>
+
+      <TicketThreadModal 
+        ticketId={selectedTicketId} 
+        isOpen={!!selectedTicketId} 
+        onClose={() => setSelectedTicketId(null)} 
+        isPlatform={true}
+      />
     </div>
   );
 }

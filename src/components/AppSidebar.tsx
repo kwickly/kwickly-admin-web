@@ -26,6 +26,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarFooter,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -41,6 +42,7 @@ import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { hasPermission } from "@/lib/permissions";
 import { useAuthStore } from "@/store/useAuth";
+import { PushNotificationToggle } from "@/components/ui/PushNotificationToggle";
 import type { Permission } from "@/lib/permissions";
 
 interface NavItem {
@@ -419,6 +421,9 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
 
+      <SidebarFooter className="p-4 group-data-[collapsible=icon]:hidden">
+        <PushNotificationToggle />
+      </SidebarFooter>
 
       <SidebarRail />
     </Sidebar>

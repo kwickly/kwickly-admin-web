@@ -170,6 +170,7 @@ const navGroups: NavGroup[] = [
         permission: "billing:manage",
         items: [
           { title: "Branch Profile", url: "/settings/profile", permission: "billing:manage" },
+          { title: "Branch Operations", url: "/settings/operations", permission: "billing:manage" },
           { title: "Loyalty & Wallet", url: "/settings/loyalty", permission: "billing:manage" },
           { title: "Hardware & Devices", url: "/settings/devices", permission: "settings:manage" },
           { title: "Branding & Colors", url: "/settings/branding", permission: "billing:manage" },

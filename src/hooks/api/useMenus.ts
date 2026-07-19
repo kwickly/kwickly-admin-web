@@ -7,10 +7,33 @@ export interface MenuItem {
   name: string;
   price: string;
   description: string | null;
-  isVeg: boolean | null;
   status: 'AVAILABLE' | 'OUT_OF_STOCK' | 'HIDDEN' | null;
   categoryId: string;
   categoryName?: string;
+  
+  // Dietary
+  isVeg: boolean | null;
+  isJain: boolean | null;
+  isGlutenFree: boolean | null;
+  spiceLevel: number | null;
+
+  // Badges
+  isBestseller: boolean | null;
+  isChefSpecial: boolean | null;
+  isRestaurantSpecial: boolean | null;
+  isNew: boolean | null;
+  isPopular: boolean | null;
+  isLimitedEdition: boolean | null;
+  isHealthyChoice: boolean | null;
+
+  // Nutrition
+  calories: number | null;
+  servingSize: string | null;
+  ingredients: string[] | null;
+  allergens: string[] | null;
+  protein: string | null;
+  carbs: string | null;
+  fat: string | null;
 }
 
 export interface MenuCategory {

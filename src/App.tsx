@@ -38,6 +38,7 @@ import BranchProfile from '@/pages/settings/BranchProfile'
 import UserProfile from '@/pages/settings/UserProfile'
 import LoyaltyConfig from '@/pages/settings/LoyaltyConfig'
 import DeviceManagement from '@/pages/settings/DeviceManagement'
+import OperationalSettings from '@/pages/settings/OperationalSettings'
 import Combos from '@/pages/Combos'
 import Orders from '@/pages/Orders'
 import Ads from '@/pages/Ads'
@@ -178,6 +179,7 @@ function App() {
                   <Route path="/settings/user-profile" element={<UserProfile />} />
                   <Route path="/settings/loyalty" element={<LoyaltyConfig />} />
                   <Route path="/settings/devices" element={<DeviceManagement />} />
+                  <Route path="/settings/operations" element={<OperationalSettings />} />
                 </Route>
               </Route>
 

@@ -76,7 +76,7 @@ export default function InventoryAnalytics() {
                     </div>
                     
                     <div className="h-2 w-full bg-secondary overflow-hidden rounded-full">
-                      <div className={`h-full ${progressColor}`} style={{ width: \`\${progressValue}%\` }} />
+                      <div className={`h-full ${progressColor}`} style={{ width: `${progressValue}%` }} />
                     </div>
                     
                     <div className="flex justify-between text-xs text-muted-foreground">

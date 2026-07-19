@@ -18,6 +18,8 @@ Guidelines for UI/UX, styling, theming, and white-labeling configurations.
 - [2026-06-28: Theme System V2](frontend-and-ux/2026-06-28-theme-system-v2/theme-system-v2.md)
 - [2026-07-11: UX/UI Guidelines](frontend-and-ux/2026-07-11-ux-ui-guidelines/ux-ui-guidelines.md)
 - [2026-07-11: White Labeling and UI Refactor](frontend-and-ux/2026-07-11-white-labeling-and-ui-refactor/white-labeling-and-ui-refactor.md)
+- [2026-07-19: Order Modes & Billing Configuration UI](frontend-and-ux/2026-07-19-order-modes-and-billing-config/billing-and-modules-config.md)
+- [2026-07-19: Menu Item Management — Tags, Nutrition & Availability Admin UX](frontend-and-ux/2026-07-19-menu-item-enrichment-admin-ux/menu-item-admin-ux.md)
 
 ### 🗄️ Database & Schema
 Documentation mirroring schema decisions from the API repository that impact the frontend (e.g. Enums, Statuses).

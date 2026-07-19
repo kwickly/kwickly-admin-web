@@ -43,7 +43,8 @@ function getPlanBadgeClass(plan: string): string {
     case 'ENTERPRISE': return 'bg-primary/10 text-primary border-primary/20';
     case 'GROWTH':     return 'bg-success/10 text-success border-success/20';
     case 'STARTER':    return 'bg-info/10 text-info border-info/20';
-    case 'FREE':       return 'bg-muted text-muted-foreground border-border';
+    case 'BASIC':      return 'bg-muted text-muted-foreground border-border';
+    case 'CUSTOM':     return 'bg-warning/10 text-warning border-warning/20';
     default:           return 'bg-muted text-muted-foreground border-border';
   }
 }
@@ -68,7 +69,7 @@ export default function PlatformTenants() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [plan, setPlan] = useState<"FREE" | "STARTER" | "GROWTH" | "ENTERPRISE">("FREE");
+  const [plan, setPlan] = useState<"FREE" | "BASIC" | "STARTER" | "GROWTH" | "ENTERPRISE" | "CUSTOM">("BASIC");
   const [brandColor, setBrandColor] = useState("#6366F1");
 
   // Details Modal State
@@ -82,7 +83,7 @@ export default function PlatformTenants() {
   const [editEmail, setEditEmail] = useState("");
   const [editPhone, setEditPhone] = useState("");
   const [editAddress, setEditAddress] = useState("");
-  const [editPlan, setEditPlan] = useState<"FREE" | "STARTER" | "GROWTH" | "ENTERPRISE">("FREE");
+  const [editPlan, setEditPlan] = useState<"FREE" | "BASIC" | "STARTER" | "GROWTH" | "ENTERPRISE" | "CUSTOM">("BASIC");
   const [editStatus, setEditStatus] = useState<"ACTIVE" | "SUSPENDED" | "TERMINATED">("ACTIVE");
 
   // Delete Modal State
@@ -105,7 +106,7 @@ export default function PlatformTenants() {
           setEmail("");
           setPhone("");
           setAddress("");
-          setPlan("FREE");
+          setPlan("BASIC");
           setBrandColor("#6366F1");
         },
         onError: (err: any) => {
@@ -524,10 +525,11 @@ export default function PlatformTenants() {
                     <SelectValue placeholder="Select Plan..." />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="FREE">FREE</SelectItem>
+                    <SelectItem value="BASIC">BASIC</SelectItem>
                     <SelectItem value="STARTER">STARTER</SelectItem>
                     <SelectItem value="GROWTH">GROWTH</SelectItem>
                     <SelectItem value="ENTERPRISE">ENTERPRISE</SelectItem>
+                    <SelectItem value="CUSTOM">CUSTOM</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -623,10 +625,11 @@ export default function PlatformTenants() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="FREE">FREE</SelectItem>
+                    <SelectItem value="BASIC">BASIC</SelectItem>
                     <SelectItem value="STARTER">STARTER</SelectItem>
                     <SelectItem value="GROWTH">GROWTH</SelectItem>
                     <SelectItem value="ENTERPRISE">ENTERPRISE</SelectItem>
+                    <SelectItem value="CUSTOM">CUSTOM</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

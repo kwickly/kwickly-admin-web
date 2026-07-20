@@ -20,6 +20,8 @@ Guidelines for UI/UX, styling, theming, and white-labeling configurations.
 - [2026-07-11: White Labeling and UI Refactor](frontend-and-ux/2026-07-11-white-labeling-and-ui-refactor/white-labeling-and-ui-refactor.md)
 - [2026-07-19: Order Modes & Billing Configuration UI](frontend-and-ux/2026-07-19-order-modes-and-billing-config/billing-and-modules-config.md)
 - [2026-07-19: Menu Item Management — Tags, Nutrition & Availability Admin UX](frontend-and-ux/2026-07-19-menu-item-enrichment-admin-ux/menu-item-admin-ux.md)
+- [2026-07-19: KDS Kanban Redesign ✅](frontend-and-ux/2026-07-19-kds-kanban-redesign/kds-kanban-redesign.md)
+- [2026-07-19: Table Floor View & QR Code Management 🔴 Phase 9](frontend-and-ux/2026-07-19-table-floor-view-and-qr-management/table-floor-view-and-qr.md)
 
 ### 🗄️ Database & Schema
 Documentation mirroring schema decisions from the API repository that impact the frontend (e.g. Enums, Statuses).
@@ -33,6 +35,7 @@ Documentation mirroring schema decisions from the API repository that impact the
 ### 📈 Progress & Planning
 Documentation acting as a high-level roadmap and project status tracker for the AI assistant and developers.
 - [2026-07-12: Project Roadmap & Epic Tracking](progress-and-planning/2026-07-12-epic-roadmap/epic-roadmap.md)
+- [2026-07-19: Master Progress Tracker ← **START HERE**](progress-and-planning/2026-07-19-master-progress-tracker/progress-tracker.md)
 
 ### 📦 Archive
 *(Superseded or deprecated decisions live in `docs/archive/`)*
@@ -44,3 +47,5 @@ Documentation acting as a high-level roadmap and project status tracker for the 
 2. Create a folder named `YYYY-MM-DD-short-topic-name`.
 3. Add your markdown file inside.
 4. Update this `README.md` to link to your new file!
+5. Update the **Master Progress Tracker** if phases changed.
+

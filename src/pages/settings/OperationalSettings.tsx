@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { ShieldCheck, ToggleLeft, ToggleRight, Sparkles, UserCheck, Smartphone, PackageCheck, AlertCircle } from "lucide-react";
+import { useState } from "react";
+import { ShieldCheck, ToggleLeft, ToggleRight, Sparkles, UserCheck, Smartphone, PackageCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -8,6 +8,7 @@ export default function OperationalSettings() {
   const [dineIn, setDineIn] = useState(true);
   const [takeaway, setTakeaway] = useState(false);
   const [delivery, setDelivery] = useState(false);
+  const [allowTakeawayOnDineIn, setAllowTakeawayOnDineIn] = useState(false);
 
   // Add-ons States
   const [inventory, setInventory] = useState(false);
@@ -94,6 +95,45 @@ export default function OperationalSettings() {
             >
               {delivery ? <ToggleRight className="h-10 w-10 fill-primary" /> : <ToggleLeft className="h-10 w-10 text-muted-foreground" />}
             </Button>
+          </div>
+
+          <div className="flex items-center justify-between p-4 rounded-xl border border-border bg-muted/30">
+            <div>
+              <p className="font-semibold text-foreground">Mixed Fulfillment (Dine-In + Takeaway)</p>
+              <p className="text-xs text-muted-foreground">Allow guests to order additional items for Takeaway while in an active Dine-In session.</p>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setAllowTakeawayOnDineIn(!allowTakeawayOnDineIn)}
+              className="text-primary hover:bg-transparent"
+            >
+              {allowTakeawayOnDineIn ? <ToggleRight className="h-10 w-10 fill-primary" /> : <ToggleLeft className="h-10 w-10 text-muted-foreground" />}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Kitchen Settings */}
+      <Card className="border border-border bg-card shadow-sm">
+        <CardHeader>
+          <CardTitle>Kitchen Settings</CardTitle>
+          <CardDescription>Configure kitchen timing and preparation settings.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl border border-border bg-muted/30 gap-4">
+            <div>
+              <p className="font-semibold text-foreground">Default Preparation Time</p>
+              <p className="text-xs text-muted-foreground">The estimated time (in minutes) required to prepare an order. Used to show live ETA to customers.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <input 
+                type="number" 
+                defaultValue={20}
+                className="flex h-10 w-24 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              />
+              <span className="text-sm font-medium text-muted-foreground">mins</span>
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -3,6 +3,10 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --font-sans: 'Poppins', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: 'Source Serif 4', serif;
+  
   --background: oklch(0.99 0.01 240);
   --foreground: oklch(0.21 0.01 248);
   --card: oklch(1 0 0);

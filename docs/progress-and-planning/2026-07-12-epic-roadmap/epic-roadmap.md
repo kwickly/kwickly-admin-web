@@ -1,34 +1,42 @@
 # Project Roadmap & Progress Tracking
 
-**Date:** 2026-07-12
-**Status:** Phase 5 Complete
-**Context:** This document serves as a high-level tracking tool for context retrieval. It outlines completed milestones and maps out the upcoming epics to ensure all agents and developers maintain alignment on project trajectory.
+**Date:** 2026-07-19  
+**Status:** Phase 8 Complete — Phase 9 Starting  
+**Context:** This document is a high-level roadmap. The detailed phase-by-phase tracker with sub-tasks and bug tracking lives in `docs/progress-and-planning/2026-07-19-master-progress-tracker/progress-tracker.md`.
 
 ## Completed Milestones
 
 - **Core Architecture Setup:** Monorepo/Multi-repo setup with Kwickly API, Admin Web, and Client.
 - **Database & Schema:** Complete schema audit and alignment for multi-tenant and multi-branch support.
 - **Theme & White-Labeling:** V2 of the theme system deployed, enabling dynamic brand colors via OKLCH and CSS variables.
-- **RBAC & Audit Module:** Implementation of granular permissions, custom roles, global mutation interceptors for audit logs, and complete UI for staff access and tracking.
-- **Phase 1: Menu System & Catalog Management:** Robust menu system with Menus, Modifiers, Options, and live WebSocket syncing to local POS instances.
-- **Phase 2: Inventory Tracking & Supply Chain:** Built out real-time inventory levels, low-stock thresholds, and recipe/ingredient mapping.
-- **Phase 3: Staff, Timesheets & Payroll:** Comprehensive HR integration allowing secure POS PIN-based clock-in/out, shift scheduling, and automated wage and payroll generation.
-- **Phase 4: CRM, Wallet & Offline Subscriptions:** Full omnichannel CRM — customers can be registered at the POS, purchase subscriptions with cash, earn wallet/loyalty points, and redeem them online or at the counter. Admin UI in `CustomerDirectory.tsx` visualises wallet data. API endpoints added for offline registration and subscription selling.
-- **Phase 5: Wildcard Subdomain Storefront Refactor:** Removed `[tenantSlug]` path-based routing from `kwickly-client`. The storefront now lives in `src/app/(storefront)/` (a Next.js Route Group) and reads the tenant identity directly from the HTTP `host` header. Each tenant gets `tenant.kwickly.in`. No middleware, no separate deployments. Build verified ✅.
+- **RBAC & Audit Module:** Granular permissions, custom roles, global mutation interceptors for audit logs.
+- **Phase 1: Menu System & Catalog Management:** Robust menu system with Menus, Modifiers, Options, and live WebSocket syncing.
+- **Phase 2: Inventory Tracking & Supply Chain:** Real-time inventory levels, low-stock thresholds, recipe/ingredient mapping.
+- **Phase 3: Staff, Timesheets & Payroll:** POS PIN-based clock-in/out, shift scheduling, automated payroll generation.
+- **Phase 4: CRM, Wallet & Offline Subscriptions:** Customer directory, loyalty points, subscriptions, campaign logs.
+- **Phase 5: Wildcard Subdomain Storefront Refactor:** Host-based tenant resolution, `(storefront)` route group. No middleware.
+- **Phase 6: KDS Kanban Redesign:** `@dnd-kit` drag-and-drop board, text-dense tickets, urgency badges, forward-only enforcement.
+- **Phase 7: ETA & Kitchen Prep Time:** `defaultPreparationTime` on tenants, SSE-driven live countdown on client tracking page.
+- **Phase 8: Theme & Font System:** Plus Jakarta Sans / Inter dual-font, semantic Tailwind tokens, 60-30-10 color rule.
 
-## Upcoming Epics
+## Upcoming Phases
 
-### Platform-M6: Advanced Analytics & Reporting
-**Goal:** Deep-dive dashboards for daily/weekly revenue trends, staff performance metrics, and inventory forecasting. Target: Admin Web analytics page.
+### 🔴 Phase 9: Table Management & QR Codes
+**Goal:** Full restaurant floor management. Registered tables with plan-gated limits (FREE=0, BASIC=10, STARTER=25, GROWTH=75, ENTERPRISE=unlimited). QR tokens baked into URLs. Session-based order management: 1 master order per table sitting, multi-round KOTs. Fix hardcoded tableNumber bug in client.  
+**Repos:** kwickly-api (schema + module) · kwickly-admin-web (FloorView + QRManager pages) · kwickly-client (QR token flow + session-aware checkout)
 
-### Platform-M7: Online Payments Integration (Razorpay)
-**Goal:** Wire the checkout flow in `kwickly-client` to Razorpay orders API for live UPI/card payments. Webhook handler on `kwickly-api` to mark orders as `paid`.
+### 🔴 Phase 10: Online Payments (Razorpay)
+**Goal:** Wire client checkout to Razorpay. Webhook handler on API. Mark orders as `paid`.
 
-### Platform-M8: Customer-Facing Mobile App (React Native)
-**Goal:** Port the customer-facing storefront features into a native iOS/Android app with deep-link QR code support for table-scanning.
+### 🔴 Phase 11: Advanced Analytics Dashboard
+**Goal:** Daily/weekly revenue trends, top-selling items, staff performance, inventory forecast.
 
-### Platform-M9: PWA & Push Notifications
-**Goal:** Dynamic `/manifest.json` route handler per tenant for "Add to Home Screen". Web Push via service workers for order-ready notifications.
+### 🔴 Phase 12: PWA & Push Notifications
+**Goal:** Dynamic `/manifest.json` per tenant. Web Push for order-ready notifications.
+
+### 🔴 Phase 13: Customer-Facing Mobile App
+**Goal:** React Native port of storefront. Deep-link QR support. Biometric login.
 
 ## Next Action
-Begin Phase 6: Advanced Analytics dashboard on the Admin Web. Starting with daily revenue chart and top-selling items breakdown.
+Begin Phase 9: Table Management & QR Codes. Start with `kwickly-api` schema migration (restaurant_tables + table_sessions), then admin web FloorView page, then client QR token flow.
+

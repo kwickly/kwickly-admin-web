@@ -68,9 +68,21 @@ const navGroups: NavGroup[] = [
         icon: LayoutDashboard,
       },
       {
+        title: "Point of Sale",
+        url: "/pos",
+        icon: CreditCard,
+        permission: "orders:read",
+      },
+      {
         title: "Live KDS",
-        url: "/orders",
+        url: "/kds",
         icon: ChefHat,
+        permission: "orders:read",
+      },
+      {
+        title: "Order History",
+        url: "/orders",
+        icon: Target,
         permission: "orders:read",
       },
       {
@@ -100,6 +112,16 @@ const navGroups: NavGroup[] = [
           { title: "Modifiers", url: "/menus/modifiers", permission: "menu:read" },
           { title: "Combos", url: "/menus/combos", permission: "menu:read" },
         ],
+      },
+      {
+        title: "Tables & Floor",
+        url: "/tables",
+        icon: Target,
+        permission: "orders:read",
+        items: [
+          { title: "Floor View", url: "/tables", permission: "orders:read" },
+          { title: "QR Codes", url: "/tables/qr", permission: "orders:read" }
+        ]
       },
       {
         title: "Staff",

@@ -43,15 +43,20 @@ import Combos from '@/pages/Combos'
 import Orders from '@/pages/Orders'
 import Ads from '@/pages/Ads'
 import Subscriptions from '@/pages/Subscriptions'
+import BrandingSettings from '@/pages/settings/BrandingSettings'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import TenantLockScreen from '@/pages/TenantLockScreen'
 import Stock from '@/pages/inventory/Stock'
 import Suppliers from '@/pages/inventory/Suppliers'
 import Discounts from '@/pages/promotions/Discounts'
+import Pos from '@/pages/Pos'
+import Kds from '@/pages/Kds'
 
 // New Tenant Dashboard Pages
 import LoyaltySubscriptions from '@/pages/tenant/LoyaltySubscriptions'
 import AuditLogs from '@/pages/tenant/AuditLogs'
+import FloorView from '@/pages/tables/FloorView'
+import QRManager from '@/pages/tables/QRManager'
 
 // Platform Owner administrative screens (Directory, System Metrics, and Logs)
 import PlatformTenants from '@/pages/PlatformTenants'
@@ -166,6 +171,10 @@ function App() {
 
               <Route element={<ProtectedRoute permission="orders:read" />}>
                 <Route path="/orders" element={<Orders />} />
+                <Route path="/pos" element={<Pos />} />
+                <Route path="/kds" element={<Kds />} />
+                <Route path="/tables" element={<FloorView />} />
+                <Route path="/tables/qr" element={<QRManager />} />
               </Route>
               
               <Route element={<ProtectedRoute permission="billing:manage" />}>
@@ -180,6 +189,7 @@ function App() {
                   <Route path="/settings/loyalty" element={<LoyaltyConfig />} />
                   <Route path="/settings/devices" element={<DeviceManagement />} />
                   <Route path="/settings/operations" element={<OperationalSettings />} />
+                  <Route path="/settings/branding" element={<BrandingSettings />} />
                 </Route>
               </Route>
 

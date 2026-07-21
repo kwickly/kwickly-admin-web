@@ -34,17 +34,17 @@ const menuItemSchema = z.object({
   description: z.string().optional(),
   
   // Dietary
-  isVeg: z.boolean().default(true),
-  isJain: z.boolean().default(false),
-  isGlutenFree: z.boolean().default(false),
-  spiceLevel: z.coerce.number().min(0).max(3).default(0),
+  isVeg: z.boolean(),
+  isJain: z.boolean(),
+  isGlutenFree: z.boolean(),
+  spiceLevel: z.coerce.number().min(0).max(3),
 
   // Badges
-  isBestseller: z.boolean().default(false),
-  isChefSpecial: z.boolean().default(false),
-  isNew: z.boolean().default(false),
-  isLimitedEdition: z.boolean().default(false),
-  isHealthyChoice: z.boolean().default(false),
+  isBestseller: z.boolean(),
+  isChefSpecial: z.boolean(),
+  isNew: z.boolean(),
+  isLimitedEdition: z.boolean(),
+  isHealthyChoice: z.boolean(),
 
   // Nutrition
   calories: z.coerce.number().optional(),
@@ -62,7 +62,7 @@ export default function CreateMenuItemSheet() {
   const { mutate: createItem, isPending } = useCreateMenuItem()
 
   const form = useForm<MenuItemFormValues>({
-    resolver: zodResolver(menuItemSchema),
+    resolver: zodResolver(menuItemSchema) as any,
     defaultValues: {
       name: "",
       price: "",

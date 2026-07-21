@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSupport } from '@/hooks/api/useSupport';
 import { useAuthStore } from '@/store/useAuth';
 import { formatDistanceToNow } from 'date-fns';
-import { Loader2, Send, ShieldAlert, CheckCircle, Clock } from 'lucide-react';
+import { Loader2, Send, ShieldAlert, Clock } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 interface TicketThreadModalProps {

@@ -20,7 +20,7 @@ export interface TenantStats {
   phone: string | null;
   email: string | null;
   address: string | null;
-  plan: 'FREE' | 'STARTER' | 'GROWTH' | 'ENTERPRISE';
+  plan: 'FREE' | 'BASIC' | 'STARTER' | 'GROWTH' | 'ENTERPRISE' | 'CUSTOM';
   status: 'ACTIVE' | 'SUSPENDED' | 'TERMINATED';
   createdAt: string;
   branchCount: number;
@@ -35,9 +35,11 @@ export interface PlatformMetrics {
   platformGMV: number;
   planBreakdown: {
     FREE: number;
+    BASIC?: number;
     STARTER: number;
     GROWTH: number;
     ENTERPRISE: number;
+    CUSTOM?: number;
   };
 }
 
@@ -78,20 +80,22 @@ export function usePlatformTenants(page: number = 1, limit: number = 12, search:
   });
 }
 
+interface CreateTenantPayload {
+  name: string;
+  slug: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  plan?: 'FREE' | 'BASIC' | 'STARTER' | 'GROWTH' | 'ENTERPRISE' | 'CUSTOM';
+  brandColor?: string;
+}
+
 // POST /v1/platform/tenants
 export function useCreateTenant() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (payload: {
-      name: string;
-      slug: string;
-      email?: string;
-      phone?: string;
-      address?: string;
-      plan?: 'FREE' | 'STARTER' | 'GROWTH' | 'ENTERPRISE';
-      brandColor?: string;
-    }) => {
+    mutationFn: async (payload: CreateTenantPayload) => {
       const { data } = await api.post('/platform/tenants', payload);
       return data.data;
     },
@@ -112,7 +116,7 @@ export function useUpdateTenant() {
       email?: string;
       phone?: string;
       address?: string;
-      plan?: 'FREE' | 'STARTER' | 'GROWTH' | 'ENTERPRISE';
+      plan?: 'FREE' | 'BASIC' | 'STARTER' | 'GROWTH' | 'ENTERPRISE' | 'CUSTOM';
       status?: 'ACTIVE' | 'SUSPENDED' | 'TERMINATED';
     }}) => {
       const { data } = await api.patch(`/platform/tenants/${id}`, payload);

@@ -26,11 +26,12 @@ import {
   ShoppingBag,
   GripVertical,
   ArrowRightCircle,
+  Package,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
-
+import { Badge } from '@/components/ui/badge';
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type KotStatus = 'pending' | 'preparing' | 'ready';
@@ -51,9 +52,9 @@ const COLUMN_CONFIG: Record<KotStatus, {
   pending: {
     label: 'New Orders',
     subtitle: 'Waiting to be accepted',
-    icon: <AlertCircle className="h-4 w-4" />,
-    headerClass: 'border-l-4 border-l-amber-500',
-    badgeClass: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400',
+    icon: <Package className="h-5 w-5 text-[var(--chart-1)]" />,
+    headerClass: 'bg-[var(--chart-1)]/10',
+    badgeClass: 'bg-background text-foreground',
     emptyText: 'No new orders',
     nextStatus: 'preparing',
     actionLabel: 'Start Cooking',
@@ -62,9 +63,9 @@ const COLUMN_CONFIG: Record<KotStatus, {
   preparing: {
     label: 'In Kitchen',
     subtitle: 'Currently being prepared',
-    icon: <ChefHat className="h-4 w-4" />,
-    headerClass: 'border-l-4 border-l-blue-500',
-    badgeClass: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400',
+    icon: <ChefHat className="h-5 w-5 text-[var(--chart-3)]" />,
+    headerClass: 'bg-[var(--chart-3)]/10',
+    badgeClass: 'bg-background text-foreground',
     emptyText: 'Kitchen is clear',
     nextStatus: 'ready',
     actionLabel: 'Mark Ready',
@@ -73,9 +74,9 @@ const COLUMN_CONFIG: Record<KotStatus, {
   ready: {
     label: 'Ready',
     subtitle: 'Waiting for pickup/service',
-    icon: <CheckCircle2 className="h-4 w-4" />,
-    headerClass: 'border-l-4 border-l-emerald-500',
-    badgeClass: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400',
+    icon: <CheckCircle2 className="h-5 w-5 text-[var(--chart-2)]" />,
+    headerClass: 'bg-[var(--chart-2)]/10',
+    badgeClass: 'bg-background text-foreground',
     emptyText: 'All served!',
     nextStatus: 'completed',
     actionLabel: 'Complete & Clear',
@@ -134,8 +135,7 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
   return (
     <div
       className={cn(
-        'group rounded-xl border bg-card text-card-foreground shadow-sm transition-all duration-150 select-none',
-        config.headerClass,
+        'group rounded-xl border bg-card text-card-foreground shadow-sm transition-all duration-150 select-none p-1',
         isDragging
           ? 'opacity-40 scale-95'
           : 'hover:shadow-md hover:-translate-y-0.5 cursor-grab active:cursor-grabbing',
@@ -269,40 +269,24 @@ function KanbanColumn({
   const { setNodeRef, isOver } = useDroppable({ id: status });
 
   return (
-    <div className="flex flex-col min-h-0 h-full">
+    <div className="flex flex-col min-h-0 h-full rounded-xl border border-border bg-card/50 overflow-hidden">
       {/* Column Header */}
-      <div className="shrink-0 mb-3 px-1">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className={cn(
-              'flex items-center gap-1 text-sm font-bold',
-              status === 'pending' && 'text-amber-600 dark:text-amber-400',
-              status === 'preparing' && 'text-blue-600 dark:text-blue-400',
-              status === 'ready' && 'text-emerald-600 dark:text-emerald-400',
-            )}>
-              {config.icon}
-              {config.label}
-            </span>
-            <span className={cn(
-              'text-xs font-bold px-2 py-0.5 rounded-full',
-              config.badgeClass
-            )}>
-              {kots.length}
-            </span>
-          </div>
-          <span className="text-[11px] text-muted-foreground">{config.subtitle}</span>
+      <div className={cn("p-4 border-b border-border flex justify-between items-center", config.headerClass)}>
+        <div className="flex items-center gap-2">
+          {config.icon}
+          <h3 className="font-semibold text-foreground">{config.label}</h3>
         </div>
+        <Badge variant="secondary" className="bg-background">
+          {kots.length}
+        </Badge>
       </div>
 
       {/* Drop Zone */}
       <div
         ref={setNodeRef}
         className={cn(
-          'flex-1 overflow-y-auto space-y-2.5 rounded-xl p-2.5 transition-colors min-h-[120px]',
-          'border-2 border-dashed',
-          isOver
-            ? 'border-primary/60 bg-primary/5'
-            : 'border-transparent bg-muted/20 hover:bg-muted/30'
+          'flex-1 overflow-y-auto space-y-4 p-4 transition-colors min-h-[120px]',
+          isOver ? 'bg-primary/5' : ''
         )}
       >
         {kots.length === 0 ? (
@@ -340,7 +324,9 @@ export default function Kds() {
     const token = localStorage.getItem('kwickly_auth_token');
     let ws: WebSocket | null = null;
     try {
-      ws = new WebSocket(`ws://localhost:3000/kds?token=${token}&branchId=${selectedBranchId}`);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+      const wsUrl = apiUrl.replace(/^http/, 'ws').replace('/api/v1', '') + `/kds?token=${token}&branchId=${selectedBranchId}`;
+      ws = new WebSocket(wsUrl);
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.type === 'KOT_UPDATED' || data.type === 'NEW_KOT') {

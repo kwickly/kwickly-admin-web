@@ -106,3 +106,17 @@ export function useUpdateOrderItems() {
     }
   });
 }
+
+export function useCancelOrder() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (orderId: string) => {
+      const { data } = await api.post(`/orders/admin/${orderId}/cancel`);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      queryClient.invalidateQueries({ queryKey: ['kots'] });
+    }
+  });
+}

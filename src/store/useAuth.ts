@@ -47,6 +47,7 @@ interface AuthState {
   impersonatedTenantThemeMode: string | null;
   impersonatedTenantThemeConfig: TenantThemeConfig | null;
   login: (user: User, token: string, refreshToken: string) => void;
+  updateTokens: (token: string, refreshToken: string) => void;
   logout: () => void;
   setImpersonatedTenant: (
     id: string | null,
@@ -86,6 +87,10 @@ export const useAuthStore = create<AuthState>()(
         impersonatedTenantFaviconUrl: null,
         impersonatedTenantThemeMode: null,
         impersonatedTenantThemeConfig: null
+      }),
+      updateTokens: (token, refreshToken) => set({
+        token,
+        refreshToken
       }),
       logout: () => set({ 
         user: null, 

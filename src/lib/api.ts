@@ -32,21 +32,79 @@ api.interceptors.request.use(
   }
 );
 
+let isRefreshing = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
+
 // Response Interceptor for global error handling
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    // Global 401 Unauthorized handling -> clear store and redirect to login
-    if (error.response?.status === 401) {
-      console.warn("Unauthorized access - redirecting to login.");
-      useAuthStore.getState().logout();
-      
-      // Do not force a page reload if the user is already on the login page
-      // This allows local error handling (like Toasts) to work correctly.
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return api(originalRequest);
+          })
+          .catch((err) => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      const { refreshToken, updateTokens, logout } = useAuthStore.getState();
+
+      if (!refreshToken) {
+        isRefreshing = false;
+        logout();
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
+        return Promise.reject(error);
+      }
+
+      try {
+        const { data } = await axios.post(`${API_URL}/v1/auth/refresh`, { refreshToken });
+        
+        if (data.success) {
+          const newToken = data.data.accessToken;
+          const newRefreshToken = data.data.refreshToken || refreshToken;
+          
+          updateTokens(newToken, newRefreshToken);
+          processQueue(null, newToken);
+          
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          return api(originalRequest);
+        } else {
+          throw new Error('Refresh failed');
+        }
+      } catch (err) {
+        processQueue(err, null);
+        logout();
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
       }
     }
+
     return Promise.reject(error);
   }
 );

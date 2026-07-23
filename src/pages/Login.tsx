@@ -65,7 +65,7 @@ export default function Login() {
   const showKwickly = !branding?.hideKwicklyBranding;
 
   return (
-    <div className="min-h-screen w-full flex bg-background transition-colors">
+    <div className="min-h-screen w-full flex bg-muted/20 transition-colors">
       
       {/* Left Column: Branding Pane */}
       <div className="hidden lg:flex flex-col flex-1 bg-primary text-primary-foreground p-12 relative overflow-hidden">
@@ -100,30 +100,27 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right Column: Auth Pane */}
-      <div className="flex-1 flex flex-col items-center justify-center p-8 lg:p-12 relative">
-        <div className="w-full max-w-[400px]">
+      {/* Right Column: Auth Pane with Centered Card */}
+      <div className="flex-1 flex flex-col items-center justify-center p-6 lg:p-12 relative">
+        <div className="w-full max-w-[420px] bg-card rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-border/50 p-8 sm:p-10 relative z-10">
           
-          {/* Mobile Fallback Branding Header */}
-          <div className="lg:hidden text-center mb-10">
-            {branding?.logoUrl ? (
-              <img src={branding.logoUrl} alt="Logo" className="h-12 mx-auto mb-4 object-contain" />
-            ) : showKwickly ? (
-              <div className="flex items-center justify-center mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 text-primary-foreground">
-                  <span className="text-2xl font-bold tracking-tighter">K</span>
+          <div className="text-center mb-8">
+            {/* Mobile Fallback Logo (Hidden on Desktop since it's in the left pane) */}
+            <div className="lg:hidden">
+              {branding?.logoUrl ? (
+                <img src={branding.logoUrl} alt="Logo" className="h-12 mx-auto mb-4 object-contain" />
+              ) : showKwickly ? (
+                <div className="flex items-center justify-center mb-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-lg shadow-primary/20 text-primary-foreground">
+                    <span className="text-3xl font-bold tracking-tighter">K</span>
+                  </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
+            </div>
             
-            <h1 className="text-2xl font-bold tracking-tight text-foreground mb-1">
-              {branding?.name || (showKwickly ? "Kwickly" : "")}
+            <h1 className="text-2xl font-bold tracking-tight text-foreground mb-1.5">
+              Welcome back
             </h1>
-            <p className="text-muted-foreground text-sm">Sign in to your restaurant portal</p>
-          </div>
-
-          <div className="hidden lg:block mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-1">Welcome back</h2>
             <p className="text-muted-foreground text-sm">Sign in to your account to continue</p>
           </div>
 
@@ -134,7 +131,7 @@ export default function Login() {
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full min-h-[44px] px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all shadow-sm"
+                className="w-full min-h-[44px] px-4 py-2 border border-border/60 rounded-lg bg-background text-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all shadow-sm"
                 placeholder="admin@restaurant.com"
                 required
               />
@@ -152,14 +149,14 @@ export default function Login() {
                   type={showPassword ? "text" : "password"} 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full min-h-[44px] px-4 py-2 pr-12 border border-border rounded-lg bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all shadow-sm"
+                  className="w-full min-h-[44px] px-4 py-2 pr-12 border border-border/60 rounded-lg bg-background text-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all shadow-sm"
                   placeholder="••••••••"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 min-h-[36px] min-w-[36px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-md"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 min-h-[36px] min-w-[36px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-md"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
@@ -170,7 +167,7 @@ export default function Login() {
             <Button 
               type="submit" 
               disabled={loginMutation.isPending || isLoadingBranding}
-              className="w-full min-h-[44px] font-semibold text-base mt-2 shadow-md shadow-primary/10 rounded-lg"
+              className="w-full min-h-[44px] font-semibold text-base mt-4 shadow-md shadow-primary/10 rounded-lg"
             >
               {loginMutation.isPending ? "Signing In..." : "Sign In"}
             </Button>

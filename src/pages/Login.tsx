@@ -34,8 +34,7 @@ export default function Login() {
     }
 
     return () => {
-      // Optional: Cleanup if navigating away before auth, 
-      // but usually login sets it or AppShell handles it.
+      // Cleanup if needed
     };
   }, [branding]);
 
@@ -66,10 +65,47 @@ export default function Login() {
   const showKwickly = !branding?.hideKwicklyBranding;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 transition-colors">
-      <div className="w-full max-w-md bg-card rounded-xl shadow-xl overflow-hidden border border-border">
-        <div className="p-8">
-          <div className="text-center mb-8">
+    <div className="min-h-screen w-full flex bg-background transition-colors">
+      
+      {/* Left Column: Branding Pane */}
+      <div className="hidden lg:flex flex-col flex-1 bg-primary text-primary-foreground p-12 relative overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute inset-0 bg-black/10 mix-blend-overlay"></div>
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-black/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+
+        <div className="relative z-10 flex flex-col h-full">
+          <div className="flex items-center gap-3">
+            {branding?.logoUrl ? (
+              <img src={branding.logoUrl} alt="Logo" className="h-10 object-contain" />
+            ) : showKwickly ? (
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-foreground text-primary shadow-lg font-bold text-xl tracking-tighter">
+                K
+              </div>
+            ) : null}
+            
+            <h1 className="text-xl font-bold tracking-tight">
+              {branding?.name || (showKwickly ? "Kwickly" : "")}
+            </h1>
+          </div>
+          
+          <div className="mt-auto mb-12 max-w-lg">
+            <h2 className="text-4xl font-bold tracking-tight mb-4 leading-tight">
+              Powering the future of restaurant operations.
+            </h2>
+            <p className="text-lg opacity-80 font-medium">
+              A comprehensive command center designed for speed, clarity, and reliability.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Column: Auth Pane */}
+      <div className="flex-1 flex flex-col items-center justify-center p-8 lg:p-12 relative">
+        <div className="w-full max-w-[400px]">
+          
+          {/* Mobile Fallback Branding Header */}
+          <div className="lg:hidden text-center mb-10">
             {branding?.logoUrl ? (
               <img src={branding.logoUrl} alt="Logo" className="h-12 mx-auto mb-4 object-contain" />
             ) : showKwickly ? (
@@ -80,30 +116,34 @@ export default function Login() {
               </div>
             ) : null}
             
-            {showKwickly ? (
-              <h1 className="text-3xl font-bold text-foreground mb-2">Kwickly</h1>
-            ) : branding?.name ? (
-              <h1 className="text-2xl font-bold text-foreground mb-2">{branding.name}</h1>
-            ) : null}
-            <p className="text-muted-foreground">Sign in to your restaurant portal</p>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground mb-1">
+              {branding?.name || (showKwickly ? "Kwickly" : "")}
+            </h1>
+            <p className="text-muted-foreground text-sm">Sign in to your restaurant portal</p>
           </div>
-          
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Email Address</label>
+
+          <div className="hidden lg:block mb-8">
+            <h2 className="text-2xl font-bold text-foreground mb-1">Welcome back</h2>
+            <p className="text-muted-foreground text-sm">Sign in to your account to continue</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-foreground">Email Address</label>
               <input 
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full min-h-[44px] px-4 py-2 border border-border rounded-md bg-transparent text-foreground focus:ring-2 focus:ring-primary outline-none transition-shadow"
+                className="w-full min-h-[44px] px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all shadow-sm"
                 placeholder="admin@restaurant.com"
                 required
               />
             </div>
-            <div>
-              <div className="flex items-center justify-between mb-2">
+            
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
                 <label className="block text-sm font-medium text-foreground">Password</label>
-                <Link to="/forgot-password" className="text-sm font-medium text-primary hover:underline min-h-[44px] flex items-center">
+                <Link to="/forgot-password" className="text-sm font-medium text-primary hover:underline flex items-center">
                   Forgot password?
                 </Link>
               </div>
@@ -112,30 +152,33 @@ export default function Login() {
                   type={showPassword ? "text" : "password"} 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full min-h-[44px] px-4 py-2 pr-12 border border-border rounded-md bg-transparent text-foreground focus:ring-2 focus:ring-primary outline-none transition-shadow"
+                  className="w-full min-h-[44px] px-4 py-2 pr-12 border border-border rounded-lg bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all shadow-sm"
                   placeholder="••••••••"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 min-h-[44px] min-w-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 min-h-[36px] min-w-[36px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-md"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+                  {showPassword ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                 </button>
               </div>
             </div>
+
             <Button 
               type="submit" 
               disabled={loginMutation.isPending || isLoadingBranding}
-              className="w-full min-h-[44px] font-semibold"
+              className="w-full min-h-[44px] font-semibold text-base mt-2 shadow-md shadow-primary/10 rounded-lg"
             >
               {loginMutation.isPending ? "Signing In..." : "Sign In"}
             </Button>
           </form>
+
         </div>
       </div>
+
     </div>
   );
 }

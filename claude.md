@@ -13,3 +13,6 @@ Whenever you are tasked with creating, modifying, or reviewing any user interfac
 5. **Scanning Patterns:** Apply F-Pattern for dashboards/tables and Z-Pattern for landing/login pages as outlined in the guidelines.
 
 Do not deviate from these standards unless explicitly instructed by the user.
+
+## 3. Scratch Scripts
+Always place temporary or one-off testing scripts in the `agent-scripts/` directory (which is git-ignored) to prevent polluting the git history.

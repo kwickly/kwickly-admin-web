@@ -21,7 +21,7 @@ import {
   Clock,
   CheckCircle2,
   ChefHat,
-  AlertCircle,
+  
   Utensils,
   ShoppingBag,
   GripVertical,

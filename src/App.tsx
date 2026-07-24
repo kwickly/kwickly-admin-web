@@ -173,6 +173,9 @@ function App() {
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/pos" element={<Pos />} />
                 <Route path="/kds" element={<Kds />} />
+              </Route>
+
+              <Route element={<ProtectedRoute permission="tables:manage" />}>
                 <Route path="/tables" element={<FloorView />} />
                 <Route path="/tables/qr" element={<QRManager />} />
               </Route>

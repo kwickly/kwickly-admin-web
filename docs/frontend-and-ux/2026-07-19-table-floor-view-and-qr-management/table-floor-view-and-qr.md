@@ -1,7 +1,7 @@
 # Table Floor View & QR Code Management
 
-**Date:** 2026-07-19  
-**Status:** 🔴 Planned — Phase 9  
+**Date:** 2026-07-19 (Updated 2026-07-24)  
+**Status:** ✅ Completed — Phase 9  
 **Repo:** kwickly-admin-web  
 
 ---
@@ -13,6 +13,12 @@ The admin web has no table management UI. Tables are referenced only by a free-t
 ---
 
 ## Decision
+
+### Recent Updates (2026-07-24)
+- **Granular RBAC**: Added `tables:manage` permission to secure table layout updates.
+- **UI Refactor**: Replaced hardcoded padding and constraints with fluid AppShell layouts.
+- **Hooks API**: Integrated complete CRUD interface utilizing robust React Query hooks (`useTables.ts`).
+- **Edit Features**: Full modal-based interface to manage capacity, status, and naming.
 
 ### New Pages
 

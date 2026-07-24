@@ -1,10 +1,10 @@
 import { useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/useAuth';
 import { useBranchStore } from '@/store/useBranch';
-import api from '@/lib/api';
-import { Printer, Download, QrCode } from 'lucide-react';
+import { useTables, useRegenerateQr } from '@/hooks/api/useTables';
+import { Printer, Download, QrCode, RefreshCw } from 'lucide-react';
 import QRCode from 'react-qr-code';
+import { Can } from '@/components/shared/Can';
 
 export default function QRManager() {
   const { user } = useAuthStore();
@@ -12,19 +12,19 @@ export default function QRManager() {
   const tenantSlug = user?.tenantId || 'demo';
   const printRef = useRef<HTMLDivElement>(null);
 
-  const { data: tables = [], isLoading } = useQuery({
-    queryKey: ['tables', currentBranchId],
-    queryFn: async () => {
-      const res = await api.get('/tables', { params: { branchId: currentBranchId } });
-      return res.data?.data || [];
-    },
-    enabled: !!currentBranchId,
-  });
+  const { data: tables = [], isLoading } = useTables(currentBranchId);
+  const regenerateQrMutation = useRegenerateQr();
 
   const getQrUrl = (token: string) => `https://${tenantSlug}.kwickly.app/menu?t=${token}`;
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleRegenerate = (id: string) => {
+    if (confirm('Are you sure you want to regenerate this QR code? Existing stickers for this table will stop working.')) {
+      regenerateQrMutation.mutate({ id, branchId: currentBranchId! });
+    }
   };
 
   const downloadQrCode = (tableId: string, tableName: string) => {
@@ -57,7 +57,7 @@ export default function QRManager() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="flex flex-col space-y-6 flex-1 h-full w-full">
       <div className="flex items-center justify-between no-print">
         <div>
           <h1 className="text-3xl font-bold font-jakarta text-foreground">QR Manager</h1>
@@ -65,7 +65,7 @@ export default function QRManager() {
         </div>
         <button
           onClick={handlePrint}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-xl flex items-center space-x-2 transition-all shadow-sm font-medium text-sm"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-xl flex items-center space-x-2 transition-all hover:scale-105 active:scale-95 shadow-sm font-medium text-sm cursor-pointer"
         >
           <Printer size={18} />
           <span>Print All QRs</span>
@@ -94,10 +94,20 @@ export default function QRManager() {
           {tables.map((table: any) => (
             <div
               key={table.id}
-              className="bg-card rounded-3xl p-8 border border-border shadow-sm flex flex-col items-center justify-between print:border-2 print:border-gray-800 print:break-inside-avoid print:shadow-none"
+              className="bg-card rounded-3xl p-8 border border-border shadow-sm flex flex-col items-center justify-between print:border-2 print:border-gray-800 print:break-inside-avoid print:shadow-none relative group"
             >
               <h3 className="text-2xl font-bold font-jakarta text-foreground mb-4 text-center">{table.name}</h3>
               
+              <Can perform="tables:manage">
+                <button
+                  onClick={() => handleRegenerate(table.id)}
+                  className="absolute top-4 right-4 p-2 bg-muted text-muted-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/10 hover:text-primary cursor-pointer no-print"
+                  title="Regenerate QR Token"
+                >
+                  <RefreshCw size={16} />
+                </button>
+              </Can>
+
               <div className="bg-white p-4 rounded-xl inline-block mx-auto mb-6">
                 <QRCode
                   id={`qr-code-svg-${table.id}`}
@@ -110,7 +120,7 @@ export default function QRManager() {
               <div className="w-full flex justify-center no-print">
                 <button
                   onClick={() => downloadQrCode(table.id, table.name)}
-                  className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm text-sm"
+                  className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm text-sm cursor-pointer"
                 >
                   <Download size={16} />
                   <span>Download</span>
@@ -149,10 +159,10 @@ export default function QRManager() {
             top: 0;
             width: 100%;
           }
-          .max-w-7xl > div:last-child {
+          .print\\:w-full > div {
             visibility: visible;
           }
-          .max-w-7xl > div:last-child * {
+          .print\\:w-full > div * {
             visibility: visible;
           }
         }

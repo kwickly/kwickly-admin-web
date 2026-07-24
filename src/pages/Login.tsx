@@ -119,7 +119,7 @@ export default function Login() {
             </div>
             
             <h1 className="text-2xl font-bold tracking-tight text-foreground mb-1.5">
-              Welcome back
+              Log In
             </h1>
             <p className="text-muted-foreground text-sm">Sign in to your account to continue</p>
           </div>

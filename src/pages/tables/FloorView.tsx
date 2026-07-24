@@ -1,65 +1,68 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/useAuth';
 import { useBranchStore } from '@/store/useBranch';
-import api from '@/lib/api';
-import { Plus, QrCode, X, Trash2, Download } from 'lucide-react';
+import { useTables, useCreateTable, useUpdateTable, useDeleteTable } from '@/hooks/api/useTables';
+import { Plus, QrCode, X, Trash2, Download, Edit2 } from 'lucide-react';
 import QRCode from 'react-qr-code';
+import { Can } from '@/components/shared/Can';
 
 export default function Tables() {
   const { user } = useAuthStore();
   const { selectedBranchId: currentBranchId } = useBranchStore();
   const tenantSlug = user?.tenantId || 'demo';
-  const queryClient = useQueryClient();
+  
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [activeTable, setActiveTable] = useState<any>(null);
   
-  const [formData, setFormData] = useState({ name: '', capacity: '' });
+  const [formData, setFormData] = useState({ name: '', capacity: '', status: 'available' });
 
-  const { data: tables = [], isLoading } = useQuery({
-    queryKey: ['tables', currentBranchId],
-    queryFn: async () => {
-      const res = await api.get('/tables', { params: { branchId: currentBranchId } });
-      return res.data?.data || [];
-    },
-    enabled: !!currentBranchId,
-  });
-
-  const createTableMutation = useMutation({
-    mutationFn: async (data: any) => {
-      const res = await api.post('/tables', { ...data, branchId: currentBranchId });
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tables', currentBranchId] });
-      setIsAddModalOpen(false);
-      setFormData({ name: '', capacity: '' });
-    },
-    onError: (err: any) => {
-      alert(err.response?.data?.error || 'Failed to create table');
-    }
-  });
-
-  const deleteTableMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await api.delete(`/tables/${id}`, { params: { branchId: currentBranchId } });
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tables', currentBranchId] });
-    },
-    onError: (err: any) => {
-      alert(err.response?.data?.error || 'Failed to delete table');
-    }
-  });
+  const { data: tables = [], isLoading } = useTables(currentBranchId);
+  const createTableMutation = useCreateTable();
+  const updateTableMutation = useUpdateTable();
+  const deleteTableMutation = useDeleteTable();
 
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!currentBranchId) return;
     createTableMutation.mutate({
+      branchId: currentBranchId,
       name: formData.name,
       capacity: parseInt(formData.capacity) || 0,
+    }, {
+      onSuccess: () => {
+        setIsAddModalOpen(false);
+        setFormData({ name: '', capacity: '', status: 'available' });
+      }
     });
+  };
+
+  const handleEdit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentBranchId || !activeTable) return;
+    updateTableMutation.mutate({
+      id: activeTable.id,
+      branchId: currentBranchId,
+      name: formData.name,
+      capacity: parseInt(formData.capacity) || 0,
+      status: formData.status as any,
+    }, {
+      onSuccess: () => {
+        setIsEditModalOpen(false);
+        setActiveTable(null);
+      }
+    });
+  };
+
+  const openEditModal = (table: any) => {
+    setActiveTable(table);
+    setFormData({
+      name: table.name,
+      capacity: table.capacity?.toString() || '',
+      status: table.status,
+    });
+    setIsEditModalOpen(true);
   };
 
   const getQrUrl = (token: string) => `https://${tenantSlug}.kwickly.app/menu?t=${token}`;
@@ -85,19 +88,24 @@ export default function Tables() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="flex flex-col space-y-6 flex-1 h-full w-full">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold font-jakarta text-foreground">Table Management</h1>
           <p className="text-muted-foreground mt-1 text-sm">Create and manage your physical tables for Dine-in orders.</p>
         </div>
-        <button
-          onClick={() => setIsAddModalOpen(true)}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-xl flex items-center space-x-2 transition-all hover:scale-105 active:scale-95 shadow-sm font-medium text-sm"
-        >
-          <Plus size={18} />
-          <span>Add Table</span>
-        </button>
+        <Can perform="tables:manage">
+          <button
+            onClick={() => {
+              setFormData({ name: '', capacity: '', status: 'available' });
+              setIsAddModalOpen(true);
+            }}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-xl flex items-center space-x-2 transition-all hover:scale-105 active:scale-95 shadow-sm font-medium text-sm cursor-pointer"
+          >
+            <Plus size={18} />
+            <span>Add Table</span>
+          </button>
+        </Can>
       </div>
 
       {isLoading ? (
@@ -113,12 +121,14 @@ export default function Tables() {
           </div>
           <h3 className="text-xl font-bold font-jakarta text-foreground mb-2">No Tables Found</h3>
           <p className="text-muted-foreground max-w-sm mb-6">You haven't set up any tables for this branch yet. Add a table to generate QR codes.</p>
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2.5 rounded-xl font-medium transition-transform active:scale-95 shadow-sm"
-          >
-            Create First Table
-          </button>
+          <Can perform="tables:manage">
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2.5 rounded-xl font-medium transition-transform active:scale-95 shadow-sm cursor-pointer"
+            >
+              Create First Table
+            </button>
+          </Can>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -138,22 +148,31 @@ export default function Tables() {
                       setActiveTable(table);
                       setIsQrModalOpen(true);
                     }}
-                    className="p-2 bg-primary/10 text-primary rounded-xl hover:bg-primary/20 transition-colors"
+                    className="p-2 bg-primary/10 text-primary rounded-xl hover:bg-primary/20 transition-colors cursor-pointer"
                     title="View QR"
                   >
                     <QrCode size={16} />
                   </button>
-                  <button
-                    onClick={() => {
-                      if (confirm('Are you sure you want to delete this table?')) {
-                        deleteTableMutation.mutate(table.id);
-                      }
-                    }}
-                    className="p-2 bg-destructive/10 text-destructive rounded-xl hover:bg-destructive/20 transition-colors"
-                    title="Delete Table"
-                  >
-                    <Trash2 size={16} />
-                  </button>
+                  <Can perform="tables:manage">
+                    <button
+                      onClick={() => openEditModal(table)}
+                      className="p-2 bg-blue-500/10 text-blue-600 rounded-xl hover:bg-blue-500/20 transition-colors cursor-pointer"
+                      title="Edit Table"
+                    >
+                      <Edit2 size={16} />
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (confirm('Are you sure you want to delete this table?')) {
+                          deleteTableMutation.mutate({ id: table.id, branchId: currentBranchId! });
+                        }
+                      }}
+                      className="p-2 bg-destructive/10 text-destructive rounded-xl hover:bg-destructive/20 transition-colors cursor-pointer"
+                      title="Delete Table"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </Can>
                 </div>
               </div>
 
@@ -179,7 +198,7 @@ export default function Tables() {
           <div className="relative bg-card rounded-3xl shadow-xl w-full max-w-md p-6 border border-border animate-in zoom-in-95 duration-200">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold font-jakarta text-foreground">New Table</h2>
-              <button onClick={() => setIsAddModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground">
+              <button onClick={() => setIsAddModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground cursor-pointer">
                 <X size={20} />
               </button>
             </div>
@@ -210,16 +229,82 @@ export default function Tables() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                  className="px-4 py-2 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={createTableMutation.isPending}
-                  className="px-6 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-transform active:scale-95 disabled:opacity-50"
+                  className="px-6 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-transform active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   {createTableMutation.isPending ? 'Creating...' : 'Create Table'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Table Modal */}
+      {isEditModalOpen && activeTable && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsEditModalOpen(false)} />
+          <div className="relative bg-card rounded-3xl shadow-xl w-full max-w-md p-6 border border-border animate-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold font-jakarta text-foreground">Edit Table</h2>
+              <button onClick={() => setIsEditModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground cursor-pointer">
+                <X size={20} />
+              </button>
+            </div>
+            
+            <form onSubmit={handleEdit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1">Table Name</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={e => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full bg-background border border-input rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1">Capacity</label>
+                <input
+                  type="number"
+                  value={formData.capacity}
+                  onChange={e => setFormData({ ...formData, capacity: e.target.value })}
+                  className="w-full bg-background border border-input rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1">Status</label>
+                <select
+                  value={formData.status}
+                  onChange={e => setFormData({ ...formData, status: e.target.value })}
+                  className="w-full bg-background border border-input rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+                >
+                  <option value="available">Available</option>
+                  <option value="occupied">Occupied</option>
+                  <option value="reserved">Reserved</option>
+                  <option value="cleaning">Cleaning</option>
+                </select>
+              </div>
+              <div className="pt-4 flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setIsEditModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={updateTableMutation.isPending}
+                  className="px-6 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-transform active:scale-95 disabled:opacity-50 cursor-pointer"
+                >
+                  {updateTableMutation.isPending ? 'Saving...' : 'Save Changes'}
                 </button>
               </div>
             </form>
@@ -232,7 +317,7 @@ export default function Tables() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsQrModalOpen(false)} />
           <div className="relative bg-card rounded-3xl shadow-xl w-full max-w-sm p-8 border border-border animate-in zoom-in-95 duration-200 text-center">
-            <button onClick={() => setIsQrModalOpen(false)} className="absolute top-4 right-4 p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground">
+            <button onClick={() => setIsQrModalOpen(false)} className="absolute top-4 right-4 p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground cursor-pointer">
               <X size={20} />
             </button>
             
@@ -250,7 +335,7 @@ export default function Tables() {
             
             <button
               onClick={downloadQrCode}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-3 rounded-xl flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-3 rounded-xl flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm cursor-pointer"
             >
               <Download size={18} />
               <span>Download QR Code</span>

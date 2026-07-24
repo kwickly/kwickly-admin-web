@@ -103,7 +103,7 @@ export default function AppShell() {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background">
+      <div className="flex h-screen overflow-hidden w-full bg-background">
         <AppSidebar />
         <SidebarInset>
           {impersonatedTenantId && (

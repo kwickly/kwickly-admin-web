@@ -410,7 +410,6 @@ export default function Kds() {
     );
   }
 
-  const totalActive = kots?.length ?? 0;
 
   return (
     <DndContext
@@ -418,7 +417,7 @@ export default function Kds() {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex flex-col space-y-6 h-[calc(100vh-8rem)] md:h-[calc(100vh-9rem)] lg:h-[calc(100vh-10rem)]">
+      <div className="flex flex-col space-y-6 h-full">
         {/* Page Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -431,14 +430,6 @@ export default function Kds() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <span className={cn(
-                'w-2 h-2 rounded-full',
-                totalActive > 0 ? 'bg-emerald-500 animate-pulse' : 'bg-muted-foreground/30'
-              )} />
-              {totalActive > 0 ? `${totalActive} active` : 'All clear'}
-            </div>
-
             {/* Column count pills */}
             <div className="hidden md:flex items-center gap-2 text-[11px] font-bold">
               <span className="px-2 py-1 rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">

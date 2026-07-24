@@ -1,3 +1,4 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -5,7 +6,7 @@ import type { Order } from '@/hooks/api/useOrders';
 import { useMenuItems } from '@/hooks/api/useMenus';
 import { useUpdateOrderItems } from '@/hooks/api/useOrders';
 import { formatCurrency } from '@/lib/currency';
-import { Plus, Minus, Search, Loader2 } from 'lucide-react';
+
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
@@ -102,9 +103,9 @@ export function EditOrderDialog({ order, branchId, onClose }: EditOrderDialogPro
           <div className="border-r bg-muted/20 flex flex-col h-[50vh]">
             <div className="p-3 border-b bg-background">
               <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Icons.Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search menu..."
+                  placeholder="Icons.Search menu..."
                   className="pl-8"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -113,7 +114,7 @@ export function EditOrderDialog({ order, branchId, onClose }: EditOrderDialogPro
             </div>
             <div className="p-3 overflow-y-auto flex-1 space-y-2">
               {isMenusLoading ? (
-                <div className="flex justify-center p-4"><Loader2 className="animate-spin h-6 w-6 text-muted-foreground" /></div>
+                <div className="flex justify-center p-4"><Icons.Loader2 className="animate-spin h-6 w-6 text-muted-foreground" /></div>
               ) : filteredMenu.length > 0 ? (
                 filteredMenu.map((item) => (
                   <div key={item.id} className="flex items-center justify-between p-2 rounded-md hover:bg-muted bg-background border transition-colors cursor-pointer" onClick={() => handleAddItem(item)}>
@@ -122,7 +123,7 @@ export function EditOrderDialog({ order, branchId, onClose }: EditOrderDialogPro
                       <span className="text-xs text-muted-foreground">{formatCurrency(Number(item.price))}</span>
                     </div>
                     <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
-                      <Plus className="h-4 w-4" />
+                      <Icons.Plus className="h-4 w-4" />
                     </Button>
                   </div>
                 ))
@@ -147,11 +148,11 @@ export function EditOrderDialog({ order, branchId, onClose }: EditOrderDialogPro
                     </div>
                     <div className="flex items-center gap-2">
                       <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => handleUpdateQuantity(item.menuItemId, -1)}>
-                        <Minus className="h-3 w-3" />
+                        <Icons.Minus className="h-3 w-3" />
                       </Button>
                       <span className="text-sm font-medium w-4 text-center">{item.quantity}</span>
                       <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => handleUpdateQuantity(item.menuItemId, 1)}>
-                        <Plus className="h-3 w-3" />
+                        <Icons.Plus className="h-3 w-3" />
                       </Button>
                     </div>
                   </div>
@@ -169,7 +170,7 @@ export function EditOrderDialog({ order, branchId, onClose }: EditOrderDialogPro
             <div className="flex gap-2">
               <Button variant="outline" onClick={onClose}>Cancel</Button>
               <Button onClick={handleSave} disabled={isPending}>
-                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isPending && <Icons.Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Save Changes
               </Button>
             </div>

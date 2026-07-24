@@ -1,4 +1,4 @@
-import { ScrollText, Terminal } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { usePlatformAuditLogs } from "@/hooks/api/usePlatform";
 import { TableSkeleton } from "@/components/ui/loaders";
 import { PaginationControls } from "@/components/ui/pagination-controls";
@@ -54,7 +54,7 @@ export default function PlatformAuditLogs() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <ScrollText className="h-6 w-6 text-primary" />
+          <Icons.ScrollText className="h-6 w-6 text-primary" />
           System Audit Logs
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
@@ -77,7 +77,7 @@ export default function PlatformAuditLogs() {
         </div>
       ) : !logs || logs.length === 0 ? (
         <div className="p-12 text-center bg-card rounded-xl border border-border">
-          <Terminal className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+          <Icons.Terminal className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
           <h3 className="text-lg font-medium text-foreground">No logs found</h3>
           <p className="text-muted-foreground mt-2">No mutating actions have been recorded yet.</p>
         </div>

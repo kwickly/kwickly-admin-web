@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import React, { useState } from 'react';
-import { CalendarDays, CheckCircle, XCircle } from 'lucide-react';
+
 import { useAuthStore } from '../../store/useAuth';
 import { format } from 'date-fns';
 import { PaginationControls } from '@/components/ui/pagination-controls';
@@ -43,7 +44,7 @@ export default function StaffLeaves() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <CalendarDays className="h-6 w-6 text-primary" />
+            <Icons.CalendarDays className="h-6 w-6 text-primary" />
             Staff Leaves
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -55,7 +56,7 @@ export default function StaffLeaves() {
             onClick={() => setIsLeaveModalOpen(true)}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
           >
-            <CalendarDays className="h-4 w-4" />
+            <Icons.CalendarDays className="h-4 w-4" />
             Request Leave
           </button>
         </div>
@@ -124,14 +125,14 @@ export default function StaffLeaves() {
                               disabled={updateLeaveMut.isPending}
                               className="p-1.5 text-success hover:bg-success/10 rounded transition-colors"
                             >
-                              <CheckCircle className="h-5 w-5" />
+                              <Icons.CheckCircle className="h-5 w-5" />
                             </button>
                             <button
                               onClick={() => updateLeaveMut.mutate({ id: leave.id, status: 'REJECTED' })}
                               disabled={updateLeaveMut.isPending}
                               className="p-1.5 text-destructive hover:bg-destructive/10 rounded transition-colors"
                             >
-                              <XCircle className="h-5 w-5" />
+                              <Icons.XCircle className="h-5 w-5" />
                             </button>
                           </div>
                         )}

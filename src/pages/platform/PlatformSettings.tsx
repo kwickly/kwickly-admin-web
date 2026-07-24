@@ -1,11 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
-import {
-  Mail, Globe, ShieldAlert, Layers,
-  Lock, ExternalLink, CheckCircle2, AlertTriangle, Save,
-  Send, Wifi, Database, Cpu, BrainCircuit, Users, ShoppingBag,
-  BarChart3, Megaphone, Package, MonitorCheck, Fingerprint,
-  Eye, EyeOff, Server, Zap,
-} from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,24 +13,24 @@ import { PageHeader } from "@/components/ui/page-header";
 type TabId = "identity" | "smtp" | "features" | "plans" | "danger";
 
 const NAV: { id: TabId; label: string; icon: React.ElementType; color: string; bg: string; isDanger?: boolean }[] = [
-  { id: "identity", label: "Identity",      icon: Fingerprint, color: "text-primary",      bg: "bg-primary/10" },
-  { id: "smtp",     label: "Email & SMTP",  icon: Mail,        color: "text-info",         bg: "bg-info/10" },
-  { id: "features", label: "Feature Flags", icon: Zap,         color: "text-warning",      bg: "bg-warning/10" },
-  { id: "plans",    label: "Plan Limits",   icon: Layers,      color: "text-success",      bg: "bg-success/10" },
-  { id: "danger",   label: "Danger Zone",   icon: ShieldAlert, color: "text-destructive",  bg: "bg-destructive/10", isDanger: true },
+  { id: "identity", label: "Identity",      icon: Icons.Fingerprint, color: "text-primary",      bg: "bg-primary/10" },
+  { id: "smtp",     label: "Email & SMTP",  icon: Icons.Mail,        color: "text-info",         bg: "bg-info/10" },
+  { id: "features", label: "Feature Flags", icon: Icons.Zap,         color: "text-warning",      bg: "bg-warning/10" },
+  { id: "plans",    label: "Plan Limits",   icon: Icons.Layers,      color: "text-success",      bg: "bg-success/10" },
+  { id: "danger",   label: "Danger Zone",   icon: Icons.ShieldAlert, color: "text-destructive",  bg: "bg-destructive/10", isDanger: true },
 ];
 
 const FEATURES = [
-  { key: "loyalty",     label: "Loyalty & Wallet",  desc: "Points, rewards & digital wallets",      icon: BrainCircuit,   color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
-  { key: "crm",         label: "CRM & Customers",   desc: "Profiles, segments & campaigns",          icon: Users,          color: "text-info",               bg: "bg-info/10",                 enabled: true  },
-  { key: "ads",         label: "Promotions & Ads",  desc: "In-app advertisement engine",             icon: Megaphone,      color: "text-warning",            bg: "bg-warning/10",              enabled: true  },
-  { key: "payroll",     label: "Payroll & HR",      desc: "Salary runs, timesheets & leaves",        icon: Server,         color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
-  { key: "inventory",   label: "Inventory",          desc: "Stock tracking & suppliers",              icon: Package,        color: "text-info",               bg: "bg-info/10",                 enabled: true  },
-  { key: "kds",         label: "Kitchen Display",   desc: "Real-time KDS order routing",             icon: MonitorCheck,   color: "text-success",            bg: "bg-success/10",              enabled: true  },
-  { key: "analytics",   label: "Analytics",          desc: "Revenue, orders & staff reports",         icon: BarChart3,      color: "text-info",               bg: "bg-info/10",                 enabled: true  },
-  { key: "multibranch", label: "Multi-Branch",       desc: "Branch hierarchy & reporting",            icon: ShoppingBag,   color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
-  { key: "api",         label: "API Access",         desc: "Tenant API key generation",               icon: Cpu,            color: "text-muted-foreground",   bg: "bg-muted",                   enabled: false },
-  { key: "whitelabel",  label: "White-Label",        desc: "Custom themes & domains",                 icon: Globe,          color: "text-muted-foreground",   bg: "bg-muted",                   enabled: false },
+  { key: "loyalty",     label: "Loyalty & Wallet",  desc: "Points, rewards & digital wallets",      icon: Icons.BrainCircuit,   color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
+  { key: "crm",         label: "CRM & Customers",   desc: "Profiles, segments & campaigns",          icon: Icons.Users,          color: "text-info",               bg: "bg-info/10",                 enabled: true  },
+  { key: "ads",         label: "Promotions & Ads",  desc: "In-app advertisement engine",             icon: Icons.Megaphone,      color: "text-warning",            bg: "bg-warning/10",              enabled: true  },
+  { key: "payroll",     label: "Payroll & HR",      desc: "Salary runs, timesheets & leaves",        icon: Icons.Server,         color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
+  { key: "inventory",   label: "Inventory",          desc: "Stock tracking & suppliers",              icon: Icons.Package,        color: "text-info",               bg: "bg-info/10",                 enabled: true  },
+  { key: "kds",         label: "Kitchen Display",   desc: "Real-time KDS order routing",             icon: Icons.MonitorCheck,   color: "text-success",            bg: "bg-success/10",              enabled: true  },
+  { key: "analytics",   label: "Analytics",          desc: "Revenue, orders & staff reports",         icon: Icons.BarChart3,      color: "text-info",               bg: "bg-info/10",                 enabled: true  },
+  { key: "multibranch", label: "Multi-Branch",       desc: "Branch hierarchy & reporting",            icon: Icons.ShoppingBag,   color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
+  { key: "api",         label: "API Access",         desc: "Tenant API key generation",               icon: Icons.Cpu,            color: "text-muted-foreground",   bg: "bg-muted",                   enabled: false },
+  { key: "whitelabel",  label: "White-Label",        desc: "Custom themes & domains",                 icon: Icons.Globe,          color: "text-muted-foreground",   bg: "bg-muted",                   enabled: false },
 ];
 
 type PlanKey = "FREE" | "STARTER" | "GROWTH" | "ENTERPRISE";
@@ -97,8 +92,8 @@ export default function PlatformSettings() {
         >
           {saving
             ? <div className="h-4 w-4 rounded-full border-[2.5px] border-primary-foreground/30 border-t-primary-foreground animate-spin" />
-            : <Save className="h-4 w-4" />}
-          {saving ? "Saving…" : "Save Changes"}
+            : <Icons.Save className="h-4 w-4" />}
+          {saving ? "Saving…" : "Icons.Save Changes"}
         </Button>
       </PageHeader>
 
@@ -135,7 +130,7 @@ export default function PlatformSettings() {
                   </div>
                   <div className="col-span-3 relative">
                     <Input value={identity.supportUrl} onChange={(e) => setIdentity(s => ({ ...s, supportUrl: e.target.value }))} className="h-9 font-mono text-sm pr-9 bg-transparent focus-visible:ring-primary" />
-                    <ExternalLink className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground/60 pointer-events-none" />
+                    <Icons.ExternalLink className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground/60 pointer-events-none" />
                   </div>
                 </div>
 
@@ -158,7 +153,7 @@ export default function PlatformSettings() {
                 </div>
               </div>
 
-              <InfoTip icon={Server} text="These values are injected into all system-generated emails, legal footers, and white-label tenant portals." />
+              <InfoTip icon={Icons.Server} text="These values are injected into all system-generated emails, legal footers, and white-label tenant portals." />
             </div>
           )}
 
@@ -207,7 +202,7 @@ export default function PlatformSettings() {
                         placeholder="API key / password"
                       />
                       <button onClick={() => setShowPass(!showPass)} className="absolute right-2.5 top-2.5 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-                        {showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showPass ? <Icons.EyeOff className="h-4 w-4" /> : <Icons.Eye className="h-4 w-4" />}
                       </button>
                     </div>
                   </div>
@@ -232,7 +227,7 @@ export default function PlatformSettings() {
                   className="gap-2 h-8 text-xs font-semibold text-primary border-primary/20 hover:bg-primary/10 cursor-pointer" 
                   onClick={() => toast.info("Test email dispatched to your admin account.")}
                 >
-                  <Send className="h-3.5 w-3.5" /> Send Test Email
+                  <Icons.Send className="h-3.5 w-3.5" /> Icons.Send Test Email
                 </Button>
                 <p className="text-xs text-muted-foreground">Sends a verification email to the current platform owner account.</p>
               </div>
@@ -300,7 +295,7 @@ export default function PlatformSettings() {
                         {(["branches", "staff", "items", "storage"] as const).map((k) => (
                           <div key={k} className="space-y-1.5">
                             <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                              {k === "branches" ? "Branches" : k === "staff" ? "Staff Users" : k === "items" ? "Menu Items" : "Storage"}
+                              {k === "branches" ? "Branches" : k === "staff" ? "Staff Icons.Users" : k === "items" ? "Menu Items" : "Storage"}
                             </p>
                             <div className="relative">
                               <Input
@@ -308,7 +303,7 @@ export default function PlatformSettings() {
                                 readOnly={isEnterprise}
                                 className={cn("h-9 text-sm font-mono bg-transparent focus-visible:ring-primary", isEnterprise && "opacity-50 cursor-not-allowed")}
                               />
-                              {isEnterprise && <Lock className="absolute right-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground/40 pointer-events-none" />}
+                              {isEnterprise && <Icons.Lock className="absolute right-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground/40 pointer-events-none" />}
                             </div>
                           </div>
                         ))}
@@ -317,7 +312,7 @@ export default function PlatformSettings() {
                   </div>
                 );
               })}
-              <InfoTip icon={Server} text="Limits are enforced server-side at object creation. Existing objects over the limit are not removed when a tenant is downgraded." />
+              <InfoTip icon={Icons.Server} text="Limits are enforced server-side at object creation. Existing objects over the limit are not removed when a tenant is downgraded." />
             </div>
           )}
 
@@ -326,7 +321,7 @@ export default function PlatformSettings() {
             <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-5">
               {/* Warning strip */}
               <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
-                <AlertTriangle className="h-4 w-4 text-destructive flex-shrink-0 animate-pulse" />
+                <Icons.AlertTriangle className="h-4 w-4 text-destructive flex-shrink-0 animate-pulse" />
                 <p className="font-medium">
                   Changes here are instant and affect <strong>every tenant and user</strong> on the platform.
                 </p>
@@ -372,10 +367,10 @@ export default function PlatformSettings() {
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">Live System Status</p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[
-                    { label: "API Server",  icon: Server,   ok: true },
-                    { label: "Database",    icon: Database, ok: true },
-                    { label: "Job Queue",   icon: Cpu,      ok: true },
-                    { label: "Email Relay", icon: Wifi,     ok: true },
+                    { label: "API Icons.Server",  icon: Icons.Server,   ok: true },
+                    { label: "Icons.Database",    icon: Icons.Database, ok: true },
+                    { label: "Job Queue",   icon: Icons.Cpu,      ok: true },
+                    { label: "Email Relay", icon: Icons.Wifi,     ok: true },
                   ].map(({ label, icon: Icon, ok }) => (
                     <div key={label} className="relative flex items-center gap-3 p-3 rounded-xl border border-border bg-muted/20 overflow-hidden group hover:bg-card transition-colors">
                       <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center flex-shrink-0 relative border", ok ? "bg-success/10 text-success border-success/10" : "bg-destructive/10 text-destructive border-destructive/10")}>
@@ -385,9 +380,9 @@ export default function PlatformSettings() {
                         <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wide leading-none mb-1">{label}</p>
                         <div className="flex items-center gap-1">
                           {ok ? (
-                            <CheckCircle2 className="h-3 w-3 text-success" />
+                            <Icons.CheckCircle2 className="h-3 w-3 text-success" />
                           ) : (
-                            <AlertTriangle className="h-3 w-3 text-destructive" />
+                            <Icons.AlertTriangle className="h-3 w-3 text-destructive" />
                           )}
                           <p className={cn("text-xs font-semibold", ok ? "text-success" : "text-destructive")}>
                             {ok ? "Healthy" : "Failing"}

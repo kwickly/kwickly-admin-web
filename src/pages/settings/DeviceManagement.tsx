@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
-import { MonitorSmartphone, Plus, Tablet, XCircle, Clock } from "lucide-react";
+
 import { useDevices, useRegisterDevice, useRevokeDevice } from "@/hooks/api/useDevices";
 import { useBranchStore } from "@/store/useBranch";
 import { Button } from "@/components/ui/button";
@@ -100,7 +101,7 @@ export default function DeviceManagement() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <MonitorSmartphone className="h-6 w-6 text-primary" />
+            <Icons.MonitorSmartphone className="h-6 w-6 text-primary" />
             Hardware & Devices
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -118,7 +119,7 @@ export default function DeviceManagement() {
         }}>
           <DialogTrigger>
             <Button disabled={!selectedBranchId} className="h-11 px-6 rounded-xl shadow-sm">
-              <Plus className="mr-2 h-4 w-4" />
+              <Icons.Plus className="mr-2 h-4 w-4" />
               Pair New Device
             </Button>
           </DialogTrigger>
@@ -181,7 +182,7 @@ export default function DeviceManagement() {
 
       {!selectedBranchId ? (
         <div className="p-12 text-center bg-card rounded-xl border border-border">
-          <MonitorSmartphone className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+          <Icons.MonitorSmartphone className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
           <h3 className="text-lg font-medium text-foreground">No branch selected</h3>
           <p className="text-muted-foreground mt-2">Please select a branch from the top bar to view devices.</p>
         </div>
@@ -191,7 +192,7 @@ export default function DeviceManagement() {
         </div>
       ) : !devices || devices.length === 0 ? (
         <div className="p-12 text-center bg-card rounded-xl border border-border">
-          <Tablet className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+          <Icons.Tablet className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
           <h3 className="text-lg font-medium text-foreground">No devices found</h3>
           <p className="text-muted-foreground mt-2">You haven't paired any hardware for this branch yet.</p>
         </div>
@@ -223,7 +224,7 @@ export default function DeviceManagement() {
                     {getStatusBadge(device.status)}
                     {device.status === 'offline' && device.pairingCode && (
                       <div className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1">
-                        <Clock className="h-3 w-3" /> Awaiting pairing
+                        <Icons.Clock className="h-3 w-3" /> Awaiting pairing
                       </div>
                     )}
                   </TableCell>
@@ -239,7 +240,7 @@ export default function DeviceManagement() {
                         onClick={() => handleRevoke(device.id)}
                         disabled={revokeDevice.isPending}
                       >
-                        <XCircle className="h-4 w-4 mr-1.5" />
+                        <Icons.XCircle className="h-4 w-4 mr-1.5" />
                         Revoke
                       </Button>
                     )}

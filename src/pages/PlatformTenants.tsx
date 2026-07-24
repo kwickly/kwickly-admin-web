@@ -1,6 +1,7 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Building, Plus, Eye, Edit, Trash, ShieldAlert, MoreVertical, MapPin, Users, Phone, Mail, Globe, Settings } from "lucide-react";
+
 import { useAuthStore } from "@/store/useAuth";
 import { getContrastColor } from "@/lib/colors";
 import { usePlatformTenants, useCreateTenant, useUpdateTenant, useDeleteTenant, type TenantStats } from "@/hooks/api/usePlatform";
@@ -76,7 +77,7 @@ export default function PlatformTenants() {
   const [viewOpen, setViewOpen] = useState(false);
   const [viewTenant, setViewTenant] = useState<TenantStats | null>(null);
 
-  // Edit Modal State
+  // Icons.Edit Modal State
   const [editOpen, setEditOpen] = useState(false);
   const [editingTenant, setEditingTenant] = useState<TenantStats | null>(null);
   const [editName, setEditName] = useState("");
@@ -209,7 +210,7 @@ export default function PlatformTenants() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Building className="h-6 w-6 text-primary" />
+            <Icons.Building className="h-6 w-6 text-primary" />
             Tenants Directory
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -225,7 +226,7 @@ export default function PlatformTenants() {
             className="w-64"
           />
           <Button onClick={() => setCreateOpen(true)}>
-            <Plus className="h-4 w-4 mr-2" /> Add Tenant
+            <Icons.Plus className="h-4 w-4 mr-2" /> Add Tenant
           </Button>
         </div>
       </div>
@@ -234,7 +235,7 @@ export default function PlatformTenants() {
         <GridCardSkeleton count={8} />
       ) : !tenantsList || tenantsList.length === 0 ? (
         <div className="p-12 text-center bg-card rounded-xl border border-border shadow-sm">
-          <Building className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+          <Icons.Building className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
           <h3 className="text-lg font-medium text-foreground">No tenants registered yet</h3>
           <p className="text-muted-foreground mt-2">Get started by registering a new restaurant group.</p>
         </div>
@@ -254,7 +255,7 @@ export default function PlatformTenants() {
                       className="h-10 w-10 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <MoreVertical className="h-4 w-4" />
+                      <Icons.MoreVertical className="h-4 w-4" />
                       <span className="sr-only">Open menu</span>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48 bg-popover border-border shadow-lg rounded-xl">
@@ -262,7 +263,7 @@ export default function PlatformTenants() {
                         onClick={(e) => handleImpersonate(e, tenant)}
                         className="cursor-pointer text-primary focus:bg-primary/10 focus:text-primary"
                       >
-                        <Eye className="mr-2 h-4 w-4" />
+                        <Icons.Eye className="mr-2 h-4 w-4" />
                         <span>Inspect Dashboard</span>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-border" />
@@ -270,8 +271,8 @@ export default function PlatformTenants() {
                         onClick={(e) => handleEditClick(e, tenant)}
                         className="cursor-pointer text-foreground focus:bg-muted"
                       >
-                        <Edit className="mr-2 h-4 w-4 text-muted-foreground" />
-                        <span>Edit Configuration</span>
+                        <Icons.Edit className="mr-2 h-4 w-4 text-muted-foreground" />
+                        <span>Icons.Edit Configuration</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={(e) => {
@@ -280,14 +281,14 @@ export default function PlatformTenants() {
                         }}
                         className="cursor-pointer text-foreground focus:bg-muted"
                       >
-                        <Settings className="mr-2 h-4 w-4 text-muted-foreground" />
-                        <span>Advanced Settings</span>
+                        <Icons.Settings className="mr-2 h-4 w-4 text-muted-foreground" />
+                        <span>Advanced Icons.Settings</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={(e) => handleDeleteClick(e, tenant)}
                         className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive"
                       >
-                        <Trash className="mr-2 h-4 w-4" />
+                        <Icons.Trash className="mr-2 h-4 w-4" />
                         <span>Delete Tenant</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -307,7 +308,7 @@ export default function PlatformTenants() {
                       {tenant.name}
                     </h3>
                     <p className="text-xs text-muted-foreground font-mono mt-0.5 truncate flex items-center gap-1">
-                      <Globe className="h-3 w-3 flex-shrink-0" />
+                      <Icons.Globe className="h-3 w-3 flex-shrink-0" />
                       <span className="truncate">{tenant.slug}.kwickly.com</span>
                     </p>
                   </div>
@@ -326,11 +327,11 @@ export default function PlatformTenants() {
 
                 <div className="mt-auto grid grid-cols-2 gap-2 pt-4 border-t border-border/50">
                   <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-muted-foreground/70 flex-shrink-0" />
+                    <Icons.MapPin className="h-4 w-4 text-muted-foreground/70 flex-shrink-0" />
                     <span className="text-sm font-semibold text-foreground">{tenant.branchCount} <span className="text-xs font-normal text-muted-foreground">loc</span></span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-muted-foreground/70 flex-shrink-0" />
+                    <Icons.Users className="h-4 w-4 text-muted-foreground/70 flex-shrink-0" />
                     <span className="text-sm font-semibold text-foreground">{tenant.userCount} <span className="text-xs font-normal text-muted-foreground">users</span></span>
                   </div>
                 </div>
@@ -386,7 +387,7 @@ export default function PlatformTenants() {
                 <div>
                   <h2 className="text-2xl font-bold text-foreground">{viewTenant.name}</h2>
                   <p className="text-sm text-muted-foreground font-mono mt-1 flex items-center gap-1.5">
-                    <Globe className="h-3.5 w-3.5" />
+                    <Icons.Globe className="h-3.5 w-3.5" />
                     {viewTenant.slug}.kwickly.com
                   </p>
                 </div>
@@ -395,21 +396,21 @@ export default function PlatformTenants() {
                   <div className="space-y-1">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact Email</p>
                     <p className="text-sm text-foreground flex items-center gap-2">
-                      <Mail className="h-3.5 w-3.5 text-muted-foreground/70" />
+                      <Icons.Mail className="h-3.5 w-3.5 text-muted-foreground/70" />
                       {viewTenant.email || "N/A"}
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact Phone</p>
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact Icons.Phone</p>
                     <p className="text-sm text-foreground flex items-center gap-2">
-                      <Phone className="h-3.5 w-3.5 text-muted-foreground/70" />
+                      <Icons.Phone className="h-3.5 w-3.5 text-muted-foreground/70" />
                       {viewTenant.phone || "N/A"}
                     </p>
                   </div>
                   <div className="col-span-2 space-y-1">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Address</p>
                     <p className="text-sm text-foreground flex items-center gap-2">
-                      <MapPin className="h-3.5 w-3.5 text-muted-foreground/70" />
+                      <Icons.MapPin className="h-3.5 w-3.5 text-muted-foreground/70" />
                       {viewTenant.address || "No address configured"}
                     </p>
                   </div>
@@ -417,14 +418,14 @@ export default function PlatformTenants() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
-                    <MapPin className="h-5 w-5 text-primary mb-2" />
+                    <Icons.MapPin className="h-5 w-5 text-primary mb-2" />
                     <span className="text-2xl font-bold text-foreground">{viewTenant.branchCount}</span>
                     <span className="text-xs text-muted-foreground">Total Branches</span>
                   </div>
                   <div className="p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
-                    <Users className="h-5 w-5 text-[var(--chart-2)] mb-2" />
+                    <Icons.Users className="h-5 w-5 text-[var(--chart-2)] mb-2" />
                     <span className="text-2xl font-bold text-foreground">{viewTenant.userCount}</span>
-                    <span className="text-xs text-muted-foreground">Platform Users</span>
+                    <span className="text-xs text-muted-foreground">Platform Icons.Users</span>
                   </div>
                 </div>
 
@@ -433,7 +434,7 @@ export default function PlatformTenants() {
                     className="flex-1 min-w-0"
                     onClick={(e) => handleImpersonate(e, viewTenant)}
                   >
-                    <Eye className="mr-2 h-4 w-4" />
+                    <Icons.Eye className="mr-2 h-4 w-4" />
                     Inspect Dashboard
                   </Button>
                   <Button 
@@ -444,7 +445,7 @@ export default function PlatformTenants() {
                       handleEditClick(e, viewTenant);
                     }}
                   >
-                    <Edit className="h-4 w-4" />
+                    <Icons.Edit className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -499,7 +500,7 @@ export default function PlatformTenants() {
                   />
                 </div>
                 <div className="grid gap-1">
-                  <Label htmlFor="phone" className="text-foreground">Contact Phone</Label>
+                  <Label htmlFor="phone" className="text-foreground">Contact Icons.Phone</Label>
                   <Input
                     id="phone"
                     value={phone}
@@ -572,7 +573,7 @@ export default function PlatformTenants() {
         <DialogContent className="sm:max-w-[450px] bg-card border border-border">
           <form onSubmit={handleUpdate} className="space-y-4">
             <DialogHeader>
-              <DialogTitle className="text-foreground">Edit Tenant Settings</DialogTitle>
+              <DialogTitle className="text-foreground">Icons.Edit Tenant Icons.Settings</DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 Modify billing details or suspend restaurant logins.
               </DialogDescription>
@@ -599,7 +600,7 @@ export default function PlatformTenants() {
                   />
                 </div>
                 <div className="grid gap-1">
-                  <Label htmlFor="editPhone" className="text-foreground">Phone</Label>
+                  <Label htmlFor="editPhone" className="text-foreground">Icons.Phone</Label>
                   <Input
                     id="editPhone"
                     value={editPhone}
@@ -660,7 +661,7 @@ export default function PlatformTenants() {
         <DialogContent className="sm:max-w-[450px] bg-card border border-border">
           <DialogHeader>
             <DialogTitle className="text-foreground flex items-center gap-2">
-              <ShieldAlert className="h-5 w-5 text-destructive" /> Delete Tenant
+              <Icons.ShieldAlert className="h-5 w-5 text-destructive" /> Delete Tenant
             </DialogTitle>
             <DialogDescription className="text-muted-foreground mt-2">
               This will immediately revoke access for all users in <span className="font-bold text-foreground">{deletingTenant?.name}</span>.

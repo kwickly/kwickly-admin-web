@@ -1,8 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useMemo } from "react";
-import {
-  TrendingUp, ShoppingCart, DollarSign, BarChart2,
-  CalendarDays, Clock, Award, ArrowUpRight, ArrowDownRight,
-} from "lucide-react";
+
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis,
   CartesianGrid, Tooltip, ResponsiveContainer, Cell,
@@ -56,9 +54,9 @@ function StatCard({
             }`}
           >
             {trend.positive ? (
-              <ArrowUpRight className="h-3.5 w-3.5" />
+              <Icons.ArrowUpRight className="h-3.5 w-3.5" />
             ) : (
-              <ArrowDownRight className="h-3.5 w-3.5" />
+              <Icons.ArrowDownRight className="h-3.5 w-3.5" />
             )}
             {trend.value}
           </span>
@@ -170,7 +168,7 @@ export default function RevenueAnalytics() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <BarChart2 className="h-6 w-6 text-primary" />
+            <Icons.BarChart2 className="h-6 w-6 text-primary" />
             Revenue Analytics
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -198,7 +196,7 @@ export default function RevenueAnalytics() {
       {/* ── KPI Summary Cards ───────────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
-          icon={DollarSign}
+          icon={Icons.DollarSign}
           label="Today's Revenue"
           value={`₹${(todaySales?.totalSales ?? 0).toFixed(2)}`}
           sub="Delivered orders only"
@@ -206,7 +204,7 @@ export default function RevenueAnalytics() {
           loading={loadingToday}
         />
         <StatCard
-          icon={ShoppingCart}
+          icon={Icons.ShoppingCart}
           label="Today's Orders"
           value={`${todaySales?.totalOrders ?? 0}`}
           sub={`Avg ₹${(todaySales?.averageOrderValue ?? 0).toFixed(0)} / order`}
@@ -214,7 +212,7 @@ export default function RevenueAnalytics() {
           loading={loadingToday}
         />
         <StatCard
-          icon={TrendingUp}
+          icon={Icons.TrendingUp}
           label={`Revenue (${trendDays}d)`}
           value={`₹${totalPeriodRevenue.toFixed(0)}`}
           sub={`${totalPeriodOrders} total orders`}
@@ -222,7 +220,7 @@ export default function RevenueAnalytics() {
           loading={loadingTrend}
         />
         <StatCard
-          icon={Clock}
+          icon={Icons.Clock}
           label="Peak Hour"
           value={peakHour ? peakHour.label : "—"}
           sub={peakHour ? `₹${peakHour.revenue.toFixed(0)} in revenue` : "No data"}
@@ -236,7 +234,7 @@ export default function RevenueAnalytics() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-foreground text-base flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-primary" />
+              <Icons.CalendarDays className="h-4 w-4 text-primary" />
               Revenue Trend
             </h3>
             <p className="text-xs text-muted-foreground mt-0.5">
@@ -254,7 +252,7 @@ export default function RevenueAnalytics() {
           </div>
         ) : !trendData || trendData.length === 0 ? (
           <div className="h-[280px] flex flex-col items-center justify-center text-muted-foreground gap-3">
-            <TrendingUp className="h-10 w-10 opacity-30" />
+            <Icons.TrendingUp className="h-10 w-10 opacity-30" />
             <p className="text-sm">No revenue data for this period yet.</p>
             <p className="text-xs">Orders marked as "delivered" will appear here.</p>
           </div>
@@ -304,7 +302,7 @@ export default function RevenueAnalytics() {
         {/* Top Selling Items */}
         <div className="bg-card rounded-xl border border-border p-6 shadow-sm space-y-4">
           <div className="flex items-center gap-2">
-            <Award className="h-4 w-4 text-primary" />
+            <Icons.Award className="h-4 w-4 text-primary" />
             <div>
               <h3 className="font-semibold text-foreground text-base">Top Selling Items</h3>
               <p className="text-xs text-muted-foreground mt-0.5">By quantity sold (all-time)</p>
@@ -315,7 +313,7 @@ export default function RevenueAnalytics() {
             <Skeleton className="h-[260px] w-full rounded-xl" />
           ) : !topItems || topItems.length === 0 ? (
             <div className="h-[260px] flex flex-col items-center justify-center text-muted-foreground gap-2">
-              <BarChart2 className="h-10 w-10 opacity-30" />
+              <Icons.BarChart2 className="h-10 w-10 opacity-30" />
               <p className="text-sm">No item sales data yet.</p>
             </div>
           ) : (
@@ -360,7 +358,7 @@ export default function RevenueAnalytics() {
         <div className="bg-card rounded-xl border border-border p-6 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" />
+              <Icons.Clock className="h-4 w-4 text-primary" />
               <div>
                 <h3 className="font-semibold text-foreground text-base">Peak Hour Heatmap</h3>
                 <p className="text-xs text-muted-foreground mt-0.5">Revenue by hour of day (last 7 days)</p>
@@ -386,7 +384,7 @@ export default function RevenueAnalytics() {
             </div>
           ) : !hourlyData || hourlyData.every((d) => d.revenue === 0) ? (
             <div className="h-[220px] flex flex-col items-center justify-center text-muted-foreground gap-2">
-              <Clock className="h-10 w-10 opacity-30" />
+              <Icons.Clock className="h-10 w-10 opacity-30" />
               <p className="text-sm">No hourly data for the last 7 days.</p>
             </div>
           ) : (

@@ -1,6 +1,7 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Delete } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
 
 interface PosPinPadProps {
@@ -114,7 +115,7 @@ export function PosPinPad({ onPinSubmit, pinLength = 4, isLoading = false, error
           onClick={handleBackspace}
           className="h-16 rounded-2xl bg-slate-50 hover:bg-slate-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border-none shadow-sm transition-all active:scale-95 text-slate-500"
         >
-          <Delete className="w-6 h-6" />
+          <Icons.Delete className="w-6 h-6" />
         </Button>
       </div>
     </div>

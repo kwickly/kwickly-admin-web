@@ -1,5 +1,4 @@
-
-import { ChevronRight } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -37,7 +36,7 @@ export function PageBreadcrumbs({ items, className }: PageBreadcrumbsProps) {
             )}
 
             {!isLast && (
-              <ChevronRight className="h-4 w-4 mx-1.5 text-muted-foreground flex-shrink-0" />
+              <Icons.ChevronRight className="h-4 w-4 mx-1.5 text-muted-foreground flex-shrink-0" />
             )}
           </div>
         );

@@ -1,9 +1,10 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import api from "@/lib/api";
-import { ArrowLeft } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { usePublicBranding } from "@/hooks/api/useBranding";
 import { getContrastColor, isValidHex } from "@/lib/colors";
@@ -78,7 +79,7 @@ export default function ForgotPassword() {
                 If an account exists with {email}, you will receive a password reset link shortly. Please check your inbox (and spam folder).
               </div>
               <Link to="/login" className="inline-flex items-center justify-center min-h-[44px] text-sm font-medium text-primary hover:underline">
-                <ArrowLeft className="h-4 w-4 mr-2" />
+                <Icons.ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Login
               </Link>
             </div>

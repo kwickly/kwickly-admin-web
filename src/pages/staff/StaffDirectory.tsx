@@ -1,6 +1,7 @@
+import { Icons } from '@/components/shared/icons';
 import StaffTable from "@/features/staff/components/StaffTable";
 import CreateStaffDialog from "@/features/staff/components/CreateStaffDialog";
-import { Users } from "lucide-react";
+
 import { Can } from "@/components/shared/Can";
 
 export default function StaffDirectory() {
@@ -9,7 +10,7 @@ export default function StaffDirectory() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Users className="h-6 w-6 text-primary" />
+            <Icons.Users className="h-6 w-6 text-primary" />
             Employee Directory
           </h1>
           <p className="text-sm text-muted-foreground mt-1">

@@ -1,14 +1,15 @@
+import { Icons } from '@/components/shared/icons';
 import { Outlet, NavLink, useParams } from 'react-router-dom';
-import { Palette, CheckCircle2, Sliders, ChevronLeft } from 'lucide-react';
+
 import { Link } from 'react-router-dom';
 
 export default function PlatformTenantSettingsLayout() {
   const { tenantId } = useParams();
 
   const navItems = [
-    { name: 'Feature Toggles', path: `/platform/tenants/${tenantId}/settings/features`, icon: Sliders },
-    { name: 'Branding & Theme', path: `/platform/tenants/${tenantId}/settings/branding`, icon: Palette },
-    { name: 'White Labeling', path: `/platform/tenants/${tenantId}/settings/whitelabel`, icon: CheckCircle2 },
+    { name: 'Feature Toggles', path: `/platform/tenants/${tenantId}/settings/features`, icon: Icons.Sliders },
+    { name: 'Branding & Theme', path: `/platform/tenants/${tenantId}/settings/branding`, icon: Icons.Palette },
+    { name: 'White Labeling', path: `/platform/tenants/${tenantId}/settings/whitelabel`, icon: Icons.CheckCircle2 },
   ];
 
   return (
@@ -16,7 +17,7 @@ export default function PlatformTenantSettingsLayout() {
       
       <div className="flex items-center gap-4">
         <Link to="/platform/tenants" className="p-2 -ml-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
-          <ChevronLeft className="w-5 h-5" />
+          <Icons.ChevronLeft className="w-5 h-5" />
         </Link>
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground">Tenant Configuration</h2>

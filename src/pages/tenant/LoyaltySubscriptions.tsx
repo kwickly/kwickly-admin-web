@@ -1,9 +1,10 @@
+import { Icons } from '@/components/shared/icons';
 import { useCustomerSubscriptions } from '@/hooks/api/useCustomerSubscriptions';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Loader2, PauseCircle, PlayCircle, XCircle } from 'lucide-react';
+
 import { format } from 'date-fns';
 
 export default function LoyaltySubscriptions() {
@@ -29,7 +30,7 @@ export default function LoyaltySubscriptions() {
         <CardContent>
           {loading ? (
             <div className="flex justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              <Icons.Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </div>
           ) : error ? (
             <div className="text-destructive text-center py-8">{error}</div>
@@ -88,7 +89,7 @@ export default function LoyaltySubscriptions() {
                             onClick={() => handleStatusChange(sub.id, 'paused')}
                             title="Pause Subscription"
                           >
-                            <PauseCircle className="h-4 w-4" />
+                            <Icons.PauseCircle className="h-4 w-4" />
                           </Button>
                         )}
                         {sub.status === 'paused' && (
@@ -99,7 +100,7 @@ export default function LoyaltySubscriptions() {
                             onClick={() => handleStatusChange(sub.id, 'active')}
                             title="Resume Subscription"
                           >
-                            <PlayCircle className="h-4 w-4" />
+                            <Icons.PlayCircle className="h-4 w-4" />
                           </Button>
                         )}
                         {(sub.status === 'active' || sub.status === 'paused') && (
@@ -114,7 +115,7 @@ export default function LoyaltySubscriptions() {
                             }}
                             title="Cancel Subscription"
                           >
-                            <XCircle className="h-4 w-4" />
+                            <Icons.XCircle className="h-4 w-4" />
                           </Button>
                         )}
                       </TableCell>

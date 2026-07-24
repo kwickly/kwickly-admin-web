@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
-import { BrainCircuit, Sparkles, TrendingDown, MessageSquare } from "lucide-react";
+
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useAIForecast, useAICombos, useChurnList } from "@/hooks/api/useAI";
 import { useCreateCombo } from "@/hooks/api/useCombos";
@@ -128,7 +129,7 @@ export default function TenantAnalytics() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <BrainCircuit className="h-6 w-6 text-primary" />
+            <Icons.BrainCircuit className="h-6 w-6 text-primary" />
             AI Analytics & Predictions
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -144,7 +145,7 @@ export default function TenantAnalytics() {
         <div className="lg:col-span-2 bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-border/50 pb-3">
             <div className="flex items-center gap-2">
-              <BrainCircuit className="h-5 w-5 text-primary" />
+              <Icons.BrainCircuit className="h-5 w-5 text-primary" />
               <div>
                 <h3 className="font-bold text-foreground text-base">Meal Demand Forecasting</h3>
                 <p className="text-[11px] text-muted-foreground">Facebook Prophet regression model</p>
@@ -181,7 +182,7 @@ export default function TenantAnalytics() {
         <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-border/50 pb-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary" />
+              <Icons.Sparkles className="h-5 w-5 text-primary" />
               <div>
                 <h3 className="font-bold text-foreground text-base">Smart Combo Affinity</h3>
                 <p className="text-[11px] text-muted-foreground">Basket association rules model</p>
@@ -233,7 +234,7 @@ export default function TenantAnalytics() {
       {/* Churn Prevention Section */}
       <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
         <div className="flex items-center gap-2 border-b border-border/50 pb-3">
-          <TrendingDown className="h-5 w-5 text-destructive" />
+          <Icons.TrendingDown className="h-5 w-5 text-destructive" />
           <div>
             <h3 className="font-bold text-foreground text-base">Churn At-Risk Subscribers</h3>
             <p className="text-[11px] text-muted-foreground">Decline behavior predictions</p>
@@ -297,7 +298,7 @@ export default function TenantAnalytics() {
         <DialogContent className="sm:max-w-[480px] bg-card border border-border p-6">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+              <Icons.Sparkles className="h-5 w-5 text-primary animate-pulse" />
               Confirm Combo Addition
             </DialogTitle>
             <DialogDescription className="text-muted-foreground text-xs">
@@ -370,7 +371,7 @@ export default function TenantAnalytics() {
         <DialogContent className="sm:max-w-[500px] bg-card border border-border p-6">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-              <MessageSquare className="h-5 w-5 text-primary" />
+              <Icons.MessageSquare className="h-5 w-5 text-primary" />
               Configure Promotion Campaign
             </DialogTitle>
             <DialogDescription className="text-muted-foreground text-xs">
@@ -458,7 +459,7 @@ export default function TenantAnalytics() {
               onClick={handleConfirmPromo} 
               className="flex items-center gap-2"
             >
-              <MessageSquare className="h-4 w-4" /> Send Promo Message
+              <Icons.MessageSquare className="h-4 w-4" /> Send Promo Message
             </Button>
           </DialogFooter>
         </DialogContent>

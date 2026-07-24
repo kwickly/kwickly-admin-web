@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useEffect } from "react";
-import { CreditCard, ArrowUpRight, ArrowDownRight } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -33,7 +34,7 @@ export default function WalletTransactions() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <CreditCard className="h-6 w-6 text-primary" />
+            <Icons.CreditCard className="h-6 w-6 text-primary" />
             Wallet & Transactions
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -82,12 +83,12 @@ export default function WalletTransactions() {
                       <TableCell>
                         {tx.type === 'CREDIT' ? (
                           <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
-                            <ArrowUpRight className="h-3 w-3 mr-1" />
+                            <Icons.ArrowUpRight className="h-3 w-3 mr-1" />
                             CREDIT
                           </Badge>
                         ) : (
                           <Badge variant="outline" className="bg-rose-500/10 text-rose-600 border-rose-500/20">
-                            <ArrowDownRight className="h-3 w-3 mr-1" />
+                            <Icons.ArrowDownRight className="h-3 w-3 mr-1" />
                             DEBIT
                           </Badge>
                         )}

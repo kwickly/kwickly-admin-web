@@ -1,3 +1,4 @@
+import { Icons } from '@/components/shared/icons';
 import { Outlet, Navigate, Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { useBranchStore } from "@/store/useBranch"
@@ -10,15 +11,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select"
-import { 
-  Search,
-  Bell,
-  HelpCircle,
-  User,
-  LogOut,
-  Sun,
-  Moon
-} from "lucide-react";
+
 import { AppSidebar } from "@/components/AppSidebar";
 import { 
   SidebarInset, 
@@ -170,8 +163,8 @@ export default function AppShell() {
                   onClick={() => setCommandOpen(true)}
                   className="flex items-center h-11 w-48 lg:w-72 rounded-xl border border-border bg-muted px-4 text-xs focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-ring/50 transition-all text-muted-foreground group-hover:text-foreground/70"
                 >
-                  <Search className="h-3.5 w-3.5 mr-2 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <span>Search anything...</span>
+                  <Icons.Search className="h-3.5 w-3.5 mr-2 text-muted-foreground group-hover:text-primary transition-colors" />
+                  <span>Icons.Search anything...</span>
                   <div className="ml-auto flex items-center gap-1 rounded border border-border bg-background px-1.5 py-0.5 shadow-sm">
                     <span className="text-[10px] font-medium text-muted-foreground">⌘</span>
                     <span className="text-[10px] font-medium text-muted-foreground">K</span>
@@ -185,13 +178,13 @@ export default function AppShell() {
                   className="h-11 w-11 p-0 text-muted-foreground hover:text-primary"
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 >
-                  {theme === 'dark' ? <Sun className="size-5" /> : <Moon className="size-5" />}
+                  {theme === 'dark' ? <Icons.Sun className="size-5" /> : <Icons.Moon className="size-5" />}
                 </Button>
                 <Button variant="ghost" className="h-11 w-11 p-0 text-muted-foreground">
-                  <Bell className="size-5" />
+                  <Icons.Bell className="size-5" />
                 </Button>
                 <Button variant="ghost" className="h-11 w-11 p-0 text-muted-foreground">
-                  <HelpCircle className="size-5" />
+                  <Icons.HelpCircle className="size-5" />
                 </Button>
               </div>
 
@@ -204,7 +197,7 @@ export default function AppShell() {
                       {activeLogoUrl ? (
                         <img src={activeLogoUrl} alt="Logo" className="h-full w-full object-cover" />
                       ) : (
-                        <User className="size-4" />
+                        <Icons.User className="size-4" />
                       )}
                     </div>
                     <div className="hidden lg:flex flex-col items-start gap-0">
@@ -220,12 +213,12 @@ export default function AppShell() {
                     My Account
                   </div>
                   <DropdownMenuItem render={<Link to="/settings/user-profile" className="cursor-pointer" />}>
-                    <User className="mr-2 size-4" />
+                    <Icons.User className="mr-2 size-4" />
                     <span>Profile</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="text-destructive cursor-pointer focus:bg-destructive/10" onClick={() => logout()}>
-                    <LogOut className="mr-2 size-4" />
+                    <Icons.LogOut className="mr-2 size-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>

@@ -1,4 +1,4 @@
-import { PackageOpen, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { useInventoryForecast } from "@/hooks/api/useDashboard";
 import { useBranchStore } from "@/store/useBranch";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -15,7 +15,7 @@ export default function InventoryAnalytics() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <PackageOpen className="h-6 w-6 text-primary" />
+            <Icons.PackageOpen className="h-6 w-6 text-primary" />
             Inventory Forecast
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -35,7 +35,7 @@ export default function InventoryAnalytics() {
           </div>
         ) : !forecastData || forecastData.length === 0 ? (
           <div className="h-[200px] flex flex-col items-center justify-center text-muted-foreground gap-2">
-            <PackageOpen className="h-10 w-10 opacity-30" />
+            <Icons.PackageOpen className="h-10 w-10 opacity-30" />
             <p className="text-sm">No inventory data available for forecasting.</p>
           </div>
         ) : (
@@ -46,16 +46,16 @@ export default function InventoryAnalytics() {
               
               let statusColor = "text-emerald-500";
               let progressColor = "bg-emerald-500";
-              let Icon = CheckCircle2;
+              let Icon = Icons.CheckCircle2;
               
               if (isCritical) {
                 statusColor = "text-destructive";
                 progressColor = "bg-destructive";
-                Icon = AlertTriangle;
+                Icon = Icons.AlertTriangle;
               } else if (isWarning) {
                 statusColor = "text-amber-500";
                 progressColor = "bg-amber-500";
-                Icon = AlertTriangle;
+                Icon = Icons.AlertTriangle;
               }
 
               // Cap progress at 100 for > 30 days

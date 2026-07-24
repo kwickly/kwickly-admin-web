@@ -1,3 +1,4 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { usePlatformTenantSettings, useUpdatePlatformTenantSettings } from '@/hooks/api/usePlatform';
@@ -9,7 +10,7 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
-import { Palette, Type, Square, Layout, Image as ImageIcon, CheckCircle2, AlertTriangle } from 'lucide-react';
+
 import { generateOklchTheme } from '@/lib/ThemeGenerator';
 import { getContrastColor } from '@/lib/colors';
 
@@ -156,25 +157,25 @@ export default function TenantBranding() {
               onClick={() => setActiveTab('colors')}
               className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'colors' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
-              <Palette className="w-4 h-4" /> <span>Colors</span>
+              <Icons.Palette className="w-4 h-4" /> <span>Colors</span>
             </button>
             <button 
               onClick={() => setActiveTab('shape')}
               className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'shape' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
-              <Square className="w-4 h-4" /> <span>Shape</span>
+              <Icons.Square className="w-4 h-4" /> <span>Shape</span>
             </button>
             <button 
               onClick={() => setActiveTab('type')}
               className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'type' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
-              <Type className="w-4 h-4" /> <span>Type</span>
+              <Icons.Type className="w-4 h-4" /> <span>Icons.Type</span>
             </button>
             <button 
               onClick={() => setActiveTab('assets')}
               className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'assets' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
-              <ImageIcon className="w-4 h-4" /> <span>Assets</span>
+              <Icons.ImageIcon className="w-4 h-4" /> <span>Assets</span>
             </button>
           </div>
 
@@ -212,8 +213,8 @@ export default function TenantBranding() {
                         : 'bg-warning/10 text-warning border-warning/20'
                     }`}>
                       {contrastIsValid
-                        ? <CheckCircle2 className="h-3.5 w-3.5" />
-                        : <AlertTriangle className="h-3.5 w-3.5" />}
+                        ? <Icons.CheckCircle2 className="h-3.5 w-3.5" />
+                        : <Icons.AlertTriangle className="h-3.5 w-3.5" />}
                       {contrastIsValid
                         ? `${contrastRatio.toFixed(1)}:1 — Meets WCAG AA`
                         : `${contrastRatio.toFixed(1)}:1 — Contrast too low`}
@@ -355,7 +356,7 @@ export default function TenantBranding() {
                 <div className="w-3 h-3 rounded-full bg-emerald-400/90 shadow-sm" />
               </div>
               <div className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase flex items-center gap-1.5">
-                <Layout className="w-3 h-3" /> Live UI Mockup
+                <Icons.Layout className="w-3 h-3" /> Live UI Mockup
               </div>
               <div className="w-10" />
             </div>

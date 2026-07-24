@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from 'react';
-import { LifeBuoy, Clock, MessageCircle } from "lucide-react";
+
 import { useSupport } from '@/hooks/api/useSupport';
 import { formatDistanceToNow } from 'date-fns';
 import { SearchInput } from "@/components/ui/search-input";
@@ -26,7 +27,7 @@ export default function PlatformSupportTickets() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <LifeBuoy className="h-6 w-6 text-primary" />
+            <Icons.LifeBuoy className="h-6 w-6 text-primary" />
             Platform Support Inbox
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -69,7 +70,7 @@ export default function PlatformSupportTickets() {
             <div className="p-8 text-center animate-pulse text-muted-foreground">Loading tickets...</div>
           ) : filteredTickets?.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-12 text-center">
-              <LifeBuoy className="h-12 w-12 text-muted-foreground/30 mb-4" />
+              <Icons.LifeBuoy className="h-12 w-12 text-muted-foreground/30 mb-4" />
               <h3 className="text-lg font-medium text-foreground">No Tickets Found</h3>
               <p className="text-sm text-muted-foreground mt-1 max-w-sm">
                 No tickets match your current search and filter criteria.
@@ -108,10 +109,10 @@ export default function PlatformSupportTickets() {
                           {ticket.tenant?.name || 'Unknown Tenant'}
                         </span>
                         <span className="flex items-center gap-1 text-muted-foreground">
-                          <Clock className="h-3.5 w-3.5" /> {formatDistanceToNow(new Date(ticket.createdAt), { addSuffix: true })}
+                          <Icons.Clock className="h-3.5 w-3.5" /> {formatDistanceToNow(new Date(ticket.createdAt), { addSuffix: true })}
                         </span>
                         <span className="flex items-center gap-1 text-muted-foreground">
-                          <MessageCircle className="h-3.5 w-3.5" /> {ticket.createdBy?.name || 'User'}
+                          <Icons.MessageCircle className="h-3.5 w-3.5" /> {ticket.createdBy?.name || 'User'}
                         </span>
                       </div>
                     </div>

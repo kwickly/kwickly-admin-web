@@ -1,4 +1,4 @@
-import { Shield } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import RoleBuilder from "@/features/staff/components/RoleBuilder";
 
 export default function PlatformRoles() {
@@ -7,7 +7,7 @@ export default function PlatformRoles() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Shield className="h-6 w-6 text-primary" />
+            <Icons.Shield className="h-6 w-6 text-primary" />
             Platform Role Builder
           </h1>
           <p className="text-sm text-muted-foreground mt-1">

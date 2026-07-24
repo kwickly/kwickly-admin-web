@@ -1,4 +1,4 @@
-import { Blocks } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import CreateComboSheet from "@/features/combos/components/CreateComboSheet";
 import { useCombos } from "@/hooks/api/useCombos";
 import { useBranchStore } from "@/store/useBranch";
@@ -24,7 +24,7 @@ export default function Combos() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Blocks className="h-6 w-6 text-primary" />
+            <Icons.Blocks className="h-6 w-6 text-primary" />
             Combo Meals
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -38,7 +38,7 @@ export default function Combos() {
         <GridCardSkeleton count={4} />
       ) : !combos || combos.length === 0 ? (
         <div className="p-12 text-center bg-card rounded-xl border border-border">
-          <Blocks className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+          <Icons.Blocks className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
           <h3 className="text-lg font-medium text-foreground">No combos created yet</h3>
           <p className="text-muted-foreground mt-2 max-w-sm mx-auto">
             Combos allow you to package a main item, sides, and drinks together at a specific price point.

@@ -1,3 +1,4 @@
+import { Icons } from '@/components/shared/icons';
 'use client';
 
 import React, { useMemo, useCallback, useEffect } from 'react';
@@ -17,17 +18,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useBranchStore } from '@/store/useBranch';
 import { useActiveKOTs, useUpdateKOTStatus } from '@/hooks/api/useOrders';
 import type { ActiveKOT } from '@/hooks/api/useOrders';
-import {
-  Clock,
-  CheckCircle2,
-  ChefHat,
-  
-  Utensils,
-  ShoppingBag,
-  GripVertical,
-  ArrowRightCircle,
-  Package,
-} from 'lucide-react';
+
 import { formatDistanceToNow } from 'date-fns';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -52,7 +43,7 @@ const COLUMN_CONFIG: Record<KotStatus, {
   pending: {
     label: 'New Orders',
     subtitle: 'Waiting to be accepted',
-    icon: <Package className="h-5 w-5 text-[var(--chart-1)]" />,
+    icon: <Icons.Package className="h-5 w-5 text-[var(--chart-1)]" />,
     headerClass: 'bg-[var(--chart-1)]/10',
     badgeClass: 'bg-background text-foreground',
     emptyText: 'No new orders',
@@ -63,7 +54,7 @@ const COLUMN_CONFIG: Record<KotStatus, {
   preparing: {
     label: 'In Kitchen',
     subtitle: 'Currently being prepared',
-    icon: <ChefHat className="h-5 w-5 text-[var(--chart-3)]" />,
+    icon: <Icons.ChefHat className="h-5 w-5 text-[var(--chart-3)]" />,
     headerClass: 'bg-[var(--chart-3)]/10',
     badgeClass: 'bg-background text-foreground',
     emptyText: 'Kitchen is clear',
@@ -74,7 +65,7 @@ const COLUMN_CONFIG: Record<KotStatus, {
   ready: {
     label: 'Ready',
     subtitle: 'Waiting for pickup/service',
-    icon: <CheckCircle2 className="h-5 w-5 text-[var(--chart-2)]" />,
+    icon: <Icons.CheckCircle2 className="h-5 w-5 text-[var(--chart-2)]" />,
     headerClass: 'bg-[var(--chart-2)]/10',
     badgeClass: 'bg-background text-foreground',
     emptyText: 'All served!',
@@ -107,7 +98,7 @@ function WaitBadge({ createdAt }: { createdAt: string }) {
           : 'bg-muted text-muted-foreground'
       )}
     >
-      <Clock className="h-3 w-3" />
+      <Icons.Clock className="h-3 w-3" />
       {label}
     </span>
   );
@@ -146,7 +137,7 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
       <div className="flex items-start justify-between p-3 pb-2">
         <div className="flex items-start gap-2 min-w-0">
           {/* Drag Handle */}
-          <GripVertical className="h-4 w-4 text-muted-foreground/50 mt-0.5 shrink-0 group-hover:text-muted-foreground transition-colors" />
+          <Icons.GripVertical className="h-4 w-4 text-muted-foreground/50 mt-0.5 shrink-0 group-hover:text-muted-foreground transition-colors" />
           <div className="min-w-0">
             {/* Order ID + Table */}
             <div className="flex items-center gap-2 flex-wrap">
@@ -166,9 +157,9 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
               {/* Mode badge */}
               <span className="text-muted-foreground/60">
                 {kot.orderMode === 'dine_in' ? (
-                  <Utensils className="h-3.5 w-3.5" />
+                  <Icons.Utensils className="h-3.5 w-3.5" />
                 ) : kot.orderMode === 'takeaway' ? (
-                  <ShoppingBag className="h-3.5 w-3.5" />
+                  <Icons.ShoppingBag className="h-3.5 w-3.5" />
                 ) : null}
               </span>
             </div>
@@ -214,7 +205,7 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
               config.actionClass
             )}
           >
-            <ArrowRightCircle className="h-3.5 w-3.5" />
+            <Icons.ArrowRightCircle className="h-3.5 w-3.5" />
             {config.actionLabel}
           </button>
         </div>
@@ -422,7 +413,7 @@ export default function Kds() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-              <ChefHat className="h-6 w-6 text-primary" />
+              <Icons.ChefHat className="h-6 w-6 text-primary" />
               Kitchen Display
             </h1>
             <p className="text-sm text-muted-foreground mt-1">

@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
-import { ShieldCheck, ToggleLeft, ToggleRight, Sparkles, UserCheck, Smartphone, PackageCheck } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -37,7 +38,7 @@ export default function OperationalSettings() {
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <ShieldCheck className="h-6 w-6 text-primary" />
+          <Icons.ShieldCheck className="h-6 w-6 text-primary" />
           Branch Operations
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
@@ -63,7 +64,7 @@ export default function OperationalSettings() {
               onClick={() => setDineIn(!dineIn)}
               className="text-primary hover:bg-transparent"
             >
-              {dineIn ? <ToggleRight className="h-10 w-10 fill-primary" /> : <ToggleLeft className="h-10 w-10 text-muted-foreground" />}
+              {dineIn ? <Icons.ToggleRight className="h-10 w-10 fill-primary" /> : <Icons.ToggleLeft className="h-10 w-10 text-muted-foreground" />}
             </Button>
           </div>
 
@@ -78,7 +79,7 @@ export default function OperationalSettings() {
               onClick={() => setTakeaway(!takeaway)}
               className="text-primary hover:bg-transparent"
             >
-              {takeaway ? <ToggleRight className="h-10 w-10 fill-primary" /> : <ToggleLeft className="h-10 w-10 text-muted-foreground" />}
+              {takeaway ? <Icons.ToggleRight className="h-10 w-10 fill-primary" /> : <Icons.ToggleLeft className="h-10 w-10 text-muted-foreground" />}
             </Button>
           </div>
 
@@ -93,7 +94,7 @@ export default function OperationalSettings() {
               onClick={() => setDelivery(!delivery)}
               className="text-primary hover:bg-transparent"
             >
-              {delivery ? <ToggleRight className="h-10 w-10 fill-primary" /> : <ToggleLeft className="h-10 w-10 text-muted-foreground" />}
+              {delivery ? <Icons.ToggleRight className="h-10 w-10 fill-primary" /> : <Icons.ToggleLeft className="h-10 w-10 text-muted-foreground" />}
             </Button>
           </div>
 
@@ -108,7 +109,7 @@ export default function OperationalSettings() {
               onClick={() => setAllowTakeawayOnDineIn(!allowTakeawayOnDineIn)}
               className="text-primary hover:bg-transparent"
             >
-              {allowTakeawayOnDineIn ? <ToggleRight className="h-10 w-10 fill-primary" /> : <ToggleLeft className="h-10 w-10 text-muted-foreground" />}
+              {allowTakeawayOnDineIn ? <Icons.ToggleRight className="h-10 w-10 fill-primary" /> : <Icons.ToggleLeft className="h-10 w-10 text-muted-foreground" />}
             </Button>
           </div>
         </CardContent>
@@ -142,7 +143,7 @@ export default function OperationalSettings() {
       <Card className="border border-border bg-card shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-amber-500" />
+            <Icons.Sparkles className="h-5 w-5 text-amber-500" />
             Premium Value-Add Modules
           </CardTitle>
           <CardDescription>Activate premium modules to streamline your restaurant B2B operations.</CardDescription>
@@ -152,7 +153,7 @@ export default function OperationalSettings() {
           <div className="p-5 rounded-xl border border-border bg-muted/10 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-primary font-bold">
-                <PackageCheck className="h-5 w-5" />
+                <Icons.PackageCheck className="h-5 w-5" />
                 <span>Inventory & Supply Chain</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -175,7 +176,7 @@ export default function OperationalSettings() {
           <div className="p-5 rounded-xl border border-border bg-muted/10 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-primary font-bold">
-                <UserCheck className="h-5 w-5" />
+                <Icons.UserCheck className="h-5 w-5" />
                 <span>Payroll & HR Engine</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -198,7 +199,7 @@ export default function OperationalSettings() {
           <div className="p-5 rounded-xl border border-border bg-muted/10 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-primary font-bold">
-                <Smartphone className="h-5 w-5" />
+                <Icons.Smartphone className="h-5 w-5" />
                 <span>CRM & Loyalty Campaigns</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -221,7 +222,7 @@ export default function OperationalSettings() {
           <div className="p-5 rounded-xl border border-border bg-muted/10 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-primary font-bold">
-                <Sparkles className="h-5 w-5 text-amber-500" />
+                <Icons.Sparkles className="h-5 w-5 text-amber-500" />
                 <span>AI Forecasting & Intelligence</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">

@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
-import { Check, X, Clock, Calendar, MessageSquareText } from "lucide-react";
+
 import { useTimesheets, useUpdateTimesheet, usePlatformTimesheets, useUpdatePlatformTimesheet } from "@/hooks/api/useStaffAttendance";
 import {
   Table,
@@ -23,7 +24,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+
 import {
   Select,
   SelectContent,
@@ -89,12 +90,12 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="relative w-full sm:w-72">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Icons.Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search staff or ID..."
+            placeholder="Icons.Search staff or ID..."
             className="pl-9 bg-background"
           />
         </div>
@@ -130,8 +131,8 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
               <TableHeader className="bg-muted/50">
                 <TableRow>
                   <TableHead>Staff Name</TableHead>
-                  <TableHead>Clock In</TableHead>
-                  <TableHead>Clock Out</TableHead>
+                  <TableHead>Icons.Clock In</TableHead>
+                  <TableHead>Icons.Clock Out</TableHead>
                   <TableHead className="text-right">Total Hours</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -146,11 +147,11 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                   </TableCell>
                   <TableCell className="text-muted-foreground text-xs">
                     <div className="flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                      <Icons.Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                       {new Date(record.clockIn).toLocaleDateString()}
                     </div>
                     <div className="flex items-center gap-1 mt-0.5 font-mono">
-                      <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                      <Icons.Clock className="h-3.5 w-3.5 text-muted-foreground" />
                       {new Date(record.clockIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </TableCell>
@@ -158,11 +159,11 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                     {record.clockOut ? (
                       <>
                         <div className="flex items-center gap-1">
-                          <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                          <Icons.Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                           {new Date(record.clockOut).toLocaleDateString()}
                         </div>
                         <div className="flex items-center gap-1 mt-0.5 font-mono">
-                          <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                          <Icons.Clock className="h-3.5 w-3.5 text-muted-foreground" />
                           {new Date(record.clockOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </div>
                       </>
@@ -186,7 +187,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                     </Badge>
                     {record.reviewerNotes && (
                       <div className="flex items-start gap-1 mt-2 text-[10px] text-muted-foreground bg-muted/50 p-1.5 rounded border border-border">
-                        <MessageSquareText className="h-3 w-3 mt-0.5 shrink-0" />
+                        <Icons.MessageSquareText className="h-3 w-3 mt-0.5 shrink-0" />
                         <span className="leading-tight">{record.reviewerNotes}</span>
                       </div>
                     )}
@@ -203,7 +204,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                           disabled={updateTimesheetMutation.isPending}
                           className="flex items-center gap-1 h-8 px-2.5 hover:text-success hover:bg-success/10"
                         >
-                          <Check className="h-3.5 w-3.5 text-success" /> Approve
+                          <Icons.Check className="h-3.5 w-3.5 text-success" /> Approve
                         </Button>
                         <Button
                           variant="outline"
@@ -214,7 +215,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
                           disabled={updateTimesheetMutation.isPending}
                           className="flex items-center gap-1 h-8 px-2.5 hover:text-destructive hover:bg-destructive/10"
                         >
-                          <X className="h-3.5 w-3.5 text-destructive" /> Reject
+                          <Icons.X className="h-3.5 w-3.5 text-destructive" /> Reject
                         </Button>
                       </div>
                     ) : (

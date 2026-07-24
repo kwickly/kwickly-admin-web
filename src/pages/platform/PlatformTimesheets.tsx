@@ -1,4 +1,4 @@
-import { CalendarClock } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import Timesheets from "@/features/staff/components/Timesheets";
 
 export default function PlatformTimesheets() {
@@ -7,7 +7,7 @@ export default function PlatformTimesheets() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <CalendarClock className="h-6 w-6 text-primary" />
+            <Icons.CalendarClock className="h-6 w-6 text-primary" />
             Platform Timesheets
           </h1>
           <p className="text-sm text-muted-foreground mt-1">

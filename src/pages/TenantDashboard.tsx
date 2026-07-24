@@ -1,4 +1,4 @@
-import { LayoutDashboard, DollarSign, ShoppingCart, TrendingUp, Users } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { useDailySales, useTopItems } from "@/hooks/api/useDashboard";
 import { useBranchStore } from "@/store/useBranch";
@@ -41,7 +41,7 @@ export default function TenantDashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <LayoutDashboard className="h-6 w-6 text-primary" />
+            <Icons.LayoutDashboard className="h-6 w-6 text-primary" />
             Operational Dashboard
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -56,7 +56,7 @@ export default function TenantDashboard() {
           <Can perform="analytics:read" fallback={
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4 opacity-50 grayscale">
               <div className="p-4 bg-muted rounded-lg">
-                <DollarSign className="h-6 w-6 text-muted-foreground" />
+                <Icons.DollarSign className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Today's Revenue</p>
@@ -66,7 +66,7 @@ export default function TenantDashboard() {
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
               <div className="p-4 bg-primary/10 rounded-lg">
-                <DollarSign className="h-6 w-6 text-primary" />
+                <Icons.DollarSign className="h-6 w-6 text-primary" />
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Today's Revenue</p>
@@ -80,7 +80,7 @@ export default function TenantDashboard() {
           <Can perform="orders:read" fallback={
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4 opacity-50 grayscale">
               <div className="p-4 bg-muted rounded-lg">
-                <ShoppingCart className="h-6 w-6 text-muted-foreground" />
+                <Icons.ShoppingCart className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Total Orders</p>
@@ -90,7 +90,7 @@ export default function TenantDashboard() {
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
               <div className="p-4 bg-primary/10 rounded-lg">
-                <ShoppingCart className="h-6 w-6 text-primary" />
+                <Icons.ShoppingCart className="h-6 w-6 text-primary" />
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Total Orders</p>
@@ -104,7 +104,7 @@ export default function TenantDashboard() {
           <Can perform="analytics:read" fallback={
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4 opacity-50 grayscale">
               <div className="p-4 bg-muted rounded-lg">
-                <TrendingUp className="h-6 w-6 text-muted-foreground" />
+                <Icons.TrendingUp className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Avg. Order Value</p>
@@ -114,7 +114,7 @@ export default function TenantDashboard() {
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
               <div className="p-4 bg-primary/10 rounded-lg">
-                <TrendingUp className="h-6 w-6 text-primary" />
+                <Icons.TrendingUp className="h-6 w-6 text-primary" />
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Avg. Order Value</p>
@@ -128,7 +128,7 @@ export default function TenantDashboard() {
           <Can perform="staff:read" fallback={
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4 opacity-50 grayscale">
               <div className="p-4 bg-muted rounded-lg">
-                <Users className="h-6 w-6 text-muted-foreground" />
+                <Icons.Users className="h-6 w-6 text-muted-foreground" />
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Active Staff</p>
@@ -138,7 +138,7 @@ export default function TenantDashboard() {
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
               <div className="p-4 bg-primary/10 rounded-lg">
-                <Users className="h-6 w-6 text-primary" />
+                <Icons.Users className="h-6 w-6 text-primary" />
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Active Staff</p>
@@ -153,7 +153,7 @@ export default function TenantDashboard() {
           <Can perform="analytics:read" fallback={
             <div className="lg:col-span-3 bg-card p-12 rounded-xl border border-border shadow-sm flex flex-col items-center justify-center text-center">
               <div className="p-4 bg-muted rounded-full mb-4">
-                <TrendingUp className="h-8 w-8 text-muted-foreground" />
+                <Icons.TrendingUp className="h-8 w-8 text-muted-foreground" />
               </div>
               <h3 className="text-lg font-semibold text-foreground">Detailed Charts Restricted</h3>
               <p className="text-sm text-muted-foreground max-w-sm mt-2">

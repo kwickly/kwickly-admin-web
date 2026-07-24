@@ -1,4 +1,4 @@
-import { Send, MessageSquare, Calendar } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
 import { SearchInput } from "@/components/ui/search-input";
 import { useSegments, useCampaigns, useCreateCampaign } from "@/hooks/api/useCRM";
@@ -76,7 +76,7 @@ export default function CampaignLogs() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Send className="h-6 w-6 text-primary" />
+            <Icons.Send className="h-6 w-6 text-primary" />
             Campaign Logs & Dispatcher
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -94,7 +94,7 @@ export default function CampaignLogs() {
             {/* @ts-ignore */}
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2">
-                <Send className="h-4 w-4" /> Send Campaign
+                <Icons.Send className="h-4 w-4" /> Icons.Send Campaign
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[450px] bg-card border border-border">
@@ -161,7 +161,7 @@ export default function CampaignLogs() {
 
               <DialogFooter className="pt-2">
                 <Button type="submit" disabled={createCampaignMutation.isPending} className="w-full flex items-center justify-center gap-2">
-                  <Send className="h-4 w-4" /> {createCampaignMutation.isPending ? 'Sending...' : 'Broadcast Campaign'}
+                  <Icons.Send className="h-4 w-4" /> {createCampaignMutation.isPending ? 'Sending...' : 'Broadcast Campaign'}
                 </Button>
               </DialogFooter>
             </form>
@@ -193,7 +193,7 @@ export default function CampaignLogs() {
                 <TableRow key={camp.id}>
                   <TableCell className="font-medium text-foreground">{camp.title}</TableCell>
                   <TableCell className="text-muted-foreground capitalize flex items-center gap-1.5 pt-4">
-                    <MessageSquare className="h-3.5 w-3.5 text-muted-foreground/70" />
+                    <Icons.MessageSquare className="h-3.5 w-3.5 text-muted-foreground/70" />
                     {camp.channel}
                   </TableCell>
                   <TableCell className="text-muted-foreground font-mono text-xs">{camp.sentCount} recipients</TableCell>
@@ -203,7 +203,7 @@ export default function CampaignLogs() {
                     </Badge>
                   </TableCell>
                   <TableCell className="text-muted-foreground flex items-center gap-1 text-xs pt-4">
-                    <Calendar className="h-3.5 w-3.5 text-muted-foreground/70" />
+                    <Icons.Calendar className="h-3.5 w-3.5 text-muted-foreground/70" />
                     {new Date(camp.sentAt).toLocaleString()}
                   </TableCell>
                 </TableRow>

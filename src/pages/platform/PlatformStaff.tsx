@@ -1,6 +1,7 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useEffect } from "react";
 import api from "@/lib/api";
-import { ShieldAlert, Shield, Search, Mail, Phone, Clock } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -58,7 +59,7 @@ export default function PlatformStaff() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <ShieldAlert className="h-6 w-6 text-primary" />
+            <Icons.ShieldAlert className="h-6 w-6 text-primary" />
             Platform Staff & Admins
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -77,12 +78,12 @@ export default function PlatformStaff() {
               </CardDescription>
             </div>
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Icons.Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search staff..."
+                placeholder="Icons.Search staff..."
                 className="pl-9 w-64 bg-muted/50"
               />
             </div>
@@ -111,7 +112,7 @@ export default function PlatformStaff() {
               ) : filteredStaff.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-12">
-                    <ShieldAlert className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                    <Icons.ShieldAlert className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
                     <p className="text-muted-foreground font-medium">
                       No staff found
                     </p>
@@ -141,13 +142,13 @@ export default function PlatformStaff() {
                       <div className="space-y-1 text-sm">
                         {member.email && (
                           <div className="flex items-center gap-1.5 text-muted-foreground">
-                            <Mail className="h-3 w-3" />
+                            <Icons.Mail className="h-3 w-3" />
                             {member.email}
                           </div>
                         )}
                         {member.phone && (
                           <div className="flex items-center gap-1.5 text-muted-foreground">
-                            <Phone className="h-3 w-3" />
+                            <Icons.Phone className="h-3 w-3" />
                             {member.phone}
                           </div>
                         )}
@@ -162,7 +163,7 @@ export default function PlatformStaff() {
                             : "bg-primary/10 text-primary border-primary/20"
                         }
                       >
-                        <Shield className="w-3 h-3 mr-1" />
+                        <Icons.Shield className="w-3 h-3 mr-1" />
                         {member.role === "super_admin"
                           ? "Super Admin"
                           : "Platform Owner"}
@@ -170,7 +171,7 @@ export default function PlatformStaff() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                        <Clock className="h-3 w-3" />
+                        <Icons.Clock className="h-3 w-3" />
                         {new Date(member.createdAt).toLocaleDateString()}
                       </div>
                     </TableCell>

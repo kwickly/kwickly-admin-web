@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from 'react';
-import { LifeBuoy, Plus, MessageCircle, Clock } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -43,7 +44,7 @@ export default function TenantSupportTickets() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <LifeBuoy className="h-6 w-6 text-primary" />
+            <Icons.LifeBuoy className="h-6 w-6 text-primary" />
             Support Inbox
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -51,7 +52,7 @@ export default function TenantSupportTickets() {
           </p>
         </div>
         <Button onClick={() => setIsCreateOpen(true)}>
-          <Plus className="h-4 w-4 mr-2" /> New Ticket
+          <Icons.Plus className="h-4 w-4 mr-2" /> New Ticket
         </Button>
       </div>
 
@@ -91,13 +92,13 @@ export default function TenantSupportTickets() {
       ) : filteredTickets?.length === 0 ? (
         <div className="flex items-center justify-center h-64 border border-dashed border-border rounded-xl bg-card/50">
           <div className="text-center">
-            <LifeBuoy className="h-10 w-10 text-muted-foreground/50 mx-auto mb-4" />
+            <Icons.LifeBuoy className="h-10 w-10 text-muted-foreground/50 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-foreground">No Tickets Yet</h3>
             <p className="text-sm text-muted-foreground mt-1 max-w-sm">
               You haven't created any support tickets. If you need help, feel free to open one!
             </p>
             <Button className="mt-4" onClick={() => setIsCreateOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" /> New Ticket
+              <Icons.Plus className="h-4 w-4 mr-2" /> New Ticket
             </Button>
           </div>
         </div>
@@ -127,10 +128,10 @@ export default function TenantSupportTickets() {
                 <p className="text-sm text-muted-foreground line-clamp-1">{ticket.description}</p>
                 <div className="flex items-center gap-4 text-xs text-muted-foreground/70 pt-1">
                   <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" /> {formatDistanceToNow(new Date(ticket.createdAt), { addSuffix: true })}
+                    <Icons.Clock className="h-3 w-3" /> {formatDistanceToNow(new Date(ticket.createdAt), { addSuffix: true })}
                   </span>
                   <span className="flex items-center gap-1">
-                    <MessageCircle className="h-3 w-3" /> Click to view thread
+                    <Icons.MessageCircle className="h-3 w-3" /> Click to view thread
                   </span>
                 </div>
               </div>

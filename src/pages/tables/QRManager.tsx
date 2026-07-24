@@ -1,8 +1,9 @@
+import { Icons } from '@/components/shared/icons';
 import { useRef } from 'react';
 import { useAuthStore } from '@/store/useAuth';
 import { useBranchStore } from '@/store/useBranch';
 import { useTables, useRegenerateQr } from '@/hooks/api/useTables';
-import { Printer, Download, QrCode, RefreshCw } from 'lucide-react';
+
 import QRCode from 'react-qr-code';
 import { Can } from '@/components/shared/Can';
 
@@ -61,13 +62,13 @@ export default function QRManager() {
       <div className="flex items-center justify-between no-print">
         <div>
           <h1 className="text-3xl font-bold font-jakarta text-foreground">QR Manager</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Download or print QR codes for all your tables.</p>
+          <p className="text-muted-foreground mt-1 text-sm">Icons.Download or print QR codes for all your tables.</p>
         </div>
         <button
           onClick={handlePrint}
           className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-xl flex items-center space-x-2 transition-all hover:scale-105 active:scale-95 shadow-sm font-medium text-sm cursor-pointer"
         >
-          <Printer size={18} />
+          <Icons.Printer size={18} />
           <span>Print All QRs</span>
         </button>
       </div>
@@ -81,7 +82,7 @@ export default function QRManager() {
       ) : tables.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center bg-card rounded-3xl border border-border shadow-sm no-print">
           <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-            <QrCode className="w-8 h-8 text-primary" />
+            <Icons.QrCode className="w-8 h-8 text-primary" />
           </div>
           <h3 className="text-xl font-bold font-jakarta text-foreground mb-2">No QR Codes to Print</h3>
           <p className="text-muted-foreground max-w-sm mb-6">Set up your tables in the Floor View to generate QR codes.</p>
@@ -104,7 +105,7 @@ export default function QRManager() {
                   className="absolute top-4 right-4 p-2 bg-muted text-muted-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/10 hover:text-primary cursor-pointer no-print"
                   title="Regenerate QR Token"
                 >
-                  <RefreshCw size={16} />
+                  <Icons.RefreshCw size={16} />
                 </button>
               </Can>
 
@@ -122,8 +123,8 @@ export default function QRManager() {
                   onClick={() => downloadQrCode(table.id, table.name)}
                   className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm text-sm cursor-pointer"
                 >
-                  <Download size={16} />
-                  <span>Download</span>
+                  <Icons.Download size={16} />
+                  <span>Icons.Download</span>
                 </button>
               </div>
             </div>

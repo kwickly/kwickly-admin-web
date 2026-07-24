@@ -1,8 +1,9 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Eye, EyeOff } from "lucide-react";
+
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { usePublicBranding } from "@/hooks/api/useBranding";
@@ -139,7 +140,7 @@ export default function ResetPassword() {
                     className="absolute right-1 top-1/2 -translate-y-1/2 min-h-[44px] min-w-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
-                    {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+                    {showPassword ? <Icons.Eye className="h-5 w-5" /> : <Icons.EyeOff className="h-5 w-5" />}
                   </button>
                 </div>
               </div>

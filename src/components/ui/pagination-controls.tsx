@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { Button } from "@/components/ui/button";
 
 interface PaginationControlsProps {
@@ -20,7 +20,7 @@ export function PaginationControls({ page, totalPages, onPageChange }: Paginatio
               disabled={page <= 1}
             >
               <span className="sr-only">Previous</span>
-              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+              <Icons.ChevronLeft className="h-4 w-4" aria-hidden="true" />
             </Button>
             
             <div className="flex items-center px-4 h-9 border border-border bg-muted/50 text-sm font-semibold text-foreground">
@@ -34,7 +34,7 @@ export function PaginationControls({ page, totalPages, onPageChange }: Paginatio
               disabled={page >= totalPages}
             >
               <span className="sr-only">Next</span>
-              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              <Icons.ChevronRight className="h-4 w-4" aria-hidden="true" />
             </Button>
           </nav>
     </div>

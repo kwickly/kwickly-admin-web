@@ -1,4 +1,4 @@
-import { Shield, Save, Lock, Edit2, Trash2, Plus, X } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { useState, useEffect } from "react";
 import { useRoles, useUpdateRolePermissions, usePlatformRoles, useUpdatePlatformRolePermissions, useDeleteRole, useDeletePlatformRole, useCreateRole, usePermissions } from "@/hooks/api/useStaff";
 import { Button } from "@/components/ui/button";
@@ -133,7 +133,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
       {!isPlatform && (
         <div className="flex justify-end">
           <Button onClick={() => setIsCreateDialogOpen(true)} className="cursor-pointer">
-            <Plus className="h-4 w-4 mr-2" /> Create Custom Role
+            <Icons.Plus className="h-4 w-4 mr-2" /> Create Custom Role
           </Button>
         </div>
       )}
@@ -147,7 +147,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
               <div>
                 <h3 className="font-semibold text-card-foreground flex items-center gap-2">
                   {role.name}
-                  {role.isSystem && <Lock className="h-3 w-3 text-muted-foreground/60" />}
+                  {role.isSystem && <Icons.Lock className="h-3 w-3 text-muted-foreground/60" />}
                 </h3>
                 {role.isSystem ? (
                   <Badge variant="outline" className="mt-2 text-[10px] text-primary border-primary/20 bg-primary/10 uppercase tracking-tighter">
@@ -160,7 +160,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                 )}
               </div>
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-muted text-muted-foreground">
-                <Shield className="h-4 w-4" />
+                <Icons.Shield className="h-4 w-4" />
               </div>
             </div>
             <div className="p-5 flex-1 min-w-0 flex flex-col justify-between space-y-6">
@@ -190,7 +190,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                     setIsDialogOpen(true);
                   }}
                 >
-                  <Edit2 className="h-4 w-4 mr-2" /> Configure
+                  <Icons.Edit2 className="h-4 w-4 mr-2" /> Configure
                 </Button>
                 {(!role.isSystem && (user?.role === 'platform_owner' || user?.role === 'tenant_owner' || user?.role === 'super_admin')) && (
                   <Button 
@@ -198,7 +198,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                     className="w-10 px-0 text-destructive border-destructive/25 hover:bg-destructive/10 cursor-pointer"
                     onClick={() => setDeleteRoleId(role.id)}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Icons.Trash2 className="h-4 w-4" />
                   </Button>
                 )}
               </div>
@@ -261,7 +261,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                 className="h-9 w-9 cursor-pointer text-muted-foreground hover:bg-muted"
                 onClick={() => setIsDialogOpen(false)}
               >
-                <X className="h-4 w-4" />
+                <Icons.X className="h-4 w-4" />
               </Button>
             </div>
           </DialogHeader>
@@ -293,7 +293,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                             {p.label}
                             {!canAssign && (
                               <span title="You don't have this permission">
-                                <Lock className="h-3 w-3 text-muted-foreground" />
+                                <Icons.Lock className="h-3 w-3 text-muted-foreground" />
                               </span>
                             )}
                           </p>
@@ -322,7 +322,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
               disabled={updateRolePermissionsMutation.isPending || isLoading || !selectedRoleId}
               className="bg-primary hover:bg-primary/95 text-primary-foreground flex items-center gap-2 h-9 cursor-pointer"
             >
-              <Save className="h-4 w-4" /> Save Configuration
+              <Icons.Save className="h-4 w-4" /> Icons.Save Configuration
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -342,7 +342,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
               disabled={!newRoleName.trim() || createRoleMutation?.isPending}
               className="bg-primary hover:bg-primary/95 text-primary-foreground flex items-center gap-2 h-9 cursor-pointer"
             >
-              <Save className="h-4 w-4" /> Save Custom Role
+              <Icons.Save className="h-4 w-4" /> Icons.Save Custom Role
             </Button>
           </DialogHeader>
 
@@ -383,7 +383,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                             {p.label}
                             {!canAssign && (
                               <span title="You don't have this permission">
-                                <Lock className="h-3 w-3 text-muted-foreground" />
+                                <Icons.Lock className="h-3 w-3 text-muted-foreground" />
                               </span>
                             )}
                           </p>

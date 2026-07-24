@@ -1,3 +1,4 @@
+import { Icons } from '@/components/shared/icons';
 import { useBranchStore } from "@/store/useBranch";
 import { useOrders, useCancelOrder } from "@/hooks/api/useOrders";
 
@@ -11,12 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  Receipt, 
-  Ban, 
-  CheckCircle, 
-  Clock, 
-} from "lucide-react";
+
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -44,7 +40,7 @@ export default function Orders() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Receipt className="h-6 w-6 text-primary" />
+            <Icons.Receipt className="h-6 w-6 text-primary" />
             Order Management
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -117,7 +113,7 @@ export default function Orders() {
                         "capitalize border-transparent flex w-fit items-center gap-1",
                         order.paymentStatus === 'paid' ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning dark:bg-warning/20'
                       )}>
-                        {order.paymentStatus === 'paid' ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                        {order.paymentStatus === 'paid' ? <Icons.CheckCircle className="w-3 h-3" /> : <Icons.Clock className="w-3 h-3" />}
                         {order.paymentStatus}
                       </Badge>
                     </TableCell>
@@ -127,14 +123,14 @@ export default function Orders() {
                           variant="ghost" 
                           size="icon" 
                           className="h-8 w-8 text-muted-foreground hover:text-primary"
-                          title="View Receipt"
+                          title="View Icons.Receipt"
                           onClick={() => {
                             // TODO: Implement receipt modal
-                            toast.info("Receipt view coming soon");
+                            toast.info("Icons.Receipt view coming soon");
                           }}
                         >
-                          <Receipt className="h-4 w-4" />
-                          <span className="sr-only">View Receipt</span>
+                          <Icons.Receipt className="h-4 w-4" />
+                          <span className="sr-only">View Icons.Receipt</span>
                         </Button>
 
                         {!isCancelled && (
@@ -145,7 +141,7 @@ export default function Orders() {
                             title="Cancel Order"
                             onClick={() => handleCancelOrder(order.id)}
                           >
-                            <Ban className="h-4 w-4" />
+                            <Icons.Ban className="h-4 w-4" />
                             <span className="sr-only">Cancel Order</span>
                           </Button>
                         )}

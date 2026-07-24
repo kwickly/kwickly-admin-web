@@ -1,4 +1,4 @@
-import { Plus, Target } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
 import { SearchInput } from "@/components/ui/search-input";
 import { useSegments, useCreateSegment } from "@/hooks/api/useCRM";
@@ -70,7 +70,7 @@ export default function CustomerSegments() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Target className="h-6 w-6 text-primary" />
+            <Icons.Target className="h-6 w-6 text-primary" />
             Customer Segments
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -88,7 +88,7 @@ export default function CustomerSegments() {
             {/* @ts-ignore */}
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2">
-                <Plus className="h-4 w-4" /> Create Segment
+                <Icons.Plus className="h-4 w-4" /> Create Segment
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-card border-border">

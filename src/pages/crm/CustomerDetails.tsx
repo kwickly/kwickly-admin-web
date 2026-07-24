@@ -1,6 +1,7 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Wallet, Star, } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -80,7 +81,7 @@ export default function CustomerDetails() {
       <div className="max-w-7xl mx-auto space-y-6">
         <h1 className="text-2xl font-bold">Customer not found</h1>
         <Link to="/crm/directory">
-          <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Directory</Button>
+          <Button variant="outline"><Icons.ArrowLeft className="mr-2 h-4 w-4" /> Back to Directory</Button>
         </Link>
       </div>
     );
@@ -90,7 +91,7 @@ export default function CustomerDetails() {
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex items-center gap-4 mb-2">
         <Link to="/crm/directory" className="text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="h-5 w-5" />
+          <Icons.ArrowLeft className="h-5 w-5" />
         </Link>
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -138,18 +139,18 @@ export default function CustomerDetails() {
           <CardContent>
             <Tabs defaultValue="wallet" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="wallet"><Wallet className="h-4 w-4 mr-2"/> Wallet</TabsTrigger>
-                <TabsTrigger value="loyalty"><Star className="h-4 w-4 mr-2"/> Loyalty</TabsTrigger>
+                <TabsTrigger value="wallet"><Icons.Wallet className="h-4 w-4 mr-2"/> Icons.Wallet</TabsTrigger>
+                <TabsTrigger value="loyalty"><Icons.Star className="h-4 w-4 mr-2"/> Loyalty</TabsTrigger>
               </TabsList>
               
-              {/* Wallet Tab */}
+              {/* Icons.Wallet Tab */}
               <TabsContent value="wallet" className="mt-4 space-y-4">
                 <div className="bg-muted/50 p-4 rounded-lg border border-border flex items-center justify-between">
                   <div>
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Current Balance</p>
                     <p className="text-2xl font-bold text-foreground mt-1">₹{parseFloat(customer.walletBalance || '0').toFixed(2)}</p>
                   </div>
-                  <Button onClick={() => setIsWalletModalOpen(true)}>Adjust Wallet</Button>
+                  <Button onClick={() => setIsWalletModalOpen(true)}>Adjust Icons.Wallet</Button>
                 </div>
 
                 <div className="border border-border rounded-md overflow-hidden">
@@ -237,11 +238,11 @@ export default function CustomerDetails() {
         </Card>
       </div>
 
-      {/* Adjust Wallet Modal */}
+      {/* Adjust Icons.Wallet Modal */}
       <Dialog open={isWalletModalOpen} onOpenChange={setIsWalletModalOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Adjust Wallet Balance</DialogTitle>
+            <DialogTitle>Adjust Icons.Wallet Balance</DialogTitle>
             <DialogDescription>Manually credit or debit funds to this customer's wallet.</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleWalletAdjustment} className="space-y-4 mt-4">

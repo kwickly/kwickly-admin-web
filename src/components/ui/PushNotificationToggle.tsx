@@ -1,6 +1,7 @@
+import { Icons } from '@/components/shared/icons';
 import { useEffect, useState } from "react";
 import { usePushNotifications } from "@/hooks/usePushNotifications";
-import { Bell, BellOff, Loader2 } from "lucide-react";
+
 import { Button } from "./button";
 
 export function PushNotificationToggle() {
@@ -33,11 +34,11 @@ export function PushNotificationToggle() {
       disabled={loading}
     >
       {loading ? (
-        <Loader2 className="h-4 w-4 animate-spin" />
+        <Icons.Loader2 className="h-4 w-4 animate-spin" />
       ) : token ? (
-        <Bell className="h-4 w-4 text-green-500" />
+        <Icons.Bell className="h-4 w-4 text-green-500" />
       ) : (
-        <BellOff className="h-4 w-4 text-slate-400" />
+        <Icons.BellOff className="h-4 w-4 text-slate-400" />
       )}
       {token ? "Disable Push Notifications" : "Enable Push Notifications"}
     </Button>

@@ -1,4 +1,4 @@
-import { ListTree } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import CreateModifierDialog from "@/features/menus/components/CreateModifierDialog";
 import { useAddons } from "@/hooks/api/useMenus";
 import {
@@ -28,7 +28,7 @@ export default function MenuModifiers() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <ListTree className="h-6 w-6 text-primary" />
+            <Icons.ListTree className="h-6 w-6 text-primary" />
             Menu Modifiers
           </h1>
           <p className="text-sm text-muted-foreground mt-1">

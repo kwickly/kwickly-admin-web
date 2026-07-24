@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useEffect } from "react";
-import { Tag, Plus } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -118,7 +119,7 @@ export default function Discounts() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Tag className="h-6 w-6 text-primary" />
+            <Icons.Tag className="h-6 w-6 text-primary" />
             Promotions & Discounts
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -131,7 +132,7 @@ export default function Discounts() {
           <DialogTrigger
             render={
               <Button>
-                <Plus className="h-4 w-4 mr-2" />
+                <Icons.Plus className="h-4 w-4 mr-2" />
                 Create Promo
               </Button>
             }

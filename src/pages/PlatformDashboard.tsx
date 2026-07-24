@@ -1,4 +1,4 @@
-import { LayoutDashboard, Building, Users, Activity, DollarSign, TrendingUp } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, AreaChart, Area, CartesianGrid, XAxis, YAxis } from "recharts";
 import { usePlatformMetrics } from "@/hooks/api/usePlatform";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,7 +16,7 @@ export default function PlatformDashboard() {
         <PageHeader 
           title="Platform Overview" 
           description="Monitor global SaaS subscriptions, platform orders, and system-wide performance."
-          icon={LayoutDashboard}
+          icon={Icons.LayoutDashboard}
         />
         <DashboardKPISkeleton />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -49,7 +49,7 @@ export default function PlatformDashboard() {
       <PageHeader 
         title="Platform Overview" 
         description="Monitor global SaaS subscriptions, platform orders, and system-wide performance."
-        icon={LayoutDashboard}
+        icon={Icons.LayoutDashboard}
       />
 
       {/* Premium KPI Cards */}
@@ -59,13 +59,13 @@ export default function PlatformDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Tenants</CardTitle>
             <div className="p-2 rounded-lg bg-primary/10">
-              <Building className="h-4 w-4 text-primary" />
+              <Icons.Building className="h-4 w-4 text-primary" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
             <div className="text-3xl font-bold text-foreground">{metrics?.totalTenants}</div>
             <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
-              <span className="text-[var(--chart-2)] flex items-center"><TrendingUp className="h-3 w-3 mr-0.5"/> {metrics?.activeTenants} active</span>
+              <span className="text-[var(--chart-2)] flex items-center"><Icons.TrendingUp className="h-3 w-3 mr-0.5"/> {metrics?.activeTenants} active</span>
             </p>
           </CardContent>
         </Card>
@@ -73,9 +73,9 @@ export default function PlatformDashboard() {
         <Card className="bg-card border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-[var(--chart-2)]/5 blur-xl group-hover:bg-[var(--chart-2)]/10 transition-colors"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Platform Users</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Platform Icons.Users</CardTitle>
             <div className="p-2 rounded-lg bg-[var(--chart-2)]/10">
-              <Users className="h-4 w-4 text-[var(--chart-2)]" />
+              <Icons.Users className="h-4 w-4 text-[var(--chart-2)]" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -91,7 +91,7 @@ export default function PlatformDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Orders</CardTitle>
             <div className="p-2 rounded-lg bg-[var(--chart-3)]/10">
-              <Activity className="h-4 w-4 text-[var(--chart-3)]" />
+              <Icons.Activity className="h-4 w-4 text-[var(--chart-3)]" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -107,7 +107,7 @@ export default function PlatformDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground">Platform GMV</CardTitle>
             <div className="p-2 rounded-lg bg-destructive/10">
-              <DollarSign className="h-4 w-4 text-destructive" />
+              <Icons.DollarSign className="h-4 w-4 text-destructive" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -125,7 +125,7 @@ export default function PlatformDashboard() {
           <div className="absolute top-0 left-0 w-full h-1 bg-primary"></div>
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" />
+              <Icons.TrendingUp className="h-5 w-5 text-primary" />
               Tenant Growth
             </CardTitle>
           </CardHeader>
@@ -154,7 +154,7 @@ export default function PlatformDashboard() {
         <Card className="bg-card border-border shadow-sm flex flex-col justify-between">
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
-              <Building className="h-5 w-5 text-[var(--chart-2)]" />
+              <Icons.Building className="h-5 w-5 text-[var(--chart-2)]" />
               Plan Distribution
             </CardTitle>
           </CardHeader>

@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import React, { useState, useEffect } from 'react';
-import { User as UserIcon, Mail, Phone, Shield, Edit } from 'lucide-react';
+
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/useAuth';
 import { useProfile } from '@/hooks/api/useProfile';
@@ -50,7 +51,7 @@ export default function UserProfile() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <UserIcon className="h-6 w-6 text-primary" />
+            <Icons.User className="h-6 w-6 text-primary" />
             My Profile
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -76,15 +77,15 @@ export default function UserProfile() {
               variant="outline"
               className="bg-transparent border-border text-foreground hover:bg-muted/50"
             >
-              <Edit className="h-4 w-4 mr-2" />
-              Edit Profile
+              <Icons.Edit className="h-4 w-4 mr-2" />
+              Icons.Edit Profile
             </Button>
           </div>
 
           <div className="max-w-7xl mx-auto space-y-0 max-w-2xl">
             <div className="grid grid-cols-1 md:grid-cols-3 py-4 border-b border-border/50">
               <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-1 md:mb-0">
-                <UserIcon className="h-4 w-4" /> Full Name
+                <Icons.User className="h-4 w-4" /> Full Name
               </span>
               <span className="md:col-span-2 text-sm font-semibold text-foreground">
                 {user.name}
@@ -93,7 +94,7 @@ export default function UserProfile() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 py-4 border-b border-border/50">
               <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-1 md:mb-0">
-                <Mail className="h-4 w-4" /> Email Address
+                <Icons.Mail className="h-4 w-4" /> Email Address
               </span>
               <span className="md:col-span-2 text-sm font-semibold text-foreground">
                 {user.email}
@@ -102,7 +103,7 @@ export default function UserProfile() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 py-4 border-b border-border/50">
               <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-1 md:mb-0">
-                <Phone className="h-4 w-4" /> Phone Number
+                <Icons.Phone className="h-4 w-4" /> Icons.Phone Number
               </span>
               <span className="md:col-span-2 text-sm font-semibold text-foreground">
                 {user.phone || <span className="text-muted-foreground font-normal italic">Not provided</span>}
@@ -111,7 +112,7 @@ export default function UserProfile() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 py-4 border-b border-border/50">
               <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-1 md:mb-0">
-                <Shield className="h-4 w-4" /> System Role
+                <Icons.Shield className="h-4 w-4" /> System Role
               </span>
               <span className="md:col-span-2 text-sm font-semibold text-foreground capitalize">
                 {(user as any).roleDetails?.name || user.role.replace('_', ' ')}
@@ -125,7 +126,7 @@ export default function UserProfile() {
         <DialogContent className="sm:max-w-[425px] bg-card border-border">
           <form onSubmit={handleProfileSave}>
             <DialogHeader>
-              <DialogTitle className="text-foreground">Edit Profile</DialogTitle>
+              <DialogTitle className="text-foreground">Icons.Edit Profile</DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 Make changes to your personal information here. Click save when you're done.
               </DialogDescription>
@@ -147,7 +148,7 @@ export default function UserProfile() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="phone" className="text-sm font-medium text-foreground">
-                  Phone Number
+                  Icons.Phone Number
                 </label>
                 <Input
                   id="phone"

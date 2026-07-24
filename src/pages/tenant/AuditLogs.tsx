@@ -1,10 +1,11 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from 'react';
 import { useAuditLogs } from '@/hooks/api/useAuditLogs';
 import { PaginationControls } from '@/components/ui/pagination-controls';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, ShieldAlert } from 'lucide-react';
+
 import { PageHeader } from '@/components/ui/page-header';
 import { format } from 'date-fns';
 
@@ -20,7 +21,7 @@ export default function AuditLogs() {
       <PageHeader 
         title="Security & Audit Logs" 
         description="Track staff actions and security events across your restaurant."
-        icon={ShieldAlert}
+        icon={Icons.ShieldAlert}
       />
 
       <Card>
@@ -30,7 +31,7 @@ export default function AuditLogs() {
         <CardContent>
           {loading ? (
             <div className="flex justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              <Icons.Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </div>
           ) : error ? (
             <div className="text-destructive text-center py-8">{error instanceof Error ? error.message : "An error occurred"}</div>

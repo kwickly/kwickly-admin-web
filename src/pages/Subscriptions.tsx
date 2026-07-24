@@ -1,4 +1,4 @@
-import { CreditCard, Plus, Check, Edit2, Trash2, Calendar, ShieldAlert } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
 import {
   useSubscriptionPlans,
@@ -167,7 +167,7 @@ export default function Subscriptions() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <CreditCard className="h-6 w-6 text-primary" />
+            <Icons.CreditCard className="h-6 w-6 text-primary" />
             Subscription Plans
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -180,7 +180,7 @@ export default function Subscriptions() {
             {/* @ts-ignore */}
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2">
-                <Plus className="h-4 w-4" /> Create Plan
+                <Icons.Plus className="h-4 w-4" /> Create Plan
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px] bg-card border border-border overflow-y-auto max-h-[90vh]">
@@ -275,7 +275,7 @@ export default function Subscriptions() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="meal_count">Fixed Meal Count</SelectItem>
-                      <SelectItem value="monthly">Monthly Calendar Reset</SelectItem>
+                      <SelectItem value="monthly">Monthly Icons.Calendar Reset</SelectItem>
                       <SelectItem value="custom">Custom Timing</SelectItem>
                     </SelectContent>
                   </Select>
@@ -324,7 +324,7 @@ export default function Subscriptions() {
         <TableSkeleton />
       ) : !plans || plans.length === 0 ? (
         <div className="p-12 text-center bg-card rounded-xl border border-border">
-          <CreditCard className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
+          <Icons.CreditCard className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
           <h3 className="text-lg font-medium text-foreground">No subscription plans created yet</h3>
           <p className="text-muted-foreground mt-2 max-w-md mx-auto">
             Subscription plans allow customers to subscribe to bulk meal plans with automated digital ID scans.
@@ -336,7 +336,7 @@ export default function Subscriptions() {
             <Card key={plan.id} className={`bg-card border-border overflow-hidden flex flex-col justify-between shadow-sm relative ${plan.status !== 'ACTIVE' ? 'opacity-70 border-dashed' : ''}`}>
               {plan.status !== 'ACTIVE' && (
                 <div className="absolute top-2 right-2 flex items-center gap-1 bg-destructive/10 text-destructive text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
-                  <ShieldAlert className="h-3 w-3" /> Inactive
+                  <Icons.ShieldAlert className="h-3 w-3" /> Inactive
                 </div>
               )}
               <CardHeader className="border-b border-border/50 bg-muted/30 pb-4 pr-16">
@@ -360,22 +360,22 @@ export default function Subscriptions() {
 
                 <div className="space-y-2 pt-2 border-t border-border/50 text-sm text-foreground">
                   <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-emerald-500" />
+                    <Icons.Check className="h-4 w-4 text-emerald-500" />
                     <span><strong>{plan.totalMeals}</strong> Total Meals Included</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-emerald-500" />
+                    <Icons.Check className="h-4 w-4 text-emerald-500" />
                     <span className="capitalize">Model: {plan.planType.replace('_', ' ')}</span>
                   </div>
                   {plan.carryForward && (
                     <div className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-emerald-500" />
+                      <Icons.Check className="h-4 w-4 text-emerald-500" />
                       <span>Unused meals Carry Forward</span>
                     </div>
                   )}
                   {plan.allowHoliday && (
                     <div className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-emerald-500" />
+                      <Icons.Check className="h-4 w-4 text-emerald-500" />
                       <span>Holiday Pauses Allowed</span>
                     </div>
                   )}
@@ -383,7 +383,7 @@ export default function Subscriptions() {
               </CardContent>
               <CardFooter className="border-t border-border/50 bg-muted/10 py-3 flex justify-between items-center text-xs text-muted-foreground/70">
                 <div className="flex flex-col gap-0.5">
-                  <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> Created {new Date(plan.createdAt || Date.now()).toLocaleDateString()}</span>
+                  <span className="flex items-center gap-1"><Icons.Calendar className="h-3 w-3" /> Created {new Date(plan.createdAt || Date.now()).toLocaleDateString()}</span>
                 </div>
                 <Can perform="subscriptions:manage">
                   <div className="flex gap-1">
@@ -393,7 +393,7 @@ export default function Subscriptions() {
                       onClick={() => handleEditClick(plan)}
                       className="h-7 w-7 p-0 text-muted-foreground hover:bg-muted"
                     >
-                      <Edit2 className="h-3.5 w-3.5" />
+                      <Icons.Edit2 className="h-3.5 w-3.5" />
                     </Button>
                   </div>
                 </Can>
@@ -493,7 +493,7 @@ export default function Subscriptions() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="meal_count">Fixed Meal Count</SelectItem>
-                    <SelectItem value="monthly">Monthly Calendar Reset</SelectItem>
+                    <SelectItem value="monthly">Monthly Icons.Calendar Reset</SelectItem>
                     <SelectItem value="custom">Custom Timing</SelectItem>
                   </SelectContent>
                 </Select>
@@ -549,7 +549,7 @@ export default function Subscriptions() {
                 onClick={() => setDeleteOpen(true)}
                 className="flex items-center gap-1.5"
               >
-                <Trash2 className="h-4 w-4" /> Delete Plan
+                <Icons.Trash2 className="h-4 w-4" /> Delete Plan
               </Button>
               <div className="flex gap-2">
                 <Button

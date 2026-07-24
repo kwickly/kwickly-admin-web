@@ -1,8 +1,9 @@
+import { Icons } from '@/components/shared/icons';
 import React, { useState } from 'react';
 import { useAuthStore } from '@/store/useAuth';
 import { useBranchStore } from '@/store/useBranch';
 import { useTables, useCreateTable, useUpdateTable, useDeleteTable } from '@/hooks/api/useTables';
-import { Plus, QrCode, X, Trash2, Download, Edit2 } from 'lucide-react';
+
 import QRCode from 'react-qr-code';
 import { Can } from '@/components/shared/Can';
 
@@ -102,7 +103,7 @@ export default function Tables() {
             }}
             className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-xl flex items-center space-x-2 transition-all hover:scale-105 active:scale-95 shadow-sm font-medium text-sm cursor-pointer"
           >
-            <Plus size={18} />
+            <Icons.Plus size={18} />
             <span>Add Table</span>
           </button>
         </Can>
@@ -117,7 +118,7 @@ export default function Tables() {
       ) : tables.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center bg-card rounded-3xl border border-border shadow-sm">
           <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-            <QrCode className="w-8 h-8 text-primary" />
+            <Icons.QrCode className="w-8 h-8 text-primary" />
           </div>
           <h3 className="text-xl font-bold font-jakarta text-foreground mb-2">No Tables Found</h3>
           <p className="text-muted-foreground max-w-sm mb-6">You haven't set up any tables for this branch yet. Add a table to generate QR codes.</p>
@@ -151,7 +152,7 @@ export default function Tables() {
                     className="p-2 bg-primary/10 text-primary rounded-xl hover:bg-primary/20 transition-colors cursor-pointer"
                     title="View QR"
                   >
-                    <QrCode size={16} />
+                    <Icons.QrCode size={16} />
                   </button>
                   <Can perform="tables:manage">
                     <button
@@ -159,7 +160,7 @@ export default function Tables() {
                       className="p-2 bg-blue-500/10 text-blue-600 rounded-xl hover:bg-blue-500/20 transition-colors cursor-pointer"
                       title="Edit Table"
                     >
-                      <Edit2 size={16} />
+                      <Icons.Edit2 size={16} />
                     </button>
                     <button
                       onClick={() => {
@@ -170,7 +171,7 @@ export default function Tables() {
                       className="p-2 bg-destructive/10 text-destructive rounded-xl hover:bg-destructive/20 transition-colors cursor-pointer"
                       title="Delete Table"
                     >
-                      <Trash2 size={16} />
+                      <Icons.Trash2 size={16} />
                     </button>
                   </Can>
                 </div>
@@ -199,7 +200,7 @@ export default function Tables() {
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold font-jakarta text-foreground">New Table</h2>
               <button onClick={() => setIsAddModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground cursor-pointer">
-                <X size={20} />
+                <Icons.X size={20} />
               </button>
             </div>
             
@@ -254,7 +255,7 @@ export default function Tables() {
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold font-jakarta text-foreground">Edit Table</h2>
               <button onClick={() => setIsEditModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground cursor-pointer">
-                <X size={20} />
+                <Icons.X size={20} />
               </button>
             </div>
             
@@ -318,7 +319,7 @@ export default function Tables() {
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsQrModalOpen(false)} />
           <div className="relative bg-card rounded-3xl shadow-xl w-full max-w-sm p-8 border border-border animate-in zoom-in-95 duration-200 text-center">
             <button onClick={() => setIsQrModalOpen(false)} className="absolute top-4 right-4 p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground cursor-pointer">
-              <X size={20} />
+              <Icons.X size={20} />
             </button>
             
             <h2 className="text-2xl font-bold font-jakarta text-foreground mb-2">{activeTable.name}</h2>
@@ -337,8 +338,8 @@ export default function Tables() {
               onClick={downloadQrCode}
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-3 rounded-xl flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm cursor-pointer"
             >
-              <Download size={18} />
-              <span>Download QR Code</span>
+              <Icons.Download size={18} />
+              <span>Icons.Download QR Code</span>
             </button>
           </div>
         </div>

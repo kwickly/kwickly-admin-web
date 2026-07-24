@@ -1,6 +1,7 @@
+import { Icons } from '@/components/shared/icons';
 import React, { useState, useEffect } from "react";
 import api from "@/lib/api";
-import { Truck, Plus, Mail, Phone, Building2, Search, MapPin } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -80,7 +81,7 @@ export default function Suppliers() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Truck className="h-6 w-6 text-primary" />
+            <Icons.Truck className="h-6 w-6 text-primary" />
             Supplier Directory
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -92,7 +93,7 @@ export default function Suppliers() {
           <DialogTrigger
             render={
               <Button className="h-11">
-                <Plus className="h-4 w-4 mr-2" />
+                <Icons.Plus className="h-4 w-4 mr-2" />
                 Add Supplier
               </Button>
             }
@@ -119,7 +120,7 @@ export default function Suppliers() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone">Icons.Phone Number</Label>
                     <Input id="phone" name="phone" placeholder="+91 98765 43210" className="h-11 bg-transparent border-border" />
                   </div>
                   <div className="space-y-2">
@@ -166,12 +167,12 @@ export default function Suppliers() {
               <CardDescription>A complete list of your approved vendors.</CardDescription>
             </div>
             <div className="relative">
-              <Search className="absolute left-2.5 top-3.5 h-4 w-4 text-muted-foreground" />
+              <Icons.Search className="absolute left-2.5 top-3.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search suppliers..."
+                placeholder="Icons.Search suppliers..."
                 className="h-11 pl-9 w-64 bg-muted/50 border-border"
               />
             </div>
@@ -197,7 +198,7 @@ export default function Suppliers() {
               ) : filteredSuppliers.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-12">
-                    <Truck className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                    <Icons.Truck className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
                     <p className="text-muted-foreground font-medium">No suppliers found</p>
                     <p className="text-sm text-muted-foreground mt-1">Click "Add Supplier" to register a new vendor.</p>
                   </TableCell>
@@ -208,14 +209,14 @@ export default function Suppliers() {
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                          <Building2 className="h-5 w-5 text-primary" />
+                          <Icons.Building2 className="h-5 w-5 text-primary" />
                         </div>
                         <div>
                           <div className="font-medium text-foreground">
                             {supplier.name}
                           </div>
                           <div className="text-sm text-muted-foreground flex items-center gap-1 mt-0.5">
-                            <MapPin className="h-3 w-3" />
+                            <Icons.MapPin className="h-3 w-3" />
                             {supplier.address || "No address provided"}
                           </div>
                         </div>
@@ -228,13 +229,13 @@ export default function Suppliers() {
                         </div>
                         {supplier.phone && (
                           <div className="flex items-center gap-1.5 text-muted-foreground">
-                            <Phone className="h-3 w-3" />
+                            <Icons.Phone className="h-3 w-3" />
                             {supplier.phone}
                           </div>
                         )}
                         {supplier.email && (
                           <div className="flex items-center gap-1.5 text-muted-foreground">
-                            <Mail className="h-3 w-3" />
+                            <Icons.Mail className="h-3 w-3" />
                             {supplier.email}
                           </div>
                         )}

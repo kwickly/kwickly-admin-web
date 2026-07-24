@@ -1,24 +1,4 @@
-import { 
-  LayoutDashboard, 
-  ChefHat,
-  MenuSquare, 
-  Users, 
-  Settings, 
-  CreditCard, 
-  Target, 
-  Megaphone, 
-  ChevronRight,
-  Building,
-  ScrollText,
-  Sparkles,
-  Package,
-  Tag,
-  HeartHandshake,
-  DollarSign,
-  Activity,
-  LifeBuoy,
-  ShieldAlert,
-} from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import {
   Sidebar,
   SidebarContent,
@@ -65,30 +45,30 @@ const navGroups: NavGroup[] = [
       {
         title: "Dashboard",
         url: "/dashboard",
-        icon: LayoutDashboard,
+        icon: Icons.LayoutDashboard,
       },
       {
         title: "Point of Sale",
         url: "/pos",
-        icon: CreditCard,
+        icon: Icons.CreditCard,
         permission: "orders:read",
       },
       {
         title: "Live KDS",
         url: "/kds",
-        icon: ChefHat,
+        icon: Icons.ChefHat,
         permission: "orders:read",
       },
       {
         title: "Order History",
         url: "/orders",
-        icon: Target,
+        icon: Icons.Target,
         permission: "orders:read",
       },
       {
         title: "AI Analytics",
         url: "/analytics",
-        icon: Sparkles,
+        icon: Icons.Sparkles,
         permission: "analytics:read",
         items: [
           { title: "Revenue Analytics", url: "/analytics/revenue", permission: "analytics:read" },
@@ -104,7 +84,7 @@ const navGroups: NavGroup[] = [
       {
         title: "Menus",
         url: "/menus",
-        icon: MenuSquare,
+        icon: Icons.MenuSquare,
         permission: "menu:read",
         items: [
           { title: "Menu Items", url: "/menus/items", permission: "menu:read" },
@@ -116,7 +96,7 @@ const navGroups: NavGroup[] = [
       {
         title: "Tables & Floor",
         url: "/tables",
-        icon: Target,
+        icon: Icons.Target,
         permission: "orders:read",
         items: [
           { title: "Floor View", url: "/tables", permission: "orders:read" },
@@ -126,7 +106,7 @@ const navGroups: NavGroup[] = [
       {
         title: "Staff",
         url: "/staff",
-        icon: Users,
+        icon: Icons.Users,
         permission: "staff:read",
         items: [
           { title: "Employee Directory", url: "/staff/directory", permission: "staff:read" },
@@ -140,7 +120,7 @@ const navGroups: NavGroup[] = [
       {
         title: "CRM & Campaigns",
         url: "/crm",
-        icon: Target,
+        icon: Icons.Target,
         permission: "staff:read",
         items: [
           { title: "Customer Directory", url: "/crm/directory", permission: "staff:read" },
@@ -152,7 +132,7 @@ const navGroups: NavGroup[] = [
       {
         title: "Inventory",
         url: "/inventory",
-        icon: Package,
+        icon: Icons.Package,
         permission: "inventory:read",
         items: [
           { title: "Stock Management", url: "/inventory/stock", permission: "inventory:read" },
@@ -162,7 +142,7 @@ const navGroups: NavGroup[] = [
       {
         title: "Marketing & Promos",
         url: "/promotions",
-        icon: Tag,
+        icon: Icons.Tag,
         permission: "promotions:manage",
         items: [
           { title: "Discounts & Offers", url: "/promotions/discounts", permission: "promotions:manage" },
@@ -176,19 +156,19 @@ const navGroups: NavGroup[] = [
       {
         title: "Subscriptions",
         url: "/subscriptions",
-        icon: CreditCard,
+        icon: Icons.CreditCard,
         permission: "billing:manage",
       },
       {
         title: "Ads",
         url: "/ads",
-        icon: Megaphone,
+        icon: Icons.Megaphone,
         permission: "billing:manage",
       },
       {
-        title: "Settings",
+        title: "Icons.Settings",
         url: "/settings",
-        icon: Settings,
+        icon: Icons.Settings,
         permission: "billing:manage",
         items: [
           { title: "Branch Profile", url: "/settings/profile", permission: "billing:manage" },
@@ -202,7 +182,7 @@ const navGroups: NavGroup[] = [
       {
         title: "Loyalty Plans",
         url: "/tenant/loyalty",
-        icon: HeartHandshake,
+        icon: Icons.HeartHandshake,
         permission: "subscriptions:manage",
       },
     ]
@@ -216,12 +196,12 @@ const platformNavGroups: NavGroup[] = [
       {
         title: "Platform Dashboard",
         url: "/dashboard",
-        icon: LayoutDashboard,
+        icon: Icons.LayoutDashboard,
       },
       {
         title: "System Audit Logs",
         url: "/platform/logs",
-        icon: ScrollText,
+        icon: Icons.ScrollText,
       },
     ]
   },
@@ -231,28 +211,28 @@ const platformNavGroups: NavGroup[] = [
       {
         title: "Tenants Directory",
         url: "/platform/tenants",
-        icon: Building,
+        icon: Icons.Building,
       },
 
       {
         title: "Usage & Quotas",
         url: "/platform/usage",
-        icon: Activity,
+        icon: Icons.Activity,
       },
       {
         title: "Support Tickets",
         url: "/platform/support",
-        icon: LifeBuoy,
+        icon: Icons.LifeBuoy,
       },
       {
         title: "Global Billing",
         url: "/platform/billing",
-        icon: DollarSign,
+        icon: Icons.DollarSign,
       },
       {
         title: "Platform Staff",
         url: "/platform/staff",
-        icon: ShieldAlert,
+        icon: Icons.ShieldAlert,
         items: [
           { title: "Admin Directory", url: "/platform/staff" },
           { title: "Timesheets", url: "/platform/staff/timesheets" },
@@ -260,9 +240,9 @@ const platformNavGroups: NavGroup[] = [
         ]
       },
       {
-        title: "Platform Settings",
+        title: "Platform Icons.Settings",
         url: "/platform/settings",
-        icon: Settings,
+        icon: Icons.Settings,
         items: [
           { title: "Identity", url: "/platform/settings?tab=identity" },
           { title: "Email & SMTP", url: "/platform/settings?tab=smtp" },
@@ -345,7 +325,7 @@ export function AppSidebar() {
                               >
                                 {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
                                 <span className="text-[13px] ml-1 group-data-[collapsible=icon]:hidden">{item.title}</span>
-                                <ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
+                                <Icons.ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                               </SidebarMenuButton>
                             } />
                             <DropdownMenuContent side="right" align="start" sideOffset={8} className="w-48">
@@ -380,7 +360,7 @@ export function AppSidebar() {
                             >
                               {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
                               <span className="text-[13px] ml-1 group-data-[collapsible=icon]:hidden">{item.title}</span>
-                              <ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
+                              <Icons.ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                             </SidebarMenuButton>
                           } />
                           <CollapsibleContent>

@@ -1,11 +1,8 @@
+import { Icons } from '@/components/shared/icons';
 import React, { useState } from "react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import {
-  Banknote,
-  Play,
-  ChevronRight,
-} from "lucide-react";
+
 import {
   usePayrollRuns,
   useGeneratePayroll,
@@ -73,7 +70,7 @@ export default function StaffPayroll() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Banknote className="h-6 w-6 text-primary" />
+            <Icons.Banknote className="h-6 w-6 text-primary" />
             Payroll Management
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -84,7 +81,7 @@ export default function StaffPayroll() {
         <Button
           onClick={() => setIsGenerateModalOpen(true)}
         >
-          <Play className="h-4 w-4 mr-2" />
+          <Icons.Play className="h-4 w-4 mr-2" />
           Run Payroll
         </Button>
       </div>
@@ -163,7 +160,7 @@ export default function StaffPayroll() {
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="outline" size="default" className="h-8 text-foreground hover:bg-muted">
-                        View Details <ChevronRight className="h-4 w-4 ml-1" />
+                        View Details <Icons.ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </TableCell>
                   </TableRow>

@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import React, { useState, useEffect } from 'react';
-import { Store, Phone, MapPin, Save } from 'lucide-react';
+
 import { toast } from 'sonner';
 import { useBranches, useUpdateBranch } from '@/hooks/api/useSettings';
 import { FormSkeleton } from '@/components/ui/loaders';
@@ -38,7 +39,7 @@ export default function BranchProfile() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <Store className="h-6 w-6 text-primary" />
+          <Icons.Store className="h-6 w-6 text-primary" />
           Branch Profile
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
@@ -55,7 +56,7 @@ export default function BranchProfile() {
               <div className="max-w-7xl mx-auto space-y-4 max-w-xl">
                 <div className="space-y-4">
                   <label htmlFor="name" className="text-sm font-medium text-foreground flex items-center gap-2">
-                    <Store className="h-4 w-4 text-muted-foreground" />
+                    <Icons.Store className="h-4 w-4 text-muted-foreground" />
                     Branch Name
                   </label>
                   <input
@@ -71,8 +72,8 @@ export default function BranchProfile() {
 
                 <div className="space-y-4">
                   <label htmlFor="phone" className="text-sm font-medium text-foreground flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    Phone Number
+                    <Icons.Phone className="h-4 w-4 text-muted-foreground" />
+                    Icons.Phone Number
                   </label>
                   <input
                     id="phone"
@@ -86,7 +87,7 @@ export default function BranchProfile() {
 
                 <div className="space-y-4">
                   <label htmlFor="address" className="text-sm font-medium text-foreground flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <Icons.MapPin className="h-4 w-4 text-muted-foreground" />
                     Address
                   </label>
                   <textarea
@@ -106,8 +107,8 @@ export default function BranchProfile() {
                   disabled={isBranchSaving || !currentBranch}
                   className="flex items-center gap-2 px-4 py-2 min-h-[44px] bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
                 >
-                  <Save className="h-4 w-4" />
-                  {isBranchSaving ? 'Saving...' : 'Save Changes'}
+                  <Icons.Save className="h-4 w-4" />
+                  {isBranchSaving ? 'Saving...' : 'Icons.Save Changes'}
                 </button>
               </div>
             </>

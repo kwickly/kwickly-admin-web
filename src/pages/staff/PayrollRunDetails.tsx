@@ -1,7 +1,8 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { Edit, Check, CheckCircle2, Download, FileText, FileSpreadsheet } from "lucide-react";
+
 import {
   usePayrollRun,
   useUpdateSalarySlip,
@@ -132,7 +133,7 @@ export default function PayrollRunDetails() {
           </Badge>
 
           <Button variant="outline" className="bg-transparent border-border hover:bg-muted/50" onClick={() => setIsExportModalOpen(true)}>
-            <Download className="h-4 w-4 mr-2" />
+            <Icons.Download className="h-4 w-4 mr-2" />
             Export
           </Button>
 
@@ -140,7 +141,7 @@ export default function PayrollRunDetails() {
             <Button
               onClick={() => handleAdvance("PROCESSED")}
             >
-              <Check className="h-4 w-4 mr-2" />
+              <Icons.Check className="h-4 w-4 mr-2" />
               Finalize Ledger
             </Button>
           )}
@@ -149,7 +150,7 @@ export default function PayrollRunDetails() {
               onClick={() => handleAdvance("PAID")}
               className="bg-success hover:bg-success/90 text-success-foreground"
             >
-              <CheckCircle2 className="h-4 w-4 mr-2" />
+              <Icons.CheckCircle2 className="h-4 w-4 mr-2" />
               Mark as Paid
             </Button>
           )}
@@ -261,7 +262,7 @@ export default function PayrollRunDetails() {
                           })
                         }
                       >
-                        <Edit className="h-4 w-4" />
+                        <Icons.Edit className="h-4 w-4" />
                       </Button>
                     ) : (
                        <span className="text-xs text-muted-foreground italic">Locked</span>
@@ -340,14 +341,14 @@ export default function PayrollRunDetails() {
           <DialogHeader>
             <DialogTitle className="text-foreground">Export Payroll Ledger</DialogTitle>
             <DialogDescription className="text-muted-foreground">
-              Download a comprehensive report of this payroll run.
+              Icons.Download a comprehensive report of this payroll run.
             </DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 py-4">
             <Card className="cursor-pointer border-border hover:border-primary hover:bg-primary/5 transition-colors bg-card" onClick={() => handleExport('CSV')}>
               <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
                 <div className="h-12 w-12 bg-success/10 text-success rounded-full flex items-center justify-center">
-                  <FileSpreadsheet className="h-6 w-6" />
+                  <Icons.FileSpreadsheet className="h-6 w-6" />
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">CSV Export</div>
@@ -358,7 +359,7 @@ export default function PayrollRunDetails() {
             <Card className="cursor-pointer border-border hover:border-primary hover:bg-primary/5 transition-colors bg-card" onClick={() => handleExport('PDF')}>
               <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
                 <div className="h-12 w-12 bg-destructive/10 text-destructive rounded-full flex items-center justify-center">
-                  <FileText className="h-6 w-6" />
+                  <Icons.FileText className="h-6 w-6" />
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">PDF Ledger</div>

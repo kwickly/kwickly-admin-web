@@ -1,4 +1,4 @@
-import { MenuSquare } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import MenuGrid from "@/features/menus/components/MenuGrid";
 import CreateMenuItemSheet from "@/features/menus/components/CreateMenuItemSheet";
 import CreateCategoryDialog from "@/features/menus/components/CreateCategoryDialog";
@@ -16,7 +16,7 @@ export default function MenuItems() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <MenuSquare className="h-6 w-6 text-primary" />
+            <Icons.MenuSquare className="h-6 w-6 text-primary" />
             Menu Items
           </h1>
           <p className="text-sm text-muted-foreground mt-1">

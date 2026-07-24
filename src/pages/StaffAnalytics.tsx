@@ -1,4 +1,4 @@
-import { Users, Award, BarChart2 } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { useStaffPerformance } from "@/hooks/api/useDashboard";
 import { useBranchStore } from "@/store/useBranch";
@@ -28,7 +28,7 @@ export default function StaffAnalytics() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Users className="h-6 w-6 text-primary" />
+            <Icons.Users className="h-6 w-6 text-primary" />
             Staff Performance
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -39,7 +39,7 @@ export default function StaffAnalytics() {
 
       <div className="bg-card rounded-xl border border-border p-6 shadow-sm space-y-4">
         <div className="flex items-center gap-2">
-          <Award className="h-4 w-4 text-primary" />
+          <Icons.Award className="h-4 w-4 text-primary" />
           <div>
             <h3 className="font-semibold text-foreground text-base">Top Performing Staff</h3>
             <p className="text-xs text-muted-foreground mt-0.5">By revenue generated</p>
@@ -50,7 +50,7 @@ export default function StaffAnalytics() {
           <Skeleton className="h-[400px] w-full rounded-xl" />
         ) : !staffData || staffData.length === 0 ? (
           <div className="h-[400px] flex flex-col items-center justify-center text-muted-foreground gap-2">
-            <BarChart2 className="h-10 w-10 opacity-30" />
+            <Icons.BarChart2 className="h-10 w-10 opacity-30" />
             <p className="text-sm">No staff performance data yet.</p>
           </div>
         ) : (

@@ -1,3 +1,4 @@
+import { Icons } from '@/components/shared/icons';
 import { useState, useRef, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -6,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useSupport } from '@/hooks/api/useSupport';
 import { useAuthStore } from '@/store/useAuth';
 import { formatDistanceToNow } from 'date-fns';
-import { Loader2, Send, ShieldAlert, Clock } from 'lucide-react';
+
 import { Badge } from '@/components/ui/badge';
 
 interface TicketThreadModalProps {
@@ -61,7 +62,7 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
         <div className="p-6 border-b border-border bg-card">
           {isLoading ? (
             <div className="flex items-center justify-center h-12">
-              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              <Icons.Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
             </div>
           ) : ticket ? (
             <div className="flex justify-between items-start">
@@ -108,7 +109,7 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
                   </Badge>
                 )}
                 <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
+                  <Icons.Clock className="h-3 w-3" />
                   Updated {formatDistanceToNow(new Date(ticket.updatedAt), { addSuffix: true })}
                 </span>
               </div>
@@ -122,7 +123,7 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
         <div className="flex-1 bg-muted/20 p-6 overflow-y-auto" ref={scrollRef}>
           {isLoading ? (
             <div className="flex justify-center items-center h-full">
-              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              <Icons.Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
             </div>
           ) : ticket ? (
             <div className="space-y-6 flex flex-col justify-end min-h-full">
@@ -150,7 +151,7 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
                 return (
                   <div key={msg.id} className={`flex flex-col gap-1 max-w-[85%] ${isMe ? 'self-end items-end' : 'self-start items-start'}`}>
                     <div className="flex items-center gap-2 px-1">
-                      {!isMe && isStaff && <ShieldAlert className="h-3.5 w-3.5 text-primary" />}
+                      {!isMe && isStaff && <Icons.ShieldAlert className="h-3.5 w-3.5 text-primary" />}
                       <span className="text-sm font-semibold text-foreground">
                         {isMe ? 'You' : msg.sender?.name || 'User'}
                       </span>
@@ -195,7 +196,7 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
               disabled={isSending || !message.trim()}
               className="absolute bottom-3 right-3 h-10 w-10 rounded-full"
             >
-              {isSending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              {isSending ? <Icons.Loader2 className="h-4 w-4 animate-spin" /> : <Icons.Send className="h-4 w-4" />}
             </Button>
           </form>
           <div className="text-[10px] text-muted-foreground mt-2 text-center">

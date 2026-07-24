@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
-import { Package, Plus, Search, Settings2 } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -97,7 +98,7 @@ export default function Stock() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Package className="h-6 w-6 text-primary" />
+            <Icons.Package className="h-6 w-6 text-primary" />
             Stock & Inventory
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -107,11 +108,11 @@ export default function Stock() {
 
         <div className="flex gap-2">
           <Button variant="outline" className="h-11 bg-card">
-            <Settings2 className="h-4 w-4 mr-2" />
+            <Icons.Settings2 className="h-4 w-4 mr-2" />
             Export Ledger
           </Button>
           <Button className="h-11">
-            <Plus className="h-4 w-4 mr-2" />
+            <Icons.Plus className="h-4 w-4 mr-2" />
             New Material
           </Button>
         </div>
@@ -191,12 +192,12 @@ export default function Stock() {
             </div>
 
             <div className="relative">
-              <Search className="absolute left-2.5 top-3.5 h-4 w-4 text-muted-foreground" />
+              <Icons.Search className="absolute left-2.5 top-3.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search materials..."
+                placeholder="Icons.Search materials..."
                 className="h-11 pl-9 w-64 bg-muted/50 border-border"
               />
             </div>
@@ -252,7 +253,7 @@ export default function Stock() {
                           className="h-11 px-4 hover:bg-primary/10 hover:text-primary"
                           onClick={() => openAdjustDialog(item)}
                         >
-                          <Plus className="h-3 w-3 mr-1" />
+                          <Icons.Plus className="h-3 w-3 mr-1" />
                           Adjust Stock
                         </Button>
                       </TableCell>

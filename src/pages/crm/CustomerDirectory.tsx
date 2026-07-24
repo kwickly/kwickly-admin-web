@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
-import { Users, Search, ChevronRight } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +23,7 @@ export default function CustomerDirectory() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Users className="h-6 w-6 text-primary" />
+            <Icons.Users className="h-6 w-6 text-primary" />
             Customer Directory
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -38,10 +39,10 @@ export default function CustomerDirectory() {
             <CardDescription>View and manage all registered customers.</CardDescription>
           </div>
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Icons.Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search customers by name or phone..."
+              placeholder="Icons.Search customers by name or phone..."
               className="pl-9 w-72 bg-muted/50"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -112,7 +113,7 @@ export default function CustomerDirectory() {
                             className="hover:bg-primary/10 hover:text-primary"
                           >
                             Details
-                            <ChevronRight className="h-4 w-4 ml-1" />
+                            <Icons.ChevronRight className="h-4 w-4 ml-1" />
                           </Button>
                         </Link>
                       </TableCell>

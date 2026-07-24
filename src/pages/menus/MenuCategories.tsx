@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
-import { LayoutGrid, Edit, Trash } from "lucide-react";
+
 import CreateCategoryDialog from "@/features/menus/components/CreateCategoryDialog";
 import { useMenuCategories, useUpdateCategory, useDeleteCategory, type MenuCategory } from "@/hooks/api/useMenus";
 import { useBranchStore } from "@/store/useBranch";
@@ -32,7 +33,7 @@ export default function MenuCategories() {
   const categories = response?.data || [];
   const meta = response?.meta;
 
-  // Edit State
+  // Icons.Edit State
   const [editOpen, setEditOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<MenuCategory | null>(null);
   const [name, setName] = useState("");
@@ -94,7 +95,7 @@ export default function MenuCategories() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <LayoutGrid className="h-6 w-6 text-primary" />
+            <Icons.LayoutGrid className="h-6 w-6 text-primary" />
             Menu Categories
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -134,8 +135,8 @@ export default function MenuCategories() {
                     onClick={() => handleEditClick(category)}
                     className="text-muted-foreground hover:text-foreground hover:bg-muted min-h-[44px] min-w-[44px]"
                   >
-                    <Edit className="size-4 mr-2" />
-                    Edit
+                    <Icons.Edit className="size-4 mr-2" />
+                    Icons.Edit
                   </Button>
                   <Button
                     size="default"
@@ -143,7 +144,7 @@ export default function MenuCategories() {
                     onClick={() => handleDeleteClick(category.id)}
                     className="text-destructive hover:text-destructive hover:bg-destructive/10 min-h-[44px] min-w-[44px]"
                   >
-                    <Trash className="size-4 mr-2" />
+                    <Icons.Trash className="size-4 mr-2" />
                     Delete
                   </Button>
                 </div>
@@ -166,7 +167,7 @@ export default function MenuCategories() {
         <DialogContent className="sm:max-w-[400px] bg-card border border-border">
           <form onSubmit={handleUpdate} className="space-y-4">
             <DialogHeader>
-              <DialogTitle className="text-foreground">Edit Category</DialogTitle>
+              <DialogTitle className="text-foreground">Icons.Edit Category</DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 Update category details or ordering priority.
               </DialogDescription>

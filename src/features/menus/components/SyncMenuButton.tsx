@@ -1,6 +1,7 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { RefreshCcw } from "lucide-react";
+
 import { useSyncMenu } from "@/hooks/api/useMenus";
 import { useBranchStore } from "@/store/useBranch";
 import { toast } from "sonner";
@@ -36,7 +37,7 @@ export default function SyncMenuButton() {
       disabled={isSyncing}
       className="flex items-center gap-2 shadow-sm"
     >
-      <RefreshCcw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
+      <Icons.RefreshCcw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
       {isSyncing ? "Syncing..." : "Sync Devices"}
     </Button>
   );

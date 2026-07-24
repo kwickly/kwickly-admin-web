@@ -1,3 +1,4 @@
+import { Icons } from '@/components/shared/icons';
 import { useState } from 'react';
 import { useBranchStore } from '@/store/useBranch';
 import { useOrders, useUpdatePaymentStatus } from '@/hooks/api/useOrders';
@@ -9,7 +10,7 @@ import { formatCurrency } from '@/lib/currency';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { CreditCard, Banknote, Smartphone, Wallet, Utensils, ShoppingBag, Edit } from 'lucide-react';
+
 import { toast } from 'sonner';
 import { EditOrderDialog } from '@/components/pos/EditOrderDialog';
 
@@ -40,9 +41,9 @@ export default function Pos() {
   };
 
   const getModeIcon = (mode?: string) => {
-    if (mode === 'dine_in') return <Utensils className="h-4 w-4" />;
-    if (mode === 'takeaway') return <ShoppingBag className="h-4 w-4" />;
-    return <CreditCard className="h-4 w-4" />;
+    if (mode === 'dine_in') return <Icons.Utensils className="h-4 w-4" />;
+    if (mode === 'takeaway') return <Icons.ShoppingBag className="h-4 w-4" />;
+    return <Icons.CreditCard className="h-4 w-4" />;
   };
 
   return (
@@ -110,7 +111,7 @@ export default function Pos() {
                   size="lg"
                   onClick={() => setEditOrder(order)}
                 >
-                  <Edit className="w-4 h-4 mr-2" /> Edit
+                  <Icons.Edit className="w-4 h-4 mr-2" /> Icons.Edit
                 </Button>
                 <Button 
                   className="flex-1 font-semibold" 
@@ -125,7 +126,7 @@ export default function Pos() {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center h-[50vh] text-muted-foreground space-y-4">
-          <CreditCard className="h-16 w-16 opacity-20" />
+          <Icons.CreditCard className="h-16 w-16 opacity-20" />
           <h3 className="text-xl font-semibold">No Pending Bills</h3>
           <p>All active orders have been paid or settled.</p>
         </div>
@@ -155,7 +156,7 @@ export default function Pos() {
                 }`}
               >
                 <RadioGroupItem value="cash" id="cash" className="sr-only" />
-                <Banknote className={`h-8 w-8 mb-2 ${paymentMethod === 'cash' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <Icons.Banknote className={`h-8 w-8 mb-2 ${paymentMethod === 'cash' ? 'text-primary' : 'text-muted-foreground'}`} />
                 <span className="font-medium">Cash</span>
               </Label>
               
@@ -166,7 +167,7 @@ export default function Pos() {
                 }`}
               >
                 <RadioGroupItem value="upi" id="upi" className="sr-only" />
-                <Smartphone className={`h-8 w-8 mb-2 ${paymentMethod === 'upi' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <Icons.Smartphone className={`h-8 w-8 mb-2 ${paymentMethod === 'upi' ? 'text-primary' : 'text-muted-foreground'}`} />
                 <span className="font-medium">UPI / QR</span>
               </Label>
               
@@ -177,7 +178,7 @@ export default function Pos() {
                 }`}
               >
                 <RadioGroupItem value="razorpay" id="razorpay" className="sr-only" />
-                <CreditCard className={`h-8 w-8 mb-2 ${paymentMethod === 'razorpay' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <Icons.CreditCard className={`h-8 w-8 mb-2 ${paymentMethod === 'razorpay' ? 'text-primary' : 'text-muted-foreground'}`} />
                 <span className="font-medium">Card (Razorpay)</span>
               </Label>
               
@@ -188,8 +189,8 @@ export default function Pos() {
                 }`}
               >
                 <RadioGroupItem value="wallet" id="wallet" className="sr-only" />
-                <Wallet className={`h-8 w-8 mb-2 ${paymentMethod === 'wallet' ? 'text-primary' : 'text-muted-foreground'}`} />
-                <span className="font-medium">Store Wallet</span>
+                <Icons.Wallet className={`h-8 w-8 mb-2 ${paymentMethod === 'wallet' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <span className="font-medium">Store Icons.Wallet</span>
               </Label>
             </RadioGroup>
           </div>
@@ -205,7 +206,7 @@ export default function Pos() {
         </DialogContent>
       </Dialog>
 
-      {/* Edit Order Dialog */}
+      {/* Icons.Edit Order Dialog */}
       <EditOrderDialog 
         order={editOrder} 
         branchId={selectedBranchId!} 

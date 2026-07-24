@@ -1,5 +1,6 @@
+import { Icons } from '@/components/shared/icons';
 import React, { useState } from 'react';
-import { Calendar, Plus, Trash2 } from 'lucide-react';
+
 import { useAuthStore } from '../../store/useAuth';
 import { format } from 'date-fns';
 import { PaginationControls } from '@/components/ui/pagination-controls';
@@ -43,7 +44,7 @@ export default function PublicHolidays() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Calendar className="h-6 w-6 text-primary" />
+            <Icons.Calendar className="h-6 w-6 text-primary" />
             Public Holidays
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -56,7 +57,7 @@ export default function PublicHolidays() {
               onClick={() => setIsHolidayModalOpen(true)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
             >
-              <Plus className="h-4 w-4" />
+              <Icons.Plus className="h-4 w-4" />
               Declare Holiday
             </button>
           )}
@@ -87,7 +88,7 @@ export default function PublicHolidays() {
                 paginatedHolidays.map((holiday) => (
                   <tr key={holiday.id} className="hover:bg-muted/50 transition-colors">
                     <td className="px-6 py-4 font-medium text-foreground flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-primary/70" />
+                      <Icons.Calendar className="h-4 w-4 text-primary/70" />
                       {holiday.name}
                     </td>
                     <td className="px-6 py-4">
@@ -100,7 +101,7 @@ export default function PublicHolidays() {
                           disabled={removeHolidayMut.isPending}
                           className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Icons.Trash2 className="h-4 w-4" />
                         </button>
                       </td>
                     )}

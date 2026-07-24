@@ -1,6 +1,7 @@
+import { Icons } from '@/components/shared/icons';
 import { useAuthStore } from '@/store/useAuth';
 import { Button } from '@/components/ui/button';
-import { LogOut, ShieldAlert } from 'lucide-react';
+
 import { Navigate } from 'react-router-dom';
 
 export default function TenantLockScreen() {
@@ -17,7 +18,7 @@ export default function TenantLockScreen() {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-card border border-border rounded-xl shadow-lg p-6 text-center animate-in zoom-in-95 duration-300">
         <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-6">
-          <ShieldAlert className="w-8 h-8 text-destructive" />
+          <Icons.ShieldAlert className="w-8 h-8 text-destructive" />
         </div>
         
         <h1 className="text-2xl font-bold text-foreground mb-2">
@@ -42,7 +43,7 @@ export default function TenantLockScreen() {
             className="w-full font-medium h-11"
             onClick={() => logout()}
           >
-            <LogOut className="w-4 h-4 mr-2" />
+            <Icons.LogOut className="w-4 h-4 mr-2" />
             Sign Out
           </Button>
         </div>

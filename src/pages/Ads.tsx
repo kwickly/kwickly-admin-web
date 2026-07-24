@@ -1,4 +1,4 @@
-import { LayoutGrid, Plus, MousePointer2, Eye } from "lucide-react";
+import { Icons } from '@/components/shared/icons';
 import { useAds } from "@/hooks/api/useAds";
 import { Button } from "@/components/ui/button";
 
@@ -10,7 +10,7 @@ export default function Ads() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <LayoutGrid className="h-6 w-6 text-primary" />
+            <Icons.LayoutGrid className="h-6 w-6 text-primary" />
             In-App Advertisements
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -18,7 +18,7 @@ export default function Ads() {
           </p>
         </div>
         <Button>
-          <Plus className="h-4 w-4 mr-2" />
+          <Icons.Plus className="h-4 w-4 mr-2" />
           Create Ad
         </Button>
       </div>
@@ -43,11 +43,11 @@ export default function Ads() {
                 <div className="flex items-center justify-between pt-2 border-t border-border/50">
                   <div className="flex gap-4">
                     <div className="flex items-center gap-1 text-muted-foreground">
-                      <Eye className="h-4 w-4" />
+                      <Icons.Eye className="h-4 w-4" />
                       <span className="text-xs">0</span>
                     </div>
                     <div className="flex items-center gap-1 text-muted-foreground">
-                      <MousePointer2 className="h-4 w-4" />
+                      <Icons.MousePointer2 className="h-4 w-4" />
                       <span className="text-xs">0</span>
                     </div>
                   </div>

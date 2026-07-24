@@ -294,14 +294,8 @@ export default function PlatformTenants() {
                   </DropdownMenu>
                 </div>
 
-                <div className="flex items-start gap-4 mb-4 pr-8">
-                  <div 
-                    className="h-12 w-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm"
-                    style={{
-                      backgroundColor: tenant.brandColor || 'var(--primary)',
-                      color: tenant.brandColor ? getContrastColor(tenant.brandColor) : 'var(--primary-foreground)'
-                    }}
-                  >
+                <div className="flex items-start gap-4 mb-4 pr-8" style={{ '--tenant-brand': tenant.brandColor || 'var(--primary)', '--tenant-fg': tenant.brandColor ? getContrastColor(tenant.brandColor) : 'var(--primary-foreground)' } as React.CSSProperties}>
+                  <div className="h-12 w-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm bg-[var(--tenant-brand)] text-[var(--tenant-fg)]">
                     {tenant.logoUrl ? (
                       <img src={tenant.logoUrl} alt={tenant.name} className="h-8 w-8 object-contain" />
                     ) : (
@@ -361,19 +355,16 @@ export default function PlatformTenants() {
             <>
               {/* Flat brand accent bar — no gradient, no blur */}
               <div 
-                className="h-1.5 w-full"
-                style={{ backgroundColor: viewTenant.brandColor || 'var(--primary)' }}
+                className="h-1.5 w-full bg-[var(--tenant-brand)]"
+                style={{ '--tenant-brand': viewTenant.brandColor || 'var(--primary)' } as React.CSSProperties}
               />
 
-              <div className="px-6 pt-6 pb-0">
+              <div 
+                className="px-6 pt-6 pb-0"
+                style={{ '--tenant-brand': viewTenant.brandColor || 'var(--primary)', '--tenant-fg': viewTenant.brandColor ? getContrastColor(viewTenant.brandColor) : 'var(--primary-foreground)' } as React.CSSProperties}
+              >
                 <div className="flex items-center gap-4">
-                  <div 
-                    className="h-16 w-16 rounded-2xl flex items-center justify-center shadow-sm border border-border flex-shrink-0"
-                    style={{
-                      backgroundColor: viewTenant.brandColor || 'var(--primary)',
-                      color: viewTenant.brandColor ? getContrastColor(viewTenant.brandColor) : 'var(--primary-foreground)'
-                    }}
-                  >
+                  <div className="h-16 w-16 rounded-2xl flex items-center justify-center shadow-sm border border-border flex-shrink-0 bg-[var(--tenant-brand)] text-[var(--tenant-fg)]">
                     {viewTenant.logoUrl ? (
                       <img src={viewTenant.logoUrl} alt={viewTenant.name} className="h-10 w-10 object-contain" />
                     ) : (
@@ -536,10 +527,9 @@ export default function PlatformTenants() {
 
               <div className="grid gap-1">
                 <Label htmlFor="brandColor" className="text-foreground">Brand Color</Label>
-                <div className="flex gap-2">
+                <div className="flex gap-2" style={{ '--tenant-brand': brandColor } as React.CSSProperties}>
                   <div 
-                    className="h-10 w-10 rounded border border-border shadow-sm cursor-pointer"
-                    style={{ backgroundColor: brandColor }}
+                    className="h-10 w-10 rounded border border-border shadow-sm cursor-pointer bg-[var(--tenant-brand)]"
                     onClick={() => document.getElementById("plat-color-picker")?.click()}
                   />
                   <Input

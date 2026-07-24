@@ -110,8 +110,8 @@ function HourlyHeatmap({ data }: { data: { hour: number; label: string; revenue:
             <div
               className="w-full h-10 rounded-md transition-all cursor-default"
               style={{
-                backgroundColor: `oklch(0.51 0.2 260 / ${opacity})`,
-                border: `1px solid oklch(0.51 0.2 260 / ${Math.min(opacity + 0.15, 1)})`,
+                backgroundColor: `oklch(from var(--primary) l c h / ${opacity})`,
+                border: `1px solid oklch(from var(--primary) l c h / ${Math.min(opacity + 0.15, 1)})`,
               }}
             />
             <span className="text-[9px] text-muted-foreground font-mono">
@@ -368,11 +368,11 @@ export default function RevenueAnalytics() {
             </div>
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: "oklch(0.51 0.2 260 / 0.1)" }} />
+                <div className="w-3 h-3 rounded-sm bg-primary/10" />
                 Low
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: "oklch(0.51 0.2 260 / 1)" }} />
+                <div className="w-3 h-3 rounded-sm bg-primary" />
                 High
               </div>
             </div>

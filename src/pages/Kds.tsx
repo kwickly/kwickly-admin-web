@@ -418,14 +418,15 @@ export default function Kds() {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex-1 flex flex-col h-[calc(100vh-4rem)] overflow-hidden bg-background">
+      <div className="flex flex-col space-y-6 h-[calc(100vh-8rem)] md:h-[calc(100vh-9rem)] lg:h-[calc(100vh-10rem)]">
         {/* Page Header */}
-        <div className="shrink-0 px-6 py-4 border-b border-border bg-card flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-heading font-bold text-foreground leading-tight">
+            <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+              <ChefHat className="h-6 w-6 text-primary" />
               Kitchen Display
             </h1>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="text-sm text-muted-foreground mt-1">
               Drag tickets between columns or use action buttons
             </p>
           </div>
@@ -454,7 +455,7 @@ export default function Kds() {
         </div>
 
         {/* Kanban Board */}
-        <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 min-h-0 overflow-hidden">
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6 min-h-0 overflow-hidden">
           {STATUS_ORDER.map(status => (
             <KanbanColumn
               key={status}

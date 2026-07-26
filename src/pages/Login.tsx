@@ -78,12 +78,12 @@ export default function Login() {
         <div className="relative z-10 flex flex-col h-full">
           <div className="flex items-center gap-3">
             {branding?.logoUrl ? (
-              <img src={branding.logoUrl} alt="Logo" className="h-10 object-contain" />
-            ) : showKwickly ? (
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-foreground text-primary shadow-lg font-bold text-xl tracking-tighter">
-                K
+              <img src={branding.logoUrl} alt="Logo" className="h-10 object-contain rounded-lg" />
+            ) : (
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-foreground text-primary shadow-lg font-bold text-xl tracking-tighter capitalize">
+                {branding?.name ? branding.name.charAt(0) : 'K'}
               </div>
-            ) : null}
+            )}
             
             <h1 className="text-xl font-bold tracking-tight">
               {branding?.name || (showKwickly ? "Kwickly" : "")}
@@ -109,14 +109,16 @@ export default function Login() {
             {/* Mobile Fallback Logo (Hidden on Desktop since it's in the left pane) */}
             <div className="lg:hidden">
               {branding?.logoUrl ? (
-                <img src={branding.logoUrl} alt="Logo" className="h-12 mx-auto mb-4 object-contain" />
-              ) : showKwickly ? (
+                <img src={branding.logoUrl} alt="Logo" className="h-12 mx-auto mb-4 object-contain rounded-xl" />
+              ) : (
                 <div className="flex items-center justify-center mb-4">
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-lg shadow-primary/20 text-primary-foreground">
-                    <span className="text-3xl font-bold tracking-tighter">K</span>
+                    <span className="text-3xl font-bold tracking-tighter capitalize">
+                      {branding?.name ? branding.name.charAt(0) : 'K'}
+                    </span>
                   </div>
                 </div>
-              ) : null}
+              )}
             </div>
             
             <h1 className="text-2xl font-bold tracking-tight text-foreground mb-1.5">

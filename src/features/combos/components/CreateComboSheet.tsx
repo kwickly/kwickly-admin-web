@@ -12,10 +12,13 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { useCreateCombo } from "@/hooks/api/useCombos"
 import { useMenuItems } from "@/hooks/api/useMenus"
+import ImageDropzone from "@/components/ui/image-dropzone"
 
 export default function CreateComboSheet() {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
+  const [imageMetadata, setImageMetadata] = useState<any>(null)
   const [price, setPrice] = useState('')
   const [selectedItems, setSelectedItems] = useState<{menuItemId: string, quantity: number}[]>([])
   const [open, setOpen] = useState(false)
@@ -38,13 +41,22 @@ export default function CreateComboSheet() {
     if (!name || !price || selectedItems.length === 0) return
 
     createCombo(
-      { name, description, price, items: selectedItems },
+      { 
+        name, 
+        description, 
+        price, 
+        items: selectedItems,
+        imageUrl: imageUrl || undefined,
+        imageMetadata: imageMetadata || undefined
+      },
       {
         onSuccess: () => {
           setOpen(false)
           setName('')
           setDescription('')
           setPrice('')
+          setImageUrl('')
+          setImageMetadata(null)
           setSelectedItems([])
         }
       }
@@ -85,6 +97,18 @@ export default function CreateComboSheet() {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Brief description"
                 className="mt-1.5 bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+              />
+            </div>
+
+            <div>
+              <ImageDropzone
+                value={imageUrl}
+                onChange={(url, meta) => {
+                  setImageUrl(url);
+                  setImageMetadata(meta);
+                }}
+                label="Combo Photo"
+                aspect="video"
               />
             </div>
 

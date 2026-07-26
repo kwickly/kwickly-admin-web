@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 
 import { generateOklchTheme } from '@/lib/ThemeGenerator';
 import { getContrastColor } from '@/lib/colors';
+import ImageDropzone from '@/components/ui/image-dropzone';
 
 type TabType = 'colors' | 'shape' | 'type' | 'assets';
 
@@ -30,6 +31,9 @@ export default function TenantBranding() {
   const [logoUrl, setLogoUrl] = useState('');
   const [logoDarkUrl, setLogoDarkUrl] = useState('');
   const [faviconUrl, setFaviconUrl] = useState('');
+  const [logoMetadata, setLogoMetadata] = useState<any>(null);
+  const [logoDarkMetadata, setLogoDarkMetadata] = useState<any>(null);
+  const [faviconMetadata, setFaviconMetadata] = useState<any>(null);
 
   // Extract initial values when tenantData loads
   useEffect(() => {
@@ -38,6 +42,9 @@ export default function TenantBranding() {
       setLogoUrl(tenantData.logoUrl || '');
       setLogoDarkUrl(tenantData.logoDarkUrl || '');
       setFaviconUrl(tenantData.faviconUrl || '');
+      setLogoMetadata(tenantData.logoMetadata || null);
+      setLogoDarkMetadata(tenantData.logoDarkMetadata || null);
+      setFaviconMetadata(tenantData.faviconMetadata || null);
       
       const themeConfig = tenantData.themeConfig || {};
       setFontSans(themeConfig.fonts?.sans || 'Inter, sans-serif');
@@ -126,8 +133,11 @@ export default function TenantBranding() {
       themeConfig: previewTheme,
       themeMode,
       logoUrl,
+      logoMetadata,
       logoDarkUrl,
+      logoDarkMetadata,
       faviconUrl,
+      faviconMetadata,
       brandColor: `oklch(0.55 ${chroma} ${hue})`
     };
 
@@ -300,34 +310,31 @@ export default function TenantBranding() {
             )}
 
             {activeTab === 'assets' && (
-              <div className="space-y-6 animate-in fade-in duration-300">
-                <div className="space-y-2">
-                  <Label className="text-sm font-semibold">Logo (Light Mode)</Label>
-                  <Input 
-                    className="h-10"
-                    value={logoUrl} 
-                    onChange={(e) => setLogoUrl(e.target.value)} 
-                    placeholder="https://example.com/logo-light.svg" 
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-sm font-semibold">Logo (Dark Mode)</Label>
-                  <Input 
-                    className="h-10"
-                    value={logoDarkUrl} 
-                    onChange={(e) => setLogoDarkUrl(e.target.value)} 
-                    placeholder="https://example.com/logo-dark.svg" 
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-sm font-semibold">Favicon</Label>
-                  <Input 
-                    className="h-10"
-                    value={faviconUrl} 
-                    onChange={(e) => setFaviconUrl(e.target.value)} 
-                    placeholder="https://example.com/favicon.ico" 
-                  />
-                </div>
+              <div className="grid grid-cols-1 gap-6 animate-in fade-in duration-300">
+                <ImageDropzone 
+                  value={logoUrl} 
+                  onChange={(url, meta) => {
+                    setLogoUrl(url);
+                    setLogoMetadata(meta);
+                  }} 
+                  label="Logo (Light Mode)"
+                />
+                <ImageDropzone 
+                  value={logoDarkUrl} 
+                  onChange={(url, meta) => {
+                    setLogoDarkUrl(url);
+                    setLogoDarkMetadata(meta);
+                  }} 
+                  label="Logo (Dark Mode)"
+                />
+                <ImageDropzone 
+                  value={faviconUrl} 
+                  onChange={(url, meta) => {
+                    setFaviconUrl(url);
+                    setFaviconMetadata(meta);
+                  }} 
+                  label="Favicon"
+                />
               </div>
             )}
 

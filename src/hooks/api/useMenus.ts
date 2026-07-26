@@ -34,6 +34,8 @@ export interface MenuItem {
   protein: string | null;
   carbs: string | null;
   fat: string | null;
+  imageUrl?: string | null;
+  imageMetadata?: any;
 }
 
 export interface MenuCategory {
@@ -42,6 +44,8 @@ export interface MenuCategory {
   description: string | null;
   sortOrder: number;
   status: 'AVAILABLE' | 'OUT_OF_STOCK' | 'HIDDEN' | null;
+  imageUrl?: string | null;
+  imageMetadata?: any;
   items?: MenuItem[];
 }
 
@@ -113,6 +117,8 @@ export function useCreateMenuItem() {
       price: string;
       isVeg?: boolean;
       description?: string;
+      imageUrl?: string;
+      imageMetadata?: any;
     }) => {
       const { data } = await api.post('/menus/items', payload);
       return data.data;
@@ -131,6 +137,8 @@ export function useCreateCategory() {
     mutationFn: async (payload: {
       name: string;
       sortOrder?: number;
+      imageUrl?: string;
+      imageMetadata?: any;
     }) => {
       const { data } = await api.post('/menus/categories', payload);
       return data.data;

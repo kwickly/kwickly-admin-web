@@ -35,6 +35,8 @@ export function useCreateCombo() {
     mutationFn: async (payload: {
       name: string;
       description?: string;
+      imageUrl?: string;
+      imageMetadata?: any;
       price: string;
       items: ComboItem[];
       branchId?: string;

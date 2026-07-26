@@ -12,10 +12,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { useCreateCategory } from "@/hooks/api/useMenus"
+import ImageDropzone from "@/components/ui/image-dropzone"
 
 export default function CreateCategoryDialog() {
   const [name, setName] = useState('')
   const [sortOrder, setSortOrder] = useState('0')
+  const [imageUrl, setImageUrl] = useState('')
+  const [imageMetadata, setImageMetadata] = useState<any>(null)
   const [open, setOpen] = useState(false)
 
   const { mutate: createCategory, isPending } = useCreateCategory()
@@ -25,12 +28,19 @@ export default function CreateCategoryDialog() {
     if (!name) return
 
     createCategory(
-      { name, sortOrder: parseInt(sortOrder) || 0 },
+      { 
+        name, 
+        sortOrder: parseInt(sortOrder) || 0,
+        imageUrl: imageUrl || undefined,
+        imageMetadata: imageMetadata || undefined
+      },
       {
         onSuccess: () => {
           setOpen(false)
           setName('')
           setSortOrder('0')
+          setImageUrl('')
+          setImageMetadata(null)
         }
       }
     )
@@ -71,6 +81,17 @@ export default function CreateCategoryDialog() {
                 onChange={(e) => setSortOrder(e.target.value)}
                 placeholder="0"
                 className="h-11 bg-transparent border-border text-foreground"
+              />
+            </div>
+            <div className="grid gap-2">
+              <ImageDropzone
+                value={imageUrl}
+                onChange={(url, meta) => {
+                  setImageUrl(url);
+                  setImageMetadata(meta);
+                }}
+                label="Category Banner Image"
+                aspect="video"
               />
             </div>
           </div>

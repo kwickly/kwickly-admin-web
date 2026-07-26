@@ -26,12 +26,15 @@ import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { useCreateMenuItem, useMenuCategories } from "@/hooks/api/useMenus"
+import ImageDropzone from "@/components/ui/image-dropzone";
 
 const menuItemSchema = z.object({
   name: z.string().min(1, "Name is required"),
   price: z.string().min(1, "Price is required"),
   categoryId: z.string().min(1, "Category is required"),
   description: z.string().optional(),
+  imageUrl: z.string().optional(),
+  imageMetadata: z.any().optional(),
   
   // Dietary
   isVeg: z.boolean(),
@@ -77,6 +80,8 @@ export default function CreateMenuItemSheet() {
       isNew: false,
       isLimitedEdition: false,
       isHealthyChoice: false,
+      imageUrl: "",
+      imageMetadata: null,
     },
   })
 
@@ -187,6 +192,24 @@ export default function CreateMenuItemSheet() {
                   placeholder="A short description of the item..."
                   className="bg-transparent border-border text-foreground resize-none"
                   rows={3}
+                />
+              </div>
+
+              <div className="space-y-2 pt-1">
+                <Controller
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <ImageDropzone
+                      value={field.value || ''}
+                      onChange={(url, metadata) => {
+                        field.onChange(url);
+                        form.setValue('imageMetadata', metadata);
+                      }}
+                      label="Dish Photo"
+                      aspect="video"
+                    />
+                  )}
                 />
               </div>
             </TabsContent>

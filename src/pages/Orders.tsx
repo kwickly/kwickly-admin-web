@@ -1,6 +1,17 @@
+import { useState } from 'react';
 import { Icons } from '@/components/shared/icons';
 import { useBranchStore } from "@/store/useBranch";
-import { useOrders, useCancelOrder } from "@/hooks/api/useOrders";
+import { useOrders, useCancelOrder, useTransferTable } from "@/hooks/api/useOrders";
+import { useTables } from "@/hooks/api/useTables";
+import { Move } from "lucide-react";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogFooter, 
+  DialogHeader, 
+  DialogTitle 
+} from "@/components/ui/dialog";
 
 import { 
   Table, 
@@ -21,6 +32,14 @@ export default function Orders() {
   const branchId = selectedBranchId || 'default';
   const { data: orders = [] } = useOrders(branchId);
   const cancelOrderMutation = useCancelOrder();
+  const transferTableMutation = useTransferTable();
+  const { data: tables = [] } = useTables(branchId);
+
+  const [isTransferOpen, setIsTransferOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [destinationTableId, setDestinationTableId] = useState('');
+
+  const availableTables = tables.filter((t: any) => t.status === 'available');
   
   const handleCancelOrder = (orderId: string) => {
     if (confirm("Are you sure you want to cancel this order? This action cannot be undone.")) {
@@ -33,6 +52,25 @@ export default function Orders() {
         }
       });
     }
+  };
+
+  const handleTransferTable = () => {
+    if (!selectedOrder || !destinationTableId) return;
+    transferTableMutation.mutate({
+      branchId,
+      orderId: selectedOrder.id,
+      toTableId: destinationTableId
+    }, {
+      onSuccess: () => {
+        toast.success("Order moved successfully");
+        setIsTransferOpen(false);
+        setSelectedOrder(null);
+        setDestinationTableId('');
+      },
+      onError: (err: any) => {
+        toast.error(err.response?.data?.error || "Failed to move order");
+      }
+    });
   };
 
   return (
@@ -133,6 +171,22 @@ export default function Orders() {
                           <span className="sr-only">View Icons.Receipt</span>
                         </Button>
 
+                        {order.mode === 'dine_in' && order.status !== 'completed' && order.status !== 'cancelled' && (
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-8 w-8 text-muted-foreground hover:text-primary"
+                            title="Move Table"
+                            onClick={() => {
+                              setSelectedOrder(order);
+                              setIsTransferOpen(true);
+                            }}
+                          >
+                            <Move className="h-4 w-4" />
+                            <span className="sr-only">Move Table</span>
+                          </Button>
+                        )}
+
                         {!isCancelled && (
                           <Button 
                             variant="ghost" 
@@ -154,6 +208,52 @@ export default function Orders() {
           </TableBody>
         </Table>
       </div>
+
+      <Dialog open={isTransferOpen} onOpenChange={setIsTransferOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Move Order to Open Table</DialogTitle>
+            <DialogDescription>
+              Select a vacant table to transfer Order #{selectedOrder?.id.slice(0, 6).toUpperCase()} (currently Table {selectedOrder?.tableNumber}).
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <label htmlFor="destinationTable" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                Destination Table
+              </label>
+              {availableTables.length === 0 ? (
+                <p className="text-sm text-destructive font-medium">No vacant tables available at this branch.</p>
+              ) : (
+                <select
+                  id="destinationTable"
+                  value={destinationTableId}
+                  onChange={(e) => setDestinationTableId(e.target.value)}
+                  className="w-full h-11 rounded-xl border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-slate-800 dark:text-slate-100"
+                >
+                  <option value="">Select a table...</option>
+                  {availableTables.map((t: any) => (
+                    <option key={t.id} value={t.id}>
+                      {t.name} (Capacity: {t.capacity || 'N/A'})
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsTransferOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleTransferTable}
+              disabled={!destinationTableId || transferTableMutation.isPending}
+            >
+              {transferTableMutation.isPending ? "Moving..." : "Confirm Move"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

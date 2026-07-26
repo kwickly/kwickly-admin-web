@@ -120,3 +120,18 @@ export function useCancelOrder() {
     }
   });
 }
+
+export function useTransferTable() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ branchId, orderId, toTableId }: { branchId: string; orderId: string; toTableId: string }) => {
+      const { data } = await api.post('/tables/transfer', { branchId, orderId, toTableId });
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      queryClient.invalidateQueries({ queryKey: ['tables'] });
+      queryClient.invalidateQueries({ queryKey: ['kots'] });
+    }
+  });
+}

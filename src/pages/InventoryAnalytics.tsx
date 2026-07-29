@@ -11,14 +11,14 @@ export default function InventoryAnalytics() {
   const { data: forecastData, isLoading } = useInventoryForecast(branchId);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.PackageOpen className="h-6 w-6 text-primary" />
             Inventory Forecast
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Predictive stockout analysis based on last 30 days of consumption.
           </p>
         </div>
@@ -29,9 +29,9 @@ export default function InventoryAnalytics() {
         
         {isLoading ? (
           <div className="space-y-4">
-            <Skeleton className="h-16 w-full rounded-xl" />
-            <Skeleton className="h-16 w-full rounded-xl" />
-            <Skeleton className="h-16 w-full rounded-xl" />
+            <Skeleton className="h-16 w-full rounded-lg" />
+            <Skeleton className="h-16 w-full rounded-lg" />
+            <Skeleton className="h-16 w-full rounded-lg" />
           </div>
         ) : !forecastData || forecastData.length === 0 ? (
           <div className="h-[200px] flex flex-col items-center justify-center text-muted-foreground gap-2">
@@ -44,8 +44,8 @@ export default function InventoryAnalytics() {
               const isCritical = item.daysRemaining < 3;
               const isWarning = item.daysRemaining >= 3 && item.daysRemaining < 7;
               
-              let statusColor = "text-emerald-500";
-              let progressColor = "bg-emerald-500";
+              let statusColor = "text-success";
+              let progressColor = "bg-success";
               let Icon = Icons.CheckCircle2;
               
               if (isCritical) {
@@ -53,8 +53,8 @@ export default function InventoryAnalytics() {
                 progressColor = "bg-destructive";
                 Icon = Icons.AlertTriangle;
               } else if (isWarning) {
-                statusColor = "text-amber-500";
-                progressColor = "bg-amber-500";
+                statusColor = "text-warning";
+                progressColor = "bg-warning";
                 Icon = Icons.AlertTriangle;
               }
 
@@ -70,7 +70,7 @@ export default function InventoryAnalytics() {
                   <div className="flex-1 space-y-2">
                     <div className="flex justify-between items-center">
                       <p className="font-medium text-foreground">{item.name}</p>
-                      <Badge variant={isCritical ? "destructive" : isWarning ? "secondary" : "outline"} className={isWarning ? 'bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 border-none' : ''}>
+                      <Badge variant={isCritical ? "destructive" : isWarning ? "secondary" : "outline"} className={isWarning ? 'bg-warning-subtle text-warning hover:bg-warning-subtle border-none' : ''}>
                         {item.daysRemaining === 999 ? '> 30 days' : `${item.daysRemaining.toFixed(1)} days left`}
                       </Badge>
                     </div>

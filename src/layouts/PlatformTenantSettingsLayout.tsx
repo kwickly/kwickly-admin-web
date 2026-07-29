@@ -21,7 +21,7 @@ export default function PlatformTenantSettingsLayout() {
         </Link>
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground">Tenant Configuration</h2>
-          <p className="text-muted-foreground mt-1">Manage platform-level overrides and enterprise configurations.</p>
+          <p className="text-muted-foreground mt-2">Manage platform-level overrides and enterprise configurations.</p>
         </div>
       </div>
 

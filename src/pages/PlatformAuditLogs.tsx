@@ -44,25 +44,25 @@ export default function PlatformAuditLogs() {
 
   const getStatusBadgeClasses = (status?: number) => {
     if (!status) return "bg-muted text-muted-foreground border-border";
-    if (status >= 200 && status < 300) return "bg-emerald-500/10 text-emerald-600 border-emerald-500/20";
-    if (status >= 400 && status < 500) return "bg-amber-500/10 text-amber-600 border-amber-500/20";
-    if (status >= 500) return "bg-rose-500/10 text-rose-600 border-rose-500/20";
+    if (status >= 200 && status < 300) return "bg-success-subtle text-success border-success/20";
+    if (status >= 400 && status < 500) return "bg-warning-subtle text-warning border-warning/20";
+    if (status >= 500) return "bg-destructive-subtle text-destructive border-destructive/20";
     return "bg-muted text-muted-foreground border-border";
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Icons.ScrollText className="h-6 w-6 text-primary" />
           System Audit Logs
         </h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-sm text-muted-foreground mt-2">
           A real-time chronological ledger recording all database mutations.
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <SearchInput 
           value={search} 
           onChange={(val) => { setSearch(val); setPage(1); }} 
@@ -123,7 +123,7 @@ export default function PlatformAuditLogs() {
                       <div className="flex items-center gap-2">
                         <div className="font-medium text-foreground text-sm">{log.userName}</div>
                         {log.userRole && (
-                          <Badge variant="secondary" className="text-[9px] px-1.5 py-0 h-4">
+                          <Badge variant="secondary" className="text-[9px] px-2.5 py-0 h-4">
                             {log.userRole}
                           </Badge>
                         )}
@@ -136,8 +136,8 @@ export default function PlatformAuditLogs() {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex flex-col items-end gap-1">
-                        <span className="font-mono text-[10px] text-foreground font-semibold bg-muted px-1.5 py-0.5 rounded">
+                      <div className="flex flex-col items-end gap-2">
+                        <span className="font-mono text-[10px] text-foreground font-semibold bg-muted px-2.5 py-0.5 rounded">
                           {log.ipAddress || "Local"}
                         </span>
                         {log.userAgent ? (

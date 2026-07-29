@@ -18,6 +18,7 @@
 - **Phase 6: KDS Kanban Redesign:** `@dnd-kit` drag-and-drop board, text-dense tickets, urgency badges, forward-only enforcement.
 - **Phase 7: ETA & Kitchen Prep Time:** `defaultPreparationTime` on tenants, SSE-driven live countdown on client tracking page.
 - **Phase 8: Theme & Font System:** Plus Jakarta Sans / Inter dual-font, semantic Tailwind tokens, 60-30-10 color rule.
+- **Phase 8.5: UX Architecture Verdict & Consolidation:** Resolved "overdesigned" UI inconsistencies. Enforced Flat/Operational UI for Admin and Floating Bento grid for Client Storefront.
 
 ## Upcoming Phases
 

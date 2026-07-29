@@ -30,14 +30,14 @@ export default function WalletTransactions() {
   const paginatedTransactions = transactions.slice((page - 1) * pageSize, page * pageSize);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.CreditCard className="h-6 w-6 text-primary" />
             Wallet & Transactions
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Global ledger of all customer wallet credits and debits.
           </p>
         </div>
@@ -82,13 +82,13 @@ export default function WalletTransactions() {
                       <TableCell className="text-foreground">{tx.customerName}</TableCell>
                       <TableCell>
                         {tx.type === 'CREDIT' ? (
-                          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
-                            <Icons.ArrowUpRight className="h-3 w-3 mr-1" />
+                          <Badge variant="outline" className="bg-success-subtle text-success border-success/20">
+                            <Icons.ArrowUpRight className="h-3 w-3 mr-2" />
                             CREDIT
                           </Badge>
                         ) : (
-                          <Badge variant="outline" className="bg-rose-500/10 text-rose-600 border-rose-500/20">
-                            <Icons.ArrowDownRight className="h-3 w-3 mr-1" />
+                          <Badge variant="outline" className="bg-destructive-subtle text-destructive border-destructive/20">
+                            <Icons.ArrowDownRight className="h-3 w-3 mr-2" />
                             DEBIT
                           </Badge>
                         )}
@@ -97,7 +97,7 @@ export default function WalletTransactions() {
                         {tx.reason}
                       </TableCell>
                       <TableCell className="text-right font-bold">
-                        <span className={tx.type === 'CREDIT' ? 'text-emerald-600' : 'text-destructive'}>
+                        <span className={tx.type === 'CREDIT' ? 'text-success' : 'text-destructive'}>
                           {tx.type === 'CREDIT' ? '+' : '-'}₹{tx.amount.toFixed(2)}
                         </span>
                       </TableCell>

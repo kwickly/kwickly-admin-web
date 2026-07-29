@@ -36,8 +36,8 @@ function StatCard({
 }) {
   const colors: Record<string, string> = {
     primary: "bg-primary/10 text-primary",
-    emerald: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-    amber: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+    emerald: "bg-success-subtle text-success",
+    amber: "bg-warning-subtle text-warning",
     violet: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
   };
 
@@ -50,7 +50,7 @@ function StatCard({
         {trend && (
           <span
             className={`flex items-center gap-1 text-xs font-semibold ${
-              trend.positive ? "text-emerald-600" : "text-destructive"
+              trend.positive ? "text-success" : "text-destructive"
             }`}
           >
             {trend.positive ? (
@@ -65,11 +65,11 @@ function StatCard({
       <div>
         <p className="text-sm text-muted-foreground font-medium">{label}</p>
         {loading ? (
-          <Skeleton className="h-8 w-28 mt-1" />
+          <Skeleton className="h-8 w-28 mt-2" />
         ) : (
           <p className="text-2xl font-bold text-foreground mt-0.5">{value}</p>
         )}
-        {sub && <p className="text-xs text-muted-foreground mt-1">{sub}</p>}
+        {sub && <p className="text-xs text-muted-foreground mt-2">{sub}</p>}
       </div>
     </div>
   );
@@ -79,8 +79,8 @@ function StatCard({
 function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-popover border border-border rounded-lg px-4 py-3 shadow-sm text-sm">
-      <p className="font-semibold text-foreground mb-1">{label}</p>
+    <div className="bg-popover border border-border rounded-lg px-4 py-4 shadow-sm text-sm">
+      <p className="font-semibold text-foreground mb-2">{label}</p>
       {payload.map((p: any) => (
         <p key={p.dataKey} style={{ color: p.color }} className="text-xs">
           {p.name}: <strong>{typeof p.value === "number" && p.name?.toLowerCase().includes("revenue") ? `₹${p.value.toFixed(0)}` : p.value}</strong>
@@ -95,14 +95,14 @@ function HourlyHeatmap({ data }: { data: { hour: number; label: string; revenue:
   const max = Math.max(...data.map((d) => d.revenue), 1);
 
   return (
-    <div className="grid grid-cols-8 gap-1.5">
+    <div className="grid grid-cols-8 gap-2.5">
       {data.map((slot) => {
         const intensity = slot.revenue / max;
         const opacity = intensity < 0.05 ? 0.05 : intensity;
         return (
           <div
             key={slot.hour}
-            className="group relative flex flex-col items-center gap-1"
+            className="group relative flex flex-col items-center gap-2"
             title={`${slot.label}: ₹${slot.revenue.toFixed(0)} (${slot.orders} orders)`}
           >
             <div
@@ -116,7 +116,7 @@ function HourlyHeatmap({ data }: { data: { hour: number; label: string; revenue:
               {slot.hour}h
             </span>
             {/* Hover Tooltip */}
-            <div className="absolute -top-10 left-1/2 -translate-x-1/2 hidden group-hover:block z-10 bg-popover border border-border rounded px-2 py-1 text-[10px] whitespace-nowrap shadow-lg">
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 hidden group-hover:block z-10 bg-popover border border-border rounded px-2 py-2 text-[10px] whitespace-nowrap shadow-sm">
               <strong>{slot.label}</strong><br />₹{slot.revenue.toFixed(0)}
             </div>
           </div>
@@ -163,7 +163,7 @@ export default function RevenueAnalytics() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in duration-300">
       {/* ── Page Header ─────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -171,11 +171,11 @@ export default function RevenueAnalytics() {
             <Icons.BarChart2 className="h-6 w-6 text-primary" />
             Revenue Analytics
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Daily sales trends, top performers, and peak-hour traffic analysis.
           </p>
         </div>
-        <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
+        <div className="flex items-center gap-2 bg-muted rounded-lg p-2">
           {PERIODS.map((p) => (
             <button
               key={p.days}
@@ -248,10 +248,10 @@ export default function RevenueAnalytics() {
 
         {loadingTrend ? (
           <div className="h-[280px] flex items-center justify-center">
-            <Skeleton className="h-[240px] w-full rounded-xl" />
+            <Skeleton className="h-[240px] w-full rounded-lg" />
           </div>
         ) : !trendData || trendData.length === 0 ? (
-          <div className="h-[280px] flex flex-col items-center justify-center text-muted-foreground gap-3">
+          <div className="h-[280px] flex flex-col items-center justify-center text-muted-foreground gap-4">
             <Icons.TrendingUp className="h-10 w-10 opacity-30" />
             <p className="text-sm">No revenue data for this period yet.</p>
             <p className="text-xs">Orders marked as "delivered" will appear here.</p>
@@ -310,7 +310,7 @@ export default function RevenueAnalytics() {
           </div>
 
           {loadingItems ? (
-            <Skeleton className="h-[260px] w-full rounded-xl" />
+            <Skeleton className="h-[260px] w-full rounded-lg" />
           ) : !topItems || topItems.length === 0 ? (
             <div className="h-[260px] flex flex-col items-center justify-center text-muted-foreground gap-2">
               <Icons.BarChart2 className="h-10 w-10 opacity-30" />
@@ -365,11 +365,11 @@ export default function RevenueAnalytics() {
               </div>
             </div>
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-sm bg-primary/10" />
                 Low
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-sm bg-primary" />
                 High
               </div>

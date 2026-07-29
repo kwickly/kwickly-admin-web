@@ -69,17 +69,17 @@ export default function CreateStaffDialog() {
       <DialogTrigger asChild>
         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Add Staff Member</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+      <DialogContent className="sm:max-w-[425px] bg-popover border border-border">
         <DialogHeader>
-          <DialogTitle className="text-slate-900 dark:text-zinc-100">Add Staff Member</DialogTitle>
-          <DialogDescription className="text-slate-500 dark:text-zinc-400">
+          <DialogTitle className="text-foreground">Add Staff Member</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Create a new staff account and assign a role. A 4-digit POS PIN will be automatically generated.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-            <Label htmlFor="name" className="text-slate-700 dark:text-zinc-300">
+            <Label htmlFor="name" className="text-foreground/80">
               Full Name
             </Label>
               <Input
@@ -87,12 +87,12 @@ export default function CreateStaffDialog() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. John Doe"
-                className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                className="bg-transparent border-border  text-foreground"
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="phone" className="text-slate-700 dark:text-zinc-300">
+              <Label htmlFor="phone" className="text-foreground/80">
                 Phone Number
               </Label>
               <Input
@@ -100,19 +100,19 @@ export default function CreateStaffDialog() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="e.g. 9876543210"
-                className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                className="bg-transparent border-border  text-foreground"
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="role" className="text-slate-700 dark:text-zinc-300">
+              <Label htmlFor="role" className="text-foreground/80">
                 Role
               </Label>
               <Select value={role} onValueChange={(val: any) => setRole(val)} required>
-                <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                <SelectTrigger className="bg-transparent border-border  text-foreground">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                <SelectContent className="bg-card border-border">
                   <SelectItem value="manager">Manager</SelectItem>
                   <SelectItem value="cashier">Cashier</SelectItem>
                   <SelectItem value="kitchen_staff">Kitchen Staff</SelectItem>
@@ -122,14 +122,14 @@ export default function CreateStaffDialog() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="salaryType" className="text-slate-700 dark:text-zinc-300">
+              <Label htmlFor="salaryType" className="text-foreground/80">
                 Salary Type (Optional)
               </Label>
               <Select value={salaryType} onValueChange={(val: any) => setSalaryType(val)}>
-                <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                <SelectTrigger className="bg-transparent border-border  text-foreground">
                   <SelectValue placeholder="Select salary model" />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                <SelectContent className="bg-card border-border">
                   <SelectItem value="MONTHLY">Monthly Salary</SelectItem>
                   <SelectItem value="HOURLY">Hourly Wage</SelectItem>
                 </SelectContent>
@@ -138,7 +138,7 @@ export default function CreateStaffDialog() {
 
             {salaryType === 'MONTHLY' && (
               <div className="grid gap-2">
-                <Label htmlFor="baseSalary" className="text-slate-700 dark:text-zinc-300">
+                <Label htmlFor="baseSalary" className="text-foreground/80">
                   Base Salary (₹/month)
                 </Label>
                 <Input
@@ -147,7 +147,7 @@ export default function CreateStaffDialog() {
                   value={baseSalary}
                   onChange={(e) => setBaseSalary(e.target.value)}
                   placeholder="e.g. 25000"
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  className="bg-transparent border-border  text-foreground"
                   required
                 />
               </div>
@@ -155,7 +155,7 @@ export default function CreateStaffDialog() {
 
             {salaryType === 'HOURLY' && (
               <div className="grid gap-2">
-                <Label htmlFor="hourlyRate" className="text-slate-700 dark:text-zinc-300">
+                <Label htmlFor="hourlyRate" className="text-foreground/80">
                   Hourly Rate (₹/hour)
                 </Label>
                 <Input
@@ -164,7 +164,7 @@ export default function CreateStaffDialog() {
                   value={hourlyRate}
                   onChange={(e) => setHourlyRate(e.target.value)}
                   placeholder="e.g. 150"
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  className="bg-transparent border-border  text-foreground"
                   required
                 />
               </div>

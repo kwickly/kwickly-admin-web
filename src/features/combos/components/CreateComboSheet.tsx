@@ -69,10 +69,10 @@ export default function CreateComboSheet() {
       <SheetTrigger asChild>
         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Create Combo</Button>
       </SheetTrigger>
-      <SheetContent className="bg-white dark:bg-zinc-950 border-l border-slate-200 dark:border-zinc-800 sm:max-w-md w-full overflow-y-auto">
+      <SheetContent className="bg-popover border-l border-border sm:max-w-md w-full overflow-y-auto">
         <SheetHeader className="mb-6">
-          <SheetTitle className="text-slate-900 dark:text-zinc-100">Create Combo Meal</SheetTitle>
-          <SheetDescription className="text-slate-500 dark:text-zinc-400">
+          <SheetTitle className="text-foreground">Create Combo Meal</SheetTitle>
+          <SheetDescription className="text-muted-foreground">
             Combine multiple items into a single meal package.
           </SheetDescription>
         </SheetHeader>
@@ -80,23 +80,23 @@ export default function CreateComboSheet() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
             <div>
-              <Label className="text-slate-700 dark:text-zinc-300">Combo Name</Label>
+              <Label className="text-foreground/80">Combo Name</Label>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Burger Meal"
-                className="mt-1.5 bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                className="mt-1.5 bg-transparent border-border  text-foreground"
                 required
               />
             </div>
             
             <div>
-              <Label className="text-slate-700 dark:text-zinc-300">Description</Label>
+              <Label className="text-foreground/80">Description</Label>
               <Input
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Brief description"
-                className="mt-1.5 bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                className="mt-1.5 bg-transparent border-border  text-foreground"
               />
             </div>
 
@@ -113,21 +113,21 @@ export default function CreateComboSheet() {
             </div>
 
             <div>
-              <Label className="text-slate-700 dark:text-zinc-300">Combo Price (₹)</Label>
+              <Label className="text-foreground/80">Combo Price (₹)</Label>
               <Input
                 type="number"
                 step="0.01"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="e.g. 299"
-                className="mt-1.5 bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                className="mt-1.5 bg-transparent border-border  text-foreground"
                 required
               />
             </div>
             
             <div>
-              <Label className="text-slate-700 dark:text-zinc-300 mb-2 block">Select Items</Label>
-              <div className="space-y-2 border border-slate-200 dark:border-zinc-800 rounded-lg p-2 max-h-48 overflow-y-auto">
+              <Label className="text-foreground/80 mb-2 block">Select Items</Label>
+              <div className="space-y-2 border border-border rounded-lg p-2 max-h-48 overflow-y-auto">
                 {menuItems?.items?.map((item: any) => {
                   const isSelected = selectedItems.some(s => s.menuItemId === item.id)
                   return (
@@ -138,13 +138,13 @@ export default function CreateComboSheet() {
                         isSelected ? 'bg-primary/10 border border-primary/30' : 'hover:bg-accent'
                       }`}
                     >
-                      <span className="text-sm text-slate-900 dark:text-zinc-100">{item.name}</span>
+                      <span className="text-sm text-foreground">{item.name}</span>
                       {isSelected && <span className="text-xs text-primary font-medium">Selected</span>}
                     </div>
                   )
                 })}
                 {(!menuItems?.items || menuItems.items.length === 0) && (
-                  <p className="text-sm text-slate-500 dark:text-zinc-400 text-center py-4">No menu items found.</p>
+                  <p className="text-sm text-muted-foreground text-center py-4">No menu items found.</p>
                 )}
               </div>
             </div>

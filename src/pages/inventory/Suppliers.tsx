@@ -77,14 +77,14 @@ export default function Suppliers() {
   const paginatedSuppliers = filteredSuppliers.slice((page - 1) * pageSize, page * pageSize);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Truck className="h-6 w-6 text-primary" />
             Supplier Directory
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Manage your ingredient suppliers and purchase orders.
           </p>
         </div>
@@ -120,7 +120,7 @@ export default function Suppliers() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Icons.Phone Number</Label>
+                    <Label htmlFor="phone">Phone Number</Label>
                     <Input id="phone" name="phone" placeholder="+91 98765 43210" className="h-11 bg-transparent border-border" />
                   </div>
                   <div className="space-y-2">
@@ -146,7 +146,7 @@ export default function Suppliers() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-border">
+              <div className="flex justify-end gap-4 pt-4 border-t border-border">
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="h-11">
                   Cancel
                 </Button>
@@ -172,8 +172,8 @@ export default function Suppliers() {
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Icons.Search suppliers..."
-                className="h-11 pl-9 w-64 bg-muted/50 border-border"
+                placeholder="Search suppliers..."
+                className="h-11 pl-10 w-64 bg-muted/50 border-border"
               />
             </div>
           </div>
@@ -198,16 +198,16 @@ export default function Suppliers() {
               ) : filteredSuppliers.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-12">
-                    <Icons.Truck className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                    <Icons.Truck className="h-10 w-10 text-muted-foreground/30 mx-auto mb-4" />
                     <p className="text-muted-foreground font-medium">No suppliers found</p>
-                    <p className="text-sm text-muted-foreground mt-1">Click "Add Supplier" to register a new vendor.</p>
+                    <p className="text-sm text-muted-foreground mt-2">Click "Add Supplier" to register a new vendor.</p>
                   </TableCell>
                 </TableRow>
               ) : (
                 paginatedSuppliers.map((supplier) => (
                   <TableRow key={supplier.id}>
                     <TableCell>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-4">
                         <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                           <Icons.Building2 className="h-5 w-5 text-primary" />
                         </div>
@@ -215,7 +215,7 @@ export default function Suppliers() {
                           <div className="font-medium text-foreground">
                             {supplier.name}
                           </div>
-                          <div className="text-sm text-muted-foreground flex items-center gap-1 mt-0.5">
+                          <div className="text-sm text-muted-foreground flex items-center gap-2 mt-0.5">
                             <Icons.MapPin className="h-3 w-3" />
                             {supplier.address || "No address provided"}
                           </div>
@@ -223,18 +223,18 @@ export default function Suppliers() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="space-y-1 text-sm">
+                      <div className="space-y-2 text-sm">
                         <div className="flex items-center gap-2 text-foreground">
                           <div className="font-medium">{supplier.contactPerson || "N/A"}</div>
                         </div>
                         {supplier.phone && (
-                          <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <div className="flex items-center gap-2.5 text-muted-foreground">
                             <Icons.Phone className="h-3 w-3" />
                             {supplier.phone}
                           </div>
                         )}
                         {supplier.email && (
-                          <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <div className="flex items-center gap-2.5 text-muted-foreground">
                             <Icons.Mail className="h-3 w-3" />
                             {supplier.email}
                           </div>
@@ -242,7 +242,7 @@ export default function Suppliers() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         {supplier.gstNumber ? (
                           <Badge variant="outline" className="font-mono text-xs">
                             GST: {supplier.gstNumber}
@@ -251,7 +251,7 @@ export default function Suppliers() {
                           <span className="text-xs text-muted-foreground italic">No GST</span>
                         )}
                         {supplier.taxId && (
-                          <div className="text-xs text-muted-foreground font-mono mt-1">
+                          <div className="text-xs text-muted-foreground font-mono mt-2">
                             Tax ID: {supplier.taxId}
                           </div>
                         )}

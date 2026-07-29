@@ -76,11 +76,11 @@ export default function Login() {
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-black/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
 
         <div className="relative z-10 flex flex-col h-full">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {branding?.logoUrl ? (
               <img src={branding.logoUrl} alt="Logo" className="h-10 object-contain rounded-lg" />
             ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-foreground text-primary shadow-lg font-bold text-xl tracking-tighter capitalize">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground text-primary shadow-sm font-bold text-xl tracking-tighter capitalize">
                 {branding?.name ? branding.name.charAt(0) : 'K'}
               </div>
             )}
@@ -103,16 +103,16 @@ export default function Login() {
 
       {/* Right Column: Auth Pane with Centered Card */}
       <div className="flex-1 flex flex-col items-center justify-center p-6 lg:p-12 relative">
-        <div className="w-full max-w-[420px] bg-card rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-border/50 p-8 sm:p-10 relative z-10">
+        <div className="w-full max-w-[420px] bg-card rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-border/50 p-8 sm:p-10 relative z-10">
           
           <div className="text-center mb-8">
             {/* Mobile Fallback Logo (Hidden on Desktop since it's in the left pane) */}
             <div className="lg:hidden">
               {branding?.logoUrl ? (
-                <img src={branding.logoUrl} alt="Logo" className="h-12 mx-auto mb-4 object-contain rounded-xl" />
+                <img src={branding.logoUrl} alt="Logo" className="h-12 mx-auto mb-4 object-contain rounded-lg" />
               ) : (
                 <div className="flex items-center justify-center mb-4">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-lg shadow-primary/20 text-primary-foreground">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-primary shadow-sm shadow-primary/20 text-primary-foreground">
                     <span className="text-3xl font-bold tracking-tighter capitalize">
                       {branding?.name ? branding.name.charAt(0) : 'K'}
                     </span>
@@ -121,14 +121,14 @@ export default function Login() {
               )}
             </div>
             
-            <h1 className="text-2xl font-bold tracking-tight text-foreground mb-1.5">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground mb-2.5">
               Log In
             </h1>
             <p className="text-muted-foreground text-sm">Sign in to your account to continue</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div className="space-y-1.5">
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div className="space-y-2.5">
               <label className="block text-sm font-medium text-foreground">Email Address</label>
               <input 
                 type="email" 
@@ -140,7 +140,7 @@ export default function Login() {
               />
             </div>
             
-            <div className="space-y-1.5">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <label className="block text-sm font-medium text-foreground">Password</label>
                 <Link to="/forgot-password" className="text-sm font-medium text-primary hover:underline flex items-center">
@@ -170,7 +170,7 @@ export default function Login() {
             <Button 
               type="submit" 
               disabled={loginMutation.isPending || isLoadingBranding}
-              className="w-full min-h-[44px] font-semibold text-base mt-4 shadow-md shadow-primary/10 rounded-lg"
+              className="w-full min-h-[44px] font-semibold text-base mt-4 shadow-sm shadow-primary/10 rounded-lg"
             >
               {loginMutation.isPending ? "Signing In..." : "Sign In"}
             </Button>

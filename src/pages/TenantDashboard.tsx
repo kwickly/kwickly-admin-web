@@ -4,6 +4,7 @@ import { useDailySales, useTopItems } from "@/hooks/api/useDashboard";
 import { useBranchStore } from "@/store/useBranch";
 import { Can } from "@/components/shared/Can";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PageHeader } from "@/components/ui/page-header";
 
 const REVENUE_DATA = [
   { name: 'Mon', total: 1200 },
@@ -37,18 +38,12 @@ export default function TenantDashboard() {
     : CATEGORY_DATA;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.LayoutDashboard className="h-6 w-6 text-primary" />
-            Operational Dashboard
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Real-time branch metrics, daily sales reports, and top category distribution.
-          </p>
-        </div>
-      </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <PageHeader 
+        title="Operational Dashboard"
+        description="Real-time branch metrics, daily sales reports, and top category distribution."
+        icon={Icons.LayoutDashboard}
+      />
 
       <div className="space-y-8 w-full">
         {/* Summary Cards Grid */}
@@ -58,19 +53,19 @@ export default function TenantDashboard() {
               <div className="p-4 bg-muted rounded-lg">
                 <Icons.DollarSign className="h-6 w-6 text-muted-foreground" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Today's Revenue</p>
-                <h3 className="text-sm font-bold text-muted-foreground italic">Restricted Access</h3>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-muted-foreground truncate">Today's Revenue</p>
+                <h3 className="text-sm font-bold text-muted-foreground italic truncate">Restricted Access</h3>
               </div>
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
               <div className="p-4 bg-primary/10 rounded-lg">
-                <Icons.DollarSign className="h-6 w-6 text-primary" />
+                <Icons.DollarSign className="h-6 w-6 text-muted-foreground" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Today's Revenue</p>
-                <h3 className="text-2xl font-bold text-foreground">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-muted-foreground truncate">Today's Revenue</p>
+                <h3 className="text-2xl font-bold text-foreground truncate tabular-nums font-mono">
                   {isLoadingSales ? <Skeleton className="h-8 w-24" /> : `₹${sales?.totalSales.toFixed(2)}`}
                 </h3>
               </div>
@@ -82,19 +77,19 @@ export default function TenantDashboard() {
               <div className="p-4 bg-muted rounded-lg">
                 <Icons.ShoppingCart className="h-6 w-6 text-muted-foreground" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Orders</p>
-                <h3 className="text-sm font-bold text-muted-foreground italic">Restricted Access</h3>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-muted-foreground truncate">Total Orders</p>
+                <h3 className="text-sm font-bold text-muted-foreground italic truncate">Restricted Access</h3>
               </div>
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
               <div className="p-4 bg-primary/10 rounded-lg">
-                <Icons.ShoppingCart className="h-6 w-6 text-primary" />
+                <Icons.ShoppingCart className="h-6 w-6 text-muted-foreground" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Orders</p>
-                <h3 className="text-2xl font-bold text-foreground">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-muted-foreground truncate">Total Orders</p>
+                <h3 className="text-2xl font-bold text-foreground truncate tabular-nums font-mono">
                   {isLoadingSales ? <Skeleton className="h-8 w-16" /> : sales?.totalOrders}
                 </h3>
               </div>
@@ -106,19 +101,19 @@ export default function TenantDashboard() {
               <div className="p-4 bg-muted rounded-lg">
                 <Icons.TrendingUp className="h-6 w-6 text-muted-foreground" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Avg. Order Value</p>
-                <h3 className="text-sm font-bold text-muted-foreground italic">Restricted Access</h3>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-muted-foreground truncate">Avg. Order Value</p>
+                <h3 className="text-sm font-bold text-muted-foreground italic truncate">Restricted Access</h3>
               </div>
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
               <div className="p-4 bg-primary/10 rounded-lg">
-                <Icons.TrendingUp className="h-6 w-6 text-primary" />
+                <Icons.TrendingUp className="h-6 w-6 text-muted-foreground" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Avg. Order Value</p>
-                <h3 className="text-2xl font-bold text-foreground">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-muted-foreground truncate">Avg. Order Value</p>
+                <h3 className="text-2xl font-bold text-foreground truncate tabular-nums font-mono">
                   {isLoadingSales ? <Skeleton className="h-8 w-20" /> : `₹${sales?.averageOrderValue.toFixed(2)}`}
                 </h3>
               </div>
@@ -130,19 +125,19 @@ export default function TenantDashboard() {
               <div className="p-4 bg-muted rounded-lg">
                 <Icons.Users className="h-6 w-6 text-muted-foreground" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Active Staff</p>
-                <h3 className="text-sm font-bold text-muted-foreground italic">Restricted Access</h3>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-muted-foreground truncate">Active Staff</p>
+                <h3 className="text-sm font-bold text-muted-foreground italic truncate">Restricted Access</h3>
               </div>
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
               <div className="p-4 bg-primary/10 rounded-lg">
-                <Icons.Users className="h-6 w-6 text-primary" />
+                <Icons.Users className="h-6 w-6 text-muted-foreground" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Active Staff</p>
-                <h3 className="text-2xl font-bold text-foreground">6</h3>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-muted-foreground truncate">Active Staff</p>
+                <h3 className="text-2xl font-bold text-foreground truncate tabular-nums font-mono">6</h3>
               </div>
             </div>
           </Can>

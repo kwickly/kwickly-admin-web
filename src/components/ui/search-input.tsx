@@ -14,7 +14,7 @@ interface SearchInputProps {
 export function SearchInput({
   value,
   onChange,
-  placeholder = "Icons.Search...",
+  placeholder = "Search...",
   className = "",
   debounceMs = 500
 }: SearchInputProps) {
@@ -44,7 +44,7 @@ export function SearchInput({
         placeholder={placeholder}
         value={localValue}
         onChange={(e) => setLocalValue(e.target.value)}
-        className="pl-9 bg-background border-border text-foreground"
+        className="pl-10 bg-background border-border text-foreground"
       />
     </div>
   )

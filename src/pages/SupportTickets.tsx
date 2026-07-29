@@ -40,14 +40,14 @@ export default function TenantSupportTickets() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.LifeBuoy className="h-6 w-6 text-primary" />
             Support Inbox
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Create and track support tickets with the platform team.
           </p>
         </div>
@@ -56,8 +56,8 @@ export default function TenantSupportTickets() {
         </Button>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div className="flex items-center gap-3 w-full">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-4 w-full">
           <SearchInput 
             value={search} 
             onChange={(val) => { setSearch(val); }} 
@@ -86,7 +86,7 @@ export default function TenantSupportTickets() {
       {isLoading ? (
         <div className="animate-pulse space-y-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-24 bg-muted rounded-xl" />
+            <div key={i} className="h-24 bg-muted rounded-lg" />
           ))}
         </div>
       ) : filteredTickets?.length === 0 ? (
@@ -94,7 +94,7 @@ export default function TenantSupportTickets() {
           <div className="text-center">
             <Icons.LifeBuoy className="h-10 w-10 text-muted-foreground/50 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-foreground">No Tickets Yet</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
+            <p className="text-sm text-muted-foreground mt-2 max-w-sm">
               You haven't created any support tickets. If you need help, feel free to open one!
             </p>
             <Button className="mt-4" onClick={() => setIsCreateOpen(true)}>
@@ -110,7 +110,7 @@ export default function TenantSupportTickets() {
               onClick={() => setSelectedTicketId(ticket.id)}
               className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors cursor-pointer flex justify-between items-center"
             >
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <h3 className="font-semibold text-foreground">{ticket.subject}</h3>
                   <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-muted text-muted-foreground uppercase tracking-wider">
@@ -118,19 +118,19 @@ export default function TenantSupportTickets() {
                   </span>
                   <span className={`px-2 py-0.5 text-[10px] font-medium rounded-full uppercase tracking-wider ${
                     ticket.status === 'OPEN' ? 'bg-info/10 text-info' :
-                    ticket.status === 'IN_PROGRESS' ? 'bg-amber-500/10 text-amber-600' :
-                    ticket.status === 'RESOLVED' || ticket.status === 'CLOSED' ? 'bg-emerald-500/10 text-emerald-600' :
+                    ticket.status === 'IN_PROGRESS' ? 'bg-warning-subtle text-warning' :
+                    ticket.status === 'RESOLVED' || ticket.status === 'CLOSED' ? 'bg-success-subtle text-success' :
                     'bg-muted text-muted-foreground'
                   }`}>
                     {ticket.status.replace('_', ' ')}
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground line-clamp-1">{ticket.description}</p>
-                <div className="flex items-center gap-4 text-xs text-muted-foreground/70 pt-1">
-                  <span className="flex items-center gap-1">
+                <div className="flex items-center gap-4 text-xs text-muted-foreground/70 pt-2">
+                  <span className="flex items-center gap-2">
                     <Icons.Clock className="h-3 w-3" /> {formatDistanceToNow(new Date(ticket.createdAt), { addSuffix: true })}
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-2">
                     <Icons.MessageCircle className="h-3 w-3" /> Click to view thread
                   </span>
                 </div>
@@ -139,7 +139,7 @@ export default function TenantSupportTickets() {
                 <span className={`text-xs font-semibold ${
                   ticket.priority === 'URGENT' ? 'text-destructive' :
                   ticket.priority === 'HIGH' ? 'text-warning' :
-                  ticket.priority === 'MEDIUM' ? 'text-amber-500' :
+                  ticket.priority === 'MEDIUM' ? 'text-warning' :
                   'text-muted-foreground'
                 }`}>
                   {ticket.priority} Priority

@@ -115,17 +115,17 @@ export default function ImageDropzone({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      {label && <label className="block text-sm font-semibold text-slate-700 dark:text-zinc-300">{label}</label>}
+      {label && <label className="block text-sm font-semibold text-foreground/80">{label}</label>}
       
       <div
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`relative border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden ${
+        className={`relative border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden ${
           isDragActive 
-            ? 'border-primary bg-primary/5 shadow-md shadow-primary/5 scale-[0.99]' 
-            : 'border-slate-300 dark:border-zinc-800 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-zinc-900/40'
+            ? 'border-primary bg-primary/5 shadow-sm shadow-primary/5 scale-[0.99]' 
+            : 'border-border  hover:border-primary/50 hover:bg-muted/30'
         } ${getAspectClass()}`}
       >
         <input
@@ -144,7 +144,7 @@ export default function ImageDropzone({
               <button
                 type="button"
                 onClick={handleRemove}
-                className="p-2 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90 transition-all shadow-md transform hover:scale-105"
+                className="p-2 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90 transition-all shadow-sm transform hover:"
                 title="Remove image"
               >
                 <Icons.Trash className="h-4 w-4" />
@@ -157,11 +157,11 @@ export default function ImageDropzone({
             <span className="text-xs text-muted-foreground font-medium block">Uploading...</span>
           </div>
         ) : (
-          <div className="text-center space-y-1.5 p-4">
-            <div className="p-2 bg-primary/5 text-primary rounded-xl w-fit mx-auto shadow-sm">
+          <div className="text-center space-y-2.5 p-4">
+            <div className="p-2 bg-primary/5 text-primary rounded-lg w-fit mx-auto shadow-sm">
               <UploadCloud className="h-5 w-5" />
             </div>
-            <div className="text-xs font-semibold text-slate-800 dark:text-zinc-200">
+            <div className="text-xs font-semibold text-foreground">
               Drag & drop or click
             </div>
             <div className="text-[10px] text-muted-foreground font-medium">

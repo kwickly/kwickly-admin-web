@@ -78,7 +78,7 @@ export default function PlatformSettings() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col h-full w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col h-full w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
 
       <PageHeader 
         title={activeNav.label} 
@@ -93,18 +93,18 @@ export default function PlatformSettings() {
           {saving
             ? <div className="h-4 w-4 rounded-full border-[2.5px] border-primary-foreground/30 border-t-primary-foreground animate-spin" />
             : <Icons.Save className="h-4 w-4" />}
-          {saving ? "Saving…" : "Icons.Save Changes"}
+          {saving ? "Saving…" : "Save Changes"}
         </Button>
       </PageHeader>
 
       <div className="flex flex-col flex-1 min-w-0 min-h-0">
 
         {/* ── Content Area ────────────────────────────────────────────── */}
-        <div className="flex-1 min-w-0 space-y-5 h-full overflow-y-auto no-scrollbar pb-12">
+        <div className="flex-1 min-w-0 space-y-6 h-full overflow-y-auto no-scrollbar pb-12">
 
           {/* ── IDENTITY ─────────────────────────────────────────────── */}
           {tab === "identity" && (
-            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-3">
+            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-4">
               <div className="rounded-xl bg-card border border-border shadow-sm overflow-hidden">
                 {[
                   { id: "platformName", label: "Platform Name", hint: "Shown in browser tabs and email subjects", value: identity.platformName, onChange: (v: string) => setIdentity(s => ({ ...s, platformName: v })) },
@@ -123,29 +123,29 @@ export default function PlatformSettings() {
                 ))}
 
                 {/* Help Center URL with link icon */}
-                <div className="grid grid-cols-5 gap-6 items-center px-6 py-5 border-b border-border/50">
+                <div className="grid grid-cols-5 gap-6 items-center px-6 py-6 border-b border-border/50">
                   <div className="col-span-2 space-y-0.5">
                     <Label className="text-sm font-semibold text-foreground">Help Center URL</Label>
                     <p className="text-xs text-muted-foreground">Linked from the sidebar Help button</p>
                   </div>
                   <div className="col-span-3 relative">
-                    <Input value={identity.supportUrl} onChange={(e) => setIdentity(s => ({ ...s, supportUrl: e.target.value }))} className="h-9 font-mono text-sm pr-9 bg-transparent focus-visible:ring-primary" />
+                    <Input value={identity.supportUrl} onChange={(e) => setIdentity(s => ({ ...s, supportUrl: e.target.value }))} className="h-9 font-mono text-sm pr-10 bg-transparent focus-visible:ring-primary" />
                     <Icons.ExternalLink className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground/60 pointer-events-none" />
                   </div>
                 </div>
 
                 {/* Legal URLs side by side */}
-                <div className="grid grid-cols-5 gap-6 items-start px-6 py-5">
-                  <div className="col-span-2 space-y-0.5 pt-1">
+                <div className="grid grid-cols-5 gap-6 items-start px-6 py-6">
+                  <div className="col-span-2 space-y-0.5 pt-2">
                     <Label className="text-sm font-semibold text-foreground">Legal URLs</Label>
                     <p className="text-xs text-muted-foreground">Linked in all email footers</p>
                   </div>
-                  <div className="col-span-3 grid grid-cols-2 gap-3">
-                    <div className="space-y-1.5">
+                  <div className="col-span-3 grid grid-cols-2 gap-4">
+                    <div className="space-y-2.5">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Terms of Service</p>
                       <Input value={identity.termsUrl} onChange={(e) => setIdentity(s => ({ ...s, termsUrl: e.target.value }))} className="h-9 font-mono text-xs bg-transparent focus-visible:ring-primary" />
                     </div>
-                    <div className="space-y-1.5">
+                    <div className="space-y-2.5">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Privacy Policy</p>
                       <Input value={identity.privacyUrl} onChange={(e) => setIdentity(s => ({ ...s, privacyUrl: e.target.value }))} className="h-9 font-mono text-xs bg-transparent focus-visible:ring-primary" />
                     </div>
@@ -159,10 +159,10 @@ export default function PlatformSettings() {
 
           {/* ── SMTP ─────────────────────────────────────────────────── */}
           {tab === "smtp" && (
-            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-3">
+            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-4">
               <div className="rounded-xl bg-card border border-border shadow-sm overflow-hidden">
 
-                <div className="grid grid-cols-5 gap-6 items-center px-6 py-5 border-b border-border/50">
+                <div className="grid grid-cols-5 gap-6 items-center px-6 py-6 border-b border-border/50">
                   <div className="col-span-2 space-y-0.5">
                     <Label className="text-sm font-semibold text-foreground">SMTP Host</Label>
                     <p className="text-xs text-muted-foreground">Hostname of your outbound mail relay</p>
@@ -172,7 +172,7 @@ export default function PlatformSettings() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-5 gap-6 items-center px-6 py-5 border-b border-border/50">
+                <div className="grid grid-cols-5 gap-6 items-center px-6 py-6 border-b border-border/50">
                   <div className="col-span-2 space-y-0.5">
                     <Label className="text-sm font-semibold text-foreground">Port & Security</Label>
                     <p className="text-xs text-muted-foreground">465 = SSL · 587 = STARTTLS</p>
@@ -186,19 +186,19 @@ export default function PlatformSettings() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-5 gap-6 items-center px-6 py-5 border-b border-border/50">
+                <div className="grid grid-cols-5 gap-6 items-center px-6 py-6 border-b border-border/50">
                   <div className="col-span-2 space-y-0.5">
                     <Label className="text-sm font-semibold text-foreground">Authentication</Label>
                     <p className="text-xs text-muted-foreground">Username and API key from your email provider</p>
                   </div>
-                  <div className="col-span-3 grid grid-cols-2 gap-3">
+                  <div className="col-span-3 grid grid-cols-2 gap-4">
                     <Input value={smtp.user} onChange={(e) => setSmtp(s => ({ ...s, user: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-primary" placeholder="Username" />
                     <div className="relative">
                       <Input
                         type={showPass ? "text" : "password"}
                         value={smtp.password}
                         onChange={(e) => setSmtp(s => ({ ...s, password: e.target.value }))}
-                        className="h-9 font-mono text-sm bg-transparent pr-9 focus-visible:ring-primary"
+                        className="h-9 font-mono text-sm bg-transparent pr-10 focus-visible:ring-primary"
                         placeholder="API key / password"
                       />
                       <button onClick={() => setShowPass(!showPass)} className="absolute right-2.5 top-2.5 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
@@ -208,19 +208,19 @@ export default function PlatformSettings() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-5 gap-6 items-center px-6 py-5">
+                <div className="grid grid-cols-5 gap-6 items-center px-6 py-6">
                   <div className="col-span-2 space-y-0.5">
                     <Label className="text-sm font-semibold text-foreground">Sender Identity</Label>
                     <p className="text-xs text-muted-foreground">Name and address recipients see in their inbox</p>
                   </div>
-                  <div className="col-span-3 grid grid-cols-2 gap-3">
+                  <div className="col-span-3 grid grid-cols-2 gap-4">
                     <Input value={smtp.fromName} onChange={(e) => setSmtp(s => ({ ...s, fromName: e.target.value }))} className="h-9 bg-transparent focus-visible:ring-primary" placeholder="Kwickly Platform" />
                     <Input type="email" value={smtp.fromEmail} onChange={(e) => setSmtp(s => ({ ...s, fromEmail: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-primary" placeholder="noreply@kwickly.com" />
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 px-1">
+              <div className="flex items-center gap-4 px-2">
                 <Button 
                   variant="outline" 
                   size="default" 
@@ -236,24 +236,24 @@ export default function PlatformSettings() {
 
           {/* ── FEATURES ─────────────────────────────────────────────── */}
           {tab === "features" && (
-            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-3">
-              <p className="text-xs text-muted-foreground px-1">
+            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-4">
+              <p className="text-xs text-muted-foreground px-2">
                 Toggling a module <strong>off</strong> immediately hides it from all tenant dashboards, regardless of their plan.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4.5">
                 {features.map((f) => (
                   <button
                     key={f.key}
                     onClick={() => setFeatures(prev => prev.map(x => x.key === f.key ? { ...x, enabled: !x.enabled } : x))}
                     className={cn(
-                      "group relative flex items-center gap-3.5 p-4 rounded-xl border text-left transition-all duration-200 overflow-hidden cursor-pointer",
+                      "group relative flex items-center gap-3.5 p-4 rounded-lg border text-left transition-all duration-200 overflow-hidden cursor-pointer",
                       f.enabled
-                        ? "bg-card border-border hover:border-primary/30 shadow-sm hover:shadow-md"
+                        ? "bg-card border-border hover:border-primary/30 shadow-sm hover:shadow-sm"
                         : "bg-muted/20 border-dashed border-border/40 opacity-60 hover:opacity-85"
                     )}
                   >
                     <div className={cn(
-                      "relative h-9 w-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all", 
+                      "relative h-9 w-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all", 
                       f.enabled ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
                     )}>
                       <f.icon className="h-4 w-4" />
@@ -284,18 +284,18 @@ export default function PlatformSettings() {
                 const isEnterprise = key === "ENTERPRISE";
                 const data = PLAN_DEFAULTS[key];
                 return (
-                  <div key={key} className={cn("bg-card rounded-xl border border-border border-t-4 p-5 relative overflow-hidden transition-all hover:border-primary/40 shadow-sm", border)}>
+                  <div key={key} className={cn("bg-card rounded-lg border border-border border-t-4 p-5 relative overflow-hidden transition-all hover:border-primary/40 shadow-sm", border)}>
                     <div className="relative">
                       <div className="flex items-center gap-2.5 mb-4">
                         <span className={cn("h-2.5 w-2.5 rounded-full", dot)} />
                         <span className={cn("text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border", badge)}>{key}</span>
                         {isEnterprise && <span className="text-[11px] text-muted-foreground font-medium">— all limits are uncapped</span>}
                       </div>
-                      <div className="grid grid-cols-4 gap-3">
+                      <div className="grid grid-cols-4 gap-4">
                         {(["branches", "staff", "items", "storage"] as const).map((k) => (
-                          <div key={k} className="space-y-1.5">
+                          <div key={k} className="space-y-2.5">
                             <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                              {k === "branches" ? "Branches" : k === "staff" ? "Staff Icons.Users" : k === "items" ? "Menu Items" : "Storage"}
+                              {k === "branches" ? "Branches" : k === "staff" ? "Staff Users" : k === "items" ? "Menu Items" : "Storage"}
                             </p>
                             <div className="relative">
                               <Input
@@ -318,9 +318,9 @@ export default function PlatformSettings() {
 
           {/* ── DANGER ZONE ──────────────────────────────────────────── */}
           {tab === "danger" && (
-            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-5">
+            <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-6">
               {/* Warning strip */}
-              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+              <div className="flex items-center gap-4 px-4 py-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
                 <Icons.AlertTriangle className="h-4 w-4 text-destructive flex-shrink-0 animate-pulse" />
                 <p className="font-medium">
                   Changes here are instant and affect <strong>every tenant and user</strong> on the platform.
@@ -340,7 +340,7 @@ export default function PlatformSettings() {
                     i < arr.length - 1 && "border-b border-border/50"
                   )}>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2.5 mb-1">
+                      <div className="flex items-center gap-2.5 mb-2">
                         <p className="text-sm font-bold text-foreground">{label}</p>
                         {danger[key] && badge && (
                           <span className="inline-flex items-center text-[10px] font-bold bg-destructive text-destructive-foreground rounded-full px-2 py-0.5 animate-pulse">
@@ -365,20 +365,20 @@ export default function PlatformSettings() {
               {/* System status */}
               <div className="rounded-xl bg-card border border-border shadow-sm p-6">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">Live System Status</p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
-                    { label: "API Icons.Server",  icon: Icons.Server,   ok: true },
-                    { label: "Icons.Database",    icon: Icons.Database, ok: true },
+                    { label: "API Server",  icon: Icons.Server,   ok: true },
+                    { label: "Database",    icon: Icons.Database, ok: true },
                     { label: "Job Queue",   icon: Icons.Cpu,      ok: true },
                     { label: "Email Relay", icon: Icons.Wifi,     ok: true },
                   ].map(({ label, icon: Icon, ok }) => (
-                    <div key={label} className="relative flex items-center gap-3 p-3 rounded-xl border border-border bg-muted/20 overflow-hidden group hover:bg-card transition-colors">
+                    <div key={label} className="relative flex items-center gap-4 p-4 rounded-xl border border-border bg-muted/20 overflow-hidden group hover:bg-card transition-colors">
                       <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center flex-shrink-0 relative border", ok ? "bg-success/10 text-success border-success/10" : "bg-destructive/10 text-destructive border-destructive/10")}>
                         <Icon className="h-4 w-4" />
                       </div>
                       <div className="relative">
-                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wide leading-none mb-1">{label}</p>
-                        <div className="flex items-center gap-1">
+                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wide leading-none mb-2">{label}</p>
+                        <div className="flex items-center gap-2">
                           {ok ? (
                             <Icons.CheckCircle2 className="h-3 w-3 text-success" />
                           ) : (
@@ -405,7 +405,7 @@ export default function PlatformSettings() {
 function InfoTip({ icon: Icon, text, variant = "info" }: { icon: React.ElementType; text: string; variant?: "info" | "warning" }) {
   return (
     <div className={cn(
-      "flex items-start gap-3 px-4 py-3.5 rounded-xl border text-xs leading-relaxed",
+      "flex items-start gap-3 px-4 py-3.5 rounded-lg border text-xs leading-relaxed",
       variant === "warning" 
         ? "bg-warning/5 border-warning/20 text-warning" 
         : "bg-info/5 border-info/20 text-info"

@@ -41,9 +41,7 @@ import { formatCurrency } from "@/lib/currency";
 export default function PayrollRunDetails() {
   const { id: runId } = useParams<{ id: string }>();
 
-  if (!runId) return <div className="text-foreground">Invalid Payroll Run ID</div>;
-
-  const { data: run, isLoading } = usePayrollRun(runId);
+  const { data: run, isLoading } = usePayrollRun(runId || '');
   const updateSlipMutation = useUpdateSalarySlip();
   const advanceMutation = useAdvancePayrollStatus();
 
@@ -54,6 +52,10 @@ export default function PayrollRunDetails() {
   } | null>(null);
   
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+
+  if (!runId) {
+    return <div className="text-foreground p-8 text-center">Invalid Payroll Run ID</div>;
+  }
 
   if (isLoading || !run) {
     return <div className="text-center py-12 text-muted-foreground">Loading formal ledger...</div>;
@@ -102,7 +104,7 @@ export default function PayrollRunDetails() {
   const currencyCode = "INR";
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       {/* Top Header Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -117,13 +119,13 @@ export default function PayrollRunDetails() {
           <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
             Payroll Ledger
           </h1>
-          <p className="text-sm font-medium text-muted-foreground mt-1">
+          <p className="text-sm font-medium text-muted-foreground mt-2">
             Period: {format(new Date(run.periodStartDate), "MMMM d, yyyy")} &mdash;{" "}
             {format(new Date(run.periodEndDate), "MMMM d, yyyy")}
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Badge className={`text-sm px-4 py-1.5 uppercase tracking-wider ${
             run.status === "PAID" ? "bg-success/10 text-success border border-success/20" :
             run.status === "PROCESSED" ? "bg-primary/10 text-primary border border-primary/20" :
@@ -193,7 +195,7 @@ export default function PayrollRunDetails() {
             </div>
           </CardContent>
         </Card>
-        <Card className="border-primary/20 shadow-md bg-primary text-primary-foreground">
+        <Card className="border-primary/20 shadow-sm bg-primary text-primary-foreground">
           <CardHeader className="pb-2 pt-4">
             <CardTitle className="text-xs font-bold uppercase tracking-wider text-primary-foreground/80">
               Total Net Payout
@@ -201,7 +203,7 @@ export default function PayrollRunDetails() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-mono font-bold">{formatCurrency(totalNet, currencyCode)}</div>
-            <p className="text-xs text-primary-foreground/60 mt-1">Across {run.slips?.length || 0} staff members</p>
+            <p className="text-xs text-primary-foreground/60 mt-2">Across {run.slips?.length || 0} staff members</p>
           </CardContent>
         </Card>
       </div>
@@ -341,29 +343,29 @@ export default function PayrollRunDetails() {
           <DialogHeader>
             <DialogTitle className="text-foreground">Export Payroll Ledger</DialogTitle>
             <DialogDescription className="text-muted-foreground">
-              Icons.Download a comprehensive report of this payroll run.
+              Download a comprehensive report of this payroll run.
             </DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 py-4">
             <Card className="cursor-pointer border-border hover:border-primary hover:bg-primary/5 transition-colors bg-card" onClick={() => handleExport('CSV')}>
-              <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
+              <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-4">
                 <div className="h-12 w-12 bg-success/10 text-success rounded-full flex items-center justify-center">
                   <Icons.FileSpreadsheet className="h-6 w-6" />
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">CSV Export</div>
-                  <div className="text-xs text-muted-foreground mt-1">Raw data for accounting software</div>
+                  <div className="text-xs text-muted-foreground mt-2">Raw data for accounting software</div>
                 </div>
               </CardContent>
             </Card>
             <Card className="cursor-pointer border-border hover:border-primary hover:bg-primary/5 transition-colors bg-card" onClick={() => handleExport('PDF')}>
-              <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
+              <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-4">
                 <div className="h-12 w-12 bg-destructive/10 text-destructive rounded-full flex items-center justify-center">
                   <Icons.FileText className="h-6 w-6" />
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">PDF Ledger</div>
-                  <div className="text-xs text-muted-foreground mt-1">Formatted document for records</div>
+                  <div className="text-xs text-muted-foreground mt-2">Formatted document for records</div>
                 </div>
               </CardContent>
             </Card>

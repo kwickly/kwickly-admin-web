@@ -6,6 +6,7 @@ import AppShell from '@/layouts/AppShell'
 import Login from '@/pages/Login'
 import ForgotPassword from '@/pages/ForgotPassword'
 import ResetPassword from '@/pages/ResetPassword'
+import DesignSystem from '@/pages/DesignSystem'
 import Dashboard from '@/pages/Dashboard'
 import TenantAnalytics from '@/pages/TenantAnalytics'
 import RevenueAnalytics from '@/pages/RevenueAnalytics'
@@ -86,6 +87,8 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/tenant-lock" element={<TenantLockScreen />} />
+          {/* Public design system — no auth required */}
+          <Route path="/design-system" element={<DesignSystem />} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>

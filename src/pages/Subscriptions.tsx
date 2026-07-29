@@ -163,14 +163,14 @@ export default function Subscriptions() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.CreditCard className="h-6 w-6 text-primary" />
             Subscription Plans
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Configure meal subscription plans and pricing packages for your customers.
           </p>
         </div>
@@ -275,13 +275,13 @@ export default function Subscriptions() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="meal_count">Fixed Meal Count</SelectItem>
-                      <SelectItem value="monthly">Monthly Icons.Calendar Reset</SelectItem>
+                      <SelectItem value="monthly">Monthly Calendar Reset</SelectItem>
                       <SelectItem value="custom">Custom Timing</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                <div className="space-y-3 pt-2">
+                <div className="space-y-4 pt-2">
                   <div className="flex items-center space-x-2">
                     <input
                       type="checkbox"
@@ -335,7 +335,7 @@ export default function Subscriptions() {
           {plans.map((plan) => (
             <Card key={plan.id} className={`bg-card border-border overflow-hidden flex flex-col justify-between shadow-sm relative ${plan.status !== 'ACTIVE' ? 'opacity-70 border-dashed' : ''}`}>
               {plan.status !== 'ACTIVE' && (
-                <div className="absolute top-2 right-2 flex items-center gap-1 bg-destructive/10 text-destructive text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                <div className="absolute top-2 right-2 flex items-center gap-2 bg-destructive/10 text-destructive text-[10px] px-2.5 py-0.5 rounded font-bold uppercase tracking-wider">
                   <Icons.ShieldAlert className="h-3 w-3" /> Inactive
                 </div>
               )}
@@ -347,46 +347,46 @@ export default function Subscriptions() {
                   </Badge>
                 </div>
                 {plan.description && (
-                  <CardDescription className="text-muted-foreground mt-1.5 text-xs line-clamp-2">
+                  <CardDescription className="text-muted-foreground mt-2.5 text-xs line-clamp-2">
                     {plan.description}
                   </CardDescription>
                 )}
               </CardHeader>
-              <CardContent className="py-5 space-y-4 flex-grow">
+              <CardContent className="py-6 space-y-4 flex-grow">
                 <div className="flex items-baseline text-foreground">
                   <span className="text-3xl font-extrabold tracking-tight">₹{plan.price}</span>
-                  <span className="ml-1 text-sm font-semibold text-muted-foreground">/{plan.validityDays} days</span>
+                  <span className="ml-2 text-sm font-semibold text-muted-foreground">/{plan.validityDays} days</span>
                 </div>
 
                 <div className="space-y-2 pt-2 border-t border-border/50 text-sm text-foreground">
                   <div className="flex items-center gap-2">
-                    <Icons.Check className="h-4 w-4 text-emerald-500" />
+                    <Icons.Check className="h-4 w-4 text-success" />
                     <span><strong>{plan.totalMeals}</strong> Total Meals Included</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Icons.Check className="h-4 w-4 text-emerald-500" />
+                    <Icons.Check className="h-4 w-4 text-success" />
                     <span className="capitalize">Model: {plan.planType.replace('_', ' ')}</span>
                   </div>
                   {plan.carryForward && (
                     <div className="flex items-center gap-2">
-                      <Icons.Check className="h-4 w-4 text-emerald-500" />
+                      <Icons.Check className="h-4 w-4 text-success" />
                       <span>Unused meals Carry Forward</span>
                     </div>
                   )}
                   {plan.allowHoliday && (
                     <div className="flex items-center gap-2">
-                      <Icons.Check className="h-4 w-4 text-emerald-500" />
+                      <Icons.Check className="h-4 w-4 text-success" />
                       <span>Holiday Pauses Allowed</span>
                     </div>
                   )}
                 </div>
               </CardContent>
-              <CardFooter className="border-t border-border/50 bg-muted/10 py-3 flex justify-between items-center text-xs text-muted-foreground/70">
+              <CardFooter className="border-t border-border/50 bg-muted/10 py-4 flex justify-between items-center text-xs text-muted-foreground/70">
                 <div className="flex flex-col gap-0.5">
-                  <span className="flex items-center gap-1"><Icons.Calendar className="h-3 w-3" /> Created {new Date(plan.createdAt || Date.now()).toLocaleDateString()}</span>
+                  <span className="flex items-center gap-2"><Icons.Calendar className="h-3 w-3" /> Created {new Date(plan.createdAt || Date.now()).toLocaleDateString()}</span>
                 </div>
                 <Can perform="subscriptions:manage">
-                  <div className="flex gap-1">
+                  <div className="flex gap-2">
                     <Button
                       size="default"
                       variant="outline"
@@ -493,7 +493,7 @@ export default function Subscriptions() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="meal_count">Fixed Meal Count</SelectItem>
-                    <SelectItem value="monthly">Monthly Icons.Calendar Reset</SelectItem>
+                    <SelectItem value="monthly">Monthly Calendar Reset</SelectItem>
                     <SelectItem value="custom">Custom Timing</SelectItem>
                   </SelectContent>
                 </Select>
@@ -514,7 +514,7 @@ export default function Subscriptions() {
               </div>
             </div>
 
-            <div className="space-y-3 pt-2 border-t border-border">
+            <div className="space-y-4 pt-2 border-t border-border">
               <div className="flex items-center space-x-2">
                 <input
                   type="checkbox"
@@ -547,7 +547,7 @@ export default function Subscriptions() {
                 type="button"
                 variant="destructive"
                 onClick={() => setDeleteOpen(true)}
-                className="flex items-center gap-1.5"
+                className="flex items-center gap-2.5"
               >
                 <Icons.Trash2 className="h-4 w-4" /> Delete Plan
               </Button>

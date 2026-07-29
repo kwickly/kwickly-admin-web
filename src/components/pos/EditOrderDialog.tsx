@@ -101,18 +101,18 @@ export function EditOrderDialog({ order, branchId, onClose }: EditOrderDialogPro
         <div className="flex-1 overflow-hidden grid grid-cols-2">
           {/* Left Side: Menu */}
           <div className="border-r bg-muted/20 flex flex-col h-[50vh]">
-            <div className="p-3 border-b bg-background">
+            <div className="p-4 border-b bg-background">
               <div className="relative">
                 <Icons.Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Icons.Search menu..."
+                  placeholder="Search menu..."
                   className="pl-8"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
             </div>
-            <div className="p-3 overflow-y-auto flex-1 space-y-2">
+            <div className="p-4 overflow-y-auto flex-1 space-y-2">
               {isMenusLoading ? (
                 <div className="flex justify-center p-4"><Icons.Loader2 className="animate-spin h-6 w-6 text-muted-foreground" /></div>
               ) : filteredMenu.length > 0 ? (
@@ -135,10 +135,10 @@ export function EditOrderDialog({ order, branchId, onClose }: EditOrderDialogPro
 
           {/* Right Side: Cart */}
           <div className="flex flex-col h-[50vh]">
-            <div className="p-3 bg-muted/40 font-semibold border-b text-sm">
+            <div className="p-4 bg-muted/40 font-semibold border-b text-sm">
               Current Items
             </div>
-            <div className="p-3 overflow-y-auto flex-1 space-y-3 bg-background">
+            <div className="p-4 overflow-y-auto flex-1 space-y-4 bg-background">
               {cartItems.length > 0 ? (
                 cartItems.map((item) => (
                   <div key={item.menuItemId} className="flex items-center justify-between gap-2">

@@ -71,13 +71,13 @@ export default function PlatformTenants() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [plan, setPlan] = useState<"FREE" | "BASIC" | "STARTER" | "GROWTH" | "ENTERPRISE" | "CUSTOM">("BASIC");
-  const [brandColor, setBrandColor] = useState("#6366F1");
+  const [brandColor, setBrandColor] = useState("#EE3B2B");
 
   // Details Modal State
   const [viewOpen, setViewOpen] = useState(false);
   const [viewTenant, setViewTenant] = useState<TenantStats | null>(null);
 
-  // Icons.Edit Modal State
+  // Edit Modal State
   const [editOpen, setEditOpen] = useState(false);
   const [editingTenant, setEditingTenant] = useState<TenantStats | null>(null);
   const [editName, setEditName] = useState("");
@@ -108,7 +108,7 @@ export default function PlatformTenants() {
           setPhone("");
           setAddress("");
           setPlan("BASIC");
-          setBrandColor("#6366F1");
+          setBrandColor("#EE3B2B");
         },
         onError: (err: any) => {
           toast.error(err.response?.data?.error || "Failed to register tenant.");
@@ -206,19 +206,19 @@ export default function PlatformTenants() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Building className="h-6 w-6 text-primary" />
             Tenants Directory
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Manage restaurant subscriptions, inspect dashboards, and configure system clients.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <SearchInput 
             value={search} 
             onChange={(val) => { setSearch(val); setPage(1); }} 
@@ -244,7 +244,7 @@ export default function PlatformTenants() {
           {tenantsList.map((tenant) => (
             <Card 
               key={tenant.id} 
-              className="bg-card rounded-xl border border-border shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
+              className="bg-card rounded-xl border border-border shadow-sm hover:shadow-sm hover:border-primary/30 transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
               onClick={() => handleCardClick(tenant)}
             >
               <div className="p-6 flex flex-col h-full relative">
@@ -258,7 +258,7 @@ export default function PlatformTenants() {
                       <Icons.MoreVertical className="h-4 w-4" />
                       <span className="sr-only">Open menu</span>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48 bg-popover border-border shadow-lg rounded-xl">
+                    <DropdownMenuContent align="end" className="w-48 bg-popover border-border shadow-sm rounded-lg">
                       <DropdownMenuItem 
                         onClick={(e) => handleImpersonate(e, tenant)}
                         className="cursor-pointer text-primary focus:bg-primary/10 focus:text-primary"
@@ -272,7 +272,7 @@ export default function PlatformTenants() {
                         className="cursor-pointer text-foreground focus:bg-muted"
                       >
                         <Icons.Edit className="mr-2 h-4 w-4 text-muted-foreground" />
-                        <span>Icons.Edit Configuration</span>
+                        <span>Edit Configuration</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={(e) => {
@@ -282,7 +282,7 @@ export default function PlatformTenants() {
                         className="cursor-pointer text-foreground focus:bg-muted"
                       >
                         <Icons.Settings className="mr-2 h-4 w-4 text-muted-foreground" />
-                        <span>Advanced Icons.Settings</span>
+                        <span>Advanced Settings</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={(e) => handleDeleteClick(e, tenant)}
@@ -296,7 +296,7 @@ export default function PlatformTenants() {
                 </div>
 
                 <div className="flex items-start gap-4 mb-4 pr-8" style={{ '--tenant-brand': tenant.brandColor || 'var(--primary)', '--tenant-fg': tenant.brandColor ? getContrastColor(tenant.brandColor) : 'var(--primary-foreground)' } as React.CSSProperties}>
-                  <div className="h-12 w-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm bg-[var(--tenant-brand)] text-[var(--tenant-fg)]">
+                  <div className="h-12 w-12 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm bg-[var(--tenant-brand)] text-[var(--tenant-fg)]">
                     {tenant.logoUrl ? (
                       <img src={tenant.logoUrl} alt={tenant.name} className="h-8 w-8 object-contain" />
                     ) : (
@@ -307,7 +307,7 @@ export default function PlatformTenants() {
                     <h3 className="font-bold text-foreground truncate group-hover:text-primary transition-colors">
                       {tenant.name}
                     </h3>
-                    <p className="text-xs text-muted-foreground font-mono mt-0.5 truncate flex items-center gap-1">
+                    <p className="text-xs text-muted-foreground font-mono mt-0.5 truncate flex items-center gap-2">
                       <Icons.Globe className="h-3 w-3 flex-shrink-0" />
                       <span className="truncate">{tenant.slug}.kwickly.com</span>
                     </p>
@@ -319,7 +319,7 @@ export default function PlatformTenants() {
                   <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] uppercase font-bold border ${getPlanBadgeClass(tenant.plan)}`}>
                     {tenant.plan}
                   </span>
-                  <div className="flex items-center gap-1.5 text-xs font-medium">
+                  <div className="flex items-center gap-2.5 text-xs font-medium">
                     <span className={`h-2 w-2 rounded-full ${tenant.status === "ACTIVE" ? "bg-success" : tenant.status === "SUSPENDED" ? "bg-warning" : "bg-destructive"}`}></span>
                     <span className={tenant.status === "ACTIVE" ? "text-success" : tenant.status === "SUSPENDED" ? "text-warning" : "text-destructive"}>{tenant.status}</span>
                   </div>
@@ -365,7 +365,7 @@ export default function PlatformTenants() {
                 style={{ '--tenant-brand': viewTenant.brandColor || 'var(--primary)', '--tenant-fg': viewTenant.brandColor ? getContrastColor(viewTenant.brandColor) : 'var(--primary-foreground)' } as React.CSSProperties}
               >
                 <div className="flex items-center gap-4">
-                  <div className="h-16 w-16 rounded-2xl flex items-center justify-center shadow-sm border border-border flex-shrink-0 bg-[var(--tenant-brand)] text-[var(--tenant-fg)]">
+                  <div className="h-16 w-16 rounded-lg flex items-center justify-center shadow-sm border border-border flex-shrink-0 bg-[var(--tenant-brand)] text-[var(--tenant-fg)]">
                     {viewTenant.logoUrl ? (
                       <img src={viewTenant.logoUrl} alt={viewTenant.name} className="h-10 w-10 object-contain" />
                     ) : (
@@ -386,28 +386,28 @@ export default function PlatformTenants() {
               <div className="pt-4 pb-6 px-6 space-y-6">
                 <div>
                   <h2 className="text-2xl font-bold text-foreground">{viewTenant.name}</h2>
-                  <p className="text-sm text-muted-foreground font-mono mt-1 flex items-center gap-1.5">
+                  <p className="text-sm text-muted-foreground font-mono mt-2 flex items-center gap-2.5">
                     <Icons.Globe className="h-3.5 w-3.5" />
                     {viewTenant.slug}.kwickly.com
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6 p-4 rounded-xl bg-muted/50 border border-border">
-                  <div className="space-y-1">
+                <div className="grid grid-cols-2 gap-6 p-4 rounded-lg bg-muted/50 border border-border">
+                  <div className="space-y-2">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact Email</p>
                     <p className="text-sm text-foreground flex items-center gap-2">
                       <Icons.Mail className="h-3.5 w-3.5 text-muted-foreground/70" />
                       {viewTenant.email || "N/A"}
                     </p>
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact Icons.Phone</p>
+                  <div className="space-y-2">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact Phone</p>
                     <p className="text-sm text-foreground flex items-center gap-2">
                       <Icons.Phone className="h-3.5 w-3.5 text-muted-foreground/70" />
                       {viewTenant.phone || "N/A"}
                     </p>
                   </div>
-                  <div className="col-span-2 space-y-1">
+                  <div className="col-span-2 space-y-2">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Address</p>
                     <p className="text-sm text-foreground flex items-center gap-2">
                       <Icons.MapPin className="h-3.5 w-3.5 text-muted-foreground/70" />
@@ -417,19 +417,19 @@ export default function PlatformTenants() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
+                  <div className="p-4 rounded-lg border border-border flex flex-col items-center justify-center text-center">
                     <Icons.MapPin className="h-5 w-5 text-primary mb-2" />
                     <span className="text-2xl font-bold text-foreground">{viewTenant.branchCount}</span>
                     <span className="text-xs text-muted-foreground">Total Branches</span>
                   </div>
-                  <div className="p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
+                  <div className="p-4 rounded-lg border border-border flex flex-col items-center justify-center text-center">
                     <Icons.Users className="h-5 w-5 text-[var(--chart-2)] mb-2" />
                     <span className="text-2xl font-bold text-foreground">{viewTenant.userCount}</span>
-                    <span className="text-xs text-muted-foreground">Platform Icons.Users</span>
+                    <span className="text-xs text-muted-foreground">Users</span>
                   </div>
                 </div>
 
-                <div className="flex gap-3 pt-2">
+                <div className="flex gap-4 pt-2">
                   <Button 
                     className="flex-1 min-w-0"
                     onClick={(e) => handleImpersonate(e, viewTenant)}
@@ -439,7 +439,7 @@ export default function PlatformTenants() {
                   </Button>
                   <Button 
                     variant="outline"
-                    className="flex-none px-3"
+                    className="flex-none px-4"
                     onClick={(e) => {
                       setViewOpen(false);
                       handleEditClick(e, viewTenant);
@@ -465,8 +465,8 @@ export default function PlatformTenants() {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-3">
-              <div className="grid gap-1">
+            <div className="space-y-4">
+              <div className="grid gap-2">
                 <Label htmlFor="name" className="text-foreground">Restaurant Group Name</Label>
                 <Input
                   id="name"
@@ -477,7 +477,7 @@ export default function PlatformTenants() {
                 />
               </div>
 
-              <div className="grid gap-1">
+              <div className="grid gap-2">
                 <Label htmlFor="slug" className="text-foreground">Subdomain Prefix (Slug)</Label>
                 <Input
                   id="slug"
@@ -489,7 +489,7 @@ export default function PlatformTenants() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-1">
+                <div className="grid gap-2">
                   <Label htmlFor="email" className="text-foreground">Admin Email</Label>
                   <Input
                     id="email"
@@ -499,8 +499,8 @@ export default function PlatformTenants() {
                     placeholder="owner@restaurant.com"
                   />
                 </div>
-                <div className="grid gap-1">
-                  <Label htmlFor="phone" className="text-foreground">Contact Icons.Phone</Label>
+                <div className="grid gap-2">
+                  <Label htmlFor="phone" className="text-foreground">Contact Phone</Label>
                   <Input
                     id="phone"
                     value={phone}
@@ -510,7 +510,7 @@ export default function PlatformTenants() {
                 </div>
               </div>
 
-              <div className="grid gap-1">
+              <div className="grid gap-2">
                 <Label htmlFor="plan" className="text-foreground">SaaS Plan Tier</Label>
                 <Select value={plan} onValueChange={(val: any) => setPlan(val)}>
                   <SelectTrigger>
@@ -526,7 +526,7 @@ export default function PlatformTenants() {
                 </Select>
               </div>
 
-              <div className="grid gap-1">
+              <div className="grid gap-2">
                 <Label htmlFor="brandColor" className="text-foreground">Brand Color</Label>
                 <div className="flex gap-2" style={{ '--tenant-brand': brandColor } as React.CSSProperties}>
                   <div 
@@ -537,7 +537,7 @@ export default function PlatformTenants() {
                     id="brandColor"
                     value={brandColor}
                     onChange={(e) => setBrandColor(e.target.value)}
-                    placeholder="#6366F1"
+                    placeholder="#EE3B2B"
                     className="font-mono flex-1 min-w-0"
                     maxLength={7}
                   />
@@ -573,14 +573,14 @@ export default function PlatformTenants() {
         <DialogContent className="sm:max-w-[450px] bg-card border border-border">
           <form onSubmit={handleUpdate} className="space-y-4">
             <DialogHeader>
-              <DialogTitle className="text-foreground">Icons.Edit Tenant Icons.Settings</DialogTitle>
+              <DialogTitle className="text-foreground">Edit Tenant Settings</DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 Modify billing details or suspend restaurant logins.
               </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-3">
-              <div className="grid gap-1">
+            <div className="space-y-4">
+              <div className="grid gap-2">
                 <Label htmlFor="editName" className="text-foreground">Name</Label>
                 <Input
                   id="editName"
@@ -591,7 +591,7 @@ export default function PlatformTenants() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-1">
+                <div className="grid gap-2">
                   <Label htmlFor="editEmail" className="text-foreground">Email</Label>
                   <Input
                     id="editEmail"
@@ -599,8 +599,8 @@ export default function PlatformTenants() {
                     onChange={(e) => setEditEmail(e.target.value)}
                   />
                 </div>
-                <div className="grid gap-1">
-                  <Label htmlFor="editPhone" className="text-foreground">Icons.Phone</Label>
+                <div className="grid gap-2">
+                  <Label htmlFor="editPhone" className="text-foreground">Phone</Label>
                   <Input
                     id="editPhone"
                     value={editPhone}
@@ -609,7 +609,7 @@ export default function PlatformTenants() {
                 </div>
               </div>
 
-              <div className="grid gap-1">
+              <div className="grid gap-2">
                 <Label htmlFor="editPlan" className="text-foreground">Plan</Label>
                 <Select value={editPlan} onValueChange={(val: any) => setEditPlan(val)}>
                   <SelectTrigger>
@@ -625,7 +625,7 @@ export default function PlatformTenants() {
                 </Select>
               </div>
 
-              <div className="grid gap-1">
+              <div className="grid gap-2">
                 <Label htmlFor="edit-status" className="text-foreground">Platform Status</Label>
                 <Select value={editStatus} onValueChange={(val: any) => setEditStatus(val)}>
                   <SelectTrigger className="w-full">
@@ -669,7 +669,7 @@ export default function PlatformTenants() {
             </DialogDescription>
           </DialogHeader>
           
-          <div className="bg-destructive/10 border border-destructive/20 p-4 rounded-lg my-4 space-y-3">
+          <div className="bg-destructive/10 border border-destructive/20 p-4 rounded-lg my-4 space-y-4">
             <Label htmlFor="confirmText" className="text-foreground text-xs uppercase tracking-wider font-semibold">
               Type <span className="text-destructive font-bold select-all">{deletingTenant?.name}</span> to confirm
             </Label>

@@ -86,11 +86,11 @@ export default function DeviceManagement() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "active":
-        return <Badge variant="default" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">Active</Badge>;
+        return <Badge variant="default" className="bg-success-subtle text-success border-success/20">Active</Badge>;
       case "offline":
         return <Badge variant="secondary">Offline</Badge>;
       case "revoked":
-        return <Badge variant="destructive" className="bg-rose-500/10 text-rose-600 border-rose-500/20">Revoked</Badge>;
+        return <Badge variant="destructive" className="bg-destructive-subtle text-destructive border-destructive/20">Revoked</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -104,7 +104,7 @@ export default function DeviceManagement() {
             <Icons.MonitorSmartphone className="h-6 w-6 text-primary" />
             Hardware & Devices
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Manage POS terminals and Kitchen Display Systems (KDS) for this branch.
           </p>
         </div>
@@ -118,7 +118,7 @@ export default function DeviceManagement() {
           }
         }}>
           <DialogTrigger>
-            <Button disabled={!selectedBranchId} className="h-11 px-6 rounded-xl shadow-sm">
+            <Button disabled={!selectedBranchId} className="h-11 px-6 rounded-lg shadow-sm">
               <Icons.Plus className="mr-2 h-4 w-4" />
               Pair New Device
             </Button>
@@ -136,7 +136,7 @@ export default function DeviceManagement() {
                 <p className="text-sm text-muted-foreground text-center">
                   Enter this code on your device to complete pairing. This code expires in 15 minutes.
                 </p>
-                <div className="bg-muted px-8 py-6 rounded-2xl border border-border">
+                <div className="bg-muted px-8 py-6 rounded-lg border border-border">
                   <span className="text-5xl font-mono font-bold tracking-widest text-primary">
                     {pairingCode}
                   </span>
@@ -213,7 +213,7 @@ export default function DeviceManagement() {
                 <TableRow key={device.id}>
                   <TableCell>
                     <div className="font-medium text-foreground">{device.name}</div>
-                    <div className="text-xs text-muted-foreground font-mono mt-1">ID: {device.id.split('-')[0]}...</div>
+                    <div className="text-xs text-muted-foreground font-mono mt-2">ID: {device.id.split('-')[0]}...</div>
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="font-bold text-[10px]">
@@ -223,7 +223,7 @@ export default function DeviceManagement() {
                   <TableCell>
                     {getStatusBadge(device.status)}
                     {device.status === 'offline' && device.pairingCode && (
-                      <div className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1">
+                      <div className="text-[10px] text-muted-foreground mt-2 flex items-center gap-2">
                         <Icons.Clock className="h-3 w-3" /> Awaiting pairing
                       </div>
                     )}
@@ -240,7 +240,7 @@ export default function DeviceManagement() {
                         onClick={() => handleRevoke(device.id)}
                         disabled={revokeDevice.isPending}
                       >
-                        <Icons.XCircle className="h-4 w-4 mr-1.5" />
+                        <Icons.XCircle className="h-4 w-4 mr-2.5" />
                         Revoke
                       </Button>
                     )}

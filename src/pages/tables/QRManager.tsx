@@ -62,11 +62,11 @@ export default function QRManager() {
       <div className="flex items-center justify-between no-print">
         <div>
           <h1 className="text-3xl font-bold font-jakarta text-foreground">QR Manager</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Icons.Download or print QR codes for all your tables.</p>
+          <p className="text-muted-foreground mt-2 text-sm">Download or print QR codes for all your tables.</p>
         </div>
         <button
           onClick={handlePrint}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-xl flex items-center space-x-2 transition-all hover:scale-105 active:scale-95 shadow-sm font-medium text-sm cursor-pointer"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg flex items-center space-x-2 transition-all active:scale-95 shadow-sm font-medium text-sm cursor-pointer"
         >
           <Icons.Printer size={18} />
           <span>Print All QRs</span>
@@ -76,11 +76,11 @@ export default function QRManager() {
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 no-print">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="h-64 rounded-3xl bg-muted/50 animate-pulse border border-border/50"></div>
+            <div key={i} className="h-64 rounded-lg bg-muted/50 animate-pulse border border-border/50"></div>
           ))}
         </div>
       ) : tables.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center bg-card rounded-3xl border border-border shadow-sm no-print">
+        <div className="flex flex-col items-center justify-center py-20 text-center bg-card rounded-xl border border-border shadow-sm no-print">
           <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
             <Icons.QrCode className="w-8 h-8 text-primary" />
           </div>
@@ -95,7 +95,7 @@ export default function QRManager() {
           {tables.map((table: any) => (
             <div
               key={table.id}
-              className="bg-card rounded-3xl p-8 border border-border shadow-sm flex flex-col items-center justify-between print:border-2 print:border-gray-800 print:break-inside-avoid print:shadow-none relative group"
+              className="bg-card rounded-xl p-8 border border-border shadow-sm flex flex-col items-center justify-between print:border-2 print:border-foreground print:break-inside-avoid print:shadow-none relative group"
             >
               <h3 className="text-2xl font-bold font-jakarta text-foreground mb-4 text-center">{table.name}</h3>
               
@@ -109,7 +109,7 @@ export default function QRManager() {
                 </button>
               </Can>
 
-              <div className="bg-white p-4 rounded-xl inline-block mx-auto mb-6">
+              <div className="bg-white p-4 rounded-lg inline-block mx-auto mb-6">
                 <QRCode
                   id={`qr-code-svg-${table.id}`}
                   value={getQrUrl(table.qrToken)}
@@ -121,10 +121,10 @@ export default function QRManager() {
               <div className="w-full flex justify-center no-print">
                 <button
                   onClick={() => downloadQrCode(table.id, table.name)}
-                  className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm text-sm cursor-pointer"
+                  className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2.5 rounded-lg flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm text-sm cursor-pointer"
                 >
                   <Icons.Download size={16} />
-                  <span>Icons.Download</span>
+                  <span>Download</span>
                 </button>
               </div>
             </div>

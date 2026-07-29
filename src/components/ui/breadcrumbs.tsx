@@ -36,7 +36,7 @@ export function PageBreadcrumbs({ items, className }: PageBreadcrumbsProps) {
             )}
 
             {!isLast && (
-              <Icons.ChevronRight className="h-4 w-4 mx-1.5 text-muted-foreground flex-shrink-0" />
+              <Icons.ChevronRight className="h-4 w-4 mx-2.5 text-muted-foreground flex-shrink-0" />
             )}
           </div>
         );

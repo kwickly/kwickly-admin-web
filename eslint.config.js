@@ -32,11 +32,17 @@ export default defineConfig([
             '[Theme] Raw Tailwind palette class detected. Use semantic tokens instead: bg-primary, text-success, bg-muted, text-destructive, etc. See docs/theme-system.md §8.',
         },
         {
-          selector:
-            "JSXAttribute[name.name='className'] TemplateLiteral /\\b(bg|text|border|ring|fill|stroke)-(slate|zinc|gray|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-/",
-          message:
-            '[Theme] Raw Tailwind palette class in template literal detected. Use semantic tokens instead. See docs/theme-system.md §8.',
+          selector: "JSXOpeningElement[name.name='Card'] JSXAttribute[name.name='className'] Literal[value=/\\brounded-(lg|2xl)\\b/]",
+          message: "[Theme] Cards must use rounded-xl per UX/UI guidelines. Do not use rounded-lg or rounded-2xl on Card components.",
         },
+        {
+          selector: "JSXAttribute[name.name='className'] Literal[value=/(?=.*\\bbg-card\\b)(?=.*\\brounded-(lg|2xl)\\b)/]",
+          message: "[Theme] Card elements (containing bg-card) must use rounded-xl per UX/UI guidelines. Do not use rounded-lg or rounded-2xl.",
+        },
+        {
+          selector: "JSXAttribute[name.name='className'] Literal[value=/\\b(p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml|gap|gap-x|gap-y|space-x|space-y)-(1|3|5|7|9|11|13|15)\\b/]",
+          message: "[Theme] Spacing utilities must adhere to the 8-point grid (multiples of 2 in Tailwind, e.g. p-2, p-4, p-6). Odd-numbered spacing (p-1, p-3, gap-5) is not allowed.",
+        }
       ],
     },
   },

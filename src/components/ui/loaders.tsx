@@ -5,7 +5,7 @@ export function TableSkeleton() {
   return (
     <div className="space-y-4 w-full animate-in fade-in duration-500">
       <Skeleton className="h-10 w-full rounded-lg" />
-      <div className="border border-border rounded-xl overflow-hidden bg-card">
+      <div className="border border-border rounded-lg overflow-hidden bg-card">
         {Array.from({ length: 5 }).map((_, i) => (
           <div key={i} className="flex p-4 border-b border-border/50 last:border-0 gap-4">
             <Skeleton className="h-6 w-1/4 rounded-md" />
@@ -25,9 +25,9 @@ export function GridCardSkeleton({ count = 4 }: { count?: number }) {
       {Array.from({ length: count }).map((_, i) => (
         <Card key={i} className="overflow-hidden bg-card border-border">
           <Skeleton className="h-1 w-full rounded-none" />
-          <div className="p-5 flex flex-col h-full space-y-4">
+          <div className="p-6 flex flex-col h-full space-y-4">
             <div className="flex gap-4">
-              <Skeleton className="h-12 w-12 rounded-xl" />
+              <Skeleton className="h-12 w-12 rounded-lg" />
               <div className="space-y-2 flex-1 min-w-0">
                 <Skeleton className="h-5 w-3/4 rounded-md" />
                 <Skeleton className="h-3 w-1/2 rounded-md" />

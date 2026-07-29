@@ -123,7 +123,7 @@ export default function TenantAnalytics() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in duration-300">
       
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -132,7 +132,7 @@ export default function TenantAnalytics() {
             <Icons.BrainCircuit className="h-6 w-6 text-primary" />
             AI Analytics & Predictions
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Machine learning forecast charts, affinity combos, and subscriber churn risk preventions.
           </p>
         </div>
@@ -143,7 +143,7 @@ export default function TenantAnalytics() {
         
         {/* Demand Forecasting Chart */}
         <div className="lg:col-span-2 bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-border/50 pb-3">
+          <div className="flex items-center justify-between border-b border-border/50 pb-4">
             <div className="flex items-center gap-2">
               <Icons.BrainCircuit className="h-5 w-5 text-primary" />
               <div>
@@ -180,7 +180,7 @@ export default function TenantAnalytics() {
 
         {/* Suggested Combos Panel */}
         <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-border/50 pb-3">
+          <div className="flex items-center justify-between border-b border-border/50 pb-4">
             <div className="flex items-center gap-2">
               <Icons.Sparkles className="h-5 w-5 text-primary" />
               <div>
@@ -196,17 +196,17 @@ export default function TenantAnalytics() {
           {isCombosLoading ? (
             <div className="text-center py-12 text-muted-foreground">Scanning affinity scores...</div>
           ) : (
-            <div className="space-y-4 max-h-[300px] overflow-y-auto pr-1">
+            <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
               {suggestedCombos?.map((combo) => (
-                <Card key={combo.id} className="border-border bg-muted/30 flex flex-col justify-between overflow-hidden shadow-none p-4 space-y-3">
+                <Card key={combo.id} className="border-border bg-muted/30 flex flex-col justify-between overflow-hidden shadow-none p-4 space-y-4">
                   <div>
                     <div className="flex justify-between items-start">
                       <h4 className="font-bold text-sm text-foreground">{combo.name}</h4>
-                      <Badge className="bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 text-[10px] font-extrabold uppercase">
+                      <Badge className="bg-success-subtle text-success border border-success/20 text-[10px] font-extrabold uppercase">
                         {combo.lift} Lift
                       </Badge>
                     </div>
-                    <div className="flex flex-wrap gap-1.5 mt-2">
+                    <div className="flex flex-wrap gap-2.5 mt-2">
                       {combo.items.map((it, idx) => (
                         <Badge key={idx} variant="secondary" className="text-[9px] px-2 py-0.5 font-medium border-border/60 bg-background/70 text-muted-foreground">
                           {it}
@@ -214,12 +214,12 @@ export default function TenantAnalytics() {
                       ))}
                     </div>
                   </div>
-                  <div className="flex justify-between items-center pt-3 border-t border-border/50">
+                  <div className="flex justify-between items-center pt-4 border-t border-border/50">
                     <span className="text-xs text-muted-foreground">Rec. Price: <strong className="text-foreground">₹{combo.recommendedPrice}</strong></span>
                     <Button
                       size="default"
                       onClick={() => handleOpenAdoptCombo(combo)}
-                      className="h-7 text-xs px-3.5 shadow-sm"
+                      className="h-7 text-xs px-4.5 shadow-sm"
                     >
                       Adopt Combo
                     </Button>
@@ -233,7 +233,7 @@ export default function TenantAnalytics() {
 
       {/* Churn Prevention Section */}
       <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
-        <div className="flex items-center gap-2 border-b border-border/50 pb-3">
+        <div className="flex items-center gap-2 border-b border-border/50 pb-4">
           <Icons.TrendingDown className="h-5 w-5 text-destructive" />
           <div>
             <h3 className="font-bold text-foreground text-base">Churn At-Risk Subscribers</h3>
@@ -307,11 +307,11 @@ export default function TenantAnalytics() {
           </DialogHeader>
 
           {selectedCombo && (
-            <div className="space-y-5 py-4">
-              <div className="p-4 bg-muted/50 rounded-xl border border-border/60 space-y-2">
+            <div className="space-y-6 py-4">
+              <div className="p-4 bg-muted/50 rounded-lg border border-border/60 space-y-2">
                 <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest block">Proposed Combo</span>
                 <h4 className="font-bold text-sm text-foreground">{selectedCombo.name}</h4>
-                <div className="flex flex-wrap gap-1.5 pt-1">
+                <div className="flex flex-wrap gap-2.5 pt-2">
                   {selectedCombo.items.map((it, idx) => (
                     <Badge key={idx} variant="outline" className="text-[9px] px-2 py-0 bg-background">
                       {it}
@@ -321,7 +321,7 @@ export default function TenantAnalytics() {
               </div>
 
               <div className="space-y-4">
-                <div className="grid gap-1.5">
+                <div className="grid gap-2.5">
                   <Label htmlFor="combo-price">Combo Price (₹)</Label>
                   <Input 
                     id="combo-price" 
@@ -333,13 +333,13 @@ export default function TenantAnalytics() {
                   <span className="text-[10px] text-muted-foreground">Recommended base price based on item checkout affinity: ₹{selectedCombo.recommendedPrice}</span>
                 </div>
 
-                <div className="grid gap-1.5">
+                <div className="grid gap-2.5">
                   <Label htmlFor="combo-desc">Menu Description</Label>
                   <textarea
                     id="combo-desc"
                     value={comboDescription}
                     onChange={(e) => setComboDescription(e.target.value)}
-                    className="w-full text-sm px-3 py-2 border border-border rounded-md bg-transparent text-foreground focus:ring-1 focus:ring-primary outline-none min-h-[70px]"
+                    className="w-full text-sm px-4 py-2 border border-border rounded-md bg-transparent text-foreground focus:ring-1 focus:ring-primary outline-none min-h-[70px]"
                     placeholder="Describe this combo..."
                   />
                 </div>
@@ -380,14 +380,14 @@ export default function TenantAnalytics() {
           </DialogHeader>
 
           {selectedCustomer && (
-            <div className="space-y-5 py-4">
+            <div className="space-y-6 py-4">
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest block">Target Customer</span>
                   <span className="font-semibold text-sm text-foreground block">{selectedCustomer.name}</span>
                   <span className="text-xs text-muted-foreground font-mono block">{selectedCustomer.phone}</span>
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest block">Predicted Churn Risk</span>
                   <Badge variant="destructive" className="bg-destructive/10 text-destructive border border-destructive/20 text-[9px] font-extrabold uppercase mt-0.5">
                     {selectedCustomer.riskScore} RISK TIER
@@ -416,7 +416,7 @@ export default function TenantAnalytics() {
                   </div>
                 </div>
 
-                <div className="grid gap-1.5">
+                <div className="grid gap-2.5">
                   <Label htmlFor="coupon-code">Custom Promo Code</Label>
                   <Input 
                     id="coupon-code" 
@@ -431,12 +431,12 @@ export default function TenantAnalytics() {
                 {/* WhatsApp Message Template Live Preview */}
                 <div className="space-y-2">
                   <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest block">WhatsApp Template Preview</span>
-                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/10 rounded-xl space-y-2">
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">WhatsApp Business Service</span>
+                  <div className="p-4 bg-success-subtle border border-success/10 rounded-lg space-y-2">
+                    <div className="flex items-center gap-2.5">
+                      <div className="h-2 w-2 rounded-full bg-success" />
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-success">WhatsApp Business Service</span>
                     </div>
-                    <p className="text-xs text-foreground leading-relaxed font-sans bg-background p-3 rounded-lg border border-border shadow-inner">
+                    <p className="text-xs text-foreground leading-relaxed font-sans bg-background p-4 rounded-lg border border-border shadow-inner">
                       Hello *{selectedCustomer.name.split(" ")[0]}*! 👋 <br />
                       We noticed you haven't scanned your loyalty card in a while. Here is a special *{discountPercent}% off* coupon just for you: *{couponCode}*. Valid for the next 7 days at any of our branches! 🍔🍟
                     </p>

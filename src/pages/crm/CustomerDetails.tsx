@@ -69,7 +69,7 @@ export default function CustomerDetails() {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <Skeleton className="h-10 w-48" />
         <Skeleton className="h-[400px] w-full" />
       </div>
@@ -78,7 +78,7 @@ export default function CustomerDetails() {
 
   if (!customer) {
     return (
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <h1 className="text-2xl font-bold">Customer not found</h1>
         <Link to="/crm/directory">
           <Button variant="outline"><Icons.ArrowLeft className="mr-2 h-4 w-4" /> Back to Directory</Button>
@@ -88,7 +88,7 @@ export default function CustomerDetails() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex items-center gap-4 mb-2">
         <Link to="/crm/directory" className="text-muted-foreground hover:text-foreground">
           <Icons.ArrowLeft className="h-5 w-5" />
@@ -97,7 +97,7 @@ export default function CustomerDetails() {
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             Customer Profile
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             {/* The users table isn't joined for the name in `getCustomerProfile` directly inside crm.service in this simplified view, we'll just display User ID for MVP or you can assume the API returns it */}
             Customer ID: #{customer.userId.slice(0,8)}
           </p>
@@ -139,18 +139,18 @@ export default function CustomerDetails() {
           <CardContent>
             <Tabs defaultValue="wallet" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="wallet"><Icons.Wallet className="h-4 w-4 mr-2"/> Icons.Wallet</TabsTrigger>
+                <TabsTrigger value="wallet"><Icons.Wallet className="h-4 w-4 mr-2"/> Wallet</TabsTrigger>
                 <TabsTrigger value="loyalty"><Icons.Star className="h-4 w-4 mr-2"/> Loyalty</TabsTrigger>
               </TabsList>
               
-              {/* Icons.Wallet Tab */}
+              {/* Wallet Tab */}
               <TabsContent value="wallet" className="mt-4 space-y-4">
                 <div className="bg-muted/50 p-4 rounded-lg border border-border flex items-center justify-between">
                   <div>
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Current Balance</p>
-                    <p className="text-2xl font-bold text-foreground mt-1">₹{parseFloat(customer.walletBalance || '0').toFixed(2)}</p>
+                    <p className="text-2xl font-bold text-foreground mt-2">₹{parseFloat(customer.walletBalance || '0').toFixed(2)}</p>
                   </div>
-                  <Button onClick={() => setIsWalletModalOpen(true)}>Adjust Icons.Wallet</Button>
+                  <Button onClick={() => setIsWalletModalOpen(true)}>Adjust Wallet</Button>
                 </div>
 
                 <div className="border border-border rounded-md overflow-hidden">
@@ -173,15 +173,15 @@ export default function CustomerDetails() {
                           <TableCell className="text-sm">{new Date(tx.createdAt).toLocaleDateString()}</TableCell>
                           <TableCell className="text-sm">
                             {tx.reason}
-                            <div className="mt-1">
+                            <div className="mt-2">
                               {tx.type === 'CREDIT' ? (
-                                <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-[10px]">CREDIT</Badge>
+                                <Badge variant="outline" className="bg-success-subtle text-success border-success/20 text-[10px]">CREDIT</Badge>
                               ) : (
-                                <Badge variant="outline" className="bg-rose-500/10 text-rose-600 border-rose-500/20 text-[10px]">DEBIT</Badge>
+                                <Badge variant="outline" className="bg-destructive-subtle text-destructive border-destructive/20 text-[10px]">DEBIT</Badge>
                               )}
                             </div>
                           </TableCell>
-                          <TableCell className={`text-right font-medium ${tx.type === 'CREDIT' ? 'text-emerald-600' : 'text-rose-600'}`}>
+                          <TableCell className={`text-right font-medium ${tx.type === 'CREDIT' ? 'text-success' : 'text-destructive'}`}>
                             {tx.type === 'CREDIT' ? '+' : '-'}₹{parseFloat(tx.amount).toFixed(2)}
                           </TableCell>
                         </TableRow>
@@ -196,7 +196,7 @@ export default function CustomerDetails() {
                 <div className="bg-muted/50 p-4 rounded-lg border border-border flex items-center justify-between">
                   <div>
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Current Points</p>
-                    <p className="text-2xl font-bold text-foreground mt-1">{parseFloat(customer.loyaltyPointsBalance || '0').toFixed(0)}</p>
+                    <p className="text-2xl font-bold text-foreground mt-2">{parseFloat(customer.loyaltyPointsBalance || '0').toFixed(0)}</p>
                   </div>
                   <Button onClick={() => setIsLoyaltyModalOpen(true)}>Adjust Points</Button>
                 </div>
@@ -223,7 +223,7 @@ export default function CustomerDetails() {
                           <TableRow key={tx.id}>
                             <TableCell className="text-sm">{new Date(tx.createdAt).toLocaleDateString()}</TableCell>
                             <TableCell className="text-sm">{tx.reason}</TableCell>
-                            <TableCell className={`text-right font-medium ${isCredit ? 'text-emerald-600' : 'text-rose-600'}`}>
+                            <TableCell className={`text-right font-medium ${isCredit ? 'text-success' : 'text-destructive'}`}>
                               {isCredit ? '+' : ''}{pts.toFixed(0)}
                             </TableCell>
                           </TableRow>
@@ -238,11 +238,11 @@ export default function CustomerDetails() {
         </Card>
       </div>
 
-      {/* Adjust Icons.Wallet Modal */}
+      {/* Adjust Wallet Modal */}
       <Dialog open={isWalletModalOpen} onOpenChange={setIsWalletModalOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Adjust Icons.Wallet Balance</DialogTitle>
+            <DialogTitle>Adjust Wallet Balance</DialogTitle>
             <DialogDescription>Manually credit or debit funds to this customer's wallet.</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleWalletAdjustment} className="space-y-4 mt-4">

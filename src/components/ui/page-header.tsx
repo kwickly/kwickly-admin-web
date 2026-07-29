@@ -40,12 +40,12 @@ export function PageHeader({ title, description, icon: Icon, breadcrumbs, childr
       )}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            {Icon && <Icon className="h-6 w-6 text-primary" />}
+          <h1 className="text-xl font-semibold tracking-tight text-foreground flex items-center gap-2">
+            {Icon && <Icon className="h-5 w-5 text-primary" />}
             {title}
           </h1>
           {description && (
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-2">
               {description}
             </p>
           )}

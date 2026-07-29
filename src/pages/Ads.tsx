@@ -58,14 +58,14 @@ export default function Ads() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.LayoutGrid className="h-6 w-6 text-primary" />
             In-App Advertisements
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Manage promotional banners for your customer mobile app.
           </p>
         </div>
@@ -78,7 +78,7 @@ export default function Ads() {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-64 bg-muted rounded-xl" />
+            <div key={i} className="h-64 bg-muted rounded-lg" />
           ))}
         </div>
       ) : (
@@ -95,16 +95,16 @@ export default function Ads() {
               
               <div className="p-4 pt-2 border-t border-border/50 flex items-center justify-between">
                 <div className="flex gap-4">
-                  <div className="flex items-center gap-1 text-muted-foreground">
+                  <div className="flex items-center gap-2 text-muted-foreground">
                     <Icons.Eye className="h-4 w-4" />
                     <span className="text-xs">0</span>
                   </div>
-                  <div className="flex items-center gap-1 text-muted-foreground">
+                  <div className="flex items-center gap-2 text-muted-foreground">
                     <Icons.MousePointer2 className="h-4 w-4" />
                     <span className="text-xs">0</span>
                   </div>
                 </div>
-                <span className={`text-[10px] px-2 py-1 rounded-full ${ad.status === 'ACTIVE' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-muted text-muted-foreground'}`}>
+                <span className={`text-[10px] px-2 py-1 rounded-full ${ad.status === 'ACTIVE' ? 'bg-success-subtle text-success' : 'bg-muted text-muted-foreground'}`}>
                   {ad.status === 'ACTIVE' ? 'Active' : 'Inactive'}
                 </span>
               </div>

@@ -94,14 +94,14 @@ export default function Stock() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Package className="h-6 w-6 text-primary" />
             Stock & Inventory
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Track raw ingredients, view current stock levels, and make manual ledger adjustments.
           </p>
         </div>
@@ -153,7 +153,7 @@ export default function Stock() {
               </div>
             </div>
             
-            <div className="bg-amber-500/10 text-amber-600 p-3 rounded-md text-xs border border-amber-500/20">
+            <div className="bg-warning-subtle text-warning p-4 rounded-md text-xs border border-warning/20">
               <strong>Audit Trail Notice:</strong> This action creates an immutable ledger entry. It cannot be deleted, only offset by a future entry.
             </div>
 
@@ -168,7 +168,7 @@ export default function Stock() {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <div className="space-y-1">
+          <div className="space-y-2">
             <CardTitle>Raw Materials</CardTitle>
             <CardDescription>Current aggregated stock levels for your branch.</CardDescription>
           </div>
@@ -197,8 +197,8 @@ export default function Stock() {
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Icons.Search materials..."
-                className="h-11 pl-9 w-64 bg-muted/50 border-border"
+                placeholder="Search materials..."
+                className="h-11 pl-10 w-64 bg-muted/50 border-border"
               />
             </div>
           </div>
@@ -250,10 +250,10 @@ export default function Stock() {
                       <TableCell className="text-right">
                         <Button 
                           variant="outline" 
-                          className="h-11 px-4 hover:bg-primary/10 hover:text-primary"
+                          className="h-11 px-4 hover:bg-secondary/10 hover:text-secondary"
                           onClick={() => openAdjustDialog(item)}
                         >
-                          <Icons.Plus className="h-3 w-3 mr-1" />
+                          <Icons.Plus className="h-3 w-3 mr-2" />
                           Adjust Stock
                         </Button>
                       </TableCell>

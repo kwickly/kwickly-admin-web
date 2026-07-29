@@ -1,14 +1,14 @@
 import { Icons } from '@/components/shared/icons';
 export default function TenantUsage() {
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Activity className="h-6 w-6 text-primary" />
             Tenant Usage & Quotas
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Monitor API limits, branch counts, and active staff against tenant subscription tiers.
           </p>
         </div>
@@ -18,7 +18,7 @@ export default function TenantUsage() {
         <div className="text-center">
           <Icons.Activity className="h-10 w-10 text-muted-foreground/50 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-foreground">Quota Metrics Loading</h3>
-          <p className="text-sm text-muted-foreground mt-1 max-w-sm">
+          <p className="text-sm text-muted-foreground mt-2 max-w-sm">
             Gathering usage statistics across all active tenants...
           </p>
         </div>

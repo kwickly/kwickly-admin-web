@@ -115,14 +115,14 @@ export default function Discounts() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Tag className="h-6 w-6 text-primary" />
             Promotions & Discounts
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Create and manage discount codes, BOGO offers, and dynamic pricing
             rules.
           </p>
@@ -227,7 +227,7 @@ export default function Discounts() {
 
       <Card>
         <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-2 gap-4">
-          <div className="space-y-1">
+          <div className="space-y-2">
             <CardTitle>Active Coupons</CardTitle>
             <CardDescription>
               Track the performance of your active discounts.
@@ -326,7 +326,7 @@ export default function Discounts() {
                           {coupon.usageLimit && `/ ${coupon.usageLimit}`}
                         </div>
                         {coupon.usageLimit && (
-                          <div className="w-full bg-muted rounded-full h-1.5 mt-1">
+                          <div className="w-full bg-muted rounded-full h-1.5 mt-2">
                             <div
                               className="bg-primary h-1.5 rounded-full"
                               style={{
@@ -340,7 +340,7 @@ export default function Discounts() {
                         {coupon.isActive ? (
                           <Badge
                             variant="outline"
-                            className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                            className="bg-success-subtle text-success border-success/20"
                           >
                             Active
                           </Badge>

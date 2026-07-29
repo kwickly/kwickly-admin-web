@@ -72,12 +72,12 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
   };
 
   if (isLoading) {
-    return <div className="text-center py-12 text-slate-500">Loading menu items...</div>;
+    return <div className="text-center py-12 text-muted-foreground">Loading menu items...</div>;
   }
 
   if (!items || items.length === 0) {
     return (
-      <div className="text-center py-12 text-slate-500 bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800">
+      <div className="text-center py-12 text-muted-foreground bg-card rounded-xl border border-border">
         No menu items found. Create one!
       </div>
     );
@@ -88,14 +88,14 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
       {items.map((item) => (
         <div
           key={item.id}
-          className="group relative bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-200"
+          className="group relative bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg transition-all duration-200"
         >
-          <div className="aspect-[4/3] bg-slate-100 dark:bg-zinc-800 flex items-center justify-center text-6xl select-none">
+          <div className="aspect-[4/3] bg-muted flex items-center justify-center text-6xl select-none">
             {item.isVeg ? '🥗' : '🥩'}
           </div>
           <div className="p-4">
             <div className="flex justify-between items-start mb-2">
-              <h3 className="font-semibold text-slate-900 dark:text-zinc-100 truncate pr-2" title={item.name}>
+              <h3 className="font-semibold text-foreground truncate pr-2" title={item.name}>
                 {item.name}
               </h3>
               <p className="font-medium text-primary shrink-0">
@@ -103,7 +103,7 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
               </p>
             </div>
             <div className="flex justify-between items-center mt-4">
-              <span className="text-xs text-slate-500 dark:text-zinc-400 truncate max-w-[120px]">
+              <span className="text-xs text-muted-foreground truncate max-w-[120px]">
                 {item.categoryName || 'Uncategorized'}
               </span>
               <Badge variant={item.status ? 'outline' : 'destructive'} className="text-[10px] font-bold">
@@ -112,7 +112,7 @@ export default function MenuGrid({ search = "" }: { search?: string }) {
             </div>
           </div>
           {/* Action Overlay */}
-          <div className="absolute inset-0 bg-slate-950/65 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2.5 backdrop-blur-[2px] rounded-xl duration-200">
+          <div className="absolute inset-0 bg-foreground/65 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2.5 backdrop-blur-[2px] rounded-xl duration-200">
             <Button
               onClick={() => handleViewClick(item)}
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold shadow-md transition-all scale-90 group-hover:scale-100 h-10 px-4"

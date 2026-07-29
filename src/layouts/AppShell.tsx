@@ -1,5 +1,5 @@
 import { Icons } from '@/components/shared/icons';
-import { Outlet, Navigate, Link, useNavigate } from "react-router-dom"
+import { Outlet, Navigate, Link, useNavigate, useLocation } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { useBranchStore } from "@/store/useBranch"
 import { useBranches } from "@/hooks/api/useSettings"
@@ -28,7 +28,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
-import { getContrastColor, isValidHex } from "@/lib/colors";
+import { getContrastColor, isValidHex, hexToOklchString } from "@/lib/colors";
 
 export default function AppShell() {
   const navigate = useNavigate();
@@ -45,8 +45,10 @@ export default function AppShell() {
   const { data: branches, isLoading: isBranchesLoading } = useBranches()
   const { theme, setTheme } = useTheme()
   const [commandOpen, setCommandOpen] = useState(false)
+  const location = useLocation()
 
   const isPlatformAdmin = user?.role === 'platform_owner' || user?.role === 'super_admin';
+  const isPlatformContext = isPlatformAdmin && !impersonatedTenantId;
 
   const activeBrandColor = impersonatedTenantId 
     ? impersonatedTenantBrandColor 
@@ -57,18 +59,31 @@ export default function AppShell() {
     : user?.tenantDetails?.logoUrl;
 
   // v2 Brand Token Injection: writes merchant brand color directly onto --primary
-  // so all standard Tailwind utilities (bg-primary, text-primary, border-primary)
-  // automatically reflect the active merchant's branding. No var(--brand-*) needed.
+  // using OKLCH to preserve Tailwind v4 opacity modifiers.
   useEffect(() => {
     const root = document.documentElement;
+    // Bypass theme injection for platform admin routes to enforce Kwickly Red/Navy
+    if (isPlatformContext) {
+      root.style.removeProperty('--primary');
+      root.style.removeProperty('--primary-foreground');
+      root.style.removeProperty('--ring');
+      root.style.removeProperty('--sidebar-primary');
+      root.style.removeProperty('--sidebar-primary-foreground');
+      root.style.removeProperty('--accent-foreground');
+      return;
+    }
+
     if (activeBrandColor && isValidHex(activeBrandColor)) {
       const foreground = getContrastColor(activeBrandColor);
-      root.style.setProperty('--primary',                       activeBrandColor);
-      root.style.setProperty('--primary-foreground',            foreground);
-      root.style.setProperty('--ring',                          activeBrandColor);
-      root.style.setProperty('--sidebar-primary',               activeBrandColor);
-      root.style.setProperty('--sidebar-primary-foreground',    foreground);
-      root.style.setProperty('--accent-foreground',             activeBrandColor);
+      const oklchPrimary = hexToOklchString(activeBrandColor);
+      
+      // Inject using oklch variables
+      root.style.setProperty('--primary',                       `oklch(${oklchPrimary})`);
+      root.style.setProperty('--primary-foreground',            `oklch(${hexToOklchString(foreground)})`);
+      root.style.setProperty('--ring',                          `oklch(${oklchPrimary})`);
+      root.style.setProperty('--sidebar-primary',               `oklch(${oklchPrimary})`);
+      root.style.setProperty('--sidebar-primary-foreground',    `oklch(${hexToOklchString(foreground)})`);
+      root.style.setProperty('--accent-foreground',             `oklch(${oklchPrimary})`);
     } else {
       // Restore index.css defaults by removing inline overrides
       root.style.removeProperty('--primary');
@@ -78,7 +93,7 @@ export default function AppShell() {
       root.style.removeProperty('--sidebar-primary-foreground');
       root.style.removeProperty('--accent-foreground');
     }
-  }, [activeBrandColor]);
+  }, [activeBrandColor, isPlatformContext]);
 
   // Auto-select the first branch if none is selected or if the selected branch is invalid (e.g. after switching tenants)
   useEffect(() => {
@@ -96,11 +111,11 @@ export default function AppShell() {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen overflow-hidden w-full bg-background">
+      <div className={`flex h-screen overflow-hidden w-full bg-background ${isPlatformContext ? 'platform-shell' : ''}`}>
         <AppSidebar />
         <SidebarInset>
           {impersonatedTenantId && (
-            <div className="bg-warning text-warning-foreground text-xs font-bold py-1.5 px-4 flex items-center justify-between border-b border-warning/70 shadow-sm animate-in slide-in-from-top duration-200">
+            <div className="bg-warning text-warning-foreground text-xs font-bold py-2.5 px-4 flex items-center justify-between border-b border-warning/70 shadow-sm animate-in slide-in-from-top duration-200">
               <span className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-warning-foreground animate-pulse" />
                 ⚠️ INSPECTION MODE: Currently viewing <strong>{impersonatedTenantName}</strong>
@@ -119,7 +134,7 @@ export default function AppShell() {
           )}
           <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b bg-background/80 backdrop-blur-md px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-14">
             <div className="flex items-center gap-2 px-2 h-full">
-              <SidebarTrigger className="-ml-1 text-muted-foreground" />
+              <SidebarTrigger className="-ml-2 text-muted-foreground" />
               <Separator orientation="vertical" className="mr-2 h-5" />
               
               {(!isPlatformAdmin || impersonatedTenantId) ? (
@@ -164,15 +179,15 @@ export default function AppShell() {
                   className="flex items-center h-11 w-48 lg:w-72 rounded-xl border border-border bg-muted px-4 text-xs focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-ring/50 transition-all text-muted-foreground group-hover:text-foreground/70"
                 >
                   <Icons.Search className="h-3.5 w-3.5 mr-2 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <span>Icons.Search anything...</span>
-                  <div className="ml-auto flex items-center gap-1 rounded border border-border bg-background px-1.5 py-0.5 shadow-sm">
+                  <span>Search anything...</span>
+                  <div className="ml-auto flex items-center gap-2 rounded border border-border bg-background px-2.5 py-0.5 shadow-sm">
                     <span className="text-[10px] font-medium text-muted-foreground">⌘</span>
                     <span className="text-[10px] font-medium text-muted-foreground">K</span>
                   </div>
                 </button>
               </div>
 
-              <div className="flex items-center gap-1 mr-2">
+              <div className="flex items-center gap-2 mr-2">
                 <Button 
                   variant="ghost" 
                   className="h-11 w-11 p-0 text-muted-foreground hover:text-primary"
@@ -192,7 +207,7 @@ export default function AppShell() {
 
               <DropdownMenu>
                 <DropdownMenuTrigger render={
-                  <Button variant="ghost" className="h-11 px-3 gap-2 hover:bg-muted rounded-xl">
+                  <Button variant="ghost" className="h-11 px-4 gap-2 hover:bg-muted rounded-xl">
                     <div className="flex h-7 w-7 items-center justify-center rounded-lg overflow-hidden bg-primary/10 text-primary">
                       {activeLogoUrl ? (
                         <img src={activeLogoUrl} alt="Logo" className="h-full w-full object-cover" />
@@ -209,7 +224,7 @@ export default function AppShell() {
                   </Button>
                 } />
                 <DropdownMenuContent align="end" className="w-56" sideOffset={8}>
-                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground border-b border-border mb-1">
+                  <div className="px-2 py-2.5 text-xs font-semibold text-muted-foreground border-b border-border mb-2">
                     My Account
                   </div>
                   <DropdownMenuItem render={<Link to="/settings/user-profile" className="cursor-pointer" />}>

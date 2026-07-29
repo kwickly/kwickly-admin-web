@@ -55,14 +55,14 @@ export default function PlatformStaff() {
   const paginatedStaff = filteredStaff.slice((page - 1) * pageSize, page * pageSize);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.ShieldAlert className="h-6 w-6 text-primary" />
             Platform Staff & Admins
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Manage system administrators and platform owners.
           </p>
         </div>
@@ -83,8 +83,8 @@ export default function PlatformStaff() {
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Icons.Search staff..."
-                className="pl-9 w-64 bg-muted/50"
+                placeholder="Search staff..."
+                className="pl-10 w-64 bg-muted/50"
               />
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function PlatformStaff() {
               ) : filteredStaff.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-12">
-                    <Icons.ShieldAlert className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                    <Icons.ShieldAlert className="h-10 w-10 text-muted-foreground/30 mx-auto mb-4" />
                     <p className="text-muted-foreground font-medium">
                       No staff found
                     </p>
@@ -125,7 +125,7 @@ export default function PlatformStaff() {
                     className="hover:bg-muted/50"
                   >
                     <TableCell>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-4">
                         <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                           <span className="font-bold text-primary">
                             {member.name.charAt(0)}
@@ -139,15 +139,15 @@ export default function PlatformStaff() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="space-y-1 text-sm">
+                      <div className="space-y-2 text-sm">
                         {member.email && (
-                          <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <div className="flex items-center gap-2.5 text-muted-foreground">
                             <Icons.Mail className="h-3 w-3" />
                             {member.email}
                           </div>
                         )}
                         {member.phone && (
-                          <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <div className="flex items-center gap-2.5 text-muted-foreground">
                             <Icons.Phone className="h-3 w-3" />
                             {member.phone}
                           </div>
@@ -163,14 +163,14 @@ export default function PlatformStaff() {
                             : "bg-primary/10 text-primary border-primary/20"
                         }
                       >
-                        <Icons.Shield className="w-3 h-3 mr-1" />
+                        <Icons.Shield className="w-3 h-3 mr-2" />
                         {member.role === "super_admin"
                           ? "Super Admin"
                           : "Platform Owner"}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
                         <Icons.Clock className="h-3 w-3" />
                         {new Date(member.createdAt).toLocaleDateString()}
                       </div>

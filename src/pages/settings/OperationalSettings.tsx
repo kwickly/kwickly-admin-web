@@ -35,13 +35,13 @@ export default function OperationalSettings() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Icons.ShieldCheck className="h-6 w-6 text-primary" />
           Branch Operations
         </h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-sm text-muted-foreground mt-2">
           Configure active customer ordering modes and manage premium B2B add-on modules.
         </p>
       </div>
@@ -53,7 +53,7 @@ export default function OperationalSettings() {
           <CardDescription>Toggle which guest ordering options are active on your storefront.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center justify-between p-4 rounded-xl border border-border bg-muted/30">
+          <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-muted/30">
             <div>
               <p className="font-semibold text-foreground">Dine-In (QR Table Orders)</p>
               <p className="text-xs text-muted-foreground">Customers order by scanning table QR codes inside your restaurant.</p>
@@ -68,7 +68,7 @@ export default function OperationalSettings() {
             </Button>
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-xl border border-border bg-muted/30">
+          <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-muted/30">
             <div>
               <p className="font-semibold text-foreground">Takeaway (Self Pick-up)</p>
               <p className="text-xs text-muted-foreground">Customers place orders online and walk in to pick them up when ready.</p>
@@ -83,7 +83,7 @@ export default function OperationalSettings() {
             </Button>
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-xl border border-border bg-muted/30">
+          <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-muted/30">
             <div>
               <p className="font-semibold text-foreground">Delivery Channel</p>
               <p className="text-xs text-muted-foreground">Customers enter shipping coordinates and order meals to their door step.</p>
@@ -98,7 +98,7 @@ export default function OperationalSettings() {
             </Button>
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-xl border border-border bg-muted/30">
+          <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-muted/30">
             <div>
               <p className="font-semibold text-foreground">Mixed Fulfillment (Dine-In + Takeaway)</p>
               <p className="text-xs text-muted-foreground">Allow guests to order additional items for Takeaway while in an active Dine-In session.</p>
@@ -122,7 +122,7 @@ export default function OperationalSettings() {
           <CardDescription>Configure kitchen timing and preparation settings.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl border border-border bg-muted/30 gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-lg border border-border bg-muted/30 gap-4">
             <div>
               <p className="font-semibold text-foreground">Default Preparation Time</p>
               <p className="text-xs text-muted-foreground">The estimated time (in minutes) required to prepare an order. Used to show live ETA to customers.</p>
@@ -131,7 +131,7 @@ export default function OperationalSettings() {
               <input 
                 type="number" 
                 defaultValue={20}
-                className="flex h-10 w-24 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-24 rounded-md border border-input bg-background px-4 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               />
               <span className="text-sm font-medium text-muted-foreground">mins</span>
             </div>
@@ -143,14 +143,14 @@ export default function OperationalSettings() {
       <Card className="border border-border bg-card shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Icons.Sparkles className="h-5 w-5 text-amber-500" />
+            <Icons.Sparkles className="h-5 w-5 text-warning" />
             Premium Value-Add Modules
           </CardTitle>
           <CardDescription>Activate premium modules to streamline your restaurant B2B operations.</CardDescription>
         </CardHeader>
         <CardContent className="grid md:grid-cols-2 gap-6">
           {/* Inventory */}
-          <div className="p-5 rounded-xl border border-border bg-muted/10 flex flex-col justify-between space-y-4">
+          <div className="p-6 rounded-lg border border-border bg-muted/10 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-primary font-bold">
                 <Icons.PackageCheck className="h-5 w-5" />
@@ -161,7 +161,7 @@ export default function OperationalSettings() {
               </p>
             </div>
             <div className="flex justify-between items-center pt-2">
-              <span className="text-xs font-semibold text-amber-600">₹999 ($12) / mo</span>
+              <span className="text-xs font-semibold text-warning">₹999 ($12) / mo</span>
               <Button 
                 size="sm" 
                 variant={inventory ? "default" : "outline"}
@@ -173,7 +173,7 @@ export default function OperationalSettings() {
           </div>
 
           {/* Payroll */}
-          <div className="p-5 rounded-xl border border-border bg-muted/10 flex flex-col justify-between space-y-4">
+          <div className="p-6 rounded-lg border border-border bg-muted/10 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-primary font-bold">
                 <Icons.UserCheck className="h-5 w-5" />
@@ -184,7 +184,7 @@ export default function OperationalSettings() {
               </p>
             </div>
             <div className="flex justify-between items-center pt-2">
-              <span className="text-xs font-semibold text-amber-600">₹1,499 ($18) / mo</span>
+              <span className="text-xs font-semibold text-warning">₹1,499 ($18) / mo</span>
               <Button 
                 size="sm" 
                 variant={payroll ? "default" : "outline"}
@@ -196,7 +196,7 @@ export default function OperationalSettings() {
           </div>
 
           {/* CRM & Loyalty */}
-          <div className="p-5 rounded-xl border border-border bg-muted/10 flex flex-col justify-between space-y-4">
+          <div className="p-6 rounded-lg border border-border bg-muted/10 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-primary font-bold">
                 <Icons.Smartphone className="h-5 w-5" />
@@ -207,7 +207,7 @@ export default function OperationalSettings() {
               </p>
             </div>
             <div className="flex justify-between items-center pt-2">
-              <span className="text-xs font-semibold text-amber-600">₹999 ($12) / mo</span>
+              <span className="text-xs font-semibold text-warning">₹999 ($12) / mo</span>
               <Button 
                 size="sm" 
                 variant={crm ? "default" : "outline"}
@@ -219,10 +219,10 @@ export default function OperationalSettings() {
           </div>
 
           {/* AI kitchen intelligence */}
-          <div className="p-5 rounded-xl border border-border bg-muted/10 flex flex-col justify-between space-y-4">
+          <div className="p-6 rounded-lg border border-border bg-muted/10 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-primary font-bold">
-                <Icons.Sparkles className="h-5 w-5 text-amber-500" />
+                <Icons.Sparkles className="h-5 w-5 text-warning" />
                 <span>AI Forecasting & Intelligence</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -230,7 +230,7 @@ export default function OperationalSettings() {
               </p>
             </div>
             <div className="flex justify-between items-center pt-2">
-              <span className="text-xs font-semibold text-amber-600">₹1,999 ($25) / mo</span>
+              <span className="text-xs font-semibold text-warning">₹1,999 ($25) / mo</span>
               <Button 
                 size="sm" 
                 variant={ai ? "default" : "outline"}
@@ -243,7 +243,7 @@ export default function OperationalSettings() {
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-3">
+      <div className="flex justify-end gap-4">
         <Button size="lg" className="px-8 font-semibold" onClick={handleSave} disabled={isSaving}>
           {isSaving ? "Saving Settings..." : "Save Changes"}
         </Button>

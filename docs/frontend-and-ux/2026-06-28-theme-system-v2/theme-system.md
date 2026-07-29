@@ -239,9 +239,9 @@ The Kwickly admin app serves two fundamentally different user groups. Their expe
 |:---|:---|
 | **User** | Platform Owner, Super Admin |
 | **Purpose** | Managing the Kwickly software platform itself |
-| **Branding** | System/Platform brand (Kwickly's own colors) |
+| **Branding** | System/Platform brand (Kwickly Red `#EE3B2B` & Deep Navy `#0B1120`) |
 | **Pages** | `/platform/settings`, `/platform/staff/roles`, `/platform/tenants` |
-| **Theme** | Static — always uses default `--primary` from `index.css` |
+| **Theme** | Static — always uses default `--primary` (Red) and `--sidebar` (Deep Navy) from `index.css` |
 | **Tone** | Professional, administrative, neutral |
 
 ### Merchant Portal (all other routes)
@@ -712,12 +712,75 @@ Until a Figma sync pipeline exists, maintain a manual `tokens.json` file alongsi
 ```jsonc
 // docs/tokens.json (manual, for reference)
 {
-  "primary": { "value": "oklch(0.6626 0.1296 240.2393)", "description": "Kwickly brand blue. Overridden at runtime by merchant brand color." },
+  "primary": { "value": "oklch(0.551 0.203 26.6)", "description": "Kwickly Red (#EE3B2B). Overridden at runtime by merchant brand color." },
+  "sidebar": { "value": "oklch(0.20 0.05 252.0)", "description": "Deep Navy (#0B1120) for platform sidebars and dark mode backgrounds." },
+  "sidebar-primary": { "value": "oklch(0.551 0.203 26.6)", "description": "Kwickly Red (#EE3B2B) for active sidebar items." },
   "success": { "value": "oklch(0.65 0.15 160)",          "description": "Approved, paid, online states." },
   "warning": { "value": "oklch(0.75 0.17 75)",           "description": "Pending, in-progress, attention states." },
   "destructive": { "value": "oklch(0.5987 0.1978 21.7756)", "description": "Errors, delete actions, danger states." }
 }
 ```
+
+---
+
+## 18. Typography System — "Tight Editorial" Scale (2026-07-28)
+
+> Decision rationale: Premium B2B SaaS products (Linear, Raycast, Arc, Vercel) use extremely tight, minimal typographic scales. This creates a confident, editorial feel that differentiates Kwickly from generic POS platforms.
+
+### The "4-Size" Rule
+
+The entire Admin UI uses **only 4 font sizes**. All hierarchy is achieved through **weight, color, and spacing — not size**.
+
+| Role | Tailwind Class | Modifier | Where Used |
+|------|--------|----------|------------|
+| Label/Meta | `text-xs` | `font-medium tracking-wide uppercase` | Badges, column headers, stat labels, timestamps |
+| Body/UI | `text-sm` | `font-normal` | Buttons, tables, inputs, body copy — **90% of all UI** |
+| Subheading | `text-base` | `font-semibold` | Card titles, section headers, dialog titles |
+| Page Title | `text-xl` | `font-semibold tracking-tight` | Page `<h1>` only |
+
+**What to avoid:**
+- Arbitrary sizes like `text-[13px]`, `text-[15px]`, `text-[17px]` — **BANNED**
+- `text-2xl`, `text-3xl`, `text-4xl` in admin/dashboard context — **BANNED**
+- Mixed weights on the same hierarchy level
+
+---
+
+## 19. App Shell Layout Pattern — Viewport-Locked (2026-07-28)
+
+> Decision: The admin portal is an operational tool, not a marketing page. Users should never scroll the outer page. Data tables scroll internally; the pagination is always visible.
+
+### Zone Diagram
+
+```
+┌─────────────────────────────────────────────┐
+│  TOPBAR (fixed height: h-14)                │  ← Never scrolls
+├────────────┬────────────────────────────────┤
+│            │  PAGE HEADER (h-16)            │  ← Never scrolls
+│  SIDEBAR   ├────────────────────────────────┤
+│  (fixed)   │  CONTENT AREA (flex-1)         │  ← Internal scroll only
+│            │  ┌──────────────────────────┐  │
+│            │  │  Table / Grid / Cards    │  │
+│            │  │  (overflow-y-auto)       │  │
+│            │  └──────────────────────────┘  │
+│            ├────────────────────────────────┤
+│            │  PAGINATION (sticky bottom)    │  ← Always visible
+└────────────┴────────────────────────────────┘
+```
+
+### Zone CSS Rules (Non-Negotiable)
+
+| Zone | Required Classes |
+|------|-----------------|
+| Root shell | `h-screen overflow-hidden` |
+| Sidebar | `h-full overflow-y-auto` (fixed) |
+| Main content wrapper | `flex flex-col flex-1 h-full overflow-hidden` |
+| Page header row (title + actions) | `flex items-center justify-between h-16 px-8 border-b border-border shrink-0` |
+| Data/Table area | `flex-1 overflow-y-auto px-8 py-6` |
+| Pagination bar | `shrink-0 px-8 py-4 border-t border-border bg-background` |
+
+### Target Screen Sizes
+- **Primary**: 1366×768 (most common office/restaurant monitor)
+- **Secondary**: 1280×800, 1440×900, 1920×1080
 
 ---
 
@@ -728,3 +791,193 @@ Until a Figma sync pipeline exists, maintain a manual `tokens.json` file alongsi
 - [`src/index.css`](../src/index.css) — All CSS custom property definitions (single source of truth)
 - [`src/layouts/AppShell.tsx`](../src/layouts/AppShell.tsx) — Dynamic brand color injection logic
 - [`src/lib/colors.ts`](../src/lib/colors.ts) — Color utility functions (contrast, brightness, opacity)
+
+---
+
+## 20. Dual Brand Color System — Kwickly Red + Kwickly Blue (2026-07-29)
+
+> **Decision rationale:** Restaurant POS platforms benefit from a clearly differentiated dual-color identity. Red communicates action and urgency (operational signal). Blue communicates information and platform authority (system signal). This mirrors dual-color identity patterns used by Stripe (indigo + red), Shopify (green + yellow), and Square (black + teal).
+
+### The Two Brand Colors
+
+| Color | RGB | OKLCH | Token | Role |
+|---|---|---|---|---|
+| **Kwickly Red** | `rgb(238, 59, 43)` | `oklch(0.551 0.203 26.6)` | `--primary` | Action, CTAs, urgency |
+| **Kwickly Blue** | `rgb(51, 115, 204)` | `oklch(0.612 0.123 282.5)` | `--platform-primary` | Platform identity, information |
+
+> **OKLCH Perceptual Parity:** Both colors sit at similar OKLCH lightness (~0.55–0.61). This means they carry equal visual weight on screen — neither color "shouts" over the other despite being completely different hues. This is precisely why OKLCH was chosen over RGB or HSL.
+
+### Color Intent
+
+```
+Kwickly Red  (--primary, oklch(0.551 0.203 26.6))
+├── All primary CTA buttons — Save, Confirm Order, Add Item, Submit
+├── Active sidebar navigation indicator (merchant portal)
+├── KDS late/overdue order urgency state (--kds-late)
+├── Merchant portal default brand (before tenant override at runtime)
+└── Overridden at runtime by AppShell.tsx with tenant brandColor
+
+Kwickly Blue  (--platform-primary, oklch(0.612 0.123 282.5))
+├── Platform Portal brand identity (/platform/* routes — headers, sidebar active)
+├── Informational banners and info-level alerts (near --info hue)
+├── KDS new order indicator (--kds-new — calm attention, not urgent)
+├── Chart primary series (--chart-1 — data visualization)
+└── NEVER overridden by tenant branding (static system color)
+```
+
+### Portal → Color Mapping
+
+| Portal | Primary Brand Color | Why |
+|---|---|---|
+| **Platform Portal** (`/platform/*`) | 🔵 Kwickly Blue (`--platform-primary`) | Visual separation: system-operator context vs. merchant context |
+| **Merchant Portal** (all other routes) | 🔴 Kwickly Red (`--primary`) | Action color; overridden at runtime by tenant brandColor |
+
+> **Rule:** A Save/Confirm button on a `/platform/*` page still uses `bg-primary` (Red) because it is an **action**. Portal context only governs brand identity elements (nav active states, headers, badges) — never action color.
+
+### New Tokens Added to `index.css`
+
+Add to `:root` block:
+
+```css
+/* Kwickly Blue — Platform Portal brand identity */
+--platform-primary:            oklch(0.612 0.123 282.5);  /* rgb(51,115,204) */
+--platform-primary-foreground: oklch(1.0 0 0);
+--platform-primary-hover:      oklch(0.555 0.131 282.5);
+--platform-primary-subtle:     oklch(0.95 0.04 282.5);
+
+/* Motion tokens */
+--motion-fast:   100ms;
+--motion-normal: 150ms;
+--motion-slow:   250ms;
+--motion-slower: 400ms;
+--motion-ease:   cubic-bezier(0.4, 0, 0.2, 1);
+--motion-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+--motion-ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+
+/* Skeleton loading tokens */
+--skeleton:        oklch(0.93 0.01 240);
+--skeleton-subtle: oklch(0.96 0.005 240);
+
+/* KDS context-scoped tokens */
+--kds-new:     oklch(0.612 0.123 282.5);  /* Kwickly Blue — calm new order */
+--kds-cooking: oklch(0.75 0.17 75);       /* Amber — in preparation */
+--kds-late:    oklch(0.551 0.203 26.6);   /* Kwickly Red — overdue, urgent */
+--kds-done:    oklch(0.65 0.15 160);      /* Green — completed */
+```
+
+Add `.dark` overrides:
+
+```css
+.dark {
+  --platform-primary:        oklch(0.650 0.130 282.5);
+  --platform-primary-hover:  oklch(0.600 0.130 282.5);
+  --platform-primary-subtle: oklch(0.22 0.05 282.5);
+  --skeleton:                oklch(0.25 0.01 240);
+  --skeleton-subtle:         oklch(0.20 0.005 240);
+  --kds-new:                 oklch(0.650 0.130 282.5);
+  --kds-cooking:             oklch(0.70 0.16 75);
+  --kds-done:                oklch(0.60 0.15 160);
+}
+```
+
+Add to `@theme inline` block:
+
+```css
+@theme inline {
+  --color-platform-primary:            var(--platform-primary);
+  --color-platform-primary-foreground: var(--platform-primary-foreground);
+  --color-platform-primary-hover:      var(--platform-primary-hover);
+  --color-platform-primary-subtle:     var(--platform-primary-subtle);
+  --color-skeleton:                    var(--skeleton);
+  --color-skeleton-subtle:             var(--skeleton-subtle);
+  --color-kds-new:                     var(--kds-new);
+  --color-kds-cooking:                 var(--kds-cooking);
+  --color-kds-late:                    var(--kds-late);
+  --color-kds-done:                    var(--kds-done);
+}
+```
+
+---
+
+## 21. Context-Scoped Tokens — KDS, Motion, Skeleton (2026-07-29)
+
+> **Design philosophy:** Inspired by Atlassian's hierarchical `color.text.code.functions` naming convention, Kwickly adopts a pragmatic **3-level context-scoping** approach for domain-specific token groups. Unlike Atlassian's 4-level system (built for 100+ teams across multiple products), Kwickly's 3-level maximum is appropriate for its bounded Restaurant POS domain.
+
+### Why Context-Scoped Names?
+
+Flat semantic tokens (`--success`, `--warning`) create dangerous ambiguity when the same hue carries different operational meanings in different screens:
+
+```
+--success    →  "Invoice paid" badge in admin tables
+             →  "Order ready" on KDS              ← Same color, different urgency level
+             →  "Staff status: online"             ← Same color, entirely different meaning
+
+--kds-done   →  Unambiguous: "Order ready on the Kitchen Display System"
+--kds-late   →  Unambiguous: "This order is overdue — maximum urgency"
+```
+
+### KDS Token Reference
+
+| Token | OKLCH | Meaning | Hue Family |
+|---|---|---|---|
+| `--kds-new` | `oklch(0.612 0.123 282.5)` | Incoming order — calm attention | Kwickly Blue |
+| `--kds-cooking` | `oklch(0.75 0.17 75)` | In preparation — active | Amber |
+| `--kds-late` | `oklch(0.551 0.203 26.6)` | Overdue — maximum urgency | Kwickly Red |
+| `--kds-done` | `oklch(0.65 0.15 160)` | Ready / complete | Green |
+
+**Component usage (standard opacity pattern applies):**
+```tsx
+const statusClass = {
+  new:     'bg-kds-new/10 text-kds-new border-kds-new/20',
+  cooking: 'bg-kds-cooking/10 text-kds-cooking border-kds-cooking/20',
+  late:    'bg-kds-late/10 text-kds-late border-kds-late/20 animate-pulse',
+  done:    'bg-kds-done/10 text-kds-done border-kds-done/20',
+}[order.kdsStatus];
+```
+
+### Motion Token Reference
+
+All component transitions and animations MUST use these CSS variables. Never hardcode durations.
+
+| Token | Value | Usage |
+|---|---|---|
+| `--motion-fast` | `100ms` | Button press, checkbox, icon swap |
+| `--motion-normal` | `150ms` | Hover bg, border color, opacity — **default** |
+| `--motion-slow` | `250ms` | Sidebar, sheet panel, tab switch |
+| `--motion-slower` | `400ms` | Route transition, skeleton→content fade |
+| `--motion-ease` | `cubic-bezier(0.4, 0, 0.2, 1)` | Standard — most transitions |
+| `--motion-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Springy — badge pop, success mark |
+| `--motion-ease-out` | `cubic-bezier(0.0, 0.0, 0.2, 1)` | Entering elements (drawer, toast) |
+
+```tsx
+// ✅ Correct — uses motion token via inline style
+<div
+  className="transition-colors"
+  style={{ transitionDuration: 'var(--motion-normal)', transitionTimingFunction: 'var(--motion-ease)' }}
+/>
+
+// ❌ Wrong — hardcoded duration bypasses the token system
+<div className="transition-colors duration-150 ease-in-out" />
+```
+
+> The `prefers-reduced-motion` block in `index.css` zeroes all durations to `0.01ms`. Motion tokens are automatically overridden by this and require no per-component special handling.
+
+### Skeleton Token Reference
+
+Replace all ad-hoc loading state patterns with the standardized skeleton tokens:
+
+```tsx
+// ❌ Wrong — ad-hoc opacity, not a token, inconsistent across codebase
+<div className="bg-muted/50 animate-pulse rounded-md h-4 w-32" />
+
+// ✅ Correct — uses skeleton token
+<div className="bg-skeleton animate-pulse rounded-md h-4 w-32" />
+
+// ✅ Shimmer variant (lighter phase, for alternating pulse effect)
+<div className="bg-skeleton-subtle animate-pulse rounded-md h-4 w-24" />
+```
+
+| Token | Light | Dark | Use Case |
+|---|---|---|---|
+| `--skeleton` | `oklch(0.93 0.01 240)` | `oklch(0.25 0.01 240)` | Content area, table row, card body placeholders |
+| `--skeleton-subtle` | `oklch(0.96 0.005 240)` | `oklch(0.20 0.005 240)` | Lighter shimmer phase, narrow text-line placeholders |

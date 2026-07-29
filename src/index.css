@@ -7,43 +7,44 @@
   --font-mono: 'JetBrains Mono', monospace;
   --font-serif: 'Source Serif 4', serif;
   
-  --background: oklch(0.99 0.01 240);
+  --background: oklch(0.97 0.01 240);
+  --background-alt: oklch(0.95 0.01 240);
   --foreground: oklch(0.21 0.01 248);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.21 0.01 248);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.21 0.01 248);
-  --primary: oklch(0.6626 0.1296 240.2393);
-  --primary-foreground: oklch(1.0000 0 0);
-  --secondary: oklch(0.96 0.02 240);
-  --secondary-foreground: oklch(0.21 0.01 248);
+  --primary: oklch(0.592 0.211 28.2); /* Kwickly Red */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.56 0.153 257.4); /* Kwickly Blue */
+  --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.96 0.02 240);
   --muted-foreground: oklch(0.45 0.02 240);
   --accent: oklch(0.96 0.02 240);
   --accent-foreground: oklch(0.6626 0.1296 240.2393);
-  --destructive: oklch(0.5987 0.1978 21.7756);
-  --destructive-foreground: oklch(1.0000 0 0);
-  --destructive-subtle: oklch(0.96 0.04 21.7756);
+  --destructive: oklch(0.50 0.18 12); /* Distinct deeper crimson to prevent collision with primary */
+  --destructive-foreground: oklch(1 0 0);
+  --destructive-subtle: oklch(0.96 0.04 12);
   --border: oklch(0.9386 0.0085 225.0851);
   --input: oklch(0.9876 0.0017 247.8389);
-  --ring: oklch(0.6700 0.1286 238.7048);
+  --ring: var(--primary);
 
   /* Chart series — re-spaced for hue/lightness separation so adjacent
      series remain distinguishable, including for red-green CVD. */
-  --chart-1: oklch(0.6626 0.1296 240.2393); /* blue */
-  --chart-2: oklch(0.6398 0.1365 161.9571); /* teal-green */
-  --chart-3: oklch(0.7786 0.1360 82.9026);  /* amber */
-  --chart-4: oklch(0.6200 0.1700 320.0000); /* magenta/violet — was too close to chart-2 green */
-  --chart-5: oklch(0.5778 0.1836 5.4836);   /* red-pink */
+  --chart-1: oklch(0.56 0.153 257.4); /* Kwickly Blue */
+  --chart-2: oklch(0.551 0.203 26.6); /* Kwickly Red */
+  --chart-3: oklch(0.85 0.08 257.4); /* Light Blue */
+  --chart-4: oklch(0.85 0.10 26.6); /* Light Red/Coral */
+  --chart-5: oklch(0.25 0.06 252.0); /* Deep Navy */
 
-  --sidebar: oklch(0.99 0.01 240);
-  --sidebar-foreground: oklch(0.21 0.01 248);
-  --sidebar-primary: oklch(0.6626 0.1296 240.2393);
+  --sidebar: oklch(0.20 0.05 252.0); /* Deep Navy */
+  --sidebar-foreground: oklch(0.99 0.01 240);
+  --sidebar-primary: var(--primary); /* Tracks Kwickly Red */
   --sidebar-primary-foreground: oklch(1.0000 0 0);
-  --sidebar-accent: oklch(0.96 0.02 240);
-  --sidebar-accent-foreground: oklch(0.6626 0.1296 240.2393);
+  --sidebar-accent: oklch(0.25 0.06 252.0); /* Slightly lighter Deep Navy for hover */
+  --sidebar-accent-foreground: oklch(0.99 0.01 240);
   --sidebar-border: oklch(0.9344 0.0076 241.6678);
-  --sidebar-ring: oklch(0.6700 0.1286 238.7048);
+  --sidebar-ring: var(--primary);
   --success: oklch(0.65 0.15 160);
   --success-foreground: oklch(1.0 0 0);
   --success-subtle: oklch(0.96 0.04 160);
@@ -54,16 +55,37 @@
   --info-foreground: oklch(1.0 0 0);
   --info-subtle: oklch(0.95 0.04 240);
 
-  /* Static fallback for merchant brand tokens. AppShell.tsx overrides
-     these at runtime via document.documentElement.style.setProperty().
-     Declaring them here means any component referencing var(--brand-primary)
-     before the JS effect runs (or if brandColor is null/invalid) falls back
-     to the system --primary instead of resolving to an invalid/empty value. */
-  --brand-primary: var(--primary);
-  --brand-primary-hover: var(--primary);
-  --brand-foreground: var(--primary-foreground);
-  --brand-tint: oklch(0.6626 0.1296 240.2393 / 0.1);
-  --brand-tint-hover: oklch(0.6626 0.1296 240.2393 / 0.2);
+  /* Platform Portal brand — Kwickly Blue (rgb(51,115,204)).
+     Static — never overridden by merchant branding.
+     Used exclusively in /platform/* routes. See theme-system.md §20. */
+  --platform-primary:            oklch(0.612 0.123 282.5);
+  --platform-primary-foreground: oklch(1.0 0 0);
+  --platform-primary-hover:      oklch(0.555 0.131 282.5);
+  --platform-primary-subtle:     oklch(0.95 0.04 282.5);
+
+  /* Motion tokens — all transitions MUST use these, never hardcode durations.
+     The prefers-reduced-motion block at end of file zeroes these to 0.01ms. */
+  --motion-fast:     100ms;
+  --motion-normal:   150ms;
+  --motion-slow:     250ms;
+  --motion-slower:   400ms;
+  --motion-ease:     cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+  
+  /* UX Premium Easing */
+  --ease-kwickly:    cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Skeleton loading — use bg-skeleton instead of bg-muted/50 ad-hoc opacity. */
+  --skeleton:        oklch(0.93 0.01 240);
+  --skeleton-subtle: oklch(0.96 0.005 240);
+
+  /* KDS context-scoped tokens — named by order lifecycle urgency state.
+     See theme-system.md §21 for naming philosophy. */
+  --kds-new:     oklch(0.612 0.123 282.5); /* Kwickly Blue — calm new order */
+  --kds-cooking: oklch(0.75 0.17 75);      /* Amber — in preparation     */
+  --kds-late:    var(--primary);           /* Kwickly Red — overdue      */
+  --kds-done:    oklch(0.65 0.15 160);     /* Green — completed           */
 
   --font-sans: Poppins, ui-sans-serif, sans-serif, system-ui;
   --font-serif: Source Serif 4, ui-serif, serif;
@@ -98,35 +120,35 @@
   --card-foreground: oklch(0.8853 0 0);
   --popover: oklch(0.16 0.01 240);
   --popover-foreground: oklch(0.9396 0.0017 247.8401);
-  --primary: oklch(0.6595 0.1296 240.3010);
-  --primary-foreground: oklch(1.0000 0 0);
-  --secondary: oklch(0.9689 0.0025 228.7841);
-  --secondary-foreground: oklch(0.2149 0.0124 248.4057);
+  --primary: oklch(0.592 0.211 28.2);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.56 0.153 257.4);
+  --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.2090 0 0);
   --muted-foreground: oklch(0.5677 0.0059 247.9295);
   --accent: oklch(0.2188 0.0322 242.5806);
   --accent-foreground: oklch(0.6595 0.1296 240.3010);
-  --destructive: oklch(0.5987 0.1978 21.7756);
-  --destructive-foreground: oklch(1.0000 0 0);
-  --destructive-subtle: oklch(0.22 0.05 21.7756);
+  --destructive: oklch(0.50 0.18 12);
+  --destructive-foreground: oklch(1 0 0);
+  --destructive-subtle: oklch(0.22 0.05 12);
   --border: oklch(0.2684 0.0040 264.4997);
   --input: oklch(0.3061 0.0230 240.8958);
-  --ring: oklch(0.6700 0.1286 238.7048);
+  --ring: var(--primary);
 
-  --chart-1: oklch(0.6626 0.1296 240.2393);
-  --chart-2: oklch(0.6398 0.1365 161.9571);
-  --chart-3: oklch(0.7786 0.1360 82.9026);
-  --chart-4: oklch(0.6200 0.1700 320.0000);
-  --chart-5: oklch(0.5778 0.1836 5.4836);
+  --chart-1: oklch(0.56 0.153 257.4);
+  --chart-2: oklch(0.551 0.203 26.6);
+  --chart-3: oklch(0.85 0.08 257.4);
+  --chart-4: oklch(0.85 0.10 26.6);
+  --chart-5: oklch(0.25 0.06 252.0);
 
-  --sidebar: oklch(0.2136 0.0061 271.1241);
-  --sidebar-foreground: oklch(0.8853 0 0);
-  --sidebar-primary: oklch(0.6700 0.1286 238.7048);
+  --sidebar: oklch(0.20 0.05 252.0);
+  --sidebar-foreground: oklch(0.99 0.01 240);
+  --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: oklch(1.0000 0 0);
-  --sidebar-accent: oklch(0.2188 0.0322 242.5806);
-  --sidebar-accent-foreground: oklch(0.6595 0.1296 240.3010);
+  --sidebar-accent: oklch(0.25 0.06 252.0);
+  --sidebar-accent-foreground: oklch(0.99 0.01 240);
   --sidebar-border: oklch(0.3837 0.0166 234.2173);
-  --sidebar-ring: oklch(0.6700 0.1286 238.7048);
+  --sidebar-ring: var(--primary);
   --success: oklch(0.60 0.15 160);
   --success-foreground: oklch(1.0 0 0);
   --success-subtle: oklch(0.22 0.05 160);
@@ -137,11 +159,18 @@
   --info-foreground: oklch(1.0 0 0);
   --info-subtle: oklch(0.22 0.05 240);
 
-  --brand-primary: var(--primary);
-  --brand-primary-hover: var(--primary);
-  --brand-foreground: var(--primary-foreground);
-  --brand-tint: oklch(0.6595 0.1296 240.3010 / 0.1);
-  --brand-tint-hover: oklch(0.6595 0.1296 240.3010 / 0.2);
+  --platform-primary:            oklch(0.650 0.130 282.5);
+  --platform-primary-foreground: oklch(1.0 0 0);
+  --platform-primary-hover:      oklch(0.600 0.130 282.5);
+  --platform-primary-subtle:     oklch(0.22 0.05 282.5);
+
+  --skeleton:        oklch(0.25 0.01 240);
+  --skeleton-subtle: oklch(0.20 0.005 240);
+
+  --kds-new:     oklch(0.650 0.130 282.5);
+  --kds-cooking: oklch(0.70 0.16 75);
+  --kds-late:    var(--primary);
+  --kds-done:    oklch(0.60 0.15 160);
 
   --font-sans: Poppins, ui-sans-serif, sans-serif, system-ui;
   --font-serif: Source Serif 4, ui-serif, serif;
@@ -207,9 +236,27 @@
   --color-info-foreground: var(--info-foreground);
   --color-info-subtle: var(--info-subtle);
 
+  /* Platform Portal brand */
+  --color-platform-primary:            var(--platform-primary);
+  --color-platform-primary-foreground: var(--platform-primary-foreground);
+  --color-platform-primary-hover:      var(--platform-primary-hover);
+  --color-platform-primary-subtle:     var(--platform-primary-subtle);
+
+  /* Skeleton */
+  --color-skeleton:        var(--skeleton);
+  --color-skeleton-subtle: var(--skeleton-subtle);
+
+  /* KDS context-scoped */
+  --color-kds-new:     var(--kds-new);
+  --color-kds-cooking: var(--kds-cooking);
+  --color-kds-late:    var(--kds-late);
+  --color-kds-done:    var(--kds-done);
+
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
+  
+  --ease-kwickly: var(--ease-kwickly);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -267,4 +314,23 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Platform scope layer boundary.
+   Enforces platform brand colors immune to document.documentElement overrides. */
+.platform-shell {
+  --primary: var(--platform-primary) !important;
+  --primary-foreground: var(--platform-primary-foreground) !important;
+  --ring: var(--platform-primary) !important;
+  --sidebar-primary: var(--platform-primary) !important;
+  --sidebar-primary-foreground: var(--platform-primary-foreground) !important;
+  --accent-foreground: var(--platform-primary) !important;
+
+  /* Tailwind v4 theme variables */
+  --color-primary: var(--platform-primary) !important;
+  --color-primary-foreground: var(--platform-primary-foreground) !important;
+  --color-ring: var(--platform-primary) !important;
+  --color-sidebar-primary: var(--platform-primary) !important;
+  --color-sidebar-primary-foreground: var(--platform-primary-foreground) !important;
+  --color-accent-foreground: var(--platform-primary) !important;
 }

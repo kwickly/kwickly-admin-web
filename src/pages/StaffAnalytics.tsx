@@ -15,8 +15,8 @@ export default function StaffAnalytics() {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload?.length) return null;
     return (
-      <div className="bg-popover border border-border rounded-lg px-4 py-3 shadow-sm text-sm">
-        <p className="font-semibold text-foreground mb-1">{label}</p>
+      <div className="bg-popover border border-border rounded-lg px-4 py-4 shadow-sm text-sm">
+        <p className="font-semibold text-foreground mb-2">{label}</p>
         <p className="text-xs">Revenue: <strong>₹{payload[0].payload.revenueGenerated.toFixed(0)}</strong></p>
         <p className="text-xs">Orders: <strong>{payload[0].payload.ordersProcessed}</strong></p>
       </div>
@@ -24,14 +24,14 @@ export default function StaffAnalytics() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Users className="h-6 w-6 text-primary" />
             Staff Performance
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Analyze staff efficiency, orders processed, and revenue generated (Last 30 Days).
           </p>
         </div>
@@ -47,7 +47,7 @@ export default function StaffAnalytics() {
         </div>
 
         {isLoading ? (
-          <Skeleton className="h-[400px] w-full rounded-xl" />
+          <Skeleton className="h-[400px] w-full rounded-lg" />
         ) : !staffData || staffData.length === 0 ? (
           <div className="h-[400px] flex flex-col items-center justify-center text-muted-foreground gap-2">
             <Icons.BarChart2 className="h-10 w-10 opacity-30" />

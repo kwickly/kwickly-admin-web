@@ -17,7 +17,7 @@ export default function AuditLogs() {
   const meta = response?.meta;
 
   return (
-    <div className="w-full space-y-6 max-w-7xl mx-auto">
+    <div className="w-full space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <PageHeader 
         title="Security & Audit Logs" 
         description="Track staff actions and security events across your restaurant."

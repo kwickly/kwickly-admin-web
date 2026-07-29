@@ -66,14 +66,14 @@ export default function StaffPayroll() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Banknote className="h-6 w-6 text-primary" />
             Payroll Management
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Generate, review, and process monthly staff salaries.
           </p>
         </div>
@@ -160,7 +160,7 @@ export default function StaffPayroll() {
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="outline" size="default" className="h-8 text-foreground hover:bg-muted">
-                        View Details <Icons.ChevronRight className="h-4 w-4 ml-1" />
+                        View Details <Icons.ChevronRight className="h-4 w-4 ml-2" />
                       </Button>
                     </TableCell>
                   </TableRow>

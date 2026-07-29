@@ -20,14 +20,14 @@ export default function Combos() {
   const { data: combos, isLoading } = useCombos(branchId);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Blocks className="h-6 w-6 text-primary" />
             Combo Meals
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Group existing menu items into meal combos with custom pricing.
           </p>
         </div>

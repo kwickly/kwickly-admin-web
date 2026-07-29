@@ -166,7 +166,7 @@ const navGroups: NavGroup[] = [
         permission: "billing:manage",
       },
       {
-        title: "Icons.Settings",
+        title: "Settings",
         url: "/settings",
         icon: Icons.Settings,
         permission: "billing:manage",
@@ -240,7 +240,7 @@ const platformNavGroups: NavGroup[] = [
         ]
       },
       {
-        title: "Platform Icons.Settings",
+        title: "Platform Settings",
         url: "/platform/settings",
         icon: Icons.Settings,
         items: [
@@ -282,16 +282,16 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border/50">
-      <SidebarHeader className="h-16 flex items-center justify-center group-data-[collapsible=icon]:px-0 px-4">
-        <div className="flex items-center gap-3 px-2 group-data-[collapsible=icon]:px-0">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 text-primary-foreground">
-            <span className="text-lg font-bold tracking-tighter">K</span>
+      <SidebarHeader className="h-16 flex items-center justify-start group-data-[collapsible=icon]:px-0 px-6 border-b border-sidebar-border/50">
+        <Link to="/dashboard" className="flex items-center gap-4 group-data-[collapsible=icon]:justify-center w-full transition-opacity hover:opacity-80">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-sm text-primary-foreground">
+            <span className="text-base font-bold tracking-tighter">K</span>
           </div>
-          <div className="flex flex-col gap-0.5 group-data-[collapsible=icon]:hidden">
+          <div className="flex flex-col group-data-[collapsible=icon]:hidden">
             <span className="text-sm font-bold leading-none tracking-tight text-foreground">Kwickly</span>
-            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Admin Portal</span>
+            <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-widest mt-2">Admin Portal</span>
           </div>
-        </div>
+        </Link>
       </SidebarHeader>
       
       <SidebarContent>
@@ -324,12 +324,12 @@ export function AppSidebar() {
                                 )}
                               >
                                 {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
-                                <span className="text-[13px] ml-1 group-data-[collapsible=icon]:hidden">{item.title}</span>
+                                <span className="text-xs ml-2 group-data-[collapsible=icon]:hidden">{item.title}</span>
                                 <Icons.ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                               </SidebarMenuButton>
                             } />
                             <DropdownMenuContent side="right" align="start" sideOffset={8} className="w-48">
-                              <div className="px-2 py-1.5 text-xs text-muted-foreground font-semibold">{item.title}</div>
+                              <div className="px-2 py-2.5 text-xs text-muted-foreground font-semibold">{item.title}</div>
                               <DropdownMenuSeparator />
                               {item.items?.map((subItem) => (
                                 <DropdownMenuItem key={subItem.title} render={
@@ -359,12 +359,12 @@ export function AppSidebar() {
                               )}
                             >
                               {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
-                              <span className="text-[13px] ml-1 group-data-[collapsible=icon]:hidden">{item.title}</span>
+                              <span className="text-xs ml-2 group-data-[collapsible=icon]:hidden">{item.title}</span>
                               <Icons.ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                             </SidebarMenuButton>
                           } />
                           <CollapsibleContent>
-                            <SidebarMenuSub className="ml-5 border-l border-sidebar-border pl-3 mt-1.5 gap-0.5 group-data-[collapsible=icon]:hidden">
+                            <SidebarMenuSub className="ml-6 border-l border-sidebar-border pl-4 mt-2.5 gap-0.5 group-data-[collapsible=icon]:hidden">
                               {item.items?.map((subItem) => {
                                 const currentUrl = location.pathname + location.search;
                                 const isSubActive = currentUrl === subItem.url || 
@@ -411,7 +411,7 @@ export function AppSidebar() {
                         render={
                           <Link to={item.url}>
                             {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
-                            <span className="text-[13px] ml-1 group-data-[collapsible=icon]:hidden">{item.title}</span>
+                            <span className="text-xs ml-2 group-data-[collapsible=icon]:hidden">{item.title}</span>
                           </Link>
                         }
                       />

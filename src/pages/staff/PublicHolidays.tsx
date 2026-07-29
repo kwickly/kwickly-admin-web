@@ -40,14 +40,14 @@ export default function PublicHolidays() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Calendar className="h-6 w-6 text-primary" />
             Public Holidays
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Manage public holidays for the tenant. Staff working on these dates may receive holiday pay.
           </p>
         </div>
@@ -99,7 +99,7 @@ export default function PublicHolidays() {
                         <button
                           onClick={() => removeHolidayMut.mutate(holiday.id)}
                           disabled={removeHolidayMut.isPending}
-                          className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
+                          className="p-2.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors"
                         >
                           <Icons.Trash2 className="h-4 w-4" />
                         </button>
@@ -123,11 +123,11 @@ export default function PublicHolidays() {
             <form onSubmit={handleDeclareHoliday}>
               <div className="p-6 border-b border-border">
                 <h3 className="text-lg font-semibold text-foreground">Declare Public Holiday</h3>
-                <p className="text-sm text-muted-foreground mt-1">Staff working on this date will receive 1.5x holiday pay.</p>
+                <p className="text-sm text-muted-foreground mt-2">Staff working on this date will receive 1.5x holiday pay.</p>
               </div>
               <div className="p-6 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Holiday Name
                   </label>
                   <input
@@ -136,11 +136,11 @@ export default function PublicHolidays() {
                     placeholder="e.g. Independence Day"
                     value={newHoliday.name}
                     onChange={(e) => setNewHoliday({ ...newHoliday, name: e.target.value })}
-                    className="w-full px-3 py-2 bg-transparent border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                    className="w-full px-4 py-2 bg-transparent border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Date
                   </label>
                   <input
@@ -148,11 +148,11 @@ export default function PublicHolidays() {
                     required
                     value={newHoliday.date}
                     onChange={(e) => setNewHoliday({ ...newHoliday, date: e.target.value })}
-                    className="w-full px-3 py-2 bg-transparent border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                    className="w-full px-4 py-2 bg-transparent border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                   />
                 </div>
               </div>
-              <div className="p-4 bg-muted/30 border-t border-border flex justify-end gap-3">
+              <div className="p-4 bg-muted/30 border-t border-border flex justify-end gap-4">
                 <button
                   type="button"
                   onClick={() => setIsHolidayModalOpen(false)}

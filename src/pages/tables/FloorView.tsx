@@ -93,7 +93,7 @@ export default function Tables() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold font-jakarta text-foreground">Table Management</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Create and manage your physical tables for Dine-in orders.</p>
+          <p className="text-muted-foreground mt-2 text-sm">Create and manage your physical tables for Dine-in orders.</p>
         </div>
         <Can perform="tables:manage">
           <button
@@ -101,7 +101,7 @@ export default function Tables() {
               setFormData({ name: '', capacity: '', status: 'available' });
               setIsAddModalOpen(true);
             }}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-xl flex items-center space-x-2 transition-all hover:scale-105 active:scale-95 shadow-sm font-medium text-sm cursor-pointer"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg flex items-center space-x-2 transition-all active:scale-95 shadow-sm font-medium text-sm cursor-pointer"
           >
             <Icons.Plus size={18} />
             <span>Add Table</span>
@@ -112,11 +112,11 @@ export default function Tables() {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="h-40 rounded-3xl bg-muted/50 animate-pulse border border-border/50"></div>
+            <div key={i} className="h-40 rounded-lg bg-muted/50 animate-pulse border border-border/50"></div>
           ))}
         </div>
       ) : tables.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center bg-card rounded-3xl border border-border shadow-sm">
+        <div className="flex flex-col items-center justify-center py-20 text-center bg-card rounded-xl border border-border shadow-sm">
           <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
             <Icons.QrCode className="w-8 h-8 text-primary" />
           </div>
@@ -125,7 +125,7 @@ export default function Tables() {
           <Can perform="tables:manage">
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2.5 rounded-xl font-medium transition-transform active:scale-95 shadow-sm cursor-pointer"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2.5 rounded-lg font-medium transition-transform active:scale-95 shadow-sm cursor-pointer"
             >
               Create First Table
             </button>
@@ -136,7 +136,7 @@ export default function Tables() {
           {tables.map((table: any) => (
             <div
               key={table.id}
-              className="bg-card rounded-3xl p-6 border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between h-48"
+              className="bg-card rounded-xl p-6 border border-border shadow-sm hover:shadow-sm transition-all group flex flex-col justify-between h-48"
             >
               <div className="flex justify-between items-start">
                 <div>
@@ -149,7 +149,7 @@ export default function Tables() {
                       setActiveTable(table);
                       setIsQrModalOpen(true);
                     }}
-                    className="p-2 bg-primary/10 text-primary rounded-xl hover:bg-primary/20 transition-colors cursor-pointer"
+                    className="p-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors cursor-pointer"
                     title="View QR"
                   >
                     <Icons.QrCode size={16} />
@@ -157,7 +157,7 @@ export default function Tables() {
                   <Can perform="tables:manage">
                     <button
                       onClick={() => openEditModal(table)}
-                      className="p-2 bg-blue-500/10 text-blue-600 rounded-xl hover:bg-blue-500/20 transition-colors cursor-pointer"
+                      className="p-2 bg-info/10 text-info rounded-lg hover:bg-info/20 transition-colors cursor-pointer"
                       title="Edit Table"
                     >
                       <Icons.Edit2 size={16} />
@@ -168,7 +168,7 @@ export default function Tables() {
                           deleteTableMutation.mutate({ id: table.id, branchId: currentBranchId! });
                         }
                       }}
-                      className="p-2 bg-destructive/10 text-destructive rounded-xl hover:bg-destructive/20 transition-colors cursor-pointer"
+                      className="p-2 bg-destructive/10 text-destructive rounded-lg hover:bg-destructive/20 transition-colors cursor-pointer"
                       title="Delete Table"
                     >
                       <Icons.Trash2 size={16} />
@@ -180,9 +180,9 @@ export default function Tables() {
               <div className="mt-4 pt-4 border-t border-border/50 flex items-center justify-between">
                 <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</span>
                 <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
-                  table.status === 'occupied' ? 'bg-orange-500/10 text-orange-600 dark:text-orange-400' :
-                  table.status === 'cleaning' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' :
-                  'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                  table.status === 'occupied' ? 'bg-warning/10 text-warning dark:text-warning/80' :
+                  table.status === 'cleaning' ? 'bg-info/10 text-info dark:text-info/80' :
+                  'bg-success/10 text-success dark:text-success/80'
                 }`}>
                   {table.status}
                 </span>
@@ -196,7 +196,7 @@ export default function Tables() {
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsAddModalOpen(false)} />
-          <div className="relative bg-card rounded-3xl shadow-xl w-full max-w-md p-6 border border-border animate-in zoom-in-95 duration-200">
+          <div className="relative bg-card rounded-xl shadow-sm w-full max-w-md p-6 border border-border animate-in zoom-in-95 duration-200">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold font-jakarta text-foreground">New Table</h2>
               <button onClick={() => setIsAddModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground cursor-pointer">
@@ -206,38 +206,38 @@ export default function Tables() {
             
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">Table Name</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Table Name</label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g. Table 1, Patio 4"
-                  className="w-full bg-background border border-input rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+                  className="w-full bg-background border border-input rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">Capacity (Optional)</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Capacity (Optional)</label>
                 <input
                   type="number"
                   value={formData.capacity}
                   onChange={e => setFormData({ ...formData, capacity: e.target.value })}
                   placeholder="e.g. 4"
-                  className="w-full bg-background border border-input rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+                  className="w-full bg-background border border-input rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
                 />
               </div>
-              <div className="pt-4 flex justify-end space-x-3">
+              <div className="pt-4 flex justify-end space-x-4">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-muted transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={createTableMutation.isPending}
-                  className="px-6 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-transform active:scale-95 disabled:opacity-50 cursor-pointer"
+                  className="px-6 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-transform active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   {createTableMutation.isPending ? 'Creating...' : 'Create Table'}
                 </button>
@@ -251,7 +251,7 @@ export default function Tables() {
       {isEditModalOpen && activeTable && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsEditModalOpen(false)} />
-          <div className="relative bg-card rounded-3xl shadow-xl w-full max-w-md p-6 border border-border animate-in zoom-in-95 duration-200">
+          <div className="relative bg-card rounded-xl shadow-sm w-full max-w-md p-6 border border-border animate-in zoom-in-95 duration-200">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold font-jakarta text-foreground">Edit Table</h2>
               <button onClick={() => setIsEditModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground cursor-pointer">
@@ -261,30 +261,30 @@ export default function Tables() {
             
             <form onSubmit={handleEdit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">Table Name</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Table Name</label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-background border border-input rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+                  className="w-full bg-background border border-input rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">Capacity</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Capacity</label>
                 <input
                   type="number"
                   value={formData.capacity}
                   onChange={e => setFormData({ ...formData, capacity: e.target.value })}
-                  className="w-full bg-background border border-input rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+                  className="w-full bg-background border border-input rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">Status</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Status</label>
                 <select
                   value={formData.status}
                   onChange={e => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full bg-background border border-input rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+                  className="w-full bg-background border border-input rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
                 >
                   <option value="available">Available</option>
                   <option value="occupied">Occupied</option>
@@ -292,18 +292,18 @@ export default function Tables() {
                   <option value="cleaning">Cleaning</option>
                 </select>
               </div>
-              <div className="pt-4 flex justify-end space-x-3">
+              <div className="pt-4 flex justify-end space-x-4">
                 <button
                   type="button"
                   onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-muted transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updateTableMutation.isPending}
-                  className="px-6 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-transform active:scale-95 disabled:opacity-50 cursor-pointer"
+                  className="px-6 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-transform active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   {updateTableMutation.isPending ? 'Saving...' : 'Save Changes'}
                 </button>
@@ -317,7 +317,7 @@ export default function Tables() {
       {isQrModalOpen && activeTable && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsQrModalOpen(false)} />
-          <div className="relative bg-card rounded-3xl shadow-xl w-full max-w-sm p-8 border border-border animate-in zoom-in-95 duration-200 text-center">
+          <div className="relative bg-card rounded-xl shadow-sm w-full max-w-sm p-8 border border-border animate-in zoom-in-95 duration-200 text-center">
             <button onClick={() => setIsQrModalOpen(false)} className="absolute top-4 right-4 p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground cursor-pointer">
               <Icons.X size={20} />
             </button>
@@ -325,7 +325,7 @@ export default function Tables() {
             <h2 className="text-2xl font-bold font-jakarta text-foreground mb-2">{activeTable.name}</h2>
             <p className="text-sm text-muted-foreground mb-8">Scan to view menu & order</p>
             
-            <div className="bg-white p-4 rounded-2xl inline-block mx-auto mb-8">
+            <div className="bg-white p-4 rounded-lg inline-block mx-auto mb-8">
               <QRCode
                 id="qr-code-svg"
                 value={getQrUrl(activeTable.qrToken)}
@@ -336,10 +336,10 @@ export default function Tables() {
             
             <button
               onClick={downloadQrCode}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-3 rounded-xl flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm cursor-pointer"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-4 rounded-lg flex items-center justify-center space-x-2 font-medium transition-transform active:scale-95 shadow-sm cursor-pointer"
             >
               <Icons.Download size={18} />
-              <span>Icons.Download QR Code</span>
+              <span>Download QR Code</span>
             </button>
           </div>
         </div>

@@ -65,11 +65,11 @@ export default function Pos() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {pendingOrders.map((order) => (
             <Card key={order.id} className="flex flex-col">
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-4">
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle className="text-lg">Order #{order.id.slice(-6)}</CardTitle>
-                    <div className="text-sm text-muted-foreground mt-1 flex items-center gap-1">
+                    <div className="text-sm text-muted-foreground mt-2 flex items-center gap-2">
                       {getModeIcon(order.mode)}
                       <span className="capitalize">{order.mode?.replace('_', ' ') || 'Unknown'}</span>
                       {order.tableNumber && (
@@ -89,8 +89,8 @@ export default function Pos() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="flex-1 pb-3">
-                <div className="space-y-1">
+              <CardContent className="flex-1 pb-4">
+                <div className="space-y-2">
                   {order.items.slice(0, 3).map((item, idx) => (
                     <div key={idx} className="flex justify-between text-sm">
                       <span className="truncate pr-2">{item.quantity}x {item.name}</span>
@@ -98,7 +98,7 @@ export default function Pos() {
                     </div>
                   ))}
                   {order.items.length > 3 && (
-                    <div className="text-xs text-muted-foreground pt-1">
+                    <div className="text-xs text-muted-foreground pt-2">
                       + {order.items.length - 3} more items...
                     </div>
                   )}
@@ -111,7 +111,7 @@ export default function Pos() {
                   size="lg"
                   onClick={() => setEditOrder(order)}
                 >
-                  <Icons.Edit className="w-4 h-4 mr-2" /> Icons.Edit
+                  <Icons.Edit className="w-4 h-4 mr-2" /> Edit
                 </Button>
                 <Button 
                   className="flex-1 font-semibold" 
@@ -151,7 +151,7 @@ export default function Pos() {
             <RadioGroup value={paymentMethod} onValueChange={(val: any) => setPaymentMethod(val)} className="grid grid-cols-2 gap-4">
               <Label
                 htmlFor="cash"
-                className={`flex flex-col items-center justify-center p-4 border rounded-xl cursor-pointer transition-all ${
+                className={`flex flex-col items-center justify-center p-4 border rounded-lg cursor-pointer transition-all ${
                   paymentMethod === 'cash' ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'hover:bg-muted'
                 }`}
               >
@@ -162,7 +162,7 @@ export default function Pos() {
               
               <Label
                 htmlFor="upi"
-                className={`flex flex-col items-center justify-center p-4 border rounded-xl cursor-pointer transition-all ${
+                className={`flex flex-col items-center justify-center p-4 border rounded-lg cursor-pointer transition-all ${
                   paymentMethod === 'upi' ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'hover:bg-muted'
                 }`}
               >
@@ -173,7 +173,7 @@ export default function Pos() {
               
               <Label
                 htmlFor="razorpay"
-                className={`flex flex-col items-center justify-center p-4 border rounded-xl cursor-pointer transition-all ${
+                className={`flex flex-col items-center justify-center p-4 border rounded-lg cursor-pointer transition-all ${
                   paymentMethod === 'razorpay' ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'hover:bg-muted'
                 }`}
               >
@@ -184,13 +184,13 @@ export default function Pos() {
               
               <Label
                 htmlFor="wallet"
-                className={`flex flex-col items-center justify-center p-4 border rounded-xl cursor-pointer transition-all ${
+                className={`flex flex-col items-center justify-center p-4 border rounded-lg cursor-pointer transition-all ${
                   paymentMethod === 'wallet' ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'hover:bg-muted'
                 }`}
               >
                 <RadioGroupItem value="wallet" id="wallet" className="sr-only" />
                 <Icons.Wallet className={`h-8 w-8 mb-2 ${paymentMethod === 'wallet' ? 'text-primary' : 'text-muted-foreground'}`} />
-                <span className="font-medium">Store Icons.Wallet</span>
+                <span className="font-medium">Store Wallet</span>
               </Label>
             </RadioGroup>
           </div>
@@ -206,7 +206,7 @@ export default function Pos() {
         </DialogContent>
       </Dialog>
 
-      {/* Icons.Edit Order Dialog */}
+      {/* Edit Order Dialog */}
       <EditOrderDialog 
         order={editOrder} 
         branchId={selectedBranchId!} 

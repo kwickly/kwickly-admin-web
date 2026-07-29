@@ -72,18 +72,18 @@ export default function CampaignLogs() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Send className="h-6 w-6 text-primary" />
             Campaign Logs & Dispatcher
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Broadcasting dynamic messages to selected customer segment.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <SearchInput 
             value={search} 
             onChange={(val) => { setSearch(val); setPage(1); }} 
@@ -154,7 +154,7 @@ export default function CampaignLogs() {
                   onChange={(e) => setMessage(e.target.value)}
                   rows={4}
                   placeholder="e.g. Hey! We haven't seen you this week. Here is a coupon for 15% off your next meal scan!"
-                  className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground resize-none"
+                  className="w-full rounded-md border border-border bg-transparent px-4 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-foreground resize-none"
                   required
                 />
               </div>
@@ -192,17 +192,17 @@ export default function CampaignLogs() {
               {campaigns.map((camp) => (
                 <TableRow key={camp.id}>
                   <TableCell className="font-medium text-foreground">{camp.title}</TableCell>
-                  <TableCell className="text-muted-foreground capitalize flex items-center gap-1.5 pt-4">
+                  <TableCell className="text-muted-foreground capitalize flex items-center gap-2.5 pt-4">
                     <Icons.MessageSquare className="h-3.5 w-3.5 text-muted-foreground/70" />
                     {camp.channel}
                   </TableCell>
                   <TableCell className="text-muted-foreground font-mono text-xs">{camp.sentCount} recipients</TableCell>
                   <TableCell>
-                    <Badge variant={camp.status === 'SENT' ? 'outline' : 'secondary'} className={camp.status === 'SENT' ? 'border-emerald-500/20 text-emerald-600 bg-emerald-500/10' : ''}>
+                    <Badge variant={camp.status === 'SENT' ? 'outline' : 'secondary'} className={camp.status === 'SENT' ? 'bg-success-subtle text-success border-success/20' : ''}>
                       {camp.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-muted-foreground flex items-center gap-1 text-xs pt-4">
+                  <TableCell className="text-muted-foreground flex items-center gap-2 text-xs pt-4">
                     <Icons.Calendar className="h-3.5 w-3.5 text-muted-foreground/70" />
                     {new Date(camp.sentAt).toLocaleString()}
                   </TableCell>

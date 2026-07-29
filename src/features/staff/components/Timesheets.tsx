@@ -95,7 +95,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
             type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Icons.Search staff or ID..."
+            placeholder="Search staff or ID..."
             className="pl-9 bg-background"
           />
         </div>

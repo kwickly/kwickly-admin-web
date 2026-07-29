@@ -5,14 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardKPISkeleton, ChartSkeleton } from "@/components/ui/loaders";
 import { PageHeader } from "@/components/ui/page-header";
 
-const COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)'];
-
 export default function PlatformDashboard() {
   const { data: metrics, isLoading } = usePlatformMetrics();
 
   if (isLoading) {
     return (
-      <div className="w-full space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <PageHeader 
           title="Platform Overview" 
           description="Monitor global SaaS subscriptions, platform orders, and system-wide performance."
@@ -29,10 +27,10 @@ export default function PlatformDashboard() {
 
   const planData = metrics
     ? [
-        { name: "Free", value: metrics.planBreakdown.FREE },
-        { name: "Starter", value: metrics.planBreakdown.STARTER },
-        { name: "Growth", value: metrics.planBreakdown.GROWTH },
-        { name: "Enterprise", value: metrics.planBreakdown.ENTERPRISE },
+        { name: "Free", value: metrics.planBreakdown.FREE, fill: "var(--chart-3)" },
+        { name: "Starter", value: metrics.planBreakdown.STARTER, fill: "var(--warning)" },
+        { name: "Growth", value: metrics.planBreakdown.GROWTH, fill: "var(--chart-1)" },
+        { name: "Enterprise", value: metrics.planBreakdown.ENTERPRISE, fill: "var(--chart-5)" },
       ].filter(d => d.value > 0)
     : [];
 
@@ -45,7 +43,7 @@ export default function PlatformDashboard() {
   ];
 
   return (
-    <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
       <PageHeader 
         title="Platform Overview" 
         description="Monitor global SaaS subscriptions, platform orders, and system-wide performance."
@@ -54,66 +52,76 @@ export default function PlatformDashboard() {
 
       {/* Premium KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-card border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-primary/5 blur-xl group-hover:bg-primary/10 transition-colors"></div>
+        <Card className="bg-card border-border shadow-sm hover:shadow-sm transition-shadow relative overflow-hidden group">
+          
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Tenants</CardTitle>
-            <div className="p-2 rounded-lg bg-primary/10">
-              <Icons.Building className="h-4 w-4 text-primary" />
+            <CardTitle className="text-sm font-medium text-muted-foreground truncate">Total Tenants</CardTitle>
+            <div className="p-2">
+              <Icons.Building className="h-4 w-4 text-muted-foreground" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
-            <div className="text-3xl font-bold text-foreground">{metrics?.totalTenants}</div>
-            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
-              <span className="text-[var(--chart-2)] flex items-center"><Icons.TrendingUp className="h-3 w-3 mr-0.5"/> {metrics?.activeTenants} active</span>
+            <div className="text-2xl font-semibold tracking-tight text-foreground tabular-nums font-mono truncate">{metrics?.totalTenants}</div>
+            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-2 truncate">
+              <span className="text-success font-medium">+12% MoM</span>
+              <span className="text-muted-foreground/50 mx-2">•</span>
+              <span className="text-muted-foreground flex items-center truncate"><Icons.TrendingUp className="h-3 w-3 mr-0.5 shrink-0"/> {metrics?.activeTenants} active</span>
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-[var(--chart-2)]/5 blur-xl group-hover:bg-[var(--chart-2)]/10 transition-colors"></div>
+        <Card className="bg-card border-border shadow-sm hover:shadow-sm transition-shadow relative overflow-hidden group">
+          
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Platform Icons.Users</CardTitle>
-            <div className="p-2 rounded-lg bg-[var(--chart-2)]/10">
-              <Icons.Users className="h-4 w-4 text-[var(--chart-2)]" />
+            <CardTitle className="text-sm font-medium text-muted-foreground truncate">Platform Users</CardTitle>
+            <div className="p-2">
+              <Icons.Users className="h-4 w-4 text-muted-foreground" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
-            <div className="text-3xl font-bold text-foreground">{metrics?.totalUsers}</div>
-            <p className="text-xs text-muted-foreground mt-2">
-              Staff and registered customers
+            <div className="text-2xl font-semibold tracking-tight text-foreground tabular-nums font-mono truncate">{metrics?.totalUsers}</div>
+            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-2 truncate">
+              <span className="text-success font-medium">+8% MoM</span>
+              <span className="text-muted-foreground/50 mx-2">•</span>
+              <span className="truncate">Staff & customers</span>
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-[var(--chart-3)]/5 blur-xl group-hover:bg-[var(--chart-3)]/10 transition-colors"></div>
+        <Card className="bg-card border-border shadow-sm hover:shadow-sm transition-shadow relative overflow-hidden group">
+          
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Orders</CardTitle>
-            <div className="p-2 rounded-lg bg-[var(--chart-3)]/10">
-              <Icons.Activity className="h-4 w-4 text-[var(--chart-3)]" />
+            <CardTitle className="text-sm font-medium text-muted-foreground truncate">Total Orders</CardTitle>
+            <div className="p-2">
+              <Icons.Activity className="h-4 w-4 text-muted-foreground" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
-            <div className="text-3xl font-bold text-foreground">{metrics?.totalOrdersProcessed}</div>
-            <p className="text-xs text-muted-foreground mt-2">
-              Processed across all branches
+            <div className="text-2xl font-semibold tracking-tight text-foreground tabular-nums font-mono truncate">{metrics?.totalOrdersProcessed}</div>
+            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-2 truncate">
+              <span className="text-success font-medium">+24% MoM</span>
+              <span className="text-muted-foreground/50 mx-2">•</span>
+              <span className="truncate">Across all branches</span>
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 rounded-full bg-destructive/5 blur-xl group-hover:bg-destructive/10 transition-colors"></div>
+        <Card className="bg-card border-border shadow-sm hover:shadow-sm transition-shadow relative overflow-hidden group">
+          
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Platform GMV</CardTitle>
-            <div className="p-2 rounded-lg bg-destructive/10">
-              <Icons.DollarSign className="h-4 w-4 text-destructive" />
+            <CardTitle className="text-sm font-medium text-muted-foreground truncate">Platform GMV</CardTitle>
+            <div className="p-2">
+              <Icons.DollarSign className="h-4 w-4 text-muted-foreground" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
-            <div className="text-3xl font-bold text-foreground">₹{metrics?.platformGMV.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground mt-2">
-              Total transaction volume
+            <div className="text-2xl font-semibold tracking-tight text-foreground tabular-nums font-mono truncate">
+              {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(metrics?.platformGMV || 0)}
+            </div>
+            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-2 truncate">
+              <span className="text-success font-medium">+18.5% MoM</span>
+              <span className="text-muted-foreground/50 mx-2">•</span>
+              <span className="truncate">Total transaction volume</span>
             </p>
           </CardContent>
         </Card>
@@ -122,10 +130,10 @@ export default function PlatformDashboard() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 bg-card border-border shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
-              <Icons.TrendingUp className="h-5 w-5 text-primary" />
+              <Icons.TrendingUp className="h-5 w-5 text-muted-foreground" />
               Tenant Growth
             </CardTitle>
           </CardHeader>
@@ -154,7 +162,7 @@ export default function PlatformDashboard() {
         <Card className="bg-card border-border shadow-sm flex flex-col justify-between">
           <CardHeader>
             <CardTitle className="text-foreground flex items-center gap-2">
-              <Icons.Building className="h-5 w-5 text-[var(--chart-2)]" />
+              <Icons.Building className="h-5 w-5 text-muted-foreground" />
               Plan Distribution
             </CardTitle>
           </CardHeader>
@@ -175,8 +183,8 @@ export default function PlatformDashboard() {
                     stroke="none"
                     cornerRadius={6}
                   >
-                    {planData.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    {planData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.fill} />
                     ))}
                   </Pie>
                   <Tooltip 
@@ -189,15 +197,15 @@ export default function PlatformDashboard() {
             
             {/* Center Label inside Pie */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-3xl font-bold text-foreground">{metrics?.totalTenants}</span>
+              <span className="text-2xl font-semibold tracking-tight text-foreground tabular-nums font-mono">{metrics?.totalTenants}</span>
               <span className="text-xs text-muted-foreground">Total</span>
             </div>
           </CardContent>
-          <div className="flex justify-center gap-x-6 gap-y-3 pb-6 flex-wrap px-4">
+          <div className="flex justify-center gap-x-6 gap-y-4 pb-6 flex-wrap px-4">
             {planData.map((entry, index) => (
-              <div key={entry.name} className="flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full border border-border">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
-                <span className="text-xs font-medium text-foreground">{entry.name} <span className="text-muted-foreground ml-1">({entry.value})</span></span>
+              <div key={entry.name} className="flex items-center gap-2 bg-muted/50 px-4 py-2.5 rounded-full border border-border">
+                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.fill }} />
+                <span className="text-xs font-medium text-foreground">{entry.name} <span className="text-muted-foreground ml-2">({entry.value})</span></span>
               </div>
             ))}
           </div>

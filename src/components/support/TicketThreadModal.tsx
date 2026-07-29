@@ -70,14 +70,14 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
                 <DialogTitle className="text-xl flex items-center gap-2">
                   {ticket.subject}
                 </DialogTitle>
-                <DialogDescription className="mt-1.5 flex items-center gap-2">
+                <DialogDescription className="mt-2.5 flex items-center gap-2">
                   <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     #{ticket.id.split('-')[0]}
                   </span>
                   <span>•</span>
                   <span>{ticket.category.replace('_', ' ')}</span>
                   <span>•</span>
-                  <span className={`text-xs font-bold ${ticket.priority === 'URGENT' ? 'text-destructive' : 'text-amber-500'}`}>
+                  <span className={`text-xs font-bold ${ticket.priority === 'URGENT' ? 'text-destructive' : 'text-warning'}`}>
                     {ticket.priority} PRIORITY
                   </span>
                 </DialogDescription>
@@ -100,15 +100,15 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
                 ) : (
                   <Badge variant="outline" className={`
                     ${ticket.status === 'OPEN' ? 'bg-info/10 text-info border-info/20' :
-                      ticket.status === 'IN_PROGRESS' ? 'bg-amber-500/10 text-amber-600 border-amber-500/20' :
-                      ticket.status === 'RESOLVED' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' :
+                      ticket.status === 'IN_PROGRESS' ? 'bg-warning-subtle text-warning border-warning/20' :
+                      ticket.status === 'RESOLVED' ? 'bg-success-subtle text-success border-success/20' :
                       'bg-muted text-muted-foreground'
                     }
                   `}>
                     {ticket.status.replace('_', ' ')}
                   </Badge>
                 )}
-                <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+                <span className="text-[10px] text-muted-foreground flex items-center gap-2">
                   <Icons.Clock className="h-3 w-3" />
                   Updated {formatDistanceToNow(new Date(ticket.updatedAt), { addSuffix: true })}
                 </span>
@@ -128,8 +128,8 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
           ) : ticket ? (
             <div className="space-y-6 flex flex-col justify-end min-h-full">
               {/* Original Description as the first message */}
-              <div className="flex flex-col items-start gap-1 max-w-[85%]">
-                <div className="flex items-center gap-2 px-1">
+              <div className="flex flex-col items-start gap-2 max-w-[85%]">
+                <div className="flex items-center gap-2 px-2">
                   <span className="text-sm font-semibold text-foreground">
                     {ticket.createdBy?.name || 'User'}
                   </span>
@@ -150,7 +150,7 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
                 
                 return (
                   <div key={msg.id} className={`flex flex-col gap-1 max-w-[85%] ${isMe ? 'self-end items-end' : 'self-start items-start'}`}>
-                    <div className="flex items-center gap-2 px-1">
+                    <div className="flex items-center gap-2 px-2">
                       {!isMe && isStaff && <Icons.ShieldAlert className="h-3.5 w-3.5 text-primary" />}
                       <span className="text-sm font-semibold text-foreground">
                         {isMe ? 'You' : msg.sender?.name || 'User'}

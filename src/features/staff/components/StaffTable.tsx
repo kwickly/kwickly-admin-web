@@ -123,9 +123,9 @@ export default function StaffTable() {
   };
 
   return (
-    <div className="rounded-md border border-slate-200 dark:border-zinc-800">
+    <div className="rounded-md border border-border">
       <Table>
-        <TableHeader className="bg-slate-50 dark:bg-zinc-900/50">
+        <TableHeader className="bg-muted/50">
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Role</TableHead>
@@ -137,29 +137,29 @@ export default function StaffTable() {
         <TableBody>
           {isLoading ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+              <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                 Loading staff...
               </TableCell>
             </TableRow>
           ) : !staffList || staffList.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-8 text-slate-500">
+              <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                 No staff members found.
               </TableCell>
             </TableRow>
           ) : (
             staffList.map((staff) => (
               <TableRow key={staff.id}>
-                <TableCell className="font-medium text-slate-900 dark:text-zinc-100">
+                <TableCell className="font-medium text-foreground">
                   {staff.name}
-                  <div className="text-xs text-slate-500 font-normal">{staff.phone}</div>
+                  <div className="text-xs text-muted-foreground font-normal">{staff.phone}</div>
                 </TableCell>
                 <TableCell>
                   <Badge variant={staff.role === 'manager' || staff.role === 'tenant_owner' ? 'default' : 'secondary'}>
                     {staff.role.replace('_', ' ').toUpperCase()}
                   </Badge>
                 </TableCell>
-                <TableCell className="font-mono text-slate-500 dark:text-zinc-400">
+                <TableCell className="font-mono text-muted-foreground">
                   {staff.pin ? '****' : 'Not Set'}
                 </TableCell>
                 <TableCell>
@@ -192,44 +192,44 @@ export default function StaffTable() {
 
       {/* Edit Staff Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="sm:max-w-[450px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <DialogContent className="sm:max-w-[450px] bg-popover border border-border">
           <DialogHeader>
-            <DialogTitle className="text-slate-900 dark:text-zinc-100">Edit Staff Member</DialogTitle>
-            <DialogDescription className="text-slate-500 dark:text-zinc-400">
+            <DialogTitle className="text-foreground">Edit Staff Member</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Update employee roles, status, and salary structures.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleEditSubmit}>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="edit-name" className="text-slate-700 dark:text-zinc-300">Full Name</Label>
+                <Label htmlFor="edit-name" className="text-foreground/80">Full Name</Label>
                 <Input
                   id="edit-name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  className="bg-transparent border-border  text-foreground"
                   required
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="edit-phone" className="text-slate-700 dark:text-zinc-300">Phone Number</Label>
+                <Label htmlFor="edit-phone" className="text-foreground/80">Phone Number</Label>
                 <Input
                   id="edit-phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                  className="bg-transparent border-border  text-foreground"
                   required
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="edit-role" className="text-slate-700 dark:text-zinc-300">Role</Label>
+                <Label htmlFor="edit-role" className="text-foreground/80">Role</Label>
                 <Select value={role} onValueChange={(val: any) => setRole(val)} required>
-                  <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                  <SelectTrigger className="bg-transparent border-border  text-foreground">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectContent className="bg-card border-border">
                     <SelectItem value="manager">Manager</SelectItem>
                     <SelectItem value="cashier">Cashier</SelectItem>
                     <SelectItem value="kitchen_staff">Kitchen Staff</SelectItem>
@@ -239,12 +239,12 @@ export default function StaffTable() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="edit-status" className="text-slate-700 dark:text-zinc-300">Status</Label>
+                <Label htmlFor="edit-status" className="text-foreground/80">Status</Label>
                 <Select value={status} onValueChange={(val: any) => setIsActive(val || 'true')} required>
-                  <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                  <SelectTrigger className="bg-transparent border-border  text-foreground">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectContent className="bg-card border-border">
                     <SelectItem value="true">Active</SelectItem>
                     <SelectItem value="false">Inactive</SelectItem>
                   </SelectContent>
@@ -252,12 +252,12 @@ export default function StaffTable() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="edit-salaryType" className="text-slate-700 dark:text-zinc-300">Salary Type</Label>
+                <Label htmlFor="edit-salaryType" className="text-foreground/80">Salary Type</Label>
                 <Select value={salaryType} onValueChange={(val: any) => setSalaryType(val)}>
-                  <SelectTrigger className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
+                  <SelectTrigger className="bg-transparent border-border  text-foreground">
                     <SelectValue placeholder="None / Commission Only" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800">
+                  <SelectContent className="bg-card border-border">
                     <SelectItem value="MONTHLY">Monthly Salary</SelectItem>
                     <SelectItem value="HOURLY">Hourly Wage</SelectItem>
                   </SelectContent>
@@ -266,13 +266,13 @@ export default function StaffTable() {
 
               {salaryType === 'MONTHLY' && (
                 <div className="grid gap-2">
-                  <Label htmlFor="edit-baseSalary" className="text-slate-700 dark:text-zinc-300">Base Salary (₹/month)</Label>
+                  <Label htmlFor="edit-baseSalary" className="text-foreground/80">Base Salary (₹/month)</Label>
                   <Input
                     id="edit-baseSalary"
                     type="number"
                     value={baseSalary}
                     onChange={(e) => setBaseSalary(e.target.value)}
-                    className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                    className="bg-transparent border-border  text-foreground"
                     required
                   />
                 </div>
@@ -280,13 +280,13 @@ export default function StaffTable() {
 
               {salaryType === 'HOURLY' && (
                 <div className="grid gap-2">
-                  <Label htmlFor="edit-hourlyRate" className="text-slate-700 dark:text-zinc-300">Hourly Rate (₹/hour)</Label>
+                  <Label htmlFor="edit-hourlyRate" className="text-foreground/80">Hourly Rate (₹/hour)</Label>
                   <Input
                     id="edit-hourlyRate"
                     type="number"
                     value={hourlyRate}
                     onChange={(e) => setHourlyRate(e.target.value)}
-                    className="bg-transparent border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100"
+                    className="bg-transparent border-border  text-foreground"
                     required
                   />
                 </div>
@@ -307,14 +307,14 @@ export default function StaffTable() {
                   type="button"
                   variant="outline"
                   onClick={() => setIsEditDialogOpen(false)}
-                  className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent hover:bg-slate-100 dark:hover:bg-zinc-800"
+                  className="border-border  text-foreground/80 bg-transparent hover:bg-muted"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={isUpdating}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
                 >
                   {isUpdating ? 'Saving...' : 'Save Changes'}
                 </Button>
@@ -326,10 +326,10 @@ export default function StaffTable() {
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <DialogContent className="sm:max-w-[400px] bg-popover border border-border">
           <DialogHeader>
-            <DialogTitle className="text-slate-900 dark:text-zinc-100">Delete Staff Member?</DialogTitle>
-            <DialogDescription className="text-slate-500 dark:text-zinc-400">
+            <DialogTitle className="text-foreground">Delete Staff Member?</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Are you sure you want to delete {editingStaff?.name}? This action cannot be undone and will revoke their portal access immediately.
             </DialogDescription>
           </DialogHeader>
@@ -338,7 +338,7 @@ export default function StaffTable() {
               type="button"
               variant="outline"
               onClick={() => setIsDeleteDialogOpen(false)}
-              className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent"
+              className="border-border  text-foreground/80 bg-transparent"
             >
               Cancel
             </Button>
@@ -357,17 +357,17 @@ export default function StaffTable() {
 
       {/* Set PIN Dialog */}
       <Dialog open={isPinDialogOpen} onOpenChange={setIsPinDialogOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+        <DialogContent className="sm:max-w-[400px] bg-popover border border-border">
           <DialogHeader>
-            <DialogTitle className="text-slate-900 dark:text-zinc-100">Set POS PIN</DialogTitle>
-            <DialogDescription className="text-slate-500 dark:text-zinc-400">
+            <DialogTitle className="text-foreground">Set POS PIN</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Set a 4-digit PIN for {editingStaff?.name} to log in to the POS and KDS devices.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSetPinSubmit}>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="new-pin" className="text-slate-700 dark:text-zinc-300">4-Digit PIN</Label>
+                <Label htmlFor="new-pin" className="text-foreground/80">4-Digit PIN</Label>
                 <Input
                   id="new-pin"
                   type="password"
@@ -377,7 +377,7 @@ export default function StaffTable() {
                     const val = e.target.value.replace(/\D/g, '');
                     setNewPin(val);
                   }}
-                  className="bg-transparent text-center tracking-[1em] font-mono text-2xl border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 h-14"
+                  className="bg-transparent text-center tracking-[1em] font-mono text-2xl border-border  text-foreground h-14"
                   required
                 />
               </div>
@@ -387,14 +387,14 @@ export default function StaffTable() {
                 type="button"
                 variant="outline"
                 onClick={() => setIsPinDialogOpen(false)}
-                className="border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 bg-transparent"
+                className="border-border  text-foreground/80 bg-transparent"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={isUpdatingPin || newPin.length !== 4}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
               >
                 {isUpdatingPin ? 'Saving...' : 'Save PIN'}
               </Button>

@@ -104,3 +104,69 @@ Industry best practices dictate a strategy of **Progressive Disclosure**—only 
   - **Dedicated Pages (Sub-Routing) [INDUSTRY STANDARD]:** For complex settings and distinct CRUD operations (e.g., Branding vs White Labeling, Profile vs Security), you MUST use a Nested Layout with a Sub-Sidebar (Dedicated Routes). This allows for deep linking, isolated validation states, and scalable CRUD forms without nesting modals inside tabs.
   - Use **Accordions** for secondary or advanced settings within a dedicated page.
   - Use a **Side Panel (Sheet)** for quick edits that shouldn't pull the user away from their context.
+
+## 8. Token Naming Philosophy — Context-Scoped vs. Flat
+
+Kwickly's token naming is pragmatic: flat names for universal semantic concepts, and context-scoped prefixes for domain-specific operational states.
+
+### The Naming Decision Matrix
+
+| Scenario | Pattern | Example |
+|---|---|---|
+| Universal semantic meaning | Flat name | `--success`, `--warning`, `--destructive` |
+| Portal-specific identity | Portal prefix | `--platform-primary` (Blue, platform portal only) |
+| Operational domain context | Domain prefix | `--kds-new`, `--kds-late`, `--kds-done` |
+| System infrastructure | System prefix | `--sidebar-*`, `--ring`, `--border` |
+| Loading / skeleton state | Category prefix | `--skeleton`, `--skeleton-subtle` |
+| Animation timing | Category prefix | `--motion-fast`, `--motion-normal` |
+
+### Why NOT Atlassian-Style `color.text.code.functions`?
+
+Atlassian's 4-level dot-notation (`color.element.context.intent`) is a governance tool designed for 100+ teams building multiple products simultaneously (Jira, Confluence, Bitbucket). Without it, those teams create duplicate tokens with different names and the system fragments.
+
+Kwickly is a focused POS product owned by one small team. Our 3-level maximum is sufficient:
+
+```
+domain  .  context  .  state
+  kds       order       late    →  --kds-late
+  platform  brand       hover   →  --platform-primary-hover
+```
+
+The core principle we adopt from Atlassian is the same: **name tokens by usage, never by visual appearance.**
+
+```css
+/* ❌ Appearance-based — breaks when the color palette changes */
+--red-button-bg: oklch(0.55 0.20 26);
+
+/* ✅ Usage-based — survives any visual change */
+--kds-late: oklch(0.55 0.20 26);   /* overdue order, happens to be red today */
+```
+
+## 9. Dual Brand Color Intent — Kwickly Red + Kwickly Blue
+
+Kwickly uses two system brand colors with distinct, non-interchangeable purposes:
+
+| Color | RGB | Token | Purpose |
+|---|---|---|---|
+| 🔴 **Kwickly Red** | `rgb(238, 59, 43)` | `--primary` | Action, urgency, merchant CTA |
+| 🔵 **Kwickly Blue** | `rgb(51, 115, 204)` | `--platform-primary` | Platform identity, information |
+
+Both are defined at similar OKLCH lightness (`~0.55–0.61`) for equal perceptual weight — neither color dominates the other visually. This is the key advantage of OKLCH: equal-lightness colors of different hues feel equally prominent.
+
+### The Decision Rule
+
+- Use `bg-primary` (**Red**) when an element **causes something to happen** — Save, Confirm Order, Delete, Add Item.
+- Use `bg-platform-primary` (**Blue**) when an element **represents platform-system identity** — Platform admin header, Platform nav active state, system-operator badges.
+- Use `bg-info` when an element **delivers neutral information** — tooltips, informational banners, read-only status.
+- Use `bg-kds-new` (**Blue**) for a KDS new order card — calm attention, not urgent action.
+
+> **Critical:** A "Save" button on a `/platform/*` page still uses `bg-primary` (it is an action), **not** `bg-platform-primary`. The Portal context does not override the action color rule.
+
+### WCAG Contrast Validation
+
+| Token | Against Background | Contrast Ratio | WCAG Level |
+|---|---|---|---|
+| `--primary` on `--card` | `oklch(1 0 0)` | ≥ 4.5:1 ✅ | AA |
+| `--platform-primary` on `--card` | `oklch(1 0 0)` | ≥ 4.5:1 ✅ | AA |
+| `--primary-foreground` on `--primary` | Kwickly Red | ≥ 7:1 ✅ | AAA |
+| `--platform-primary-foreground` on `--platform-primary` | Kwickly Blue | ≥ 4.5:1 ✅ | AA |

@@ -53,12 +53,12 @@ export default function TenantWhiteLabel() {
 
   return (
     <div className="flex-1 min-w-0 bg-card border border-border shadow-sm rounded-xl p-6 lg:max-w-3xl">
-      <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-300">
         <div>
           <h3 className="text-xl font-bold text-foreground">
             White Label Configuration
           </h3>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Override default Kwickly platform settings to provide a true
             white-label experience for this enterprise tenant.
           </p>
@@ -98,7 +98,7 @@ export default function TenantWhiteLabel() {
           </div>
 
           <div className="flex items-center justify-between pt-6 border-t border-border/50">
-            <div className="space-y-1 pr-6">
+            <div className="space-y-2 pr-6">
               <Label className="text-sm font-semibold">
                 Hide Kwickly Branding
               </Label>

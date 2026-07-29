@@ -193,7 +193,7 @@ export default function TenantBranding() {
           <div className="flex-1 min-w-0 bg-card border border-border shadow-sm rounded-xl p-6">
             
             {activeTab === 'colors' && (
-              <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-300">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label className="text-sm font-semibold">Primary Hue</Label>
@@ -207,10 +207,11 @@ export default function TenantBranding() {
                     onValueChange={(v: any) => setHue(Array.isArray(v) ? v[0] : v)}
                     className="cursor-grab active:cursor-grabbing"
                   />
+                  {/* eslint-disable-next-line no-restricted-syntax */}
                   <div className="h-2 w-full rounded-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 via-purple-500 to-red-500 opacity-50" />
 
                   {/* Live primary color swatch + contrast indicator */}
-                  <div className="flex items-center gap-3 mt-3">
+                  <div className="flex items-center gap-4 mt-4">
                     <div
                       className="h-8 w-8 rounded-lg border border-border/50 flex items-center justify-center text-[10px] font-bold flex-shrink-0"
                       style={{ background: swatchStyle, color: swatchFg }}
@@ -354,15 +355,15 @@ export default function TenantBranding() {
         {/* Right Pane: Live Interactive Preview */}
         <div className="flex-1 min-w-0 w-full relative">
           
-          <div className="sticky top-24 rounded-2xl border border-border/60 bg-muted/20 shadow-md overflow-hidden theme-preview-container ring-1 ring-border/50 transition-all duration-300">
+          <div className="sticky top-24 rounded-lg border border-border/60 bg-muted/20 shadow-sm overflow-hidden theme-preview-container ring-1 ring-border/50 transition-all duration-300">
             {/* Mac OS Window Header */}
-            <div className="border-b border-border/50 bg-background/50 p-3.5 flex items-center justify-between">
+            <div className="border-b border-border/50 bg-background/50 p-4.5 flex items-center justify-between">
               <div className="flex gap-2">
                 <div className="w-3 h-3 rounded-full bg-destructive/90 shadow-sm" />
-                <div className="w-3 h-3 rounded-full bg-amber-400/90 shadow-sm" />
-                <div className="w-3 h-3 rounded-full bg-emerald-400/90 shadow-sm" />
+                <div className="w-3 h-3 rounded-full bg-warning/90 shadow-sm" />
+                <div className="w-3 h-3 rounded-full bg-success/90 shadow-sm" />
               </div>
-              <div className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase flex items-center gap-1.5">
+              <div className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase flex items-center gap-2.5">
                 <Icons.Layout className="w-3 h-3" /> Live UI Mockup
               </div>
               <div className="w-10" />
@@ -371,14 +372,14 @@ export default function TenantBranding() {
             <div className="p-8 space-y-8 bg-background h-full min-h-[600px] text-foreground font-sans">
               
               {/* Top Stat Row */}
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-2 gap-6">
                 <Card className="shadow-sm border-border/50 bg-card">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium text-muted-foreground">Total Revenue</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-3xl font-bold text-foreground tracking-tight">$45,231.89</div>
-                    <p className="text-xs mt-1 text-primary flex items-center font-semibold">
+                    <p className="text-xs mt-2 text-primary flex items-center font-semibold">
                       +20.1% from last month
                     </p>
                   </CardContent>
@@ -389,7 +390,7 @@ export default function TenantBranding() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-3xl font-bold text-foreground tracking-tight">+2,350</div>
-                    <p className="text-xs mt-1 text-muted-foreground flex items-center">
+                    <p className="text-xs mt-2 text-muted-foreground flex items-center">
                       +180 new this week
                     </p>
                   </CardContent>
@@ -404,16 +405,16 @@ export default function TenantBranding() {
                 </CardHeader>
                 <CardContent className="space-y-8">
                   
-                  <div className="flex flex-wrap gap-3">
-                    <Button className="shadow-sm h-10 px-5 transition-transform active:scale-95">Primary Action</Button>
-                    <Button variant="secondary" className="shadow-sm h-10 px-5 transition-transform active:scale-95">Secondary</Button>
-                    <Button variant="outline" className="shadow-sm bg-background h-10 px-5 transition-transform active:scale-95">Outline</Button>
-                    <Button variant="outline" className="h-10 px-5">Ghost Style</Button>
+                  <div className="flex flex-wrap gap-4">
+                    <Button className="shadow-sm h-10 px-6 transition-transform active:scale-95">Primary Action</Button>
+                    <Button variant="secondary" className="shadow-sm h-10 px-6 transition-transform active:scale-95">Secondary</Button>
+                    <Button variant="outline" className="shadow-sm bg-background h-10 px-6 transition-transform active:scale-95">Outline</Button>
+                    <Button variant="outline" className="h-10 px-6">Ghost Style</Button>
                   </div>
 
                   <div className="space-y-2.5 pt-6 border-t border-border/50">
                     <Label className="text-sm font-medium">Email Address</Label>
-                    <div className="flex gap-3">
+                    <div className="flex gap-4">
                       <Input placeholder="m@example.com" className="max-w-xs shadow-sm h-10 bg-background" />
                       <Button className="h-10 px-6 shadow-sm">Subscribe</Button>
                     </div>
@@ -421,7 +422,7 @@ export default function TenantBranding() {
                   </div>
 
                   <div className="flex items-center justify-between pt-6 border-t border-border/50">
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-base font-medium">Marketing Emails</Label>
                       <p className="text-sm text-muted-foreground">Receive emails about new products.</p>
                     </div>

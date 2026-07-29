@@ -33,7 +33,7 @@ export default function MenuCategories() {
   const categories = response?.data || [];
   const meta = response?.meta;
 
-  // Icons.Edit State
+  // Edit State
   const [editOpen, setEditOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<MenuCategory | null>(null);
   const [name, setName] = useState("");
@@ -91,14 +91,14 @@ export default function MenuCategories() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.LayoutGrid className="h-6 w-6 text-primary" />
             Menu Categories
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Organize your menu items into logical categories.
           </p>
         </div>
@@ -128,7 +128,7 @@ export default function MenuCategories() {
                     Sort Order: {category.sortOrder}
                   </p>
                 </div>
-                <div className="bg-muted/30 border-t border-border p-3 flex justify-end gap-2">
+                <div className="bg-muted/30 border-t border-border p-4 flex justify-end gap-2">
                   <Button
                     size="default"
                     variant="outline"
@@ -136,7 +136,7 @@ export default function MenuCategories() {
                     className="text-muted-foreground hover:text-foreground hover:bg-muted min-h-[44px] min-w-[44px]"
                   >
                     <Icons.Edit className="size-4 mr-2" />
-                    Icons.Edit
+                    Edit
                   </Button>
                   <Button
                     size="default"
@@ -167,14 +167,14 @@ export default function MenuCategories() {
         <DialogContent className="sm:max-w-[400px] bg-card border border-border">
           <form onSubmit={handleUpdate} className="space-y-4">
             <DialogHeader>
-              <DialogTitle className="text-foreground">Icons.Edit Category</DialogTitle>
+              <DialogTitle className="text-foreground">Edit Category</DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 Update category details or ordering priority.
               </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-3">
-              <div className="grid gap-1">
+            <div className="space-y-4">
+              <div className="grid gap-2">
                 <Label htmlFor="editName" className="text-foreground font-medium">Category Name</Label>
                 <Input
                   id="editName"
@@ -185,7 +185,7 @@ export default function MenuCategories() {
                 />
               </div>
 
-              <div className="grid gap-1">
+              <div className="grid gap-2">
                 <Label htmlFor="editSortOrder" className="text-foreground font-medium">Sort Order</Label>
                 <Input
                   id="editSortOrder"

@@ -24,7 +24,7 @@ export function PWABadge() {
 
   return (
     <Card className="fixed bottom-4 right-4 z-50 p-6 shadow-lg border bg-card text-card-foreground">
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         <div className="text-sm">
           <span>New content available, click on reload button to update.</span>
         </div>

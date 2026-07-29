@@ -91,14 +91,14 @@ export default function ResetPassword() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4 transition-colors">
-      <div className="w-full max-w-md bg-card rounded-xl shadow-xl overflow-hidden border border-border">
+      <div className="w-full max-w-md bg-card rounded-xl shadow-sm overflow-hidden border border-border">
         <div className="p-8">
           <div className="text-center mb-8">
             {branding?.logoUrl ? (
               <img src={branding.logoUrl} alt="Logo" className="h-12 mx-auto mb-4 object-contain" />
             ) : showKwickly ? (
               <div className="flex items-center justify-center mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 text-primary-foreground">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary shadow-sm shadow-primary/20 text-primary-foreground">
                   <span className="text-2xl font-bold tracking-tighter">K</span>
                 </div>
               </div>

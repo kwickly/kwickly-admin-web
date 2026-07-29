@@ -19,14 +19,14 @@ export default function CustomerDirectory() {
   const meta = data?.meta;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Icons.Users className="h-6 w-6 text-primary" />
             Customer Directory
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             Manage your customer profiles, view lifetime value, and handle wallet balances.
           </p>
         </div>
@@ -34,7 +34,7 @@ export default function CustomerDirectory() {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <div className="space-y-1">
+          <div className="space-y-2">
             <CardTitle>Customer Profiles</CardTitle>
             <CardDescription>View and manage all registered customers.</CardDescription>
           </div>
@@ -42,8 +42,8 @@ export default function CustomerDirectory() {
             <Icons.Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Icons.Search customers by name or phone..."
-              className="pl-9 w-72 bg-muted/50"
+              placeholder="Search customers by name or phone..."
+              className="pl-10 w-72 bg-muted/50"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -95,7 +95,7 @@ export default function CustomerDirectory() {
                       </TableCell>
                       <TableCell className="text-right">
                         {parseFloat(customer.walletBalance || '0') > 0 ? (
-                          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 font-bold px-2 py-1">
+                          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 font-bold px-2 py-2">
                             ₹{parseFloat(customer.walletBalance || '0').toFixed(2)}
                           </Badge>
                         ) : (
@@ -113,7 +113,7 @@ export default function CustomerDirectory() {
                             className="hover:bg-primary/10 hover:text-primary"
                           >
                             Details
-                            <Icons.ChevronRight className="h-4 w-4 ml-1" />
+                            <Icons.ChevronRight className="h-4 w-4 ml-2" />
                           </Button>
                         </Link>
                       </TableCell>

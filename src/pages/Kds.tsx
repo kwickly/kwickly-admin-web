@@ -49,7 +49,7 @@ const COLUMN_CONFIG: Record<KotStatus, {
     emptyText: 'No new orders',
     nextStatus: 'preparing',
     actionLabel: 'Start Cooking',
-    actionClass: 'bg-blue-600 hover:bg-blue-700 text-white',
+    actionClass: 'bg-kds-new hover:bg-kds-new/90 text-white',
   },
   preparing: {
     label: 'In Kitchen',
@@ -60,7 +60,7 @@ const COLUMN_CONFIG: Record<KotStatus, {
     emptyText: 'Kitchen is clear',
     nextStatus: 'ready',
     actionLabel: 'Mark Ready',
-    actionClass: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+    actionClass: 'bg-kds-done hover:bg-kds-done/90 text-white',
   },
   ready: {
     label: 'Ready',
@@ -94,7 +94,7 @@ function WaitBadge({ createdAt }: { createdAt: string }) {
         isUrgent
           ? 'bg-destructive/10 text-destructive animate-pulse'
           : isWarning
-          ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
+          ? 'bg-kds-cooking/10 text-kds-cooking'
           : 'bg-muted text-muted-foreground'
       )}
     >
@@ -126,15 +126,15 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
   return (
     <div
       className={cn(
-        'group rounded-xl border bg-card text-card-foreground shadow-sm transition-all duration-150 select-none p-1',
+        'group rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-150 select-none p-1',
         isDragging
           ? 'opacity-40 scale-95'
-          : 'hover:shadow-md hover:-translate-y-0.5 cursor-grab active:cursor-grabbing',
+          : 'hover:shadow-sm  cursor-grab active:cursor-grabbing',
         isUrgent && 'ring-1 ring-destructive/30'
       )}
     >
       {/* Header */}
-      <div className="flex items-start justify-between p-3 pb-2">
+      <div className="flex items-start justify-between p-4 pb-2">
         <div className="flex items-start gap-2 min-w-0">
           {/* Drag Handle */}
           <Icons.GripVertical className="h-4 w-4 text-muted-foreground/50 mt-0.5 shrink-0 group-hover:text-muted-foreground transition-colors" />
@@ -145,12 +145,12 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
                 #{kot.orderId?.slice(-4).toUpperCase() ?? kot.id.slice(-4).toUpperCase()}
               </span>
               {kot.tableNumber && (
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-foreground/10 text-foreground uppercase tracking-wider">
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-foreground/10 text-foreground uppercase tracking-wider">
                   T{kot.tableNumber}
                 </span>
               )}
               {kot.kotRound && kot.kotRound > 1 && (
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-primary/20 text-primary uppercase tracking-wider">
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-primary/20 text-primary uppercase tracking-wider">
                   Round {kot.kotRound}
                 </span>
               )}
@@ -169,10 +169,10 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
       </div>
 
       {/* Divider */}
-      <div className="mx-3 border-t border-dashed border-border" />
+      <div className="mx-4 border-t border-dashed border-border" />
 
       {/* Items list — dense, no images */}
-      <div className="px-3 py-2 space-y-1">
+      <div className="px-4 py-2 space-y-2">
         {items.map((item, i) => (
           <div key={i} className="flex items-start gap-2 text-sm leading-tight">
             <span className="shrink-0 w-6 h-6 rounded-md bg-primary/10 text-primary text-[11px] font-black flex items-center justify-center">
@@ -181,7 +181,7 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
             <div className="flex flex-col flex-1 min-w-0">
               <span className="font-medium text-foreground truncate">{item.name}</span>
               {item.fulfillmentMode === 'takeaway' && (
-                <span className="w-fit text-[10px] font-bold px-1.5 py-0.5 mt-0.5 rounded-md bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-400 uppercase tracking-wide">
+                <span className="w-fit text-[10px] font-bold px-2.5 py-0.5 mt-0.5 rounded-md bg-warning-subtle text-warning uppercase tracking-wide">
                   To-Go
                 </span>
               )}
@@ -195,7 +195,7 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
 
       {/* Action Button */}
       {config.nextStatus && onAction && (
-        <div className="px-3 pb-3 pt-1">
+        <div className="px-4 pb-4 pt-2">
           <button
             onClick={() => onAction(kot.id, config.nextStatus!)}
             disabled={isPending}
@@ -282,7 +282,7 @@ function KanbanColumn({
       >
         {kots.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-32 text-center">
-            <span className="text-2xl mb-1 opacity-20">
+            <span className="text-2xl mb-2 opacity-20">
               {status === 'pending' ? '📋' : status === 'preparing' ? '🍳' : '✅'}
             </span>
             <p className="text-xs text-muted-foreground/60 font-medium">{config.emptyText}</p>
@@ -395,7 +395,7 @@ export default function Kds() {
     return (
       <div className="flex-1 p-6 grid grid-cols-3 gap-6 h-full">
         {[1, 2, 3].map(i => (
-          <div key={i} className="rounded-xl bg-muted/20 animate-pulse h-full" />
+          <div key={i} className="rounded-lg bg-muted/20 animate-pulse h-full" />
         ))}
       </div>
     );
@@ -416,20 +416,20 @@ export default function Kds() {
               <Icons.ChefHat className="h-6 w-6 text-primary" />
               Kitchen Display
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-2">
               Drag tickets between columns or use action buttons
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {/* Column count pills */}
             <div className="hidden md:flex items-center gap-2 text-[11px] font-bold">
-              <span className="px-2 py-1 rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
+              <span className="px-2 py-2 rounded-lg bg-kds-cooking/10 text-kds-cooking">
                 {grouped.pending.length} New
               </span>
-              <span className="px-2 py-1 rounded-lg bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400">
+              <span className="px-2 py-2 rounded-lg bg-info/10 text-info">
                 {grouped.preparing.length} Cooking
               </span>
-              <span className="px-2 py-1 rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+              <span className="px-2 py-2 rounded-lg bg-kds-done/10 text-kds-done">
                 {grouped.ready.length} Ready
               </span>
             </div>
@@ -453,7 +453,7 @@ export default function Kds() {
       {/* Drag Overlay — ghost preview of dragged card */}
       <DragOverlay dropAnimation={{ duration: 120, easing: 'ease' }}>
         {activeKot ? (
-          <div className="rotate-2 opacity-90 scale-105 shadow-2xl">
+          <div className=" opacity-90  shadow-sm">
             <TicketCard kot={activeKot} />
           </div>
         ) : null}

@@ -81,7 +81,7 @@ export default function Orders() {
             <Icons.Receipt className="h-6 w-6 text-primary" />
             Order Management
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-2">
             View all orders, monitor payment status, and manage cancellations.
           </p>
         </div>
@@ -139,9 +139,9 @@ export default function Orders() {
                     <TableCell>
                       <Badge variant="outline" className={cn(
                         "capitalize border-transparent",
-                        order.status === 'completed' || order.status === 'delivered' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
+                        order.status === 'completed' || order.status === 'delivered' ? 'bg-success-subtle text-success' :
                         order.status === 'cancelled' ? 'bg-destructive/10 text-destructive' :
-                        'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                        'bg-info-subtle text-info'
                       )}>
                         {order.status}
                       </Badge>
@@ -156,26 +156,26 @@ export default function Orders() {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-1">
+                      <div className="flex items-center justify-end gap-2">
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-8 w-8 text-muted-foreground hover:text-primary"
-                          title="View Icons.Receipt"
+                          className="h-8 w-8 text-muted-foreground hover:text-secondary"
+                          title="View Receipt"
                           onClick={() => {
                             // TODO: Implement receipt modal
-                            toast.info("Icons.Receipt view coming soon");
+                            toast.info("Receipt view coming soon");
                           }}
                         >
                           <Icons.Receipt className="h-4 w-4" />
-                          <span className="sr-only">View Icons.Receipt</span>
+                          <span className="sr-only">View Receipt</span>
                         </Button>
 
                         {order.mode === 'dine_in' && order.status !== 'completed' && order.status !== 'cancelled' && (
                           <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="h-8 w-8 text-muted-foreground hover:text-primary"
+                            className="h-8 w-8 text-muted-foreground hover:text-secondary"
                             title="Move Table"
                             onClick={() => {
                               setSelectedOrder(order);
@@ -219,7 +219,7 @@ export default function Orders() {
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <label htmlFor="destinationTable" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+              <label htmlFor="destinationTable" className="text-sm font-semibold text-foreground">
                 Destination Table
               </label>
               {availableTables.length === 0 ? (
@@ -229,7 +229,7 @@ export default function Orders() {
                   id="destinationTable"
                   value={destinationTableId}
                   onChange={(e) => setDestinationTableId(e.target.value)}
-                  className="w-full h-11 rounded-xl border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-slate-800 dark:text-slate-100"
+                  className="w-full h-11 rounded-lg border border-border bg-background px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
                 >
                   <option value="">Select a table...</option>
                   {availableTables.map((t: any) => (

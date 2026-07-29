@@ -53,9 +53,9 @@ export default function LoyaltyConfig() {
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Icons.Award className="h-6 w-6 text-primary" />
-          Loyalty & Icons.Wallet Config
+          Loyalty & Wallet Config
         </h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-sm text-muted-foreground mt-2">
           Configure rewards multipliers and checkout points calculation rules.
         </p>
       </div>
@@ -67,7 +67,7 @@ export default function LoyaltyConfig() {
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="max-w-7xl mx-auto space-y-4">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
                   <h3 className="text-sm font-bold uppercase text-muted-foreground tracking-wider">Tier Multipliers</h3>
                   
                   <div className="grid gap-2">
@@ -109,10 +109,10 @@ export default function LoyaltyConfig() {
 
                 <div className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-sm font-bold uppercase text-muted-foreground tracking-wider">Icons.Wallet & Point Accumulation</h3>
+                    <h3 className="text-sm font-bold uppercase text-muted-foreground tracking-wider">Wallet & Point Accumulation</h3>
                     
                     <div className="grid gap-2">
-                      <Label htmlFor="pointsRate" className="text-foreground flex items-center gap-1.5">
+                      <Label htmlFor="pointsRate" className="text-foreground flex items-center gap-2.5">
                         <Icons.Percent className="h-4 w-4 text-muted-foreground" />
                         Loyalty Points Earned Per ₹1 Spent
                       </Label>
@@ -127,9 +127,9 @@ export default function LoyaltyConfig() {
                     </div>
                   </div>
 
-                  <div className="space-y-3 pt-2">
-                    <h3 className="text-sm font-bold uppercase text-muted-foreground tracking-wider flex items-center gap-1.5">
-                      <Icons.Wallet className="h-4 w-4 text-muted-foreground" /> Icons.Wallet Restrictions
+                  <div className="space-y-4 pt-2">
+                    <h3 className="text-sm font-bold uppercase text-muted-foreground tracking-wider flex items-center gap-2.5">
+                      <Icons.Wallet className="h-4 w-4 text-muted-foreground" /> Wallet Restrictions
                     </h3>
                     
                     <div className="flex items-center space-x-2 min-h-[44px]">
@@ -140,8 +140,8 @@ export default function LoyaltyConfig() {
                         onChange={(e) => setWalletTopUp(e.target.checked)}
                         className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                       />
-                      <Label htmlFor="walletTopUp" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 min-w-0 h-full flex items-center py-3">
-                        Enable In-App Icons.Wallet Top-Ups via Razorpay
+                      <Label htmlFor="walletTopUp" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 min-w-0 h-full flex items-center py-4">
+                        Enable In-App Wallet Top-Ups via Razorpay
                       </Label>
                     </div>
 
@@ -153,7 +153,7 @@ export default function LoyaltyConfig() {
                         onChange={(e) => setPartialDeduction(e.target.checked)}
                         className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                       />
-                      <Label htmlFor="partialDeduction" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 min-w-0 h-full flex items-center py-3">
+                      <Label htmlFor="partialDeduction" className="text-sm font-normal text-muted-foreground cursor-pointer flex-1 min-w-0 h-full flex items-center py-4">
                         Allow Partial Point Redemption during Checkout
                       </Label>
                     </div>
@@ -168,7 +168,7 @@ export default function LoyaltyConfig() {
                   className="flex items-center gap-2 px-4 py-2 min-h-[44px] bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium shadow-sm"
                 >
                   <Icons.Save className="h-4 w-4" />
-                  {updateLoyaltyMutation.isPending ? 'Saving...' : 'Icons.Save Settings'}
+                  {updateLoyaltyMutation.isPending ? 'Saving...' : 'Save Settings'}
                 </button>
               </div>
             </>

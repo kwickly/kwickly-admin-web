@@ -319,11 +319,11 @@ export function AppSidebar() {
                                 className={cn(
                                   "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
                                   isActive 
-                                    ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" 
-                                    : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
+                                    ? "bg-sidebar-primary text-sidebar-primary-foreground font-semibold shadow-sm" 
+                                    : "text-sidebar-foreground hover:text-sidebar-primary hover:bg-sidebar-primary/5"
                                 )}
                               >
-                                {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
+                                {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary-foreground" : "text-muted-foreground")} />}
                                 <span className="text-xs ml-2 group-data-[collapsible=icon]:hidden">{item.title}</span>
                                 <Icons.ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                               </SidebarMenuButton>
@@ -354,11 +354,11 @@ export function AppSidebar() {
                               className={cn(
                                 "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
                                 isActive 
-                                  ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" 
+                                  ? "bg-sidebar-primary text-sidebar-primary-foreground font-semibold shadow-sm" 
                                   : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
                               )}
                             >
-                              {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
+                              {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary-foreground" : "text-muted-foreground")} />}
                               <span className="text-xs ml-2 group-data-[collapsible=icon]:hidden">{item.title}</span>
                               <Icons.ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                             </SidebarMenuButton>
@@ -378,8 +378,8 @@ export function AppSidebar() {
                                       className={cn(
                                         "min-h-[44px] px-3 py-2 rounded-md transition-colors duration-200",
                                         isSubActive
-                                          ? "text-sidebar-primary font-medium bg-sidebar-accent"
-                                          : "text-muted-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
+                                          ? "bg-sidebar-primary text-sidebar-primary-foreground font-medium shadow-sm"
+                                          : "text-muted-foreground hover:text-sidebar-primary hover:bg-sidebar-primary/5"
                                       )}
                                       render={
                                         <Link to={subItem.url}>
@@ -405,12 +405,12 @@ export function AppSidebar() {
                         className={cn(
                           "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
                           isActive 
-                            ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" 
+                            ? "bg-sidebar-primary text-sidebar-primary-foreground font-semibold shadow-sm" 
                             : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
                         )}
                         render={
                           <Link to={item.url}>
-                            {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary" : "text-muted-foreground")} />}
+                            {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary-foreground" : "text-muted-foreground")} />}
                             <span className="text-xs ml-2 group-data-[collapsible=icon]:hidden">{item.title}</span>
                           </Link>
                         }

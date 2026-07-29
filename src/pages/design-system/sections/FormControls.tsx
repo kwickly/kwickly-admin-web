@@ -175,7 +175,7 @@ export function FormControls() {
               min={0}
               max={360}
               step={1}
-              onValueChange={(v) => setSliderValue(v)}
+              onValueChange={(v) => setSliderValue(v as number[])}
               className="cursor-grab active:cursor-grabbing"
             />
             {/* eslint-disable-next-line no-restricted-syntax */}

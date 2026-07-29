@@ -22,6 +22,7 @@ Guidelines for UI/UX, styling, theming, and white-labeling configurations.
 - [2026-07-19: Menu Item Management — Tags, Nutrition & Availability Admin UX](frontend-and-ux/2026-07-19-menu-item-enrichment-admin-ux/menu-item-admin-ux.md)
 - [2026-07-19: KDS Kanban Redesign ✅](frontend-and-ux/2026-07-19-kds-kanban-redesign/kds-kanban-redesign.md)
 - [2026-07-19: Table Floor View & QR Code Management 🔴 Phase 9](frontend-and-ux/2026-07-19-table-floor-view-and-qr-management/table-floor-view-and-qr.md)
+- [2026-07-30: Settings UI — Integrated Modular Dashboard](frontend-and-ux/2026-07-30-settings-dashboard-pattern/settings-dashboard.md)
 
 ### 🗄️ Database & Schema
 Documentation mirroring schema decisions from the API repository that impact the frontend (e.g. Enums, Statuses).

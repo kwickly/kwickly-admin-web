@@ -282,14 +282,14 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border/50">
-      <SidebarHeader className="h-16 flex items-center justify-start group-data-[collapsible=icon]:px-0 px-6 border-b border-sidebar-border/50">
-        <Link to="/dashboard" className="flex items-center gap-4 group-data-[collapsible=icon]:justify-center w-full transition-opacity hover:opacity-80">
+      <SidebarHeader className="h-16 flex items-center justify-center group-data-[collapsible=icon]:px-0 px-6 border-none">
+        <Link to="/dashboard" className="flex items-center justify-center gap-3 w-full transition-opacity hover:opacity-80">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-sm text-primary-foreground">
             <span className="text-base font-bold tracking-tighter">K</span>
           </div>
-          <div className="flex flex-col group-data-[collapsible=icon]:hidden">
+          <div className="flex flex-col justify-center group-data-[collapsible=icon]:hidden">
             <span className="text-sm font-bold leading-none tracking-tight text-foreground">Kwickly</span>
-            <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-widest mt-2">Admin Portal</span>
+            <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-widest mt-0.5">Admin Portal</span>
           </div>
         </Link>
       </SidebarHeader>
@@ -317,13 +317,13 @@ export function AppSidebar() {
                               <SidebarMenuButton 
                                 isActive={isActive}
                                 className={cn(
-                                  "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
+                                  "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center group",
                                   isActive 
-                                    ? "bg-secondary/10 text-secondary font-semibold" 
-                                    : "text-sidebar-foreground hover:text-secondary hover:bg-secondary/5"
+                                    ? "bg-primary/10 text-primary font-semibold" 
+                                    : "text-sidebar-foreground hover:text-primary hover:bg-primary/5"
                                 )}
                               >
-                                {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-secondary" : "text-muted-foreground")} />}
+                                {item.icon && <item.icon className={cn("size-4 shrink-0 transition-colors", isActive ? "text-primary" : "text-secondary group-hover:text-primary")} />}
                                 <span className="text-xs ml-2 group-data-[collapsible=icon]:hidden">{item.title}</span>
                                 <Icons.ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                               </SidebarMenuButton>
@@ -352,13 +352,13 @@ export function AppSidebar() {
                               tooltip={item.title} 
                               isActive={isActive}
                               className={cn(
-                                "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
+                                "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center group",
                                 isActive 
-                                  ? "bg-secondary/10 text-secondary font-semibold" 
-                                  : "text-sidebar-foreground hover:text-secondary hover:bg-secondary/5"
+                                  ? "bg-primary/10 text-primary font-semibold" 
+                                  : "text-sidebar-foreground hover:text-primary hover:bg-primary/5"
                               )}
                             >
-                              {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-secondary" : "text-muted-foreground")} />}
+                              {item.icon && <item.icon className={cn("size-4 shrink-0 transition-colors", isActive ? "text-primary" : "text-secondary group-hover:text-primary")} />}
                               <span className="text-xs ml-2 group-data-[collapsible=icon]:hidden">{item.title}</span>
                               <Icons.ChevronRight className="ml-auto size-3 shrink-0 transition-transform duration-200 [[data-open]_&]:rotate-90 [[data-state=open]_&]:rotate-90 text-muted-foreground group-data-[collapsible=icon]:hidden" />
                             </SidebarMenuButton>
@@ -378,8 +378,8 @@ export function AppSidebar() {
                                       className={cn(
                                         "min-h-[44px] px-3 py-2 rounded-md transition-colors duration-200",
                                         isSubActive
-                                          ? "bg-secondary/10 text-secondary font-medium"
-                                          : "text-muted-foreground hover:text-secondary hover:bg-secondary/5"
+                                          ? "bg-primary/10 text-primary font-medium"
+                                          : "text-muted-foreground hover:text-primary hover:bg-primary/5"
                                       )}
                                       render={
                                         <Link to={subItem.url}>
@@ -403,14 +403,14 @@ export function AppSidebar() {
                         isActive={isActive} 
                         tooltip={item.title}
                         className={cn(
-                          "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center",
+                          "min-h-[44px] px-3 py-2 transition-all duration-200 rounded-lg group-data-[collapsible=icon]:px-0 justify-start group-data-[collapsible=icon]:justify-center group",
                           isActive 
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground font-semibold shadow-sm" 
-                            : "text-sidebar-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent"
+                            ? "bg-primary/10 text-primary font-semibold" 
+                            : "text-sidebar-foreground hover:text-primary hover:bg-primary/5"
                         )}
                         render={
                           <Link to={item.url}>
-                            {item.icon && <item.icon className={cn("size-4 shrink-0", isActive ? "text-sidebar-primary-foreground" : "text-muted-foreground")} />}
+                            {item.icon && <item.icon className={cn("size-4 shrink-0 transition-colors", isActive ? "text-primary" : "text-secondary group-hover:text-primary")} />}
                             <span className="text-xs ml-2 group-data-[collapsible=icon]:hidden">{item.title}</span>
                           </Link>
                         }

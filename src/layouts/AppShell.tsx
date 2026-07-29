@@ -241,7 +241,7 @@ export default function AppShell() {
               </DropdownMenu>
             </div>
           </header>
-          <main className="flex-1 min-w-0 p-6 md:p-8 lg:p-10 overflow-y-auto">
+          <main className="flex-1 min-w-0 px-4 py-4 md:px-6 md:py-6 lg:px-8 lg:py-6 overflow-y-auto">
             <div className="max-w-[1600px] mx-auto">
               <Outlet />
             </div>

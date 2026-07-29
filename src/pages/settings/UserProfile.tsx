@@ -1,176 +1,323 @@
-import { Icons } from '@/components/shared/icons';
-import React, { useState, useEffect } from 'react';
-
-import { toast } from 'sonner';
-import { useAuthStore } from '@/store/useAuth';
-import { useProfile } from '@/hooks/api/useProfile';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import React, { useState, useEffect } from "react";
+import { Icons } from "@/components/shared/icons";
+import { toast } from "sonner";
+import { useAuthStore } from "@/store/useAuth";
+import { useProfile } from "@/hooks/api/useProfile";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { PageHeader } from "@/components/ui/page-header";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import ImageDropzone from "@/components/ui/image-dropzone";
 
 export default function UserProfile() {
   const { user } = useAuthStore();
   const { updateProfile } = useProfile();
-  const { mutateAsync: updateProfileMutate, isPending: isSaving } = updateProfile;
-  
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const { mutateAsync: updateProfileMutate, isPending: isSaving } =
+    updateProfile;
+
+  // State for Personal Info
+  const [name, setName] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+  const [bio, setBio] = useState("");
+  const [timezone, setTimezone] = useState("UTC");
+
+  // State for Contact Info
+  const [phone, setPhone] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
 
   useEffect(() => {
-    if (user && isEditModalOpen) {
-      setName(user.name || '');
-      setPhone(user.phone || '');
+    if (user) {
+      queueMicrotask(() => {
+        setName(user.name || "");
+        setPhone(user.phone || "");
+        setJobTitle(user.jobTitle || "");
+        setBio(user.bio || "");
+        setTimezone(user.timezone || "UTC");
+        setAvatarUrl(user.avatarUrl || "");
+      });
     }
-  }, [user, isEditModalOpen]);
+  }, [user]);
 
-  const handleProfileSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSaveProfile = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!user) return;
-    
+
     try {
-      await updateProfileMutate({ name, phone });
-      toast.success('Profile details saved successfully');
-      setIsEditModalOpen(false);
-    } catch (error) {
-      toast.error('Failed to save profile details');
+      await updateProfileMutate({
+        name,
+        phone,
+        jobTitle,
+        timezone,
+        bio,
+        avatarUrl,
+      });
+      toast.success("Profile details saved successfully");
+    } catch {
+      toast.error("Failed to update profile");
+    }
+  };
+
+  const handleAvatarChange = async (url: string) => {
+    setAvatarUrl(url);
+    if (!user) return;
+
+    try {
+      await updateProfileMutate({ avatarUrl: url });
+      toast.success("Profile picture updated successfully");
+    } catch {
+      toast.error("Failed to update profile picture");
     }
   };
 
   if (!user) return null;
 
+  const roleName =
+    (user as unknown as Record<string, any>).roleDetails?.name ||
+    user?.role?.replace("_", " ") ||
+    "User";
+
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.User className="h-6 w-6 text-secondary" />
-            My Profile
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            View your personal information and account details.
-          </p>
-        </div>
-      </div>
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out pb-12">
+      <PageHeader
+        title="Settings"
+        description="Manage your account settings and preferences."
+        icon={Icons.User}
+      />
 
-      <div className="bg-card rounded-xl shadow-sm border border-border">
-        <div className="p-6 space-y-6">
-          <div className="flex items-center justify-between pb-6 border-b border-border">
-            <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-secondary/10 text-secondary text-2xl font-bold">
-                {user.name.charAt(0).toUpperCase()}
-              </div>
-              <div>
-                <h2 className="text-lg font-semibold text-foreground">{user.name}</h2>
-                <p className="text-sm text-muted-foreground">{user.email}</p>
-              </div>
-            </div>
-            <Button
-              onClick={() => setIsEditModalOpen(true)}
-              variant="outline"
-              className="bg-transparent border-border text-foreground hover:bg-muted/50"
-            >
-              <Icons.Edit className="h-4 w-4 mr-2" />
-              Edit Profile
-            </Button>
-          </div>
+      {/* Modular Grid Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Main Panel: Personal Info & Summary */}
+        <div className="lg:col-span-2">
+          <form onSubmit={handleSaveProfile} className="h-full">
+            <Card className="h-full flex flex-col">
+              <CardHeader className="pb-4">
+                <CardTitle>Personal Information</CardTitle>
+                <CardDescription>
+                  Update your basic profile details visible to other team
+                  members.
+                </CardDescription>
+              </CardHeader>
 
-          <div className="space-y-0 max-w-2xl">
-            <div className="grid grid-cols-1 md:grid-cols-3 py-4 border-b border-border/50">
-              <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 md:mb-0">
-                <Icons.User className="h-4 w-4" /> Full Name
-              </span>
-              <span className="md:col-span-2 text-sm font-semibold text-foreground">
-                {user.name}
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 py-4 border-b border-border/50">
-              <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 md:mb-0">
-                <Icons.Mail className="h-4 w-4" /> Email Address
-              </span>
-              <span className="md:col-span-2 text-sm font-semibold text-foreground">
-                {user.email}
-              </span>
-            </div>
+              <CardContent className="space-y-8 flex-1">
+                {/* Avatar & Role */}
+                <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 pb-6 border-b border-border/50">
+                  {/* Avatar Column */}
+                  <div className="flex items-center gap-6">
+                    <div className="relative group w-20 h-20 rounded-full overflow-hidden border-2 border-border shadow-sm bg-muted shrink-0">
+                      {avatarUrl ? (
+                        <img
+                          src={avatarUrl}
+                          alt="Avatar"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-muted-foreground">
+                          {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                        </div>
+                      )}
 
-            <div className="grid grid-cols-1 md:grid-cols-3 py-4 border-b border-border/50">
-              <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 md:mb-0">
-                <Icons.Phone className="h-4 w-4" /> Phone Number
-              </span>
-              <span className="md:col-span-2 text-sm font-semibold text-foreground">
-                {user.phone || <span className="text-muted-foreground font-normal italic">Not provided</span>}
-              </span>
-            </div>
+                      {/* Upload Overlay */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/60 flex flex-col items-center justify-center cursor-pointer backdrop-blur-[2px]">
+                        <ImageDropzone
+                          value={avatarUrl}
+                          onChange={handleAvatarChange}
+                          className="w-full h-full absolute inset-0 opacity-0 cursor-pointer"
+                        />
+                        <Icons.Camera className="w-5 h-5 text-white pointer-events-none" />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-foreground">
+                        Profile Photo
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Hover to upload a new image.
+                        <br />
+                        JPG, GIF or PNG. 1MB max.
+                      </p>
+                    </div>
+                  </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 py-4 border-b border-border/50">
-              <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 md:mb-0">
-                <Icons.Shield className="h-4 w-4" /> System Role
-              </span>
-              <span className="md:col-span-2 text-sm font-semibold text-foreground capitalize">
-                {(user as any).roleDetails?.name || user.role.replace('_', ' ')}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+                  {/* Role Badge Column */}
+                  <div className="flex items-center">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-platform-primary/10 text-platform-primary text-xs font-medium capitalize border border-platform-primary/20">
+                      <Icons.Shield className="w-3.5 h-3.5" />
+                      {roleName}
+                    </div>
+                  </div>
+                </div>
 
-      <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent className="sm:max-w-[425px] bg-card border-border">
-          <form onSubmit={handleProfileSave}>
-            <DialogHeader>
-              <DialogTitle className="text-foreground">Edit Profile</DialogTitle>
-              <DialogDescription className="text-muted-foreground">
-                Make changes to your personal information here. Click save when you're done.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-6">
-              <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium text-foreground">
-                  Full Name <span className="text-destructive">*</span>
-                </label>
-                <Input
-                  id="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter your full name"
-                  className="bg-transparent border-border text-foreground"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="phone" className="text-sm font-medium text-foreground">
-                  Phone Number
-                </label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Enter your phone number"
-                  className="bg-transparent border-border text-foreground"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isSaving}>
-                {isSaving ? 'Saving...' : 'Save Changes'}
-              </Button>
-            </DialogFooter>
+                {/* Form Fields */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">
+                      Full Name <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g. Jane Doe"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="jobTitle">Job Title</Label>
+                    <Input
+                      id="jobTitle"
+                      type="text"
+                      value={jobTitle}
+                      onChange={(e) => setJobTitle(e.target.value)}
+                      placeholder="e.g. Senior Manager"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="bio">Bio</Label>
+                  <Textarea
+                    id="bio"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    placeholder="Write a few sentences about yourself and your role..."
+                    className="min-h-[120px] resize-y"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Brief description for your profile.
+                  </p>
+                </div>
+              </CardContent>
+              <CardFooter className="border-t border-border bg-muted/20 px-6 py-4 flex justify-end shrink-0 mt-auto">
+                <Button type="submit" disabled={isSaving}>
+                  {isSaving ? (
+                    <>
+                      <Icons.Loader2 className="w-4 h-4 mr-2 animate-spin" />{" "}
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
+                </Button>
+              </CardFooter>
+            </Card>
           </form>
-        </DialogContent>
-      </Dialog>
+        </div>
+
+        {/* Right Sidebar Panel: Contact & Regional */}
+        <div className="lg:col-span-1">
+          <form onSubmit={handleSaveProfile} className="h-full">
+            <Card className="h-full flex flex-col">
+              <CardHeader>
+                <CardTitle>Contact & Regional</CardTitle>
+                <CardDescription>
+                  Manage your contact details and localized settings.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6 flex-1">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-muted-foreground">
+                    Email Address
+                  </Label>
+                  <div className="relative">
+                    <Icons.Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="email"
+                      type="email"
+                      value={user.email}
+                      disabled
+                      className="pl-9 bg-muted/50 text-muted-foreground"
+                    />
+                  </div>
+                  <p className="text-[11px] text-muted-foreground">
+                    Email cannot be changed directly.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <div className="relative">
+                    <Icons.Phone className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="+1 (555) 000-0000"
+                      className="pl-9"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="timezone">Timezone</Label>
+                  <Select value={timezone} onValueChange={setTimezone}>
+                    <SelectTrigger id="timezone" className="w-full">
+                      <div className="flex items-center gap-2">
+                        <Icons.Globe className="w-4 h-4 text-muted-foreground shrink-0" />
+                        <SelectValue placeholder="Select timezone" />
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="UTC">
+                        UTC (Universal Coordinated Time)
+                      </SelectItem>
+                      <SelectItem value="America/New_York">
+                        EST (Eastern)
+                      </SelectItem>
+                      <SelectItem value="America/Chicago">
+                        CST (Central)
+                      </SelectItem>
+                      <SelectItem value="America/Denver">
+                        MST (Mountain)
+                      </SelectItem>
+                      <SelectItem value="America/Los_Angeles">
+                        PST (Pacific)
+                      </SelectItem>
+                      <SelectItem value="Europe/London">
+                        GMT (Greenwich)
+                      </SelectItem>
+                      <SelectItem value="Asia/Kolkata">IST (Indian)</SelectItem>
+                      <SelectItem value="Asia/Singapore">
+                        SGT (Singapore)
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardContent>
+              <CardFooter className="border-t border-border bg-muted/20 px-6 py-4 flex justify-end shrink-0">
+                <Button type="submit" disabled={isSaving}>
+                  {isSaving ? (
+                    <>
+                      <Icons.Loader2 className="w-4 h-4 mr-2 animate-spin" />{" "}
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
+                </Button>
+              </CardFooter>
+            </Card>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

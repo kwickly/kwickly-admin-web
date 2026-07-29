@@ -12,6 +12,10 @@ interface User {
   name: string;
   email: string;
   phone?: string | null;
+  jobTitle?: string | null;
+  timezone?: string | null;
+  bio?: string | null;
+  avatarUrl?: string | null;
   role: string;
   tenantId: string;
   roleDetails?: {

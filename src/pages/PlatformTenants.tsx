@@ -42,7 +42,7 @@ import { PageHeader } from "@/components/ui/page-header";
 // Colors carry meaning: ENTERPRISE=brand primary, GROWTH=success, STARTER=info, FREE=muted.
 function getPlanBadgeClass(plan: string): string {
   switch (plan) {
-    case 'ENTERPRISE': return 'bg-primary/10 text-primary border-primary/20';
+    case 'ENTERPRISE': return 'bg-secondary/10 text-secondary border-secondary/20';
     case 'GROWTH':     return 'bg-success/10 text-success border-success/20';
     case 'STARTER':    return 'bg-info/10 text-info border-info/20';
     case 'BASIC':      return 'bg-muted text-muted-foreground border-border';
@@ -239,7 +239,7 @@ export default function PlatformTenants() {
           {tenantsList.map((tenant) => (
             <Card 
               key={tenant.id} 
-              className="bg-card rounded-xl border border-border shadow-sm hover:shadow-sm hover:border-primary/30 transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
+              className="bg-card rounded-xl border border-border shadow-sm hover:shadow-sm hover:border-secondary/20 transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
               onClick={() => handleCardClick(tenant)}
             >
               <div className="p-6 flex flex-col h-full relative">
@@ -256,7 +256,7 @@ export default function PlatformTenants() {
                     <DropdownMenuContent align="end" className="w-48 bg-popover border-border shadow-sm rounded-lg">
                       <DropdownMenuItem 
                         onClick={(e) => handleImpersonate(e, tenant)}
-                        className="cursor-pointer text-primary focus:bg-primary/10 focus:text-primary"
+                        className="cursor-pointer text-secondary focus:bg-secondary/10 focus:text-secondary"
                       >
                         <Icons.Eye className="mr-2 h-4 w-4" />
                         <span>Inspect Dashboard</span>

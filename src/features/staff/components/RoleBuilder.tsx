@@ -150,7 +150,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                   {role.isSystem && <Icons.Lock className="h-3 w-3 text-muted-foreground/60" />}
                 </h3>
                 {role.isSystem ? (
-                  <Badge variant="outline" className="mt-2 text-[10px] text-primary border-primary/20 bg-primary/10 uppercase tracking-tighter">
+                  <Badge variant="outline" className="mt-2 text-[10px] text-secondary border-secondary/20 bg-secondary/10 uppercase tracking-tighter">
                     System Role
                   </Badge>
                 ) : (
@@ -184,7 +184,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
               <div className="flex gap-2">
                 <Button 
                   variant="outline" 
-                  className="flex-1 min-w-0 text-primary border-primary/25 hover:bg-primary/10 cursor-pointer"
+                  className="flex-1 min-w-0 text-secondary border-secondary/20 hover:bg-secondary/10 cursor-pointer"
                   onClick={() => {
                     setSelectedRoleId(role.id);
                     setIsDialogOpen(true);
@@ -241,7 +241,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
             <div className="space-y-1 text-left">
               <DialogTitle className="flex items-center gap-2">
                 Configuring: 
-                <Badge className="bg-primary/10 text-primary border border-primary/20 px-2.5 font-semibold text-sm">
+                <Badge className="bg-secondary/10 text-secondary border border-secondary/20 px-2.5 font-semibold text-sm">
                   {selectedRole?.name}
                 </Badge>
                 {selectedRole?.isSystem && (
@@ -284,7 +284,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                         className={`flex items-center justify-between p-4 border rounded-xl transition-all ${
                           !canAssign ? 'opacity-60 bg-muted/40 cursor-not-allowed border-border' :
                           isChecked
-                            ? 'cursor-pointer border-primary/30 bg-primary/5'
+                            ? 'cursor-pointer border-secondary/20 bg-primary/5'
                             : 'cursor-pointer border-border hover:bg-muted/50'
                         }`}
                       >
@@ -374,7 +374,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
                         className={`flex items-center justify-between p-4 border rounded-xl transition-all ${
                           !canAssign ? 'opacity-60 bg-muted/40 cursor-not-allowed border-border' :
                           isChecked
-                            ? 'cursor-pointer border-primary/30 bg-primary/5'
+                            ? 'cursor-pointer border-secondary/20 bg-primary/5'
                             : 'cursor-pointer border-border hover:bg-muted/50'
                         }`}
                       >

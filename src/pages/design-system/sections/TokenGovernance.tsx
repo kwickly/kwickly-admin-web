@@ -73,7 +73,7 @@ export function TokenGovernance() {
 
       {/* ESLint Rule */}
       <div className="bg-muted/30 border border-border rounded-lg p-6 flex flex-col sm:flex-row gap-6 items-center">
-        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+        <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
           <Icons.ShieldAlert className="w-6 h-6 text-primary" />
         </div>
         <div className="space-y-2 flex-1">

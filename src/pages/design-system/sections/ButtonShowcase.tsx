@@ -106,7 +106,7 @@ export function ButtonShowcase() {
               <Icons.Plus size={18} />
               <span>Add Table</span>
             </button>
-            <button className="p-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors cursor-pointer">
+            <button className="p-2 bg-secondary/10 text-secondary rounded-lg hover:bg-secondary/20 transition-colors cursor-pointer">
               <Icons.QrCode size={16} />
             </button>
             <button className="p-2 bg-info/10 text-info rounded-lg hover:bg-info/20 transition-colors cursor-pointer">

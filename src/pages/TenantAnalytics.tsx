@@ -151,7 +151,7 @@ export default function TenantAnalytics() {
                 <p className="text-[11px] text-muted-foreground">Facebook Prophet regression model</p>
               </div>
             </div>
-            <Badge variant="outline" className="border-primary/20 text-primary bg-primary/10 text-[10px] font-bold">
+            <Badge variant="outline" className="border-secondary/20 text-secondary bg-secondary/10 text-[10px] font-bold">
               UPDATED DAILY
             </Badge>
           </div>
@@ -278,7 +278,7 @@ export default function TenantAnalytics() {
                         size="default"
                         variant="outline"
                         onClick={() => handleOpenPromo(cust)}
-                        className="text-xs h-8 hover:bg-primary/10 hover:text-primary transition-colors"
+                        className="text-xs h-8 hover:bg-secondary/10 hover:text-secondary transition-colors"
                       >
                         Send Promo Offer
                       </Button>

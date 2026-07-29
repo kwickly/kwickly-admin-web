@@ -342,7 +342,7 @@ export default function Subscriptions() {
               <CardHeader className="border-b border-border/50 bg-muted/30 pb-4 pr-16">
                 <div className="flex justify-between items-start">
                   <CardTitle className="text-lg font-bold text-foreground">{plan.name}</CardTitle>
-                  <Badge className="bg-primary/10 text-primary border border-primary/20 capitalize font-medium">
+                  <Badge className="bg-secondary/10 text-secondary border border-secondary/20 capitalize font-medium">
                     {plan.mealType}
                   </Badge>
                 </div>

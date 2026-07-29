@@ -60,7 +60,7 @@ export default function TenantDashboard() {
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-              <div className="p-4 bg-primary/10 rounded-lg">
+              <div className="p-4 bg-secondary/10 rounded-lg">
                 <Icons.DollarSign className="h-6 w-6 text-muted-foreground" />
               </div>
               <div className="flex-1 min-w-0">
@@ -84,7 +84,7 @@ export default function TenantDashboard() {
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-              <div className="p-4 bg-primary/10 rounded-lg">
+              <div className="p-4 bg-secondary/10 rounded-lg">
                 <Icons.ShoppingCart className="h-6 w-6 text-muted-foreground" />
               </div>
               <div className="flex-1 min-w-0">
@@ -108,7 +108,7 @@ export default function TenantDashboard() {
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-              <div className="p-4 bg-primary/10 rounded-lg">
+              <div className="p-4 bg-secondary/10 rounded-lg">
                 <Icons.TrendingUp className="h-6 w-6 text-muted-foreground" />
               </div>
               <div className="flex-1 min-w-0">
@@ -132,7 +132,7 @@ export default function TenantDashboard() {
             </div>
           }>
             <div className="bg-card p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
-              <div className="p-4 bg-primary/10 rounded-lg">
+              <div className="p-4 bg-secondary/10 rounded-lg">
                 <Icons.Users className="h-6 w-6 text-muted-foreground" />
               </div>
               <div className="flex-1 min-w-0">

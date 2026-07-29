@@ -126,7 +126,7 @@ export default function PlatformStaff() {
                   >
                     <TableCell>
                       <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                        <div className="h-10 w-10 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0">
                           <span className="font-bold text-primary">
                             {member.name.charAt(0)}
                           </span>
@@ -160,7 +160,7 @@ export default function PlatformStaff() {
                         className={
                           member.role === "super_admin"
                             ? "bg-destructive/10 text-destructive border-destructive/20"
-                            : "bg-primary/10 text-primary border-primary/20"
+                            : "bg-secondary/10 text-secondary border-secondary/20"
                         }
                       >
                         <Icons.Shield className="w-3 h-3 mr-2" />

@@ -175,7 +175,7 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
       <div className="px-4 py-2 space-y-2">
         {items.map((item, i) => (
           <div key={i} className="flex items-start gap-2 text-sm leading-tight">
-            <span className="shrink-0 w-6 h-6 rounded-md bg-primary/10 text-primary text-[11px] font-black flex items-center justify-center">
+            <span className="shrink-0 w-6 h-6 rounded-md bg-secondary/10 text-secondary text-[11px] font-black flex items-center justify-center">
               {item.quantity}
             </span>
             <div className="flex flex-col flex-1 min-w-0">

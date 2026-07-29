@@ -64,7 +64,7 @@ export default function UserProfile() {
         <div className="p-6 space-y-6">
           <div className="flex items-center justify-between pb-6 border-b border-border">
             <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary/10 text-primary text-2xl font-bold">
+              <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-secondary/10 text-secondary text-2xl font-bold">
                 {user.name.charAt(0).toUpperCase()}
               </div>
               <div>

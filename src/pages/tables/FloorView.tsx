@@ -117,7 +117,7 @@ export default function Tables() {
         </div>
       ) : tables.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center bg-card rounded-xl border border-border shadow-sm">
-          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-4">
             <Icons.QrCode className="w-8 h-8 text-primary" />
           </div>
           <h3 className="text-xl font-bold font-jakarta text-foreground mb-2">No Tables Found</h3>
@@ -149,7 +149,7 @@ export default function Tables() {
                       setActiveTable(table);
                       setIsQrModalOpen(true);
                     }}
-                    className="p-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors cursor-pointer"
+                    className="p-2 bg-secondary/10 text-secondary rounded-lg hover:bg-secondary/20 transition-colors cursor-pointer"
                     title="View QR"
                   >
                     <Icons.QrCode size={16} />

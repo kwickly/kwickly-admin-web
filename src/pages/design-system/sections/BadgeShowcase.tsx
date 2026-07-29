@@ -111,7 +111,7 @@ export function BadgeShowcase() {
             <Badge variant="secondary">STARTER</Badge>
             <Badge>GROWTH</Badge>
             <span className="px-2.5 py-2 rounded-full text-xs font-semibold bg-warning/10 text-warning">ENTERPRISE</span>
-            <span className="px-2.5 py-2 rounded-full text-xs font-semibold bg-primary/10 text-primary">CUSTOM</span>
+            <span className="px-2.5 py-2 rounded-full text-xs font-semibold bg-secondary/10 text-secondary">CUSTOM</span>
           </div>
         </div>
       </div>

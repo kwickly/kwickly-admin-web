@@ -122,7 +122,7 @@ export default function Orders() {
                     </TableCell>
                     <TableCell>
                       {order.tableNumber ? (
-                        <Badge variant="secondary" className="font-mono bg-primary/10 text-primary hover:bg-primary/20">
+                        <Badge variant="secondary" className="font-mono bg-secondary/10 text-secondary hover:bg-secondary/20">
                           T{order.tableNumber}
                         </Badge>
                       ) : (

@@ -131,7 +131,7 @@ export default function PlatformAuditLogs() {
                       <div className="text-xs text-muted-foreground">{log.userEmail}</div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="text-[10px] font-semibold border-primary/20 text-primary bg-primary/10">
+                      <Badge variant="outline" className="text-[10px] font-semibold border-secondary/20 text-secondary bg-secondary/10">
                         {log.tenantName}
                       </Badge>
                     </TableCell>

@@ -81,7 +81,7 @@ export default function QRManager() {
         </div>
       ) : tables.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center bg-card rounded-xl border border-border shadow-sm no-print">
-          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-4">
             <Icons.QrCode className="w-8 h-8 text-primary" />
           </div>
           <h3 className="text-xl font-bold font-jakarta text-foreground mb-2">No QR Codes to Print</h3>
@@ -102,7 +102,7 @@ export default function QRManager() {
               <Can perform="tables:manage">
                 <button
                   onClick={() => handleRegenerate(table.id)}
-                  className="absolute top-4 right-4 p-2 bg-muted text-muted-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/10 hover:text-primary cursor-pointer no-print"
+                  className="absolute top-4 right-4 p-2 bg-muted text-muted-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-secondary/10 hover:text-secondary cursor-pointer no-print"
                   title="Regenerate QR Token"
                 >
                   <Icons.RefreshCw size={16} />

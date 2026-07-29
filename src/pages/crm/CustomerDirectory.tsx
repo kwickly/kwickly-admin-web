@@ -95,7 +95,7 @@ export default function CustomerDirectory() {
                       </TableCell>
                       <TableCell className="text-right">
                         {parseFloat(customer.walletBalance || '0') > 0 ? (
-                          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 font-bold px-2 py-2">
+                          <Badge variant="outline" className="bg-secondary/10 text-secondary border-secondary/20 font-bold px-2 py-2">
                             ₹{parseFloat(customer.walletBalance || '0').toFixed(2)}
                           </Badge>
                         ) : (
@@ -110,7 +110,7 @@ export default function CustomerDirectory() {
                           <Button 
                             variant="outline" 
                             size="default" 
-                            className="hover:bg-primary/10 hover:text-primary"
+                            className="hover:bg-secondary/10 hover:text-secondary"
                           >
                             Details
                             <Icons.ChevronRight className="h-4 w-4 ml-2" />

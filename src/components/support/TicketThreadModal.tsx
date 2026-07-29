@@ -163,7 +163,7 @@ export default function TicketThreadModal({ ticketId, isOpen, onClose, isPlatfor
                       isMe 
                         ? 'bg-primary text-primary-foreground rounded-tr-sm' 
                         : isStaff 
-                          ? 'bg-card border border-primary/20 rounded-tl-sm'
+                          ? 'bg-card border border-secondary/20 rounded-tl-sm'
                           : 'bg-card border border-border rounded-tl-sm text-foreground'
                     }`}>
                       {msg.message}

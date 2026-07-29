@@ -128,7 +128,7 @@ export default function PayrollRunDetails() {
         <div className="flex items-center gap-4">
           <Badge className={`text-sm px-4 py-1.5 uppercase tracking-wider ${
             run.status === "PAID" ? "bg-success/10 text-success border border-success/20" :
-            run.status === "PROCESSED" ? "bg-primary/10 text-primary border border-primary/20" :
+            run.status === "PROCESSED" ? "bg-secondary/10 text-secondary border border-secondary/20" :
             "bg-muted text-muted-foreground border border-border"
           }`}>
             {run.status}
@@ -195,7 +195,7 @@ export default function PayrollRunDetails() {
             </div>
           </CardContent>
         </Card>
-        <Card className="border-primary/20 shadow-sm bg-primary text-primary-foreground">
+        <Card className="border-secondary/20 shadow-sm bg-primary text-primary-foreground">
           <CardHeader className="pb-2 pt-4">
             <CardTitle className="text-xs font-bold uppercase tracking-wider text-primary-foreground/80">
               Total Net Payout
@@ -255,7 +255,7 @@ export default function PayrollRunDetails() {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/10"
+                        className="h-9 w-9 text-muted-foreground hover:text-secondary hover:bg-secondary/10"
                         onClick={() =>
                           setEditingSlip({
                             id: slip.id,

@@ -29,7 +29,7 @@ export function PagePatterns() {
               <div className="h-4 w-4 bg-primary/40 rounded" />
               <div className="h-3 w-40 bg-foreground/30 rounded-sm" />
             </div>
-            <div className="h-8 w-24 bg-primary/20 rounded-md border border-primary/20" />
+            <div className="h-8 w-24 bg-primary/20 rounded-md border border-secondary/20" />
           </div>
 
           {/* Table header row — horizontal scan 2 */}
@@ -43,7 +43,7 @@ export function PagePatterns() {
             {[1, 2, 3].map(i => (
               <div key={i} className={`grid grid-cols-5 gap-0 px-4 py-2.5 border-b border-border/50 ${i === 1 ? 'ring-1 ring-info/10' : ''}`}>
                 <div className="flex items-center gap-2">
-                  <div className="h-6 w-6 bg-primary/10 rounded-full shrink-0" />
+                  <div className="h-6 w-6 bg-secondary/10 rounded-full shrink-0" />
                   <div className="h-2.5 w-16 bg-foreground/20 rounded-sm" />
                 </div>
                 <div className="h-2.5 w-14 bg-foreground/15 rounded-sm self-center" />
@@ -106,7 +106,7 @@ export function PagePatterns() {
                 <div className="space-y-4">
                   <div className="h-9 bg-muted/60 rounded-md border border-border/50" />
                   <div className="h-9 bg-muted/60 rounded-md border border-border/50" />
-                  <div className="h-9 bg-primary/20 rounded-md border border-primary/30" />
+                  <div className="h-9 bg-primary/20 rounded-md border border-secondary/20" />
                 </div>
               </div>
             </div>

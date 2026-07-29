@@ -35,7 +35,7 @@ function StatCard({
   accent?: "primary" | "emerald" | "amber" | "violet";
 }) {
   const colors: Record<string, string> = {
-    primary: "bg-primary/10 text-primary",
+    primary: "bg-secondary/10 text-secondary",
     emerald: "bg-success-subtle text-success",
     amber: "bg-warning-subtle text-warning",
     violet: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
@@ -241,7 +241,7 @@ export default function RevenueAnalytics() {
               Daily delivered-order revenue for the last {trendDays} days
             </p>
           </div>
-          <Badge variant="outline" className="text-xs border-primary/20 text-primary bg-primary/5">
+          <Badge variant="outline" className="text-xs border-secondary/20 text-primary bg-primary/5">
             LIVE DATA
           </Badge>
         </div>
@@ -366,7 +366,7 @@ export default function RevenueAnalytics() {
             </div>
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-sm bg-primary/10" />
+                <div className="w-3 h-3 rounded-sm bg-secondary/10" />
                 Low
               </div>
               <div className="flex items-center gap-2">

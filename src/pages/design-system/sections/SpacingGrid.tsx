@@ -58,7 +58,7 @@ export function SpacingGrid() {
             </div>
             {/* 44px - standard minimum */}
             <div className="flex flex-col items-center gap-2">
-              <div className="bg-primary/10 border-2 border-primary/30 rounded-md flex items-center justify-center text-xs font-bold font-mono text-primary"
+              <div className="bg-secondary/10 border-2 border-secondary/20 rounded-md flex items-center justify-center text-xs font-bold font-mono text-secondary"
                 style={{ width: 44, height: 44 }}>
                 44px
               </div>
@@ -112,7 +112,7 @@ export function SpacingGrid() {
         <div className="bg-card rounded-xl border border-border p-6">
           <div className="relative">
             <div className="bg-muted rounded border border-border/50 h-8 w-full" />
-            <div className="bg-primary/10 border-2 border-primary/30 rounded h-8 absolute top-0 left-0 flex items-center justify-center"
+            <div className="bg-secondary/10 border-2 border-secondary/20 rounded h-8 absolute top-0 left-0 flex items-center justify-center"
               style={{ maxWidth: '100%', width: 'min(100%, 896px)' }}>
               <span className="text-xs font-mono text-primary font-semibold">max-w-7xl (1280px) — Page Content Container</span>
             </div>

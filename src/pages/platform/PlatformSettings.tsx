@@ -13,7 +13,7 @@ import { PageHeader } from "@/components/ui/page-header";
 type TabId = "identity" | "smtp" | "features" | "plans" | "danger";
 
 const NAV: { id: TabId; label: string; icon: React.ElementType; color: string; bg: string; isDanger?: boolean }[] = [
-  { id: "identity", label: "Identity",      icon: Icons.Fingerprint, color: "text-primary",      bg: "bg-primary/10" },
+  { id: "identity", label: "Identity",      icon: Icons.Fingerprint, color: "text-secondary",      bg: "bg-secondary/10" },
   { id: "smtp",     label: "Email & SMTP",  icon: Icons.Mail,        color: "text-info",         bg: "bg-info/10" },
   { id: "features", label: "Feature Flags", icon: Icons.Zap,         color: "text-warning",      bg: "bg-warning/10" },
   { id: "plans",    label: "Plan Limits",   icon: Icons.Layers,      color: "text-success",      bg: "bg-success/10" },
@@ -21,14 +21,14 @@ const NAV: { id: TabId; label: string; icon: React.ElementType; color: string; b
 ];
 
 const FEATURES = [
-  { key: "loyalty",     label: "Loyalty & Wallet",  desc: "Points, rewards & digital wallets",      icon: Icons.BrainCircuit,   color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
+  { key: "loyalty",     label: "Loyalty & Wallet",  desc: "Points, rewards & digital wallets",      icon: Icons.BrainCircuit,   color: "text-secondary",            bg: "bg-secondary/10",              enabled: true  },
   { key: "crm",         label: "CRM & Customers",   desc: "Profiles, segments & campaigns",          icon: Icons.Users,          color: "text-info",               bg: "bg-info/10",                 enabled: true  },
   { key: "ads",         label: "Promotions & Ads",  desc: "In-app advertisement engine",             icon: Icons.Megaphone,      color: "text-warning",            bg: "bg-warning/10",              enabled: true  },
-  { key: "payroll",     label: "Payroll & HR",      desc: "Salary runs, timesheets & leaves",        icon: Icons.Server,         color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
+  { key: "payroll",     label: "Payroll & HR",      desc: "Salary runs, timesheets & leaves",        icon: Icons.Server,         color: "text-secondary",            bg: "bg-secondary/10",              enabled: true  },
   { key: "inventory",   label: "Inventory",          desc: "Stock tracking & suppliers",              icon: Icons.Package,        color: "text-info",               bg: "bg-info/10",                 enabled: true  },
   { key: "kds",         label: "Kitchen Display",   desc: "Real-time KDS order routing",             icon: Icons.MonitorCheck,   color: "text-success",            bg: "bg-success/10",              enabled: true  },
   { key: "analytics",   label: "Analytics",          desc: "Revenue, orders & staff reports",         icon: Icons.BarChart3,      color: "text-info",               bg: "bg-info/10",                 enabled: true  },
-  { key: "multibranch", label: "Multi-Branch",       desc: "Branch hierarchy & reporting",            icon: Icons.ShoppingBag,   color: "text-primary",            bg: "bg-primary/10",              enabled: true  },
+  { key: "multibranch", label: "Multi-Branch",       desc: "Branch hierarchy & reporting",            icon: Icons.ShoppingBag,   color: "text-secondary",            bg: "bg-secondary/10",              enabled: true  },
   { key: "api",         label: "API Access",         desc: "Tenant API key generation",               icon: Icons.Cpu,            color: "text-muted-foreground",   bg: "bg-muted",                   enabled: false },
   { key: "whitelabel",  label: "White-Label",        desc: "Custom themes & domains",                 icon: Icons.Globe,          color: "text-muted-foreground",   bg: "bg-muted",                   enabled: false },
 ];
@@ -38,7 +38,7 @@ const PLAN_TIERS: { key: PlanKey; border: string; badge: string; dot: string }[]
   { key: "FREE",       border: "border-t-muted",                                      badge: "bg-muted text-muted-foreground border-muted-foreground/20", dot: "bg-muted-foreground" },
   { key: "STARTER",    border: "border-t-info",                                       badge: "bg-info/10 text-info border-info/20",                       dot: "bg-info" },
   { key: "GROWTH",     border: "border-t-warning",                                    badge: "bg-warning/10 text-warning border-warning/20",              dot: "bg-warning" },
-  { key: "ENTERPRISE", border: "border-t-primary",                                    badge: "bg-primary/10 text-primary border-primary/20",              dot: "bg-primary" },
+  { key: "ENTERPRISE", border: "border-t-primary",                                    badge: "bg-secondary/10 text-secondary border-secondary/20",              dot: "bg-primary" },
 ];
 const PLAN_DEFAULTS: Record<PlanKey, { branches: string; staff: string; items: string; storage: string }> = {
   FREE:       { branches: "1",   staff: "5",   items: "50",   storage: "500 MB" },
@@ -224,7 +224,7 @@ export default function PlatformSettings() {
                 <Button 
                   variant="outline" 
                   size="default" 
-                  className="gap-2 h-8 text-xs font-semibold text-primary border-primary/20 hover:bg-primary/10 cursor-pointer" 
+                  className="gap-2 h-8 text-xs font-semibold text-secondary border-secondary/20 hover:bg-secondary/10 cursor-pointer" 
                   onClick={() => toast.info("Test email dispatched to your admin account.")}
                 >
                   <Icons.Send className="h-3.5 w-3.5" /> Icons.Send Test Email
@@ -248,13 +248,13 @@ export default function PlatformSettings() {
                     className={cn(
                       "group relative flex items-center gap-3.5 p-4 rounded-lg border text-left transition-all duration-200 overflow-hidden cursor-pointer",
                       f.enabled
-                        ? "bg-card border-border hover:border-primary/30 shadow-sm hover:shadow-sm"
+                        ? "bg-card border-border hover:border-secondary/20 shadow-sm hover:shadow-sm"
                         : "bg-muted/20 border-dashed border-border/40 opacity-60 hover:opacity-85"
                     )}
                   >
                     <div className={cn(
                       "relative h-9 w-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all", 
-                      f.enabled ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
+                      f.enabled ? "bg-secondary/10 text-secondary" : "bg-muted text-muted-foreground"
                     )}>
                       <f.icon className="h-4 w-4" />
                     </div>

@@ -135,7 +135,7 @@ export default function CreateComboSheet() {
                       key={item.id}
                       onClick={() => toggleItem(item.id)}
                       className={`p-2 rounded-md cursor-pointer flex justify-between items-center transition-colors ${
-                        isSelected ? 'bg-primary/10 border border-primary/30' : 'hover:bg-accent'
+                        isSelected ? 'bg-secondary/10 border border-secondary/20' : 'hover:bg-accent'
                       }`}
                     >
                       <span className="text-sm text-foreground">{item.name}</span>

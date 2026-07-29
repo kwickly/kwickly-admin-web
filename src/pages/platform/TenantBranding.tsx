@@ -165,25 +165,25 @@ export default function TenantBranding() {
           <div className="w-full md:w-32 shrink-0 flex md:flex-col gap-2 overflow-x-auto pb-2 md:pb-0">
             <button 
               onClick={() => setActiveTab('colors')}
-              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'colors' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'colors' ? 'bg-primary text-secondary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
               <Icons.Palette className="w-4 h-4" /> <span>Colors</span>
             </button>
             <button 
               onClick={() => setActiveTab('shape')}
-              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'shape' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'shape' ? 'bg-primary text-secondary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
               <Icons.Square className="w-4 h-4" /> <span>Shape</span>
             </button>
             <button 
               onClick={() => setActiveTab('type')}
-              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'type' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'type' ? 'bg-primary text-secondary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
               <Icons.Type className="w-4 h-4" /> <span>Icons.Type</span>
             </button>
             <button 
               onClick={() => setActiveTab('assets')}
-              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'assets' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'assets' ? 'bg-primary text-secondary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
               <Icons.ImageIcon className="w-4 h-4" /> <span>Assets</span>
             </button>

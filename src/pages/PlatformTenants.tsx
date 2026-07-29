@@ -422,7 +422,7 @@ export default function PlatformTenants() {
                   </div>
                 </div>
 
-                <DialogFooter className="flex gap-4 pt-4 mt-6 border-t border-border/50">
+                <DialogFooter>
                   <Button 
                     variant="outline"
                     className="flex-none px-4"
@@ -546,7 +546,7 @@ export default function PlatformTenants() {
               </div>
             </div>
 
-            <DialogFooter className="pt-2">
+            <DialogFooter>
               <Button
                 type="button"
                 variant="outline"
@@ -634,7 +634,7 @@ export default function PlatformTenants() {
               </div>
             </div>
 
-            <DialogFooter className="pt-2">
+            <DialogFooter>
               <Button
                 type="button"
                 variant="outline"

@@ -32,7 +32,7 @@ function DialogOverlay({
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-black/10 duration-100 ease-kwickly supports-backdrop-filter: data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        "fixed inset-0 isolate z-50 bg-black/40 backdrop-blur-sm duration-100 ease-kwickly supports-backdrop-filter: data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
         className
       )}
       {...props}
@@ -85,7 +85,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col gap-1.5 text-center sm:text-left -mt-6 -mx-6 px-6 py-4 mb-6 border-b border-border", className)}
+      className={cn("flex flex-col gap-1.5 text-center sm:text-left -mt-6 -mx-6 px-6 py-6 mb-6 border-b border-border", className)}
       {...props}
     />
   )
@@ -103,7 +103,7 @@ function DialogFooter({
     <div
       data-slot="dialog-footer"
       className={cn(
-        "-mx-6 -mb-6 mt-6 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/10 p-4 px-6 sm:flex-row sm:justify-end",
+        "-mx-6 -mb-6 mt-6 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/10 py-6 px-6 sm:flex-row sm:justify-end",
         className
       )}
       {...props}

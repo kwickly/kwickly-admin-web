@@ -57,7 +57,7 @@ export default function PlatformDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground truncate">Total Tenants</CardTitle>
             <div className="p-2">
-              <Icons.Building className="h-4 w-4 text-muted-foreground" />
+              <Icons.Building className="h-4 w-4 text-muted-foreground dark:text-primary" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -75,7 +75,7 @@ export default function PlatformDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground truncate">Platform Users</CardTitle>
             <div className="p-2">
-              <Icons.Users className="h-4 w-4 text-muted-foreground" />
+              <Icons.Users className="h-4 w-4 text-muted-foreground dark:text-primary" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -93,7 +93,7 @@ export default function PlatformDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground truncate">Total Orders</CardTitle>
             <div className="p-2">
-              <Icons.Activity className="h-4 w-4 text-muted-foreground" />
+              <Icons.Activity className="h-4 w-4 text-muted-foreground dark:text-primary" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
@@ -111,7 +111,7 @@ export default function PlatformDashboard() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
             <CardTitle className="text-sm font-medium text-muted-foreground truncate">Platform GMV</CardTitle>
             <div className="p-2">
-              <Icons.DollarSign className="h-4 w-4 text-muted-foreground" />
+              <Icons.DollarSign className="h-4 w-4 text-muted-foreground dark:text-primary" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">

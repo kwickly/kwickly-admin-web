@@ -69,7 +69,7 @@ export default function CustomerDetails() {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
         <Skeleton className="h-10 w-48" />
         <Skeleton className="h-[400px] w-full" />
       </div>
@@ -78,7 +78,7 @@ export default function CustomerDetails() {
 
   if (!customer) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
         <h1 className="text-2xl font-bold">Customer not found</h1>
         <Link to="/crm/directory">
           <Button variant="outline"><Icons.ArrowLeft className="mr-2 h-4 w-4" /> Back to Directory</Button>
@@ -88,7 +88,7 @@ export default function CustomerDetails() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
       <div className="flex items-center gap-4 mb-2">
         <Link to="/crm/directory" className="text-muted-foreground hover:text-foreground">
           <Icons.ArrowLeft className="h-5 w-5" />

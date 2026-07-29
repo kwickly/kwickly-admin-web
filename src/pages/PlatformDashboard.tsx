@@ -10,7 +10,7 @@ export default function PlatformDashboard() {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
         <PageHeader 
           title="Platform Overview" 
           description="Monitor global SaaS subscriptions, platform orders, and system-wide performance."
@@ -43,7 +43,7 @@ export default function PlatformDashboard() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
       <PageHeader 
         title="Platform Overview" 
         description="Monitor global SaaS subscriptions, platform orders, and system-wide performance."

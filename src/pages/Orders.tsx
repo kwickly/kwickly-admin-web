@@ -13,6 +13,8 @@ import {
   DialogTitle 
 } from "@/components/ui/dialog";
 
+import { PageHeader } from "@/components/ui/page-header";
+
 import { 
   Table, 
   TableBody, 
@@ -74,18 +76,12 @@ export default function Orders() {
   };
 
   return (
-    <div className="flex flex-col space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.Receipt className="h-6 w-6 text-primary" />
-            Order Management
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            View all orders, monitor payment status, and manage cancellations.
-          </p>
-        </div>
-      </div>
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+      <PageHeader 
+        title="Order Management"
+        description="View all orders, monitor payment status, and manage cancellations."
+        icon={Icons.Receipt}
+      />
 
       <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
         <Table>

@@ -62,14 +62,15 @@ export default function AppShell() {
   // using OKLCH to preserve Tailwind v4 opacity modifiers.
   useEffect(() => {
     const root = document.documentElement;
-    // Bypass theme injection for platform admin routes to enforce Kwickly Red/Navy
+    // Force platform blue by directly assigning platform tokens onto primary slots,
+    // overriding both TenantThemeProvider and index.css defaults.
     if (isPlatformContext) {
-      root.style.removeProperty('--primary');
-      root.style.removeProperty('--primary-foreground');
-      root.style.removeProperty('--ring');
-      root.style.removeProperty('--sidebar-primary');
-      root.style.removeProperty('--sidebar-primary-foreground');
-      root.style.removeProperty('--accent-foreground');
+      root.style.setProperty('--primary', 'var(--platform-primary)');
+      root.style.setProperty('--primary-foreground', 'var(--platform-primary-foreground)');
+      root.style.setProperty('--ring', 'var(--platform-primary)');
+      root.style.setProperty('--sidebar-primary', 'var(--platform-primary)');
+      root.style.setProperty('--sidebar-primary-foreground', 'var(--platform-primary-foreground)');
+      root.style.setProperty('--accent-foreground', 'var(--platform-primary)');
       return;
     }
 

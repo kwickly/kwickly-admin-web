@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useState } from "react";
 import { SearchInput } from "@/components/ui/search-input";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default function PlatformAuditLogs() {
   const [page, setPage] = useState(1);
@@ -52,17 +53,13 @@ export default function PlatformAuditLogs() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <Icons.ScrollText className="h-6 w-6 text-primary" />
-          System Audit Logs
-        </h1>
-        <p className="text-sm text-muted-foreground mt-2">
-          A real-time chronological ledger recording all database mutations.
-        </p>
-      </div>
+      <PageHeader 
+        title="System Audit Logs"
+        description="A real-time chronological ledger recording all database mutations."
+        icon={Icons.ScrollText}
+      />
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-end gap-4">
         <SearchInput 
           value={search} 
           onChange={(val) => { setSearch(val); setPage(1); }} 

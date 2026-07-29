@@ -35,6 +35,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { PageHeader } from '@/components/ui/page-header';
 
 export default function StaffPayroll() {
   const { data: runs, isLoading } = usePayrollRuns();
@@ -67,24 +68,21 @@ export default function StaffPayroll() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.Banknote className="h-6 w-6 text-primary" />
-            Payroll Management
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Generate, review, and process monthly staff salaries.
-          </p>
-        </div>
-
-        <Button
+      <PageHeader
+        title="Payroll Management"
+        description="Generate, review, and process monthly staff salaries."
+        icon={Icons.Banknote}
+        children={
+          <>
+            <Button
           onClick={() => setIsGenerateModalOpen(true)}
         >
           <Icons.Play className="h-4 w-4 mr-2" />
           Run Payroll
         </Button>
-      </div>
+          </>
+        }
+      />
 
       <Card className="border-border shadow-sm bg-card">
         <CardHeader className="border-b border-border pb-4">

@@ -1,8 +1,9 @@
 import { Icons } from '@/components/shared/icons';
+import { PageHeader } from '@/components/ui/page-header';
 import { useState } from "react";
 import { SearchInput } from "@/components/ui/search-input";
 import { useSegments, useCreateSegment } from "@/hooks/api/useCRM";
-import { GridCardSkeleton } from "@/components/ui/loaders";
+import { TableSkeleton } from "@/components/ui/loaders";
 import { PaginationControls } from "@/components/ui/pagination-controls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,16 +68,11 @@ export default function CustomerSegments() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.Target className="h-6 w-6 text-primary" />
-            Customer Segments
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Define filter rules to group subscribers dynamically.
-          </p>
-        </div>
+      <PageHeader
+        title="Customer Segments"
+        description="Define filter rules to group subscribers dynamically."
+        icon={Icons.Target}
+      >
         <div className="flex items-center gap-4">
           <SearchInput 
             value={search} 
@@ -137,20 +133,19 @@ export default function CustomerSegments() {
                   required
                 />
               </div>
-
-              <DialogFooter className="pt-2">
-                <Button type="submit" disabled={createSegmentMutation.isPending} className="w-full">
-                  {createSegmentMutation.isPending ? 'Saving...' : 'Save Segment'}
+              <DialogFooter>
+                <Button type="submit" disabled={createSegmentMutation.isPending}>
+                  {createSegmentMutation.isPending ? "Creating..." : "Create Segment"}
                 </Button>
               </DialogFooter>
             </form>
           </DialogContent>
         </Dialog>
         </div>
-      </div>
+      </PageHeader>
 
       {isSegsLoading ? (
-        <GridCardSkeleton count={6} />
+        <TableSkeleton />
       ) : !segments || segments.length === 0 ? (
         <div className="text-center py-12 bg-card border border-border rounded-xl text-muted-foreground">
           No segments configured yet.

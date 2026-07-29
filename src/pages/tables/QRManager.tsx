@@ -82,7 +82,7 @@ export default function QRManager() {
       ) : tables.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center bg-card rounded-xl border border-border shadow-sm no-print">
           <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-4">
-            <Icons.QrCode className="w-8 h-8 text-primary" />
+            <Icons.QrCode className="w-8 h-8 text-secondary" />
           </div>
           <h3 className="text-xl font-bold font-jakarta text-foreground mb-2">No QR Codes to Print</h3>
           <p className="text-muted-foreground max-w-sm mb-6">Set up your tables in the Floor View to generate QR codes.</p>

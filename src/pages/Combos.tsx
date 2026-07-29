@@ -2,13 +2,14 @@ import { Icons } from '@/components/shared/icons';
 import CreateComboSheet from "@/features/combos/components/CreateComboSheet";
 import { useCombos } from "@/hooks/api/useCombos";
 import { useBranchStore } from "@/store/useBranch";
-import { GridCardSkeleton } from "@/components/ui/loaders";
+import { TableSkeleton } from "@/components/ui/loaders";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/ui/page-header";
@@ -30,7 +31,7 @@ export default function Combos() {
       </PageHeader>
 
       {isLoading ? (
-        <GridCardSkeleton count={4} />
+        <TableSkeleton />
       ) : !combos || combos.length === 0 ? (
         <div className="p-12 text-center bg-card rounded-xl border border-border">
           <Icons.Blocks className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />

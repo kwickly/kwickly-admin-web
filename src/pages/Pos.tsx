@@ -156,7 +156,7 @@ export default function Pos() {
                 }`}
               >
                 <RadioGroupItem value="cash" id="cash" className="sr-only" />
-                <Icons.Banknote className={`h-8 w-8 mb-2 ${paymentMethod === 'cash' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <Icons.Banknote className={`h-8 w-8 mb-2 ${paymentMethod === 'cash' ? 'text-secondary' : 'text-muted-foreground'}`} />
                 <span className="font-medium">Cash</span>
               </Label>
               
@@ -167,7 +167,7 @@ export default function Pos() {
                 }`}
               >
                 <RadioGroupItem value="upi" id="upi" className="sr-only" />
-                <Icons.Smartphone className={`h-8 w-8 mb-2 ${paymentMethod === 'upi' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <Icons.Smartphone className={`h-8 w-8 mb-2 ${paymentMethod === 'upi' ? 'text-secondary' : 'text-muted-foreground'}`} />
                 <span className="font-medium">UPI / QR</span>
               </Label>
               
@@ -178,7 +178,7 @@ export default function Pos() {
                 }`}
               >
                 <RadioGroupItem value="razorpay" id="razorpay" className="sr-only" />
-                <Icons.CreditCard className={`h-8 w-8 mb-2 ${paymentMethod === 'razorpay' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <Icons.CreditCard className={`h-8 w-8 mb-2 ${paymentMethod === 'razorpay' ? 'text-secondary' : 'text-muted-foreground'}`} />
                 <span className="font-medium">Card (Razorpay)</span>
               </Label>
               
@@ -189,7 +189,7 @@ export default function Pos() {
                 }`}
               >
                 <RadioGroupItem value="wallet" id="wallet" className="sr-only" />
-                <Icons.Wallet className={`h-8 w-8 mb-2 ${paymentMethod === 'wallet' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <Icons.Wallet className={`h-8 w-8 mb-2 ${paymentMethod === 'wallet' ? 'text-secondary' : 'text-muted-foreground'}`} />
                 <span className="font-medium">Store Wallet</span>
               </Label>
             </RadioGroup>

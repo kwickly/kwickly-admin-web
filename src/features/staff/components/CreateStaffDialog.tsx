@@ -171,7 +171,7 @@ export default function CreateStaffDialog() {
             )}
           </div>
           <DialogFooter>
-            <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto">
+            <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/90 text-primary-foreground">
               {isPending ? 'Creating...' : 'Create Account'}
             </Button>
           </DialogFooter>

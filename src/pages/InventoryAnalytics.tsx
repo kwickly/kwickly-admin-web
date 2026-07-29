@@ -3,6 +3,7 @@ import { useInventoryForecast } from "@/hooks/api/useDashboard";
 import { useBranchStore } from "@/store/useBranch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { PageHeader } from '@/components/ui/page-header';
 
 export default function InventoryAnalytics() {
   const { selectedBranchId } = useBranchStore();
@@ -12,17 +13,11 @@ export default function InventoryAnalytics() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.PackageOpen className="h-6 w-6 text-primary" />
-            Inventory Forecast
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Predictive stockout analysis based on last 30 days of consumption.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title="Inventory Forecast"
+        description="Predictive stockout analysis based on last 30 days of consumption."
+        icon={Icons.PackageOpen}
+      />
 
       <div className="bg-card rounded-xl border border-border p-6 shadow-sm space-y-6">
         <h3 className="font-semibold text-foreground text-base">Stock Depletion Risk</h3>

@@ -51,7 +51,7 @@ export default function UserProfile() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.User className="h-6 w-6 text-primary" />
+            <Icons.User className="h-6 w-6 text-secondary" />
             My Profile
           </h1>
           <p className="text-sm text-muted-foreground mt-2">

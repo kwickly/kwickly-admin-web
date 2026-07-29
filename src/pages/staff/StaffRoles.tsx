@@ -7,7 +7,7 @@ export default function StaffRoles() {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <Icons.ShieldCheck className="h-6 w-6 text-primary" />
+          <Icons.ShieldCheck className="h-6 w-6 text-secondary" />
           Custom Role Builder
         </h1>
         <p className="text-sm text-muted-foreground mt-2">

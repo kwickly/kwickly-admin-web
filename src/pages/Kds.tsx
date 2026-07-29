@@ -413,7 +413,7 @@ export default function Kds() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-              <Icons.ChefHat className="h-6 w-6 text-primary" />
+              <Icons.ChefHat className="h-6 w-6 text-secondary" />
               Kitchen Display
             </h1>
             <p className="text-sm text-muted-foreground mt-2">

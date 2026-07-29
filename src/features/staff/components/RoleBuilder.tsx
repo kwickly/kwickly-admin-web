@@ -322,7 +322,7 @@ export default function RoleBuilder({ isPlatform = false }: { isPlatform?: boole
               disabled={updateRolePermissionsMutation.isPending || isLoading || !selectedRoleId}
               className="bg-primary hover:bg-primary/95 text-primary-foreground flex items-center gap-2 h-9 cursor-pointer"
             >
-              <Icons.Save className="h-4 w-4" /> Icons.Save Configuration
+              <Icons.Save className="h-4 w-4" /> Save Configuration
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -88,7 +88,7 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
     <div className="space-y-6">
 
 
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-end items-start sm:items-center gap-4">
         <div className="relative w-full sm:w-72">
           <Icons.Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -131,8 +131,8 @@ export default function Timesheets({ isPlatform = false }: { isPlatform?: boolea
               <TableHeader className="bg-muted/50">
                 <TableRow>
                   <TableHead>Staff Name</TableHead>
-                  <TableHead>Icons.Clock In</TableHead>
-                  <TableHead>Icons.Clock Out</TableHead>
+                  <TableHead>Clock In</TableHead>
+                  <TableHead>Clock Out</TableHead>
                   <TableHead className="text-right">Total Hours</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>

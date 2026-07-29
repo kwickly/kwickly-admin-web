@@ -28,6 +28,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { PageHeader } from '@/components/ui/page-header';
 
 export default function TenantAnalytics() {
   const { selectedBranchId } = useBranchStore();
@@ -126,17 +127,11 @@ export default function TenantAnalytics() {
     <div className="space-y-6 animate-in fade-in duration-300">
       
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.BrainCircuit className="h-6 w-6 text-primary" />
-            AI Analytics & Predictions
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Machine learning forecast charts, affinity combos, and subscriber churn risk preventions.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title="AI Analytics & Predictions"
+        description="Machine learning forecast charts, affinity combos, and subscriber churn risk preventions."
+        icon={Icons.BrainCircuit}
+      />
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -145,7 +140,7 @@ export default function TenantAnalytics() {
         <div className="lg:col-span-2 bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-border/50 pb-4">
             <div className="flex items-center gap-2">
-              <Icons.BrainCircuit className="h-5 w-5 text-primary" />
+              <Icons.BrainCircuit className="h-5 w-5 text-secondary" />
               <div>
                 <h3 className="font-bold text-foreground text-base">Meal Demand Forecasting</h3>
                 <p className="text-[11px] text-muted-foreground">Facebook Prophet regression model</p>
@@ -182,7 +177,7 @@ export default function TenantAnalytics() {
         <div className="bg-card p-6 rounded-xl border border-border shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-border/50 pb-4">
             <div className="flex items-center gap-2">
-              <Icons.Sparkles className="h-5 w-5 text-primary" />
+              <Icons.Sparkles className="h-5 w-5 text-secondary" />
               <div>
                 <h3 className="font-bold text-foreground text-base">Smart Combo Affinity</h3>
                 <p className="text-[11px] text-muted-foreground">Basket association rules model</p>
@@ -298,7 +293,7 @@ export default function TenantAnalytics() {
         <DialogContent className="sm:max-w-[480px] bg-card border border-border p-6">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-              <Icons.Sparkles className="h-5 w-5 text-primary animate-pulse" />
+              <Icons.Sparkles className="h-5 w-5 text-secondary animate-pulse" />
               Confirm Combo Addition
             </DialogTitle>
             <DialogDescription className="text-muted-foreground text-xs">
@@ -371,7 +366,7 @@ export default function TenantAnalytics() {
         <DialogContent className="sm:max-w-[500px] bg-card border border-border p-6">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-              <Icons.MessageSquare className="h-5 w-5 text-primary" />
+              <Icons.MessageSquare className="h-5 w-5 text-secondary" />
               Configure Promotion Campaign
             </DialogTitle>
             <DialogDescription className="text-muted-foreground text-xs">

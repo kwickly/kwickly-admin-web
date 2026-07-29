@@ -2,13 +2,8 @@ import { Icons } from '@/components/shared/icons';
 import { useState, useEffect } from "react";
 import api from "@/lib/api";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { PageHeader } from "@/components/ui/page-header";
+import { SearchInput } from "@/components/ui/search-input";
 import {
   Table,
   TableBody,
@@ -18,7 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+
 import { PaginationControls } from "@/components/ui/pagination-controls";
 
 export default function PlatformStaff() {
@@ -56,40 +51,22 @@ export default function PlatformStaff() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.ShieldAlert className="h-6 w-6 text-primary" />
-            Platform Staff & Admins
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Manage system administrators and platform owners.
-          </p>
-        </div>
+      <PageHeader
+        title="Admin Directory"
+        description="All system super-admins and platform owners."
+        icon={Icons.ShieldAlert}
+      />
+
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end gap-4">
+        <SearchInput
+          value={searchQuery}
+          onChange={(val) => setSearchQuery(val)}
+          placeholder="Search staff..."
+          className="w-full max-w-sm"
+        />
       </div>
 
-      <Card className="border-border shadow-sm">
-        <CardHeader className="border-b border-border/50 pb-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <CardTitle>Admin Directory</CardTitle>
-              <CardDescription>
-                All system super-admins and platform owners.
-              </CardDescription>
-            </div>
-            <div className="relative">
-              <Icons.Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search staff..."
-                className="pl-10 w-64 bg-muted/50"
-              />
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="p-0">
+      <div className="rounded-md border border-border bg-card overflow-hidden shadow-sm">
           <Table>
             <TableHeader className="bg-muted/50">
               <TableRow>
@@ -189,8 +166,7 @@ export default function PlatformStaff() {
               />
             </div>
           )}
-        </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

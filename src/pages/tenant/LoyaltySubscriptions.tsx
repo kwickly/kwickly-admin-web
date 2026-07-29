@@ -1,6 +1,7 @@
 import { Icons } from '@/components/shared/icons';
+import { PageHeader } from '@/components/ui/page-header';
 import { useCustomerSubscriptions } from '@/hooks/api/useCustomerSubscriptions';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,18 +17,13 @@ export default function LoyaltySubscriptions() {
 
   return (
     <div className="p-4 md:p-8 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-primary">Loyalty & Subscriptions</h1>
-        <p className="text-muted-foreground mt-2">
-          Manage your customers' meal plans and loyalty programs.
-        </p>
-      </div>
+      <PageHeader 
+        title="Loyalty & Subscriptions"
+        description="Manage your customers' meal plans and loyalty programs."
+        icon={Icons.Star}
+      />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Active Subscriptions</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="rounded-md border border-border bg-card overflow-hidden shadow-sm">
           {loading ? (
             <div className="flex justify-center py-8">
               <Icons.Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -125,8 +121,7 @@ export default function LoyaltySubscriptions() {
               </Table>
             </div>
           )}
-        </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

@@ -35,8 +35,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { PageBreadcrumbs } from "@/components/ui/breadcrumbs";
 import { formatCurrency } from "@/lib/currency";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default function PayrollRunDetails() {
   const { id: runId } = useParams<{ id: string }>();
@@ -106,25 +106,15 @@ export default function PayrollRunDetails() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
       {/* Top Header Controls */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <PageBreadcrumbs
-            items={[
-              { label: "Staff", href: "/staff/directory" },
-              { label: "Payroll History", href: "/staff/payroll" },
-              { label: "Ledger", current: true }
-            ]}
-            className="mb-4"
-          />
-          <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
-            Payroll Ledger
-          </h1>
-          <p className="text-sm font-medium text-muted-foreground mt-2">
-            Period: {format(new Date(run.periodStartDate), "MMMM d, yyyy")} &mdash;{" "}
-            {format(new Date(run.periodEndDate), "MMMM d, yyyy")}
-          </p>
-        </div>
-
+      <PageHeader
+        title="Payroll Ledger"
+        description={`Period: ${format(new Date(run.periodStartDate), "MMMM d, yyyy")} — ${format(new Date(run.periodEndDate), "MMMM d, yyyy")}`}
+        breadcrumbs={[
+          { label: "Staff", href: "/staff/directory" },
+          { label: "Payroll History", href: "/staff/payroll" },
+          { label: "Ledger", href: "#" }
+        ]}
+      >
         <div className="flex items-center gap-4">
           <Badge className={`text-sm px-4 py-1.5 uppercase tracking-wider ${
             run.status === "PAID" ? "bg-success/10 text-success border border-success/20" :
@@ -150,14 +140,13 @@ export default function PayrollRunDetails() {
           {run.status === "PROCESSED" && (
             <Button
               onClick={() => handleAdvance("PAID")}
-              className="bg-success hover:bg-success/90 text-success-foreground"
             >
-              <Icons.CheckCircle2 className="h-4 w-4 mr-2" />
+              <Icons.Banknote className="h-4 w-4 mr-2" />
               Mark as Paid
             </Button>
           )}
         </div>
-      </div>
+      </PageHeader>
 
       {/* Comprehensive KPI Dashboard */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

@@ -1,5 +1,6 @@
 import { Icons } from '@/components/shared/icons';
 import { useState } from 'react';
+import { PageHeader } from "@/components/ui/page-header";
 
 import { useSupport } from '@/hooks/api/useSupport';
 import { formatDistanceToNow } from 'date-fns';
@@ -24,19 +25,13 @@ export default function PlatformSupportTickets() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.LifeBuoy className="h-6 w-6 text-primary" />
-            Platform Support Inbox
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Manage and respond to tenant support tickets system-wide.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title="Platform Support Inbox"
+        description="Manage and respond to tenant support tickets system-wide."
+        icon={Icons.LifeBuoy}
+      />
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-end gap-4">
         <SearchInput 
           value={search} 
           onChange={(val) => { setSearch(val); }} 

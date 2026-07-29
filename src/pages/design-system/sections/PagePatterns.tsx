@@ -1,4 +1,4 @@
-import { Icons } from '@/components/shared/icons';
+
 
 function PatternAnnotation({ label, direction }: { label: string; direction?: string }) {
   return (

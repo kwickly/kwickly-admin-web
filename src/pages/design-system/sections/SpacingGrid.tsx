@@ -1,4 +1,4 @@
-function SpacingBlock({ size, label, px }: { size: string; label: string; px: string }) {
+function SpacingBlock({ label, px }: { label: string; px: string }) {
   return (
     <div className="flex items-center gap-4">
       <div className="w-24 shrink-0 text-xs font-mono text-muted-foreground">{label}</div>
@@ -31,12 +31,12 @@ export function SpacingGrid() {
           <p className="text-sm text-muted-foreground mb-4">
             All margins, paddings, and heights must be multiples of 8px. In Tailwind v4 with default spacing scale (1 unit = 4px), every spacing value must be a multiple of 2.
           </p>
-          <SpacingBlock size="gap-2" label="gap-2 / p-2" px="8px" />
-          <SpacingBlock size="gap-4" label="gap-4 / p-4" px="16px" />
-          <SpacingBlock size="gap-6" label="gap-6 / p-6 / mb-6" px="24px" />
-          <SpacingBlock size="gap-8" label="gap-8 / mb-8" px="32px" />
-          <SpacingBlock size="gap-12" label="gap-12 / py-12" px="48px" />
-          <SpacingBlock size="gap-16" label="gap-16 / py-16" px="64px" />
+          <SpacingBlock label="gap-2 / p-2" px="8px" />
+          <SpacingBlock label="gap-4 / p-4" px="16px" />
+          <SpacingBlock label="gap-6 / p-6 / mb-6" px="24px" />
+          <SpacingBlock label="gap-8 / mb-8" px="32px" />
+          <SpacingBlock label="gap-12 / py-12" px="48px" />
+          <SpacingBlock label="gap-16 / py-16" px="64px" />
         </div>
       </div>
 

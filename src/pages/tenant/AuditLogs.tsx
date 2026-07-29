@@ -2,7 +2,7 @@ import { Icons } from '@/components/shared/icons';
 import { useState } from 'react';
 import { useAuditLogs } from '@/hooks/api/useAuditLogs';
 import { PaginationControls } from '@/components/ui/pagination-controls';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 
@@ -24,11 +24,7 @@ export default function AuditLogs() {
         icon={Icons.ShieldAlert}
       />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="rounded-md border border-border bg-card overflow-hidden shadow-sm">
           {loading ? (
             <div className="flex justify-center py-8">
               <Icons.Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -104,8 +100,7 @@ export default function AuditLogs() {
               />
             </div>
           )}
-        </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

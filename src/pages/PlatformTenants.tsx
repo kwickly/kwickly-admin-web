@@ -212,19 +212,18 @@ export default function PlatformTenants() {
         title="Tenants Directory"
         description="Manage restaurant subscriptions, inspect dashboards, and configure system clients."
         icon={Icons.Building}
-      >
-        <div className="flex items-center gap-4">
-          <SearchInput 
-            value={search} 
-            onChange={(val) => { setSearch(val); setPage(1); }} 
-            placeholder="Search tenants..." 
-            className="w-64"
-          />
-          <Button onClick={() => setCreateOpen(true)}>
-            <Icons.Plus className="h-4 w-4 mr-2" /> Add Tenant
-          </Button>
-        </div>
-      </PageHeader>
+      />
+      <div className="flex items-center justify-end gap-4">
+        <SearchInput 
+          value={search} 
+          onChange={(val) => { setSearch(val); setPage(1); }} 
+          placeholder="Search tenants..." 
+          className="w-full max-w-sm"
+        />
+        <Button onClick={() => setCreateOpen(true)}>
+          <Icons.Plus className="h-4 w-4 mr-2" /> Add Tenant
+        </Button>
+      </div>
 
       {isTenantsLoading ? (
         <GridCardSkeleton count={8} />
@@ -346,17 +345,16 @@ export default function PlatformTenants() {
 
       {/* DETAILED INFO MODAL */}
       <Dialog open={viewOpen} onOpenChange={setViewOpen}>
-        <DialogContent className="sm:max-w-[500px] bg-card border border-border p-0 overflow-hidden shadow-sm rounded-xl">
+        <DialogContent className="sm:max-w-[500px] bg-card border border-border shadow-sm rounded-xl">
           {viewTenant && (
             <>
-              {/* Flat brand accent bar — no gradient, no blur */}
-              <div 
-                className="h-1.5 w-full bg-[var(--tenant-brand)]"
-                style={{ '--tenant-brand': viewTenant.brandColor || 'var(--primary)' } as React.CSSProperties}
-              />
+              <DialogHeader>
+                <DialogTitle className="text-foreground">Tenant Details</DialogTitle>
+                <DialogDescription>Review subscription and usage metrics.</DialogDescription>
+              </DialogHeader>
 
               <div 
-                className="px-6 pt-6 pb-0"
+                className="pt-2 pb-0"
                 style={{ '--tenant-brand': viewTenant.brandColor || 'var(--primary)', '--tenant-fg': viewTenant.brandColor ? getContrastColor(viewTenant.brandColor) : 'var(--primary-foreground)' } as React.CSSProperties}
               >
                 <div className="flex items-center gap-4">
@@ -413,7 +411,7 @@ export default function PlatformTenants() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg border border-border flex flex-col items-center justify-center text-center">
-                    <Icons.MapPin className="h-5 w-5 text-primary mb-2" />
+                    <Icons.MapPin className="h-5 w-5 text-secondary mb-2" />
                     <span className="text-2xl font-bold text-foreground">{viewTenant.branchCount}</span>
                     <span className="text-xs text-muted-foreground">Total Branches</span>
                   </div>
@@ -424,14 +422,7 @@ export default function PlatformTenants() {
                   </div>
                 </div>
 
-                <div className="flex gap-4 pt-2">
-                  <Button 
-                    className="flex-1 min-w-0"
-                    onClick={(e) => handleImpersonate(e, viewTenant)}
-                  >
-                    <Icons.Eye className="mr-2 h-4 w-4" />
-                    Inspect Dashboard
-                  </Button>
+                <DialogFooter className="flex gap-4 pt-4 mt-6 border-t border-border/50">
                   <Button 
                     variant="outline"
                     className="flex-none px-4"
@@ -440,9 +431,17 @@ export default function PlatformTenants() {
                       handleEditClick(e, viewTenant);
                     }}
                   >
-                    <Icons.Edit className="h-4 w-4" />
+                    <Icons.Edit className="h-4 w-4 mr-2" />
+                    Edit Tenant
                   </Button>
-                </div>
+                  <Button 
+                    className="flex-1 min-w-0"
+                    onClick={(e) => handleImpersonate(e, viewTenant)}
+                  >
+                    <Icons.Eye className="mr-2 h-4 w-4" />
+                    Inspect Dashboard
+                  </Button>
+                </DialogFooter>
               </div>
             </>
           )}

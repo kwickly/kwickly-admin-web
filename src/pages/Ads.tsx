@@ -62,7 +62,7 @@ export default function Ads() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.LayoutGrid className="h-6 w-6 text-primary" />
+            <Icons.LayoutGrid className="h-6 w-6 text-secondary" />
             In-App Advertisements
           </h1>
           <p className="text-sm text-muted-foreground mt-2">

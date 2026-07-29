@@ -202,7 +202,7 @@ export default function PlatformDashboard() {
             </div>
           </CardContent>
           <div className="flex justify-center gap-x-6 gap-y-4 pb-6 flex-wrap px-4">
-            {planData.map((entry, index) => (
+            {planData.map((entry) => (
               <div key={entry.name} className="flex items-center gap-2 bg-muted/50 px-4 py-2.5 rounded-full border border-border">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.fill }} />
                 <span className="text-xs font-medium text-foreground">{entry.name} <span className="text-muted-foreground ml-2">({entry.value})</span></span>

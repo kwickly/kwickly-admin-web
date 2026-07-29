@@ -67,7 +67,7 @@ export default function DesignSystem() {
         {/* Logo + Title */}
         <div className="flex items-center gap-2 shrink-0">
           <div className="h-7 w-7 rounded-md bg-primary flex items-center justify-center">
-            <Icons.Palette className="h-4 w-4 text-primary-foreground" />
+            <Icons.Palette className="h-4 w-4 text-secondary-foreground" />
           </div>
           <div className="hidden sm:block">
             <span className="text-sm font-bold text-foreground">Kwickly</span>

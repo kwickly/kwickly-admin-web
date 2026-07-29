@@ -76,7 +76,7 @@ export default function CampaignLogs() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.Send className="h-6 w-6 text-primary" />
+            <Icons.Send className="h-6 w-6 text-secondary" />
             Campaign Logs & Dispatcher
           </h1>
           <p className="text-sm text-muted-foreground mt-2">

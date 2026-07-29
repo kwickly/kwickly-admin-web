@@ -1,18 +1,13 @@
 import { Icons } from '@/components/shared/icons';
+import { PageHeader } from '@/components/ui/page-header';
 export default function BrandingSettings() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.Palette className="h-6 w-6 text-primary" />
-            Branding & Colors
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Customize your tenant's appearance and branding.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title="Branding & Colors"
+        description="Customize your tenant's appearance and branding."
+        icon={Icons.Palette}
+      />
 
       <div className="flex items-center justify-center h-64 border border-dashed border-border rounded-xl bg-card/50">
         <div className="text-center">

@@ -38,7 +38,7 @@ export default function OperationalSettings() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <Icons.ShieldCheck className="h-6 w-6 text-primary" />
+          <Icons.ShieldCheck className="h-6 w-6 text-secondary" />
           Branch Operations
         </h1>
         <p className="text-sm text-muted-foreground mt-2">

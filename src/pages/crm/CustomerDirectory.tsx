@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/search-input";
+import { PageHeader } from "@/components/ui/page-header";
 import { useCustomers } from "@/hooks/api/useCRM";
 import { Link } from "react-router-dom";
 import { PaginationControls } from "@/components/ui/pagination-controls";
@@ -20,16 +21,19 @@ export default function CustomerDirectory() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.Users className="h-6 w-6 text-primary" />
-            Customer Directory
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Manage your customer profiles, view lifetime value, and handle wallet balances.
-          </p>
-        </div>
+      <PageHeader 
+        title="Customer Directory"
+        description="Manage your customer profiles, view lifetime value, and handle wallet balances."
+        icon={Icons.Users}
+      />
+
+      <div className="flex items-center justify-end gap-4">
+        <SearchInput 
+          value={search} 
+          onChange={(val) => { setSearch(val); setPage(1); }} 
+          placeholder="Search customers by name or phone..." 
+          className="w-full max-w-sm"
+        />
       </div>
 
       <Card>
@@ -37,16 +41,6 @@ export default function CustomerDirectory() {
           <div className="space-y-2">
             <CardTitle>Customer Profiles</CardTitle>
             <CardDescription>View and manage all registered customers.</CardDescription>
-          </div>
-          <div className="relative">
-            <Icons.Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search customers by name or phone..."
-              className="pl-10 w-72 bg-muted/50"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
           </div>
         </CardHeader>
         <CardContent>

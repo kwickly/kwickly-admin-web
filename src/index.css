@@ -58,10 +58,10 @@
   /* Platform Portal brand — Kwickly Blue (rgb(51,115,204)).
      Static — never overridden by merchant branding.
      Used exclusively in /platform/* routes. See theme-system.md §20. */
-  --platform-primary:            oklch(0.612 0.123 282.5);
-  --platform-primary-foreground: oklch(1.0 0 0);
-  --platform-primary-hover:      oklch(0.555 0.131 282.5);
-  --platform-primary-subtle:     oklch(0.95 0.04 282.5);
+  --platform-primary:            var(--secondary);
+  --platform-primary-foreground: var(--secondary-foreground);
+  --platform-primary-hover:      var(--secondary);
+  --platform-primary-subtle:     var(--secondary);
 
   /* Motion tokens — all transitions MUST use these, never hardcode durations.
      The prefers-reduced-motion block at end of file zeroes these to 0.01ms. */

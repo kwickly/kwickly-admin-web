@@ -1,5 +1,5 @@
 import { Icons } from '@/components/shared/icons';
-import { Outlet, Navigate, Link, useNavigate, useLocation } from "react-router-dom"
+import { Outlet, Navigate, Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuth"
 import { useBranchStore } from "@/store/useBranch"
 import { useBranches } from "@/hooks/api/useSettings"
@@ -45,7 +45,7 @@ export default function AppShell() {
   const { data: branches, isLoading: isBranchesLoading } = useBranches()
   const { theme, setTheme } = useTheme()
   const [commandOpen, setCommandOpen] = useState(false)
-  const location = useLocation()
+
 
   const isPlatformAdmin = user?.role === 'platform_owner' || user?.role === 'super_admin';
   const isPlatformContext = isPlatformAdmin && !impersonatedTenantId;

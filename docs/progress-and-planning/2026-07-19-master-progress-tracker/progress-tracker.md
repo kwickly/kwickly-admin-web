@@ -76,6 +76,11 @@
 - 60-30-10 color rule enforced across all pages
 - Brand color injected into `--primary` CSS var at runtime
 
+### ✅ Phase 8.5 — Admin UI Standardization
+- Global ESLint guardrails deployed to enforce 8-point grid and `rounded-xl` cards
+- Enforced `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8` layout containers across all routes
+- Differentiated vertical rhythm (`space-y-6` vs `space-y-8`) based on page density
+
 ---
 
 ## In-Progress / Upcoming Phases

@@ -33,11 +33,15 @@ Different restaurant environments require entirely different visual contrasts:
 ### Spacing System
 Industry standard dictates an **8-point grid system**. All margins, paddings, and heights must be multiples of 8 (e.g., 8px, 16px, 24px, 32px, 48px). In Tailwind, this maps to `gap-2`, `p-4`, `mb-6`, `h-12`.
 
+**Density Formatting (Vertical Rhythm):**
+- **Operational / Dashboard Pages:** Use `space-y-6` (24px) for the main container stack to maintain high data density.
+- **Settings / Form Pages:** Use `space-y-8` (32px) for form sections and settings cards to provide breathing room and lower cognitive load.
+
 ### Page Anatomy
 - **Global Sidebar (Left):** Consistent navigation. Expandable on desktop, hidden in a drawer on mobile.
 - **Top App Bar:** Contextual actions (Tenant switcher, User Profile, Notifications).
 - **Page Header:** Clearly states the current page title and primary page-level actions (e.g., "Export", "Add Item").
-- **Content Area:** Always wrapped in a max-width container (`max-w-7xl`) for readability on ultrawide monitors, preventing eye travel fatigue.
+- **Content Area:** Always wrapped in a max-width container (`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`) for readability on ultrawide monitors, preventing eye travel fatigue.
 
 ## 5. Scanning Patterns (F, Z, T)
 
@@ -84,6 +88,12 @@ Choosing between cards and tables is critical for a high-density SaaS platform.
 - **Border Radius:** Border radius must be exactly `rounded-xl`. Do not use `rounded-lg` or `rounded-2xl` on cards.
 - **Visuals:** Avoid thick blocky top borders for branding; use avatar colors or subtle left accents if branding is required.
 - **Text Truncation:** Text wrapping in flex containers must use `flex-1 min-w-0` to enable proper `truncate` handling for long strings like domains or names.
+
+## 7. ESLint Enforcements (Guardrails)
+
+To prevent visual drift over time, the following rules are strictly enforced via `eslint.config.js` (`no-restricted-syntax`):
+- **Card Borders:** `rounded-lg` or `rounded-2xl` cannot be used on a literal `bg-card` or within a `Card` component. They must always use `rounded-xl`.
+- **8-Point Grid:** Any usage of odd-numbered spacing utilities (e.g. `p-1`, `p-3`, `gap-5`, `m-7`) is globally blocked. Developers must round up to the next even multiple.
 
 ## 7. Data Density: Landing Pages vs. Detail Views
 

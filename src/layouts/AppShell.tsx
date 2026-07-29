@@ -166,7 +166,7 @@ export default function AppShell() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="bg-primary/10 text-primary text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider border border-primary/20">
+                  <span className="bg-secondary/10 text-secondary text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider border border-secondary/20">
                     System Portal
                   </span>
                 </div>
@@ -209,7 +209,7 @@ export default function AppShell() {
               <DropdownMenu>
                 <DropdownMenuTrigger render={
                   <Button variant="ghost" className="h-11 px-4 gap-2 hover:bg-muted rounded-xl">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg overflow-hidden bg-primary/10 text-primary">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg overflow-hidden bg-secondary/10 text-secondary">
                       {activeLogoUrl ? (
                         <img src={activeLogoUrl} alt="Logo" className="h-full w-full object-cover" />
                       ) : (

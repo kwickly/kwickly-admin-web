@@ -7,10 +7,10 @@
   --font-mono: 'JetBrains Mono', monospace;
   --font-serif: 'Source Serif 4', serif;
   
-  --background: oklch(0.99 0.03 26.6);
-  --background-alt: oklch(0.95 0.03 26.6);
+  --background: oklch(0.995 0.002 26.6);
+  --background-alt: oklch(0.97 0.005 26.6);
   --foreground: oklch(0.14 0.03 26.6);
-  --card: oklch(0.99 0.03 26.6);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.14 0.03 26.6);
   --popover: oklch(1.00 0 0);
   --popover-foreground: oklch(0.14 0.03 26.6);
@@ -25,7 +25,7 @@
   --destructive: oklch(0.45 0.18 15); /* Distinct deeper crimson to prevent collision with primary */
   --destructive-foreground: oklch(0.98 0 0);
   --destructive-subtle: oklch(0.96 0.05 15);
-  --border: oklch(0.90 0.03 26.6);
+  --border: oklch(0.93 0.005 26.6);
   --input: oklch(0.90 0.03 26.6);
   --ring: oklch(0.55 0.203 26.6);
 
@@ -37,7 +37,7 @@
   --chart-4: oklch(0.85 0.10 26.6); /* Light Red/Coral */
   --chart-5: oklch(0.25 0.06 252.0); /* Deep Navy */
 
-  --sidebar: oklch(0.98 0.03 26.6); /* Off-white neutral */
+  --sidebar: oklch(1 0 0); /* Pure white neutral */
   --sidebar-foreground: oklch(0.14 0.03 26.6); /* Dark text */
   --sidebar-primary: oklch(0.55 0.203 26.6);
   --sidebar-primary-foreground: oklch(0.98 0 0);
@@ -114,10 +114,10 @@
      colors (success/warning/destructive badges) causes halation on OLED
      screens and contradicts the "reduce eye fatigue on long shifts" goal
      stated in the theme doc. Switched to a near-black neutral. */
-  --background: oklch(0.14 0.03 26.6);
-  --foreground: oklch(0.98 0.03 26.6);
-  --card: oklch(0.16 0.03 26.6);
-  --card-foreground: oklch(0.98 0.03 26.6);
+  --background: oklch(0.12 0.01 250);
+  --foreground: oklch(0.98 0.01 250);
+  --card: oklch(0.15 0.01 250);
+  --card-foreground: oklch(0.98 0.01 250);
   --popover: oklch(0.14 0.03 26.6);
   --popover-foreground: oklch(0.98 0.03 26.6);
   --primary: oklch(0.65 0.203 26.6);
@@ -131,7 +131,7 @@
   --destructive: oklch(0.45 0.18 15);
   --destructive-foreground: oklch(0.98 0 0);
   --destructive-subtle: oklch(0.22 0.05 15);
-  --border: oklch(0.22 0.03 26.6);
+  --border: oklch(0.22 0.01 250);
   --input: oklch(0.22 0.03 26.6);
   --ring: oklch(0.65 0.203 26.6);
 
@@ -141,7 +141,7 @@
   --chart-4: oklch(0.85 0.10 26.6);
   --chart-5: oklch(0.25 0.06 252.0);
 
-  --sidebar: oklch(0.18 0.01 240);
+  --sidebar: oklch(0.15 0.01 250);
   --sidebar-foreground: oklch(0.93 0.01 240);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: oklch(1.0000 0 0);

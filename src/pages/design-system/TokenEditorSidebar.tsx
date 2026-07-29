@@ -10,13 +10,9 @@ import { toast } from 'sonner';
 
 type TabType = 'colors' | 'shape' | 'type';
 
-interface Props {
-  isDark: boolean;
-}
-
 const DEFAULTS = { hue: 26.6, chroma: 0.203, radius: 0.5, fontSans: 'Poppins, sans-serif' };
 
-export function TokenEditorSidebar({ isDark }: Props) {
+export function TokenEditorSidebar() {
   const [activeTab, setActiveTab] = useState<TabType>('colors');
   const [hue, setHue] = useState(DEFAULTS.hue);
   const [chroma, setChroma] = useState(DEFAULTS.chroma);

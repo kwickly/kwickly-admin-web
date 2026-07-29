@@ -185,7 +185,7 @@ export default function DesignSystem() {
         </main>
 
         {/* Token Editor Sidebar */}
-        {sidebarOpen && <TokenEditorSidebar isDark={isDark} />}
+        {sidebarOpen && <TokenEditorSidebar />}
       </div>
     </div>
   );

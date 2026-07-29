@@ -118,7 +118,7 @@ export function SpacingGrid() {
             </div>
           </div>
           <p className="text-xs text-muted-foreground mt-4">
-            All page content areas use <span className="font-mono text-primary">max-w-7xl mx-auto px-4 sm:px-6 lg:px-8</span> to prevent eye-travel fatigue on ultrawide monitors.
+            All page content areas use <span className="font-mono text-primary"></span> to prevent eye-travel fatigue on ultrawide monitors.
           </p>
         </div>
       </div>

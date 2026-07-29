@@ -36,6 +36,7 @@ import { toast } from "sonner";
 import { GridCardSkeleton } from "@/components/ui/loaders";
 import { PaginationControls } from "@/components/ui/pagination-controls";
 import { SearchInput } from "@/components/ui/search-input";
+import { PageHeader } from "@/components/ui/page-header";
 
 // Maps subscription plan tier to semantic badge classes from the global theme token set.
 // Colors carry meaning: ENTERPRISE=brand primary, GROWTH=success, STARTER=info, FREE=muted.
@@ -206,18 +207,12 @@ export default function PlatformTenants() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Icons.Building className="h-6 w-6 text-primary" />
-            Tenants Directory
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Manage restaurant subscriptions, inspect dashboards, and configure system clients.
-          </p>
-        </div>
-
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+      <PageHeader 
+        title="Tenants Directory"
+        description="Manage restaurant subscriptions, inspect dashboards, and configure system clients."
+        icon={Icons.Building}
+      >
         <div className="flex items-center gap-4">
           <SearchInput 
             value={search} 
@@ -229,7 +224,7 @@ export default function PlatformTenants() {
             <Icons.Plus className="h-4 w-4 mr-2" /> Add Tenant
           </Button>
         </div>
-      </div>
+      </PageHeader>
 
       {isTenantsLoading ? (
         <GridCardSkeleton count={8} />

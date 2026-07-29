@@ -193,7 +193,7 @@ export default function TenantBranding() {
           <div className="flex-1 min-w-0 bg-card border border-border shadow-sm rounded-xl p-6">
             
             {activeTab === 'colors' && (
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-300">
+              <div className="space-y-8 animate-in fade-in duration-300">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label className="text-sm font-semibold">Primary Hue</Label>

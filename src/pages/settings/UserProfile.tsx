@@ -82,7 +82,7 @@ export default function UserProfile() {
             </Button>
           </div>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-0 max-w-2xl">
+          <div className="space-y-0 max-w-2xl">
             <div className="grid grid-cols-1 md:grid-cols-3 py-4 border-b border-border/50">
               <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 md:mb-0">
                 <Icons.User className="h-4 w-4" /> Full Name

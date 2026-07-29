@@ -67,7 +67,7 @@ export default function LoyaltyConfig() {
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+                <div className="space-y-4">
                   <h3 className="text-sm font-bold uppercase text-muted-foreground tracking-wider">Tier Multipliers</h3>
                   
                   <div className="grid gap-2">

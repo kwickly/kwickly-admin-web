@@ -78,7 +78,7 @@ export default function PlatformSettings() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col h-full w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="flex flex-col h-full w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
 
       <PageHeader 
         title={activeNav.label} 

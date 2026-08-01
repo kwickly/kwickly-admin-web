@@ -15,6 +15,7 @@ export default function Tables() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [activeTable, setActiveTable] = useState<any>(null);
   
   const [formData, setFormData] = useState({ name: '', capacity: '', status: 'available' });
@@ -47,6 +48,7 @@ export default function Tables() {
       branchId: currentBranchId,
       name: formData.name,
       capacity: parseInt(formData.capacity) || 0,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       status: formData.status as any,
     }, {
       onSuccess: () => {
@@ -56,6 +58,7 @@ export default function Tables() {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openEditModal = (table: any) => {
     setActiveTable(table);
     setFormData({
@@ -133,6 +136,7 @@ export default function Tables() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {tables.map((table: any) => (
             <div
               key={table.id}

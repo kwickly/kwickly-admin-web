@@ -88,7 +88,7 @@ export default function UserProfile() {
   if (!user) return null;
 
   const roleName =
-    (user as unknown as Record<string, any>).roleDetails?.name ||
+    (user as unknown as Record<string, { name?: string }>).roleDetails?.name ||
     user?.role?.replace("_", " ") ||
     "User";
 
@@ -146,7 +146,7 @@ export default function UserProfile() {
                       <p className="text-sm font-medium text-foreground">
                         Profile Photo
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-xs text-muted-foreground mt-2">
                         Hover to upload a new image.
                         <br />
                         JPG, GIF or PNG. 1MB max.
@@ -156,7 +156,7 @@ export default function UserProfile() {
 
                   {/* Role Badge Column */}
                   <div className="flex items-center">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-platform-primary/10 text-platform-primary text-xs font-medium capitalize border border-platform-primary/20">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-platform-primary/10 text-platform-primary text-xs font-medium capitalize border border-platform-primary/20">
                       <Icons.Shield className="w-3.5 h-3.5" />
                       {roleName}
                     </div>
@@ -243,7 +243,7 @@ export default function UserProfile() {
                       type="email"
                       value={user.email}
                       disabled
-                      className="pl-9 bg-muted/50 text-muted-foreground"
+                      className="pl-10 bg-muted/50 text-muted-foreground"
                     />
                   </div>
                   <p className="text-[11px] text-muted-foreground">
@@ -261,14 +261,14 @@ export default function UserProfile() {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="+1 (555) 000-0000"
-                      className="pl-9"
+                      className="pl-10"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="timezone">Timezone</Label>
-                  <Select value={timezone} onValueChange={setTimezone}>
+                  <Select value={timezone} onValueChange={(val) => setTimezone(val || "")}>
                     <SelectTrigger id="timezone" className="w-full">
                       <div className="flex items-center gap-2">
                         <Icons.Globe className="w-4 h-4 text-muted-foreground shrink-0" />

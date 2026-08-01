@@ -2,7 +2,7 @@
 
 function PatternAnnotation({ label, direction }: { label: string; direction?: string }) {
   return (
-    <div className="absolute top-2 right-2 flex items-center gap-2 bg-primary/90 text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-md">
+    <div className="absolute top-2 right-2 flex items-center gap-2 bg-secondary/90 text-secondary-foreground text-[10px] font-bold px-2 py-0.5 rounded-md">
       {label}
       {direction && <span className="opacity-70">{direction}</span>}
     </div>
@@ -24,12 +24,12 @@ export function PagePatterns() {
           <PatternAnnotation label="F-Pattern" direction="→ ↓" />
 
           {/* Page header row — horizontal scan 1 */}
-          <div className="flex items-center justify-between bg-card rounded-xl border border-border px-4 py-4 ring-2 ring-primary/30">
+          <div className="flex items-center justify-between bg-card rounded-xl border border-border px-4 py-4 ring-2 ring-secondary/30">
             <div className="flex items-center gap-2">
-              <div className="h-4 w-4 bg-primary/40 rounded" />
+              <div className="h-4 w-4 bg-secondary/40 rounded" />
               <div className="h-3 w-40 bg-foreground/30 rounded-sm" />
             </div>
-            <div className="h-8 w-24 bg-primary/20 rounded-md border border-secondary/20" />
+            <div className="h-8 w-24 bg-secondary/20 rounded-md border border-secondary/20" />
           </div>
 
           {/* Table header row — horizontal scan 2 */}
@@ -59,13 +59,13 @@ export function PagePatterns() {
 
           {/* F-arrows overlay */}
           <div className="flex gap-2 mt-2">
-            <div className="h-0.5 flex-1 bg-primary/40 rounded" />
+            <div className="h-0.5 flex-1 bg-secondary/40 rounded" />
           </div>
           <div className="flex gap-2">
-            <div className="h-0.5 w-2/3 bg-primary/30 rounded" />
+            <div className="h-0.5 w-2/3 bg-secondary/30 rounded" />
           </div>
           <div className="flex">
-            <div className="w-0.5 h-6 bg-primary/20 rounded" />
+            <div className="w-0.5 h-6 bg-secondary/20 rounded" />
           </div>
         </div>
         <p className="text-xs font-mono text-muted-foreground">Used in: StaffDirectory · FloorView · MenuManagement · OrdersPage</p>
@@ -83,17 +83,17 @@ export function PagePatterns() {
           {/* Mimics Login.tsx layout exactly */}
           <div className="flex min-h-[280px]">
             {/* Left: bg-primary hero */}
-            <div className="flex-1 bg-primary p-6 relative overflow-hidden flex flex-col">
+            <div className="flex-1 bg-secondary p-6 relative overflow-hidden flex flex-col">
               <div className="absolute -top-8 -left-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
               <div className="relative z-10 flex items-center gap-2">
-                <div className="h-7 w-7 bg-primary-foreground/20 rounded-md flex items-center justify-center">
-                  <span className="text-primary-foreground text-xs font-bold">K</span>
+                <div className="h-7 w-7 bg-secondary-foreground/20 rounded-md flex items-center justify-center">
+                  <span className="text-secondary-foreground text-xs font-bold">K</span>
                 </div>
-                <span className="text-primary-foreground text-sm font-bold">Kwickly</span>
+                <span className="text-secondary-foreground text-sm font-bold">Kwickly</span>
               </div>
               <div className="relative z-10 mt-auto mb-4">
-                <div className="h-3 w-48 bg-primary-foreground/60 rounded-sm mb-2" />
-                <div className="h-2 w-40 bg-primary-foreground/40 rounded-sm" />
+                <div className="h-3 w-48 bg-secondary-foreground/60 rounded-sm mb-2" />
+                <div className="h-2 w-40 bg-secondary-foreground/40 rounded-sm" />
               </div>
             </div>
             {/* Right: auth form card */}
@@ -106,7 +106,7 @@ export function PagePatterns() {
                 <div className="space-y-4">
                   <div className="h-9 bg-muted/60 rounded-md border border-border/50" />
                   <div className="h-9 bg-muted/60 rounded-md border border-border/50" />
-                  <div className="h-9 bg-primary/20 rounded-md border border-secondary/20" />
+                  <div className="h-9 bg-secondary/20 rounded-md border border-secondary/20" />
                 </div>
               </div>
             </div>

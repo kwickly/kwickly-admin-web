@@ -12,5 +12,6 @@ Whenever you are tasked with creating, modifying, or reviewing any user interfac
 4. **Information Architecture:** Follow the rules for Progressive Disclosure. Use tables for high-volume comparative data and cards for highly visual, discrete entities.
 5. **Scanning Patterns:** Apply F-Pattern for dashboards/tables and Z-Pattern for landing/login pages as outlined in the guidelines.
 6. **Settings & Profiles:** Strictly use the "Integrated Modular Dashboard" pattern. Do not use consumer-style full-width banners or floating avatars. Keep summaries clean and avoid repeating text inside form inputs. (See `docs/frontend-and-ux/2026-07-30-settings-dashboard-pattern/settings-dashboard.md`).
+7. **Dual-Brand Intent (SSOT):** You must strictly enforce the Dual-Brand color system. 🔴 Kwickly Red (`--primary`) is reserved ONLY for action and urgency (CTAs). 🔵 Kwickly Blue (`--platform-primary`) is for platform identity and neutral information. Never use raw Tailwind palette classes (e.g., `bg-blue-500`). This is enforced via ESLint errors. See `docs/frontend-and-ux/2026-06-28-theme-system-v2/theme-system.md`.
 
 Do not deviate from these standards unless explicitly instructed by the user.

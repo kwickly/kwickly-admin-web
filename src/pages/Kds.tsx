@@ -150,7 +150,7 @@ function TicketCard({ kot, isDragging = false, onAction, isPending }: TicketCard
                 </span>
               )}
               {kot.kotRound && kot.kotRound > 1 && (
-                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-primary/20 text-primary uppercase tracking-wider">
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-kds-new/20 text-kds-new uppercase tracking-wider">
                   Round {kot.kotRound}
                 </span>
               )}

@@ -112,7 +112,7 @@ export function TokenEditorSidebar() {
             onClick={() => setActiveTab(id)}
             className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-1 justify-center ${
               activeTab === id
-                ? 'bg-primary text-primary-foreground shadow-sm'
+                ? 'bg-platform-primary text-platform-primary-foreground shadow-sm'
                 : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
             }`}
           >

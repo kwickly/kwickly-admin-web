@@ -319,14 +319,20 @@ export default function PlatformTenants() {
                   </div>
                 </div>
 
-                <div className="mt-auto grid grid-cols-2 gap-2 pt-4 border-t border-border/50">
-                  <div className="flex items-center gap-2">
-                    <Icons.MapPin className="h-4 w-4 text-muted-foreground/70 flex-shrink-0" />
-                    <span className="text-sm font-semibold text-foreground">{tenant.branchCount} <span className="text-xs font-normal text-muted-foreground">loc</span></span>
+                <div className="mt-auto flex items-center gap-4">
+                  <div className="flex flex-1 items-center gap-2 px-4 py-2 bg-muted/30 rounded-lg border border-border/30 hover:bg-muted/50 transition-colors">
+                    <Icons.MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                    <span className="text-sm font-bold text-foreground flex items-baseline gap-2">
+                      {tenant.branchCount}
+                      <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Locations</span>
+                    </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Icons.Users className="h-4 w-4 text-muted-foreground/70 flex-shrink-0" />
-                    <span className="text-sm font-semibold text-foreground">{tenant.userCount} <span className="text-xs font-normal text-muted-foreground">users</span></span>
+                  <div className="flex flex-1 items-center gap-2 px-4 py-2 bg-muted/30 rounded-lg border border-border/30 hover:bg-muted/50 transition-colors">
+                    <Icons.Users className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                    <span className="text-sm font-bold text-foreground flex items-baseline gap-2">
+                      {tenant.userCount}
+                      <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Users</span>
+                    </span>
                   </div>
                 </div>
               </div>

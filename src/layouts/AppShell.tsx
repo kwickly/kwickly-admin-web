@@ -62,15 +62,13 @@ export default function AppShell() {
   // using OKLCH to preserve Tailwind v4 opacity modifiers.
   useEffect(() => {
     const root = document.documentElement;
-    // Force platform blue by directly assigning platform tokens onto primary slots,
-    // overriding both TenantThemeProvider and index.css defaults.
+    // The platform portal uses the default Kwickly Red (--primary) for action buttons
+    // and Kwickly Blue (--platform-primary) for platform identity explicitly in components.
+    // However, the Sidebar is an identity element, so we can safely inject the platform
+    // color into the sidebar tokens here without affecting action buttons globally.
     if (isPlatformContext) {
-      root.style.setProperty('--primary', 'var(--platform-primary)');
-      root.style.setProperty('--primary-foreground', 'var(--platform-primary-foreground)');
-      root.style.setProperty('--ring', 'var(--platform-primary)');
       root.style.setProperty('--sidebar-primary', 'var(--platform-primary)');
       root.style.setProperty('--sidebar-primary-foreground', 'var(--platform-primary-foreground)');
-      root.style.setProperty('--accent-foreground', 'var(--platform-primary)');
       return;
     }
 

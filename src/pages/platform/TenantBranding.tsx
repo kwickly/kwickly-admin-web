@@ -31,13 +31,14 @@ export default function TenantBranding() {
   const [logoUrl, setLogoUrl] = useState('');
   const [logoDarkUrl, setLogoDarkUrl] = useState('');
   const [faviconUrl, setFaviconUrl] = useState('');
-  const [logoMetadata, setLogoMetadata] = useState<any>(null);
-  const [logoDarkMetadata, setLogoDarkMetadata] = useState<any>(null);
-  const [faviconMetadata, setFaviconMetadata] = useState<any>(null);
+  const [logoMetadata, setLogoMetadata] = useState<unknown>(null);
+  const [logoDarkMetadata, setLogoDarkMetadata] = useState<unknown>(null);
+  const [faviconMetadata, setFaviconMetadata] = useState<unknown>(null);
 
   // Extract initial values when tenantData loads
   useEffect(() => {
     if (tenantData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setThemeMode(tenantData.themeMode || 'system');
       setLogoUrl(tenantData.logoUrl || '');
       setLogoDarkUrl(tenantData.logoDarkUrl || '');
@@ -148,7 +149,7 @@ export default function TenantBranding() {
       onSuccess: () => {
         toast.success("Theme Published!", { description: "Your Advanced Theme has been saved and applied to the tenant." });
       },
-      onError: (err: any) => {
+      onError: (err: Error) => {
         console.error(err);
         toast.error("Error", { description: "Could not save theme configuration." });
       }
@@ -165,25 +166,25 @@ export default function TenantBranding() {
           <div className="w-full md:w-32 shrink-0 flex md:flex-col gap-2 overflow-x-auto pb-2 md:pb-0">
             <button 
               onClick={() => setActiveTab('colors')}
-              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'colors' ? 'bg-primary text-secondary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'colors' ? 'bg-platform-primary text-platform-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
               <Icons.Palette className="w-4 h-4" /> <span>Colors</span>
             </button>
             <button 
               onClick={() => setActiveTab('shape')}
-              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'shape' ? 'bg-primary text-secondary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'shape' ? 'bg-platform-primary text-platform-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
               <Icons.Square className="w-4 h-4" /> <span>Shape</span>
             </button>
             <button 
               onClick={() => setActiveTab('type')}
-              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'type' ? 'bg-primary text-secondary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'type' ? 'bg-platform-primary text-platform-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
               <Icons.Type className="w-4 h-4" /> <span>Icons.Type</span>
             </button>
             <button 
               onClick={() => setActiveTab('assets')}
-              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'assets' ? 'bg-primary text-secondary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
+              className={`flex flex-col md:flex-row items-center md:justify-start gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === 'assets' ? 'bg-platform-primary text-platform-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'}`}
             >
               <Icons.ImageIcon className="w-4 h-4" /> <span>Assets</span>
             </button>

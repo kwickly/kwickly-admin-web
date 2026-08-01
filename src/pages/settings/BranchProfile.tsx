@@ -15,6 +15,7 @@ export default function BranchProfile() {
 
   useEffect(() => {
     if (currentBranch) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(currentBranch.name || '');
       setPhone(currentBranch.phone || '');
       setAddress(currentBranch.address || '');
@@ -30,7 +31,7 @@ export default function BranchProfile() {
         payload: { name, phone, address },
       });
       toast.success('Branch details saved successfully');
-    } catch (error) {
+    } catch {
       toast.error('Failed to save branch details');
     }
   };

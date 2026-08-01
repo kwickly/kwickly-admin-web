@@ -68,7 +68,7 @@ export default function DeviceManagement() {
       });
       setPairingCode(device.pairingCode);
       toast.success("Device registered successfully");
-    } catch (error) {
+    } catch {
       toast.error("Failed to register device");
     }
   };
@@ -78,7 +78,7 @@ export default function DeviceManagement() {
     try {
       await revokeDevice.mutateAsync({ id, branchId: selectedBranchId });
       toast.success("Device revoked");
-    } catch (error) {
+    } catch {
       toast.error("Failed to revoke device");
     }
   };

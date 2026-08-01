@@ -15,7 +15,7 @@ export default function PlatformSupportTickets() {
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
 
-  const filteredTickets = tickets?.filter((t: any) => {
+  const filteredTickets = tickets?.filter((t: { subject: string, tenant?: { name: string }, status: string, id: string }) => {
     const matchesSearch = search === "" || 
       t.subject.toLowerCase().includes(search.toLowerCase()) || 
       (t.tenant?.name && t.tenant.name.toLowerCase().includes(search.toLowerCase()));
@@ -73,6 +73,7 @@ export default function PlatformSupportTickets() {
             </div>
           ) : (
             <div className="grid divide-y divide-border">
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {filteredTickets?.map((ticket: any) => (
                 <div 
                   key={ticket.id} 

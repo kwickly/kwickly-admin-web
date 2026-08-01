@@ -16,7 +16,7 @@ export default function QRManager() {
   const { data: tables = [], isLoading } = useTables(currentBranchId);
   const regenerateQrMutation = useRegenerateQr();
 
-  const getQrUrl = (token: string) => `https://${tenantSlug}.kwickly.app/menu?t=${token}`;
+  const getQrUrl = (qrToken: string) => `https://${tenantSlug}.kwickly.app/menu?t=${qrToken}`;
 
   const handlePrint = () => {
     window.print();
@@ -92,7 +92,7 @@ export default function QRManager() {
           ref={printRef}
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 print:grid-cols-2 print:gap-4 print:w-full"
         >
-          {tables.map((table: any) => (
+          {tables.map((table: { id: string, name: string, qrToken: string }) => (
             <div
               key={table.id}
               className="bg-card rounded-xl p-8 border border-border shadow-sm flex flex-col items-center justify-between print:border-2 print:border-foreground print:break-inside-avoid print:shadow-none relative group"

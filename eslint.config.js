@@ -24,7 +24,7 @@ export default defineConfig([
       // instead of raw palette classes (bg-emerald-500, text-indigo-600, border-slate-200).
       // See docs/theme-system.md §16 for full rationale and upgrade path to 'error'.
       'no-restricted-syntax': [
-        'warn',
+        'error',
         {
           selector:
             "JSXAttribute[name.name='className'] Literal[value=/\\b(bg|text|border|ring|fill|stroke|outline|decoration|shadow|accent|caret|divide|placeholder|from|via|to)-(slate|zinc|gray|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-/]",

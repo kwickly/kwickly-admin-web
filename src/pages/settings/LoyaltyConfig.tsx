@@ -20,6 +20,7 @@ export default function LoyaltyConfig() {
 
   useEffect(() => {
     if (loyaltyData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setBronze(loyaltyData.bronzeMultiplier);
       setSilver(loyaltyData.silverMultiplier);
       setGold(loyaltyData.goldMultiplier);

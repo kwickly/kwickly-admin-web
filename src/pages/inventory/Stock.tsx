@@ -33,7 +33,7 @@ export default function Stock() {
   const adjustStockMutation = useAdjustStock();
 
   const [isAdjustDialogOpen, setIsAdjustDialogOpen] = useState(false);
-  const [selectedMaterial, setSelectedMaterial] = useState<any | null>(null);
+  const [selectedMaterial, setSelectedMaterial] = useState<{ id: string, name: string, uom?: string } | null>(null);
   const [filterUOM, setFilterUOM] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -88,7 +88,7 @@ export default function Stock() {
     );
   };
 
-  const openAdjustDialog = (material: any) => {
+  const openAdjustDialog = (material: { id: string, name: string, uom?: string }) => {
     setSelectedMaterial(material);
     setIsAdjustDialogOpen(true);
   };

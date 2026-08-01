@@ -41,7 +41,7 @@ export default function TenantWhiteLabel() {
             description: "Enterprise configuration updated successfully.",
           });
         },
-        onError: (err: any) => {
+        onError: (err: Error) => {
           console.error(err);
           toast.error("Error", {
             description: "Could not save white label configuration.",

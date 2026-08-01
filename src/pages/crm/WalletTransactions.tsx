@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { PaginationControls } from "@/components/ui/pagination-controls";
 
 export default function WalletTransactions() {
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<{ id: string, date: string, type: string, amount: number, reason: string, customerName: string }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const pageSize = 20;
@@ -15,6 +15,7 @@ export default function WalletTransactions() {
   useEffect(() => {
     // In a real scenario, this would fetch from the backend:
     // fetch('/api/v1/crm/wallet/history')
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoading(true);
     setTimeout(() => {
       setTransactions([

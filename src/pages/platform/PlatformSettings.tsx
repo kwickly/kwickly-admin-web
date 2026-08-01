@@ -38,7 +38,7 @@ const PLAN_TIERS: { key: PlanKey; border: string; badge: string; dot: string }[]
   { key: "FREE",       border: "border-t-muted",                                      badge: "bg-muted text-muted-foreground border-muted-foreground/20", dot: "bg-muted-foreground" },
   { key: "STARTER",    border: "border-t-info",                                       badge: "bg-info/10 text-info border-info/20",                       dot: "bg-info" },
   { key: "GROWTH",     border: "border-t-warning",                                    badge: "bg-warning/10 text-warning border-warning/20",              dot: "bg-warning" },
-  { key: "ENTERPRISE", border: "border-t-primary",                                    badge: "bg-secondary/10 text-secondary border-secondary/20",              dot: "bg-primary" },
+  { key: "ENTERPRISE", border: "border-t-platform-primary",                                    badge: "bg-secondary/10 text-secondary border-secondary/20",              dot: "bg-platform-primary" },
 ];
 const PLAN_DEFAULTS: Record<PlanKey, { branches: string; staff: string; items: string; storage: string }> = {
   FREE:       { branches: "1",   staff: "5",   items: "50",   storage: "500 MB" },
@@ -111,13 +111,13 @@ export default function PlatformSettings() {
                   { id: "tagline",      label: "Tagline",       hint: "One-liner used in onboarding and landing pages", value: identity.tagline,      onChange: (v: string) => setIdentity(s => ({ ...s, tagline: v })) },
                   { id: "supportEmail", label: "Support Email", hint: "Displayed in password resets and system alerts", value: identity.supportEmail, onChange: (v: string) => setIdentity(s => ({ ...s, supportEmail: v })), mono: true },
                 ].map(({ id, label, hint, value, onChange, mono }, i, arr) => (
-                  <div key={id} className={cn("grid grid-cols-5 gap-6 items-center px-6 py-5", i < arr.length - 1 && "border-b border-border/50")}>
+                  <div key={id} className={cn("grid grid-cols-5 gap-6 items-center px-6 py-4", i < arr.length - 1 && "border-b border-border/50")}>
                     <div className="col-span-2 space-y-0.5">
                       <Label htmlFor={id} className="text-sm font-semibold text-foreground">{label}</Label>
                       <p className="text-xs text-muted-foreground">{hint}</p>
                     </div>
                     <div className="col-span-3">
-                      <Input id={id} value={value} onChange={(e) => onChange(e.target.value)} className={cn("h-9 bg-transparent focus-visible:ring-primary", mono && "font-mono text-sm")} />
+                      <Input id={id} value={value} onChange={(e) => onChange(e.target.value)} className={cn("h-9 bg-transparent focus-visible:ring-platform-primary", mono && "font-mono text-sm")} />
                     </div>
                   </div>
                 ))}
@@ -129,7 +129,7 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">Linked from the sidebar Help button</p>
                   </div>
                   <div className="col-span-3 relative">
-                    <Input value={identity.supportUrl} onChange={(e) => setIdentity(s => ({ ...s, supportUrl: e.target.value }))} className="h-9 font-mono text-sm pr-10 bg-transparent focus-visible:ring-primary" />
+                    <Input value={identity.supportUrl} onChange={(e) => setIdentity(s => ({ ...s, supportUrl: e.target.value }))} className="h-9 font-mono text-sm pr-10 bg-transparent focus-visible:ring-platform-primary" />
                     <Icons.ExternalLink className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground/60 pointer-events-none" />
                   </div>
                 </div>
@@ -143,11 +143,11 @@ export default function PlatformSettings() {
                   <div className="col-span-3 grid grid-cols-2 gap-4">
                     <div className="space-y-2.5">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Terms of Service</p>
-                      <Input value={identity.termsUrl} onChange={(e) => setIdentity(s => ({ ...s, termsUrl: e.target.value }))} className="h-9 font-mono text-xs bg-transparent focus-visible:ring-primary" />
+                      <Input value={identity.termsUrl} onChange={(e) => setIdentity(s => ({ ...s, termsUrl: e.target.value }))} className="h-9 font-mono text-xs bg-transparent focus-visible:ring-platform-primary" />
                     </div>
                     <div className="space-y-2.5">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Privacy Policy</p>
-                      <Input value={identity.privacyUrl} onChange={(e) => setIdentity(s => ({ ...s, privacyUrl: e.target.value }))} className="h-9 font-mono text-xs bg-transparent focus-visible:ring-primary" />
+                      <Input value={identity.privacyUrl} onChange={(e) => setIdentity(s => ({ ...s, privacyUrl: e.target.value }))} className="h-9 font-mono text-xs bg-transparent focus-visible:ring-platform-primary" />
                     </div>
                   </div>
                 </div>
@@ -168,7 +168,7 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">Hostname of your outbound mail relay</p>
                   </div>
                   <div className="col-span-3">
-                    <Input value={smtp.host} onChange={(e) => setSmtp(s => ({ ...s, host: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-primary" placeholder="smtp.resend.com" />
+                    <Input value={smtp.host} onChange={(e) => setSmtp(s => ({ ...s, host: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-platform-primary" placeholder="smtp.resend.com" />
                   </div>
                 </div>
 
@@ -178,9 +178,9 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">465 = SSL · 587 = STARTTLS</p>
                   </div>
                   <div className="col-span-3 flex items-center gap-4">
-                    <Input value={smtp.port} onChange={(e) => setSmtp(s => ({ ...s, port: e.target.value }))} className="h-9 font-mono w-24 bg-transparent focus-visible:ring-primary" placeholder="465" />
+                    <Input value={smtp.port} onChange={(e) => setSmtp(s => ({ ...s, port: e.target.value }))} className="h-9 font-mono w-24 bg-transparent focus-visible:ring-platform-primary" placeholder="465" />
                     <label className="flex items-center gap-2.5 cursor-pointer select-none">
-                      <Switch checked={smtp.secure} onCheckedChange={(v) => setSmtp(s => ({ ...s, secure: v }))} className="data-[state=checked]:bg-primary" />
+                      <Switch checked={smtp.secure} onCheckedChange={(v) => setSmtp(s => ({ ...s, secure: v }))} className="data-[state=checked]:bg-platform-primary" />
                       <span className="text-sm text-foreground font-medium">Use TLS / SSL</span>
                     </label>
                   </div>
@@ -192,13 +192,13 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">Username and API key from your email provider</p>
                   </div>
                   <div className="col-span-3 grid grid-cols-2 gap-4">
-                    <Input value={smtp.user} onChange={(e) => setSmtp(s => ({ ...s, user: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-primary" placeholder="Username" />
+                    <Input value={smtp.user} onChange={(e) => setSmtp(s => ({ ...s, user: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-platform-primary" placeholder="Username" />
                     <div className="relative">
                       <Input
                         type={showPass ? "text" : "password"}
                         value={smtp.password}
                         onChange={(e) => setSmtp(s => ({ ...s, password: e.target.value }))}
-                        className="h-9 font-mono text-sm bg-transparent pr-10 focus-visible:ring-primary"
+                        className="h-9 font-mono text-sm bg-transparent pr-10 focus-visible:ring-platform-primary"
                         placeholder="API key / password"
                       />
                       <button onClick={() => setShowPass(!showPass)} className="absolute right-2.5 top-2.5 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
@@ -214,8 +214,8 @@ export default function PlatformSettings() {
                     <p className="text-xs text-muted-foreground">Name and address recipients see in their inbox</p>
                   </div>
                   <div className="col-span-3 grid grid-cols-2 gap-4">
-                    <Input value={smtp.fromName} onChange={(e) => setSmtp(s => ({ ...s, fromName: e.target.value }))} className="h-9 bg-transparent focus-visible:ring-primary" placeholder="Kwickly Platform" />
-                    <Input type="email" value={smtp.fromEmail} onChange={(e) => setSmtp(s => ({ ...s, fromEmail: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-primary" placeholder="noreply@kwickly.com" />
+                    <Input value={smtp.fromName} onChange={(e) => setSmtp(s => ({ ...s, fromName: e.target.value }))} className="h-9 bg-transparent focus-visible:ring-platform-primary" placeholder="Kwickly Platform" />
+                    <Input type="email" value={smtp.fromEmail} onChange={(e) => setSmtp(s => ({ ...s, fromEmail: e.target.value }))} className="h-9 font-mono text-sm bg-transparent focus-visible:ring-platform-primary" placeholder="noreply@kwickly.com" />
                   </div>
                 </div>
               </div>
@@ -246,7 +246,7 @@ export default function PlatformSettings() {
                     key={f.key}
                     onClick={() => setFeatures(prev => prev.map(x => x.key === f.key ? { ...x, enabled: !x.enabled } : x))}
                     className={cn(
-                      "group relative flex items-center gap-3.5 p-4 rounded-lg border text-left transition-all duration-200 overflow-hidden cursor-pointer",
+                      "group relative flex items-center gap-4 p-4 rounded-lg border text-left transition-all duration-200 overflow-hidden cursor-pointer",
                       f.enabled
                         ? "bg-card border-border hover:border-secondary/20 shadow-sm hover:shadow-sm"
                         : "bg-muted/20 border-dashed border-border/40 opacity-60 hover:opacity-85"
@@ -259,7 +259,7 @@ export default function PlatformSettings() {
                       <f.icon className="h-4 w-4" />
                     </div>
                     <div className="flex-1 min-w-0 relative">
-                      <p className={cn("text-sm font-semibold leading-none mb-1", f.enabled ? "text-foreground" : "text-muted-foreground")}>
+                      <p className={cn("text-sm font-semibold leading-none mb-2", f.enabled ? "text-foreground" : "text-muted-foreground")}>
                         {f.label}
                       </p>
                       <p className="text-xs text-muted-foreground truncate">{f.desc}</p>
@@ -268,7 +268,7 @@ export default function PlatformSettings() {
                       <Switch
                         checked={f.enabled}
                         onCheckedChange={() => setFeatures(prev => prev.map(x => x.key === f.key ? { ...x, enabled: !x.enabled } : x))}
-                        className="pointer-events-none data-[state=checked]:bg-primary"
+                        className="pointer-events-none data-[state=checked]:bg-platform-primary"
                       />
                     </div>
                   </button>
@@ -280,15 +280,15 @@ export default function PlatformSettings() {
           {/* ── PLAN LIMITS ──────────────────────────────────────────── */}
           {tab === "plans" && (
             <div className="animate-in fade-in-0 slide-in-from-right-1 duration-200 space-y-4">
-              {PLAN_TIERS.map(({ key, border, badge, dot }) => {
+              {PLAN_TIERS.map(({ key, border, badge }) => {
                 const isEnterprise = key === "ENTERPRISE";
                 const data = PLAN_DEFAULTS[key];
                 return (
-                  <div key={key} className={cn("bg-card rounded-lg border border-border border-t-4 p-5 relative overflow-hidden transition-all hover:border-primary/40 shadow-sm", border)}>
+                  <div key={key} className={cn("bg-card rounded-xl border border-border border-t-4 p-6 relative overflow-hidden transition-all hover:border-primary/40 shadow-sm", border)}>
                     <div className="relative">
                       <div className="flex items-center gap-2.5 mb-4">
-                        <span className={cn("h-2.5 w-2.5 rounded-full", dot)} />
-                        <span className={cn("text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border", badge)}>{key}</span>
+                        <span className="h-2 w-2 rounded-full hidden" />
+                        <span className={cn("text-[10px] font-bold uppercase tracking-widest px-2 py-2 rounded-full border", badge)}>{key}</span>
                         {isEnterprise && <span className="text-[11px] text-muted-foreground font-medium">— all limits are uncapped</span>}
                       </div>
                       <div className="grid grid-cols-4 gap-4">
@@ -301,7 +301,7 @@ export default function PlatformSettings() {
                               <Input
                                 value={data[k]}
                                 readOnly={isEnterprise}
-                                className={cn("h-9 text-sm font-mono bg-transparent focus-visible:ring-primary", isEnterprise && "opacity-50 cursor-not-allowed")}
+                                className={cn("h-9 text-sm font-mono bg-transparent focus-visible:ring-platform-primary", isEnterprise && "opacity-50 cursor-not-allowed")}
                               />
                               {isEnterprise && <Icons.Lock className="absolute right-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground/40 pointer-events-none" />}
                             </div>
@@ -335,7 +335,7 @@ export default function PlatformSettings() {
                   { key: "readOnly"         as const, label: "Read-Only Mode",            desc: "Disables all write operations platform-wide. Use only before planned database migrations.",      badge: true  },
                 ]).map(({ key, label, desc, badge }, i, arr) => (
                   <div key={key} className={cn(
-                    "flex items-center gap-5 px-6 py-5 transition-colors",
+                    "flex items-center gap-4 px-6 py-6 transition-colors",
                     danger[key] && "bg-destructive/5",
                     i < arr.length - 1 && "border-b border-border/50"
                   )}>
@@ -405,10 +405,10 @@ export default function PlatformSettings() {
 function InfoTip({ icon: Icon, text, variant = "info" }: { icon: React.ElementType; text: string; variant?: "info" | "warning" }) {
   return (
     <div className={cn(
-      "flex items-start gap-3 px-4 py-3.5 rounded-lg border text-xs leading-relaxed",
+      "flex items-start gap-4 px-4 py-4 rounded-lg border text-xs leading-relaxed",
       variant === "warning" 
-        ? "bg-warning/5 border-warning/20 text-warning" 
-        : "bg-info/5 border-info/20 text-info"
+        ? "bg-warning/10 border-warning/20 text-warning" 
+        : "bg-info/10 border-info/20 text-info"
     )}>
       <Icon className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
       {text}

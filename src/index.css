@@ -315,22 +315,3 @@
     scroll-behavior: auto !important;
   }
 }
-
-/* Platform scope layer boundary.
-   Enforces platform brand colors immune to document.documentElement overrides. */
-.platform-shell {
-  --primary: var(--platform-primary) !important;
-  --primary-foreground: var(--platform-primary-foreground) !important;
-  --ring: var(--platform-primary) !important;
-  --sidebar-primary: var(--platform-primary) !important;
-  --sidebar-primary-foreground: var(--platform-primary-foreground) !important;
-
-
-  /* Tailwind v4 theme variables */
-  --color-primary: var(--platform-primary) !important;
-  --color-primary-foreground: var(--platform-primary-foreground) !important;
-  --color-ring: var(--platform-primary) !important;
-  --color-sidebar-primary: var(--platform-primary) !important;
-  --color-sidebar-primary-foreground: var(--platform-primary-foreground) !important;
-
-}

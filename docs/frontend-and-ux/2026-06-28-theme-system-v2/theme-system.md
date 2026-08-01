@@ -981,3 +981,24 @@ Replace all ad-hoc loading state patterns with the standardized skeleton tokens:
 |---|---|---|---|
 | `--skeleton` | `oklch(0.93 0.01 240)` | `oklch(0.25 0.01 240)` | Content area, table row, card body placeholders |
 | `--skeleton-subtle` | `oklch(0.96 0.005 240)` | `oklch(0.20 0.005 240)` | Lighter shimmer phase, narrow text-line placeholders |
+
+---
+
+## 22. Single Source of Truth (SSOT) & Enforcement Strategy (2026-07-30)
+
+> **Decision rationale:** To maintain a premium, rich brand identity that is consistent and bug-free, Kwickly enforces a strict **Single Source of Truth** for its design tokens. Past implementations used CSS overrides (like `.platform-shell`) which created conflicting rules and forced all UI elements (including action buttons) into a single color. The new strategy removes global hacks and enforces explicit token usage at the component level, backed by CI tooling.
+
+### Core Principles
+
+1. **Tokens as the SSOT:** `index.css` is the definitive source of truth. The application shell (`AppShell.tsx`) only injects merchant overrides for `--primary` and its foreground/ring derivatives when a tenant session is active. It must **never** globally override `--primary` to mean something else (like `--platform-primary`) for the entire application.
+2. **Explicit Semantic Usage:** 
+   - Components representing Kwickly's Platform Identity (Platform Portal navigation, system settings tabs) must explicitly use `bg-platform-primary` and `text-platform-primary`. 
+   - Components representing actions (Save buttons) must always use `bg-primary`, regardless of whether they are rendered in the Merchant Portal or the Platform Portal.
+3. **No CSS Scope Hacks:** The `.platform-shell` override class in `index.css` that mapped `--primary` to `--platform-primary` is **deprecated and removed**. It violated the Dual-Brand intent by forcing all action buttons in the platform to become blue, stripping the red action color from the system.
+
+### Automated Enforcement (ESLint)
+
+Human vigilance is insufficient for a growing codebase. The SSOT is enforced automatically via ESLint configuration (`eslint.config.js`):
+
+- **`no-restricted-syntax` (Error Level):** The ESLint rule blocking the use of raw Tailwind palette classes (e.g., `bg-blue-500`, `text-emerald-400`) and arbitrary spacing values (e.g., `p-3`) is upgraded from `'warn'` to `'error'`. 
+- **CI/CD Blocking:** Any commit attempting to bypass the semantic token system will fail the CI build. Developers must use the approved tokens (`bg-primary`, `bg-muted`, `text-success`, etc.) or request a token addition via the RFC process.

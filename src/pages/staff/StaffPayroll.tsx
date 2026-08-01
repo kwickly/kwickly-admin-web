@@ -60,7 +60,7 @@ export default function StaffPayroll() {
           toast.success("Payroll run generated successfully!");
           setIsGenerateModalOpen(false);
         },
-        onError: (err: any) =>
+        onError: (err: Error) =>
           toast.error(err.message || "Failed to generate payroll"),
       },
     );

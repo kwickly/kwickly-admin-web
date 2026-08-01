@@ -2,7 +2,7 @@ function SpacingBlock({ label, px }: { label: string; px: string }) {
   return (
     <div className="flex items-center gap-4">
       <div className="w-24 shrink-0 text-xs font-mono text-muted-foreground">{label}</div>
-      <div className="bg-primary/20 rounded" style={{ width: px, height: '20px', minWidth: '2px' }} />
+      <div className="bg-secondary/20 rounded" style={{ width: px, height: '20px', minWidth: '2px' }} />
       <div className="text-xs text-muted-foreground">{px}</div>
     </div>
   );
@@ -11,7 +11,7 @@ function SpacingBlock({ label, px }: { label: string; px: string }) {
 function RadiusBlock({ label, cls, px }: { label: string; cls: string; px: string }) {
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className={`w-16 h-16 bg-primary/20 border-2 border-primary/40 ${cls}`} />
+      <div className={`w-16 h-16 bg-secondary/20 border-2 border-secondary/40 ${cls}`} />
       <div className="text-center">
         <p className="text-xs font-mono text-foreground">{label}</p>
         <p className="text-[10px] text-muted-foreground">{px}</p>

@@ -1,5 +1,5 @@
 import { Icons } from '@/components/shared/icons';
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import {
   Card,
@@ -46,7 +46,7 @@ export default function Discounts() {
   const [page, setPage] = useState(1);
   const pageSize = 20;
 
-  const filteredCoupons = coupons.filter((coupon) => {
+  const filteredCoupons = coupons.filter((coupon: { code: string, discountType: string, isActive: boolean }) => {
     if (filterStatus === "ACTIVE" && !coupon.isActive) return false;
     if (filterStatus === "INACTIVE" && coupon.isActive) return false;
     if (filterType !== "ALL" && coupon.discountType !== filterType)
@@ -56,10 +56,6 @@ export default function Discounts() {
 
   const totalPages = Math.ceil(filteredCoupons.length / pageSize);
   const paginatedCoupons = filteredCoupons.slice((page - 1) * pageSize, page * pageSize);
-
-  useEffect(() => {
-    fetchCoupons();
-  }, []);
 
   const fetchCoupons = () => {
     setIsLoading(true);

@@ -74,6 +74,7 @@ Choosing between cards and tables is critical for a high-density SaaS platform.
   - Use sticky headers so context is never lost.
   - Align text left, numbers right, and actions (edit/delete) to the far right.
   - Provide a robust filtering/search bar above the table rather than showing everything at once.
+  - **Filters:** Consolidate filter labels directly inside the dropdown trigger (e.g. `Status: Active`) rather than placing labels next to inputs, saving horizontal space and creating a larger unified click target.
 
 ### When to use Cards
 - **Use Case:** Highly visual data, discrete entities that don't need direct column comparison, or dashboard summaries (KPIs).
@@ -81,7 +82,8 @@ Choosing between cards and tables is critical for a high-density SaaS platform.
 - **Best Practices:**
   - Group related information logically inside the card.
   - Use consistent heights (e.g., standardizing card height in a grid).
-  - Include quick actions directly on the card for efficiency.
+  - **Quick Actions:** Include quick action icons (Edit, Delete, Impersonate) directly on the card header wrapped in Tooltips for efficiency. Do not hide primary actions inside a 3-dots dropdown if space allows, as it reduces discoverability.
+  - **Alignment:** Ensure strict left and right alignment grids within the card (e.g., badges flush left, action icons flush right).
 
 ### Card Anatomy
 - **Spacing:** Internal spacing must be `p-6` (24px) for breathable design.

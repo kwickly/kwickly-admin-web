@@ -7,13 +7,7 @@ import { getContrastColor } from "@/lib/colors";
 import { usePlatformTenants, useCreateTenant, useUpdateTenant, useDeleteTenant, type TenantStats } from "@/hooks/api/usePlatform";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+
 import {
   Dialog,
   DialogContent,
@@ -22,6 +16,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -42,7 +42,7 @@ import { PageHeader } from "@/components/ui/page-header";
 // Colors carry meaning: ENTERPRISE=brand primary, GROWTH=success, STARTER=info, FREE=muted.
 function getPlanBadgeClass(plan: string): string {
   switch (plan) {
-    case 'ENTERPRISE': return 'bg-secondary/10 text-secondary border-secondary/20';
+    case 'ENTERPRISE': return 'bg-platform-primary/10 text-platform-primary border-platform-primary/20';
     case 'GROWTH':     return 'bg-success/10 text-success border-success/20';
     case 'STARTER':    return 'bg-info/10 text-info border-info/20';
     case 'BASIC':      return 'bg-muted text-muted-foreground border-border';
@@ -56,7 +56,9 @@ export default function PlatformTenants() {
   const setImpersonatedTenant = useAuthStore((state) => state.setImpersonatedTenant);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  const { data: response, isLoading: isTenantsLoading } = usePlatformTenants(page, 12, search);
+  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [planFilter, setPlanFilter] = useState("ALL");
+  const { data: response, isLoading: isTenantsLoading } = usePlatformTenants(page, 12, search, statusFilter, planFilter);
   const { mutate: createTenant, isPending: isCreating } = useCreateTenant();
   const updateTenantMutation = useUpdateTenant();
   const deleteTenantMutation = useDeleteTenant();
@@ -73,6 +75,7 @@ export default function PlatformTenants() {
   const [address, setAddress] = useState("");
   const [plan, setPlan] = useState<"FREE" | "BASIC" | "STARTER" | "GROWTH" | "ENTERPRISE" | "CUSTOM">("BASIC");
   const [brandColor, setBrandColor] = useState("#EE3B2B");
+  const [brandColorSecondary, setBrandColorSecondary] = useState("#3373CC");
 
   // Details Modal State
   const [viewOpen, setViewOpen] = useState(false);
@@ -86,6 +89,8 @@ export default function PlatformTenants() {
   const [editPhone, setEditPhone] = useState("");
   const [editAddress, setEditAddress] = useState("");
   const [editPlan, setEditPlan] = useState<"FREE" | "BASIC" | "STARTER" | "GROWTH" | "ENTERPRISE" | "CUSTOM">("BASIC");
+  const [editBrandColor, setEditBrandColor] = useState("#EE3B2B");
+  const [editBrandColorSecondary, setEditBrandColorSecondary] = useState("#3373CC");
   const [editStatus, setEditStatus] = useState<"ACTIVE" | "SUSPENDED" | "TERMINATED">("ACTIVE");
 
   // Delete Modal State
@@ -98,7 +103,7 @@ export default function PlatformTenants() {
     if (!name || !slug) return;
 
     createTenant(
-      { name, slug, email, phone, address, plan, brandColor },
+      { name, slug, email, phone, address, plan, brandColor, brandColorSecondary },
       {
         onSuccess: () => {
           toast.success("Tenant registered successfully!");
@@ -110,6 +115,7 @@ export default function PlatformTenants() {
           setAddress("");
           setPlan("BASIC");
           setBrandColor("#EE3B2B");
+          setBrandColorSecondary("#3373CC");
         },
         onError: (err: any) => {
           toast.error(err.response?.data?.error || "Failed to register tenant.");
@@ -123,14 +129,16 @@ export default function PlatformTenants() {
     setViewOpen(true);
   };
 
-  const handleEditClick = (e: React.MouseEvent, tenant: TenantStats) => {
-    e.stopPropagation();
+  const handleEditClick = (e: React.MouseEvent | undefined, tenant: TenantStats) => {
+    if (e) e.stopPropagation();
     setEditingTenant(tenant);
     setEditName(tenant.name);
     setEditEmail(tenant.email || "");
     setEditPhone(tenant.phone || "");
     setEditAddress(tenant.address || "");
     setEditPlan(tenant.plan);
+    setEditBrandColor(tenant.brandColor || "#EE3B2B");
+    setEditBrandColorSecondary(tenant.brandColorSecondary || "#3373CC");
     setEditStatus(tenant.status);
     setEditOpen(true);
   };
@@ -148,6 +156,8 @@ export default function PlatformTenants() {
           phone: editPhone,
           address: editAddress,
           plan: editPlan,
+          brandColor: editBrandColor,
+          brandColorSecondary: editBrandColorSecondary,
           status: editStatus,
         },
       },
@@ -164,6 +174,8 @@ export default function PlatformTenants() {
               phone: editPhone,
               address: editAddress,
               plan: editPlan,
+              brandColor: editBrandColor,
+              brandColorSecondary: editBrandColorSecondary,
               status: editStatus,
             });
           }
@@ -180,6 +192,12 @@ export default function PlatformTenants() {
     setDeletingTenant(tenant);
     setDeleteConfirmationText("");
     setDeleteOpen(true);
+  };
+
+  const handleImpersonate = (tenant: TenantStats) => {
+    setImpersonatedTenant(tenant.id, tenant.name, tenant.brandColor || "", tenant.logoUrl || "");
+    toast.success(`Impersonating ${tenant.name}`);
+    navigate('/tenant/dashboard');
   };
 
   const handleDeleteConfirm = () => {
@@ -199,12 +217,7 @@ export default function PlatformTenants() {
     });
   };
 
-  const handleImpersonate = (e: React.MouseEvent, tenant: TenantStats) => {
-    e.stopPropagation();
-    setImpersonatedTenant(tenant.id, tenant.name, tenant.brandColor, tenant.logoUrl);
-    toast.success(`Entering Inspection Mode for ${tenant.name}`);
-    navigate("/dashboard");
-  };
+
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
@@ -218,8 +231,39 @@ export default function PlatformTenants() {
           value={search} 
           onChange={(val) => { setSearch(val); setPage(1); }} 
           placeholder="Search tenants..." 
-          className="w-full max-w-sm"
+          className="w-full max-w-xs"
         />
+        <Select value={statusFilter} onValueChange={(val) => { setStatusFilter(val || "ALL"); setPage(1); }}>
+          <SelectTrigger className="w-[160px] gap-2">
+            <div className="flex items-center gap-1.5 min-w-0 flex-1">
+              <span className="text-muted-foreground font-medium flex-shrink-0">Status:</span>
+              <SelectValue placeholder="All" className="truncate font-medium text-foreground" />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="ALL">All</SelectItem>
+            <SelectItem value="ACTIVE">Active</SelectItem>
+            <SelectItem value="SUSPENDED">Suspended</SelectItem>
+            <SelectItem value="TERMINATED">Terminated</SelectItem>
+          </SelectContent>
+        </Select>
+        
+        <Select value={planFilter} onValueChange={(val) => { setPlanFilter(val || "ALL"); setPage(1); }}>
+          <SelectTrigger className="w-[160px] gap-2">
+            <div className="flex items-center gap-1.5 min-w-0 flex-1">
+              <span className="text-muted-foreground font-medium flex-shrink-0">Plan:</span>
+              <SelectValue placeholder="All" className="truncate font-medium text-foreground" />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">All</SelectItem>
+            <SelectItem value="FREE">Free</SelectItem>
+            <SelectItem value="STARTER">Starter</SelectItem>
+            <SelectItem value="GROWTH">Growth</SelectItem>
+            <SelectItem value="ENTERPRISE">Enterprise</SelectItem>
+            <SelectItem value="CUSTOM">Custom</SelectItem>
+          </SelectContent>
+        </Select>
         <Button onClick={() => setCreateOpen(true)}>
           <Icons.Plus className="h-4 w-4 mr-2" /> Add Tenant
         </Button>
@@ -238,58 +282,72 @@ export default function PlatformTenants() {
           {tenantsList.map((tenant) => (
             <Card 
               key={tenant.id} 
-              className="bg-card rounded-xl border border-border shadow-sm hover:shadow-sm hover:border-secondary/20 transition-all duration-200 cursor-pointer group flex flex-col h-full relative"
+              className="bg-card p-6 rounded-xl border border-border/50 shadow-sm hover:shadow-md hover:border-border transition-all group flex flex-col justify-between h-auto min-h-[240px]"
               onClick={() => handleCardClick(tenant)}
             >
-              <div className="p-6 flex flex-col h-full relative">
-                {/* 3 Dots Menu */}
-                <div className="absolute top-4 right-4 z-10">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger 
-                      className="h-10 w-10 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Icons.MoreVertical className="h-4 w-4" />
-                      <span className="sr-only">Open menu</span>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48 bg-popover border-border shadow-sm rounded-lg">
-                      <DropdownMenuItem 
-                        onClick={(e) => handleImpersonate(e, tenant)}
-                        className="cursor-pointer text-secondary focus:bg-secondary/10 focus:text-secondary"
-                      >
-                        <Icons.Eye className="mr-2 h-4 w-4" />
-                        <span>Inspect Dashboard</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-border" />
-                      <DropdownMenuItem 
-                        onClick={(e) => handleEditClick(e, tenant)}
-                        className="cursor-pointer text-foreground focus:bg-muted"
-                      >
-                        <Icons.Edit className="mr-2 h-4 w-4 text-muted-foreground" />
-                        <span>Edit Configuration</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/platform/tenants/${tenant.id}/settings`);
-                        }}
-                        className="cursor-pointer text-foreground focus:bg-muted"
-                      >
-                        <Icons.Settings className="mr-2 h-4 w-4 text-muted-foreground" />
-                        <span>Advanced Settings</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem 
-                        onClick={(e) => handleDeleteClick(e, tenant)}
-                        className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive"
-                      >
-                        <Icons.Trash className="mr-2 h-4 w-4" />
-                        <span>Delete Tenant</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+              <div className="flex flex-col h-full">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex flex-wrap items-center gap-2 -ml-1">
+                    {/* Semantic color-coded badges */}
+                    <Badge className={`shadow-none text-[10px] px-2 py-0.5 uppercase font-bold border ${getPlanBadgeClass(tenant.plan)}`}>
+                      {tenant.plan}
+                    </Badge>
+                    <Badge variant="outline" className={`shadow-none text-[10px] px-2 py-0.5 uppercase font-bold ${tenant.status === "ACTIVE" ? "text-success border-success/30 bg-success/10" : tenant.status === "SUSPENDED" ? "text-warning border-warning/30 bg-warning/10" : "text-destructive border-destructive/30 bg-destructive/10"}`}>
+                      {tenant.status}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center gap-1 transition-opacity">
+                    <TooltipProvider delay={300}>
+                      <Tooltip>
+                        <TooltipTrigger render={
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-8 w-8 text-primary hover:text-primary hover:bg-primary/10 transition-colors" 
+                            onClick={(e) => { e.stopPropagation(); handleImpersonate(tenant); }}
+                          >
+                            <Icons.UserCheck className="h-4 w-4" />
+                          </Button>
+                        } />
+                        <TooltipContent>
+                          <p>Impersonate</p>
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger render={
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-8 w-8 text-muted-foreground hover:text-foreground transition-colors" 
+                            onClick={(e) => handleEditClick(e, tenant)}
+                          >
+                            <Icons.Edit className="h-4 w-4" />
+                          </Button>
+                        } />
+                        <TooltipContent>
+                          <p>Edit Config</p>
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger render={
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors" 
+                            onClick={(e) => handleDeleteClick(e, tenant)}
+                          >
+                            <Icons.Trash className="h-4 w-4" />
+                          </Button>
+                        } />
+                        <TooltipContent>
+                          <p>Delete</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                 </div>
 
-                <div className="flex items-start gap-4 mb-4 pr-8" style={{ '--tenant-brand': tenant.brandColor || 'var(--primary)', '--tenant-fg': tenant.brandColor ? getContrastColor(tenant.brandColor) : 'var(--primary-foreground)' } as React.CSSProperties}>
+                <div className="flex items-start gap-4 mb-6 pr-4" style={{ '--tenant-brand': tenant.brandColor || 'var(--primary)', '--tenant-fg': tenant.brandColor ? getContrastColor(tenant.brandColor) : 'var(--primary-foreground)' } as React.CSSProperties}>
                   <div className="h-12 w-12 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm bg-[var(--tenant-brand)] text-[var(--tenant-fg)]">
                     {tenant.logoUrl ? (
                       <img src={tenant.logoUrl} alt={tenant.name} className="h-8 w-8 object-contain" />
@@ -297,42 +355,35 @@ export default function PlatformTenants() {
                       <span className="text-xl font-bold uppercase">{tenant.name.substring(0, 2)}</span>
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-foreground truncate group-hover:text-primary transition-colors">
+                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                    <h3 className="font-bold text-foreground hover:text-primary transition-colors text-wrap leading-tight">
                       {tenant.name}
                     </h3>
-                    <p className="text-xs text-muted-foreground font-mono mt-0.5 truncate flex items-center gap-2">
+                    <p className="text-xs text-muted-foreground font-mono mt-1 flex items-center gap-2 break-all text-wrap">
                       <Icons.Globe className="h-3 w-3 flex-shrink-0" />
-                      <span className="truncate">{tenant.slug}.kwickly.com</span>
+                      <span>{tenant.slug}.kwickly.com</span>
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 mb-6">
-                  {/* Semantic color-coded plan badge */}
-                  <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] uppercase font-bold border ${getPlanBadgeClass(tenant.plan)}`}>
-                    {tenant.plan}
-                  </span>
-                  <div className="flex items-center gap-2.5 text-xs font-medium">
-                    <span className={`h-2 w-2 rounded-full ${tenant.status === "ACTIVE" ? "bg-success" : tenant.status === "SUSPENDED" ? "bg-warning" : "bg-destructive"}`}></span>
-                    <span className={tenant.status === "ACTIVE" ? "text-success" : tenant.status === "SUSPENDED" ? "text-warning" : "text-destructive"}>{tenant.status}</span>
-                  </div>
-                </div>
-
                 <div className="mt-auto flex items-center gap-4">
-                  <div className="flex flex-1 items-center gap-2 px-4 py-2 bg-muted/30 rounded-lg border border-border/30 hover:bg-muted/50 transition-colors">
-                    <Icons.MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                    <span className="text-sm font-bold text-foreground flex items-baseline gap-2">
-                      {tenant.branchCount}
-                      <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Locations</span>
-                    </span>
+                  <div className="flex flex-1 flex-col items-center justify-center gap-1 px-3 py-2 bg-muted/30 rounded-lg border border-border/30 hover:bg-muted/50 transition-colors text-center">
+                    <div className="flex items-center gap-1.5">
+                      <Icons.MapPin className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                      <span className="text-sm font-bold text-foreground">
+                        {tenant.branchCount}
+                      </span>
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Locations</span>
                   </div>
-                  <div className="flex flex-1 items-center gap-2 px-4 py-2 bg-muted/30 rounded-lg border border-border/30 hover:bg-muted/50 transition-colors">
-                    <Icons.Users className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                    <span className="text-sm font-bold text-foreground flex items-baseline gap-2">
-                      {tenant.userCount}
-                      <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Users</span>
-                    </span>
+                  <div className="flex flex-1 flex-col items-center justify-center gap-1 px-3 py-2 bg-muted/30 rounded-lg border border-border/30 hover:bg-muted/50 transition-colors text-center">
+                    <div className="flex items-center gap-1.5">
+                      <Icons.Users className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                      <span className="text-sm font-bold text-foreground">
+                        {tenant.userCount}
+                      </span>
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Users</span>
                   </div>
                 </div>
               </div>
@@ -359,70 +410,70 @@ export default function PlatformTenants() {
                 <DialogDescription>Review subscription and usage metrics.</DialogDescription>
               </DialogHeader>
 
-              <div 
-                className="pt-2 pb-0"
-                style={{ '--tenant-brand': viewTenant.brandColor || 'var(--primary)', '--tenant-fg': viewTenant.brandColor ? getContrastColor(viewTenant.brandColor) : 'var(--primary-foreground)' } as React.CSSProperties}
-              >
-                <div className="flex items-center gap-4">
-                  <div className="h-16 w-16 rounded-lg flex items-center justify-center shadow-sm border border-border flex-shrink-0 bg-[var(--tenant-brand)] text-[var(--tenant-fg)]">
-                    {viewTenant.logoUrl ? (
-                      <img src={viewTenant.logoUrl} alt={viewTenant.name} className="h-10 w-10 object-contain" />
-                    ) : (
-                      <span className="text-2xl font-bold uppercase">{viewTenant.name.substring(0, 2)}</span>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <Badge className="bg-muted text-muted-foreground border-border shadow-none text-[10px] uppercase font-bold">
-                        {viewTenant.plan} PLAN
-                      </Badge>
-                      <Badge variant="outline" className={`shadow-none text-[10px] uppercase font-bold ${viewTenant.status === "ACTIVE" ? "text-success border-success/30 bg-success/10" : viewTenant.status === "SUSPENDED" ? "text-warning border-warning/30 bg-warning/10" : "text-destructive border-destructive/30 bg-destructive/10"}`}>{viewTenant.status}</Badge>
-                    </div>
-                  </div>
+              <div className="flex flex-col items-center justify-center text-center space-y-5 pt-4 pb-2">
+                <div 
+                  className="relative h-24 w-24 rounded-2xl flex items-center justify-center shadow-lg border border-border/50 bg-[var(--tenant-brand)] text-[var(--tenant-fg)] ring-4 ring-muted/50 ring-offset-2 ring-offset-background"
+                  style={{ '--tenant-brand': viewTenant.brandColor || 'var(--primary)', '--tenant-fg': viewTenant.brandColor ? getContrastColor(viewTenant.brandColor) : 'var(--primary-foreground)' } as React.CSSProperties}
+                >
+                  {viewTenant.logoUrl ? (
+                    <img src={viewTenant.logoUrl} alt={viewTenant.name} className="h-14 w-14 object-contain drop-shadow-sm" />
+                  ) : (
+                    <span className="text-4xl font-bold uppercase drop-shadow-sm">{viewTenant.name.substring(0, 2)}</span>
+                  )}
                 </div>
-              </div>
-
-              <div className="pt-4 pb-6 px-6 space-y-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground">{viewTenant.name}</h2>
-                  <p className="text-sm text-muted-foreground font-mono mt-2 flex items-center gap-2.5">
+                
+                <div className="space-y-1.5">
+                  <h2 className="text-3xl font-bold text-foreground tracking-tight">{viewTenant.name}</h2>
+                  <p className="text-sm text-muted-foreground font-mono flex items-center justify-center gap-2 hover:text-foreground transition-colors cursor-pointer">
                     <Icons.Globe className="h-3.5 w-3.5" />
                     {viewTenant.slug}.kwickly.com
                   </p>
                 </div>
 
+                <div className="flex items-center justify-center gap-2 flex-wrap">
+                  <Badge className={`shadow-none text-xs px-2.5 py-0.5 uppercase font-bold border ${getPlanBadgeClass(viewTenant.plan)}`}>
+                    {viewTenant.plan} PLAN
+                  </Badge>
+                  <Badge variant="outline" className={`shadow-none text-xs px-2.5 py-0.5 uppercase font-bold ${viewTenant.status === "ACTIVE" ? "text-success border-success/30 bg-success/10" : viewTenant.status === "SUSPENDED" ? "text-warning border-warning/30 bg-warning/10" : "text-destructive border-destructive/30 bg-destructive/10"}`}>
+                    {viewTenant.status}
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+
                 <div className="grid grid-cols-2 gap-6 p-4 rounded-lg bg-muted/50 border border-border">
-                  <div className="space-y-2">
+                  <div className="space-y-2 min-w-0">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact Email</p>
-                    <p className="text-sm text-foreground flex items-center gap-2">
-                      <Icons.Mail className="h-3.5 w-3.5 text-muted-foreground/70" />
-                      {viewTenant.email || "N/A"}
+                    <p className="text-sm text-foreground flex items-start gap-2 break-all">
+                      <Icons.Mail className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0 mt-0.5" />
+                      <span>{viewTenant.email || "N/A"}</span>
                     </p>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 min-w-0">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact Phone</p>
-                    <p className="text-sm text-foreground flex items-center gap-2">
-                      <Icons.Phone className="h-3.5 w-3.5 text-muted-foreground/70" />
-                      {viewTenant.phone || "N/A"}
+                    <p className="text-sm text-foreground flex items-start gap-2 break-words">
+                      <Icons.Phone className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0 mt-0.5" />
+                      <span>{viewTenant.phone || "N/A"}</span>
                     </p>
                   </div>
-                  <div className="col-span-2 space-y-2">
+                  <div className="col-span-2 space-y-2 min-w-0">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Address</p>
-                    <p className="text-sm text-foreground flex items-center gap-2">
-                      <Icons.MapPin className="h-3.5 w-3.5 text-muted-foreground/70" />
-                      {viewTenant.address || "No address configured"}
+                    <p className="text-sm text-foreground flex items-start gap-2 break-words">
+                      <Icons.MapPin className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0 mt-0.5" />
+                      <span>{viewTenant.address || "No address configured"}</span>
                     </p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg border border-border flex flex-col items-center justify-center text-center">
-                    <Icons.MapPin className="h-5 w-5 text-secondary mb-2" />
+                    <Icons.MapPin className="h-5 w-5 text-platform-primary mb-2" />
                     <span className="text-2xl font-bold text-foreground">{viewTenant.branchCount}</span>
                     <span className="text-xs text-muted-foreground">Total Branches</span>
                   </div>
                   <div className="p-4 rounded-lg border border-border flex flex-col items-center justify-center text-center">
-                    <Icons.Users className="h-5 w-5 text-[var(--chart-2)] mb-2" />
+                    <Icons.Users className="h-5 w-5 text-platform-primary mb-2" />
                     <span className="text-2xl font-bold text-foreground">{viewTenant.userCount}</span>
                     <span className="text-xs text-muted-foreground">Users</span>
                   </div>
@@ -442,7 +493,7 @@ export default function PlatformTenants() {
                   </Button>
                   <Button 
                     className="flex-1 min-w-0"
-                    onClick={(e) => handleImpersonate(e, viewTenant)}
+                    onClick={() => handleImpersonate(viewTenant)}
                   >
                     <Icons.Eye className="mr-2 h-4 w-4" />
                     Inspect Dashboard
@@ -550,6 +601,31 @@ export default function PlatformTenants() {
                   />
                 </div>
               </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="brandColorSecondary" className="text-foreground">Secondary Brand Color</Label>
+                <div className="flex gap-2" style={{ '--tenant-brand-sec': brandColorSecondary } as React.CSSProperties}>
+                  <div 
+                    className="h-10 w-10 rounded border border-border shadow-sm cursor-pointer bg-[var(--tenant-brand-sec)]"
+                    onClick={() => document.getElementById("plat-color-picker-sec")?.click()}
+                  />
+                  <Input
+                    id="brandColorSecondary"
+                    value={brandColorSecondary}
+                    onChange={(e) => setBrandColorSecondary(e.target.value)}
+                    placeholder="#3373CC"
+                    className="font-mono flex-1 min-w-0"
+                    maxLength={7}
+                  />
+                  <input
+                    id="plat-color-picker-sec"
+                    type="color"
+                    value={brandColorSecondary}
+                    onChange={(e) => setBrandColorSecondary(e.target.value)}
+                    className="sr-only"
+                  />
+                </div>
+              </div>
             </div>
 
             <DialogFooter>
@@ -623,6 +699,57 @@ export default function PlatformTenants() {
                     <SelectItem value="CUSTOM">CUSTOM</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="editBrandColor" className="text-foreground">Primary Color</Label>
+                  <div className="flex gap-2" style={{ '--tenant-edit-brand': editBrandColor } as React.CSSProperties}>
+                    <div 
+                      className="h-10 w-10 rounded border border-border shadow-sm cursor-pointer bg-[var(--tenant-edit-brand)]"
+                      onClick={() => document.getElementById("edit-color-picker")?.click()}
+                    />
+                    <Input
+                      id="editBrandColor"
+                      value={editBrandColor}
+                      onChange={(e) => setEditBrandColor(e.target.value)}
+                      placeholder="#EE3B2B"
+                      className="font-mono flex-1 min-w-0"
+                      maxLength={7}
+                    />
+                    <input
+                      id="edit-color-picker"
+                      type="color"
+                      value={editBrandColor}
+                      onChange={(e) => setEditBrandColor(e.target.value)}
+                      className="sr-only"
+                    />
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="editBrandColorSecondary" className="text-foreground">Secondary Color</Label>
+                  <div className="flex gap-2" style={{ '--tenant-edit-brand-sec': editBrandColorSecondary } as React.CSSProperties}>
+                    <div 
+                      className="h-10 w-10 rounded border border-border shadow-sm cursor-pointer bg-[var(--tenant-edit-brand-sec)]"
+                      onClick={() => document.getElementById("edit-color-picker-sec")?.click()}
+                    />
+                    <Input
+                      id="editBrandColorSecondary"
+                      value={editBrandColorSecondary}
+                      onChange={(e) => setEditBrandColorSecondary(e.target.value)}
+                      placeholder="#3373CC"
+                      className="font-mono flex-1 min-w-0"
+                      maxLength={7}
+                    />
+                    <input
+                      id="edit-color-picker-sec"
+                      type="color"
+                      value={editBrandColorSecondary}
+                      onChange={(e) => setEditBrandColorSecondary(e.target.value)}
+                      className="sr-only"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="grid gap-2">

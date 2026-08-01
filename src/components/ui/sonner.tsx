@@ -12,19 +12,19 @@ const Toaster = ({ ...props }: ToasterProps) => {
       className="toaster group"
       icons={{
         success: (
-          <Icons.CircleCheckIcon className="size-4" />
+          <Icons.CircleCheckIcon className="size-4 text-success" />
         ),
         info: (
-          <Icons.InfoIcon className="size-4" />
+          <Icons.InfoIcon className="size-4 text-info" />
         ),
         warning: (
-          <Icons.TriangleAlertIcon className="size-4" />
+          <Icons.TriangleAlertIcon className="size-4 text-warning" />
         ),
         error: (
-          <Icons.OctagonXIcon className="size-4" />
+          <Icons.OctagonXIcon className="size-4 text-destructive" />
         ),
         loading: (
-          <Icons.Loader2Icon className="size-4 animate-spin" />
+          <Icons.Loader2Icon className="size-4 animate-spin text-muted-foreground" />
         ),
       }}
       style={
@@ -38,14 +38,15 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast: "group toast transition-all ease-kwickly bg-background text-foreground border-border shadow-lg",
+          title: "text-foreground font-medium",
           description: "text-muted-foreground",
           actionButton: "bg-primary text-primary-foreground",
           cancelButton: "bg-muted text-muted-foreground",
-          success: "!bg-success !text-success-foreground !border-success",
-          error: "!bg-destructive !text-destructive-foreground !border-destructive",
-          warning: "!bg-warning !text-warning-foreground !border-warning",
-          info: "!bg-info !text-info-foreground !border-info",
-          loading: "!bg-secondary !text-secondary-foreground !border-secondary",
+          success: "!bg-success-subtle !border-success/30 [&_[data-title]]:!text-foreground [&_[data-description]]:!text-muted-foreground",
+          error: "!bg-destructive-subtle !border-destructive/30 [&_[data-title]]:!text-foreground [&_[data-description]]:!text-muted-foreground",
+          warning: "!bg-warning-subtle !border-warning/30 [&_[data-title]]:!text-foreground [&_[data-description]]:!text-muted-foreground",
+          info: "!bg-info-subtle !border-info/30 [&_[data-title]]:!text-foreground [&_[data-description]]:!text-muted-foreground",
+          loading: "!bg-muted !text-foreground !border-border",
         },
       }}
       {...props}

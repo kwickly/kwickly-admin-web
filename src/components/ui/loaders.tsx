@@ -23,20 +23,26 @@ export function GridCardSkeleton({ count = 4 }: { count?: number }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-in fade-in duration-500">
       {Array.from({ length: count }).map((_, i) => (
-        <Card key={i} className="overflow-hidden bg-card border-border">
-          <Skeleton className="h-1 w-full rounded-none" />
-          <div className="p-6 flex flex-col h-full space-y-4">
-            <div className="flex gap-4">
-              <Skeleton className="h-12 w-12 rounded-lg" />
-              <div className="space-y-2 flex-1 min-w-0">
+        <Card key={i} className="relative overflow-hidden border-border/60 bg-card">
+          <Skeleton className="absolute top-0 left-0 h-1 w-full rounded-none" />
+          <div className="p-6 flex flex-col h-full bg-gradient-to-b from-card to-card/50">
+            <div className="absolute top-4 right-4">
+              <Skeleton className="h-8 w-8 rounded-md" />
+            </div>
+            <div className="flex items-start gap-4 mb-4 pr-8">
+              <Skeleton className="h-12 w-12 rounded-lg flex-shrink-0" />
+              <div className="space-y-2 flex-1 min-w-0 pt-1">
                 <Skeleton className="h-5 w-3/4 rounded-md" />
                 <Skeleton className="h-3 w-1/2 rounded-md" />
               </div>
             </div>
-            <Skeleton className="h-6 w-20 rounded-full" />
-            <div className="grid grid-cols-2 gap-2 pt-4 border-t border-border/50">
-              <Skeleton className="h-4 w-full rounded-md" />
-              <Skeleton className="h-4 w-full rounded-md" />
+            <div className="flex items-center gap-2 mb-6">
+              <Skeleton className="h-5 w-16 rounded-md" />
+              <Skeleton className="h-4 w-16 rounded-md" />
+            </div>
+            <div className="mt-auto flex items-center gap-4">
+              <Skeleton className="h-9 flex-1 rounded-lg" />
+              <Skeleton className="h-9 flex-1 rounded-lg" />
             </div>
           </div>
         </Card>

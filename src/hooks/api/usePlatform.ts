@@ -17,6 +17,7 @@ export interface TenantStats {
   slug: string;
   logoUrl: string | null;
   brandColor: string;
+  brandColorSecondary?: string;
   phone: string | null;
   email: string | null;
   address: string | null;
@@ -69,12 +70,14 @@ export function usePlatformMetrics() {
 }
 
 // GET /v1/platform/tenants
-export function usePlatformTenants(page: number = 1, limit: number = 12, search: string = '') {
+export function usePlatformTenants(page: number = 1, limit: number = 12, search: string = '', status: string = 'ALL', plan: string = 'ALL') {
   return useQuery({
-    queryKey: ['platform', 'tenants', page, limit, search],
+    queryKey: ['platform', 'tenants', page, limit, search, status, plan],
     queryFn: async (): Promise<PaginatedResponse<TenantStats>> => {
       const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
-      const { data } = await api.get(`/platform/tenants?page=${page}&limit=${limit}${searchParam}`);
+      const statusParam = status !== 'ALL' ? `&status=${encodeURIComponent(status)}` : '';
+      const planParam = plan !== 'ALL' ? `&plan=${encodeURIComponent(plan)}` : '';
+      const { data } = await api.get(`/platform/tenants?page=${page}&limit=${limit}${searchParam}${statusParam}${planParam}`);
       return data;
     },
   });
@@ -88,6 +91,7 @@ interface CreateTenantPayload {
   address?: string;
   plan?: 'FREE' | 'BASIC' | 'STARTER' | 'GROWTH' | 'ENTERPRISE' | 'CUSTOM';
   brandColor?: string;
+  brandColorSecondary?: string;
 }
 
 // POST /v1/platform/tenants
@@ -117,6 +121,8 @@ export function useUpdateTenant() {
       phone?: string;
       address?: string;
       plan?: 'FREE' | 'BASIC' | 'STARTER' | 'GROWTH' | 'ENTERPRISE' | 'CUSTOM';
+      brandColor?: string;
+      brandColorSecondary?: string;
       status?: 'ACTIVE' | 'SUSPENDED' | 'TERMINATED';
     }}) => {
       const { data } = await api.patch(`/platform/tenants/${id}`, payload);

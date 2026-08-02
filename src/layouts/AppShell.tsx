@@ -110,9 +110,10 @@ export default function AppShell() {
 
   return (
     <SidebarProvider>
-      <div className={`flex h-screen overflow-hidden w-full bg-background ${isPlatformContext ? 'platform-shell' : ''}`}>
+      <div className={`fixed inset-0 flex overflow-hidden bg-background ${isPlatformContext ? 'platform-shell' : ''}`}>
         <AppSidebar />
-        <SidebarInset>
+        <SidebarInset className="relative flex-1 w-full h-full overflow-hidden">
+          <div className="absolute inset-0 flex flex-col w-full h-full">
           {impersonatedTenantId && (
             <div className="bg-warning text-warning-foreground text-xs font-bold py-2.5 px-4 flex items-center justify-between border-b border-warning/70 shadow-sm animate-in slide-in-from-top duration-200">
               <span className="flex items-center gap-2">
@@ -172,7 +173,7 @@ export default function AppShell() {
             </div>
             
             <div className="ml-auto flex items-center gap-2 px-2 h-full">
-              <div className="hidden md:flex relative mr-2 group">
+              <div className="hidden lg:flex relative mr-2 group">
                 <button 
                   onClick={() => setCommandOpen(true)}
                   className="flex items-center h-11 w-48 lg:w-72 rounded-xl border border-border bg-muted px-4 text-xs focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-ring/50 transition-all text-muted-foreground group-hover:text-foreground/70"
@@ -239,11 +240,12 @@ export default function AppShell() {
               </DropdownMenu>
             </div>
           </header>
-          <main className="flex-1 min-w-0 px-4 py-4 md:px-6 md:py-6 lg:px-8 lg:py-6 overflow-y-auto">
+          <main className="flex-1 min-w-0 min-h-0 px-4 py-4 md:px-6 md:py-6 lg:px-8 lg:py-6 overflow-y-auto">
             <div className="max-w-[1600px] mx-auto">
               <Outlet />
             </div>
           </main>
+          </div>
         </SidebarInset>
         <CommandMenu open={commandOpen} setOpen={setCommandOpen} />
       </div>

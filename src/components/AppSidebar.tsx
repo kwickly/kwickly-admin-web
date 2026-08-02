@@ -282,8 +282,8 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border/50">
-      <SidebarHeader className="h-16 flex items-center justify-center group-data-[collapsible=icon]:px-0 px-6 border-none">
-        <Link to="/dashboard" className="flex items-center justify-center gap-3 w-full transition-opacity hover:opacity-80">
+      <SidebarHeader className="h-16 md:h-20 flex items-center justify-start group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 px-6 border-none md:pt-4">
+        <Link to="/dashboard" className="flex items-center justify-start group-data-[collapsible=icon]:justify-center gap-3 w-full transition-opacity hover:opacity-80">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sidebar-primary to-sidebar-primary/80 shadow-sm text-sidebar-primary-foreground">
             <span className="text-base font-bold tracking-tighter">K</span>
           </div>
@@ -294,14 +294,14 @@ export function AppSidebar() {
         </Link>
       </SidebarHeader>
       
-      <SidebarContent>
+      <SidebarContent className="pt-4 md:pt-0">
         {filteredNavGroups.map((group) => (
           <SidebarGroup key={group.label} className="py-2">
             <SidebarGroupLabel className="px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-2 group-data-[collapsible=icon]:hidden">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="gap-0.5">
+              <SidebarMenu className="gap-1.5">
                 {group.items.map((item) => {
                   const hasSubItems = item.items && item.items.length > 0;
                   const isActive = hasSubItems 
@@ -364,7 +364,7 @@ export function AppSidebar() {
                             </SidebarMenuButton>
                           } />
                           <CollapsibleContent>
-                            <SidebarMenuSub className="ml-6 border-l border-sidebar-border pl-4 mt-2.5 gap-0.5 group-data-[collapsible=icon]:hidden">
+                            <SidebarMenuSub className="ml-6 border-l border-sidebar-border pl-4 mt-2.5 gap-1 group-data-[collapsible=icon]:hidden">
                               {item.items?.map((subItem) => {
                                 const currentUrl = location.pathname + location.search;
                                 const isSubActive = currentUrl === subItem.url || 

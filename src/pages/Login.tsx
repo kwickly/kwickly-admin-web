@@ -9,6 +9,7 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { usePublicBranding } from "@/hooks/api/useBranding";
 import { getContrastColor, isValidHex } from "@/lib/colors";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function Login() {
   const login = useAuthStore((state) => state.login);
@@ -17,6 +18,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false);
 
   const { data: branding, isLoading: isLoadingBranding } = usePublicBranding();
 
@@ -41,9 +43,13 @@ export default function Login() {
 
   const loginMutation = useMutation({
     mutationFn: async () => {
+      // Inform our custom zustand storage engine about the preference before it sets items
+      localStorage.setItem('kwickly-keep-logged-in', keepMeLoggedIn.toString());
+
       const response = await api.post("/auth/login", {
         email,
         password,
+        keepMeLoggedIn
       });
       return response.data;
     },
@@ -165,6 +171,20 @@ export default function Login() {
                   {showPassword ? <Icons.Eye className="h-4 w-4" /> : <Icons.EyeOff className="h-4 w-4" />}
                 </button>
               </div>
+            </div>
+
+            <div className="flex items-center space-x-2 mt-2">
+              <Checkbox 
+                id="keepMeLoggedIn" 
+                checked={keepMeLoggedIn} 
+                onCheckedChange={(checked) => setKeepMeLoggedIn(checked === true)}
+              />
+              <label
+                htmlFor="keepMeLoggedIn"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground cursor-pointer select-none"
+              >
+                Keep me logged in
+              </label>
             </div>
 
             <Button 

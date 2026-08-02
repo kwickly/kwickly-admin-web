@@ -19,7 +19,7 @@ The central management portal for the Kwickly POS ecosystem. This application is
 - **📦 Inventory & Supply Chain:** Real-time inventory tracking, low-stock threshold alerting, and recipe-to-ingredient mapping.
 - **👥 Staff & Payroll Management:** End-to-end staff management including Timesheets (POS PIN-based clock in/out), Leave tracking, Public Holidays, and automated Payroll processing with integrated salary slips.
 - **🔥 Live KDS (Kitchen Display System):** A zero-latency, native WebSocket-powered Kanban board providing real-time synchronization between the POS and kitchen staff.
-- **💰 Omnichannel CRM & Digital Wallets:** Link customer emails at the POS, sell offline subscriptions, and process points-to-cash conversions to drive retention via the digital wallet system.
+- **💰 Omnichannel CRM & Subscriptions:** Full CRUD management of dynamic Meal Subscription Plans, link customer emails at the POS, sell offline subscriptions, and process points-to-cash conversions to drive retention via the digital wallet system.
 - **🌐 Wildcard Subdomain Storefronts:** The backend seamlessly provisions distinct subdomains (e.g., `restaurant.kwickly.in`) for each tenant's customer-facing Next.js portal.
 - **📊 Advanced Operations:** Daily revenue analytics dashboard, dynamic routing, and global branch configuration settings.
 
@@ -75,3 +75,10 @@ The dashboard supports both **Platform Admins** and **Tenants** with premium the
   - Relative luminance contrast text color (`--brand-foreground` as white or charcoal) for WCAG AA/AAA compliance.
   - Hover states and translucent tints (10% and 20% opacity) for selected lists and accent badges.
 - **Theme Switcher**: Toggle between **Light** and **Dark** modes instantly using the header Sun/Moon widget.
+
+## 📱 Responsive AppShell Layout
+
+The Admin Web Dashboard leverages a full-screen `AppShell` layout, maximizing viewport space for complex data tables and POS interactions:
+- **Mobile First Sidebar:** The navigation sidebar behaves as a drawer on mobile (collapsing via hamburger menu) and as a persistent rail/sidebar on desktop.
+- **Scroll Segregation:** The header and sidebar remain fixed, while the primary `<main>` content area handles scrolling, preventing awkward mobile browser behavior and preserving layout structure.
+- **Immersive POS Mode:** When accessing the `/pos` route, the dashboard can optionally hide standard navigational elements to provide a distraction-free, full-screen point-of-sale experience.

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import type { StateStorage } from 'zustand/middleware';
 
 interface TenantThemeConfig {
   light: Record<string, string>;
@@ -65,6 +66,29 @@ interface AuthState {
   ) => void;
 }
 
+// Custom storage engine that checks whether to use localStorage or sessionStorage
+const authStorage: StateStorage = {
+  getItem: (name: string): string | null => {
+    // Check both, return the first one found
+    return localStorage.getItem(name) || sessionStorage.getItem(name) || null;
+  },
+  setItem: (name: string, value: string): void => {
+    // If user explicitly checked 'Keep me logged in', it's stored in localStorage
+    const keepMeLoggedIn = localStorage.getItem('kwickly-keep-logged-in') === 'true';
+    if (keepMeLoggedIn) {
+      localStorage.setItem(name, value);
+      sessionStorage.removeItem(name); // Clean up just in case
+    } else {
+      sessionStorage.setItem(name, value);
+      localStorage.removeItem(name); // Ensure it's not sticking around
+    }
+  },
+  removeItem: (name: string): void => {
+    localStorage.removeItem(name);
+    sessionStorage.removeItem(name);
+  },
+};
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
@@ -96,19 +120,22 @@ export const useAuthStore = create<AuthState>()(
         token,
         refreshToken
       }),
-      logout: () => set({ 
-        user: null, 
-        token: null, 
-        refreshToken: null,
-        impersonatedTenantId: null, 
-        impersonatedTenantName: null,
-        impersonatedTenantBrandColor: null,
-        impersonatedTenantLogoUrl: null,
-        impersonatedTenantLogoDarkUrl: null,
-        impersonatedTenantFaviconUrl: null,
-        impersonatedTenantThemeMode: null,
-        impersonatedTenantThemeConfig: null
-      }),
+      logout: () => {
+        localStorage.removeItem('kwickly-keep-logged-in'); // Also clear the flag on logout
+        set({ 
+          user: null, 
+          token: null, 
+          refreshToken: null,
+          impersonatedTenantId: null, 
+          impersonatedTenantName: null,
+          impersonatedTenantBrandColor: null,
+          impersonatedTenantLogoUrl: null,
+          impersonatedTenantLogoDarkUrl: null,
+          impersonatedTenantFaviconUrl: null,
+          impersonatedTenantThemeMode: null,
+          impersonatedTenantThemeConfig: null
+        });
+      },
       setImpersonatedTenant: (id, name, brandColor = null, logoUrl = null, logoDarkUrl = null, faviconUrl = null, themeMode = null, themeConfig = null) => set({ 
         impersonatedTenantId: id, 
         impersonatedTenantName: name,
@@ -122,6 +149,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'kwickly-auth-storage',
+      storage: createJSONStorage(() => authStorage),
     }
   )
 );

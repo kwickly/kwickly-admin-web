@@ -43,3 +43,18 @@ export function useUpdateBranch() {
     },
   });
 }
+
+// POST /v1/branches
+export function useCreateBranch() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (payload: { name: string; phone?: string; address?: string }) => {
+      const { data } = await api.post('/branches', payload);
+      return data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['branches'] });
+    },
+  });
+}

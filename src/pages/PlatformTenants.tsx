@@ -196,8 +196,8 @@ export default function PlatformTenants() {
 
   const handleImpersonate = (tenant: TenantStats) => {
     setImpersonatedTenant(tenant.id, tenant.name, tenant.brandColor || "", tenant.logoUrl || "");
-    toast.success(`Impersonating ${tenant.name}`);
-    navigate('/tenant/dashboard');
+    toast.success(`Now impersonating ${tenant.name}`);
+    navigate("/dashboard");
   };
 
   const handleDeleteConfirm = () => {

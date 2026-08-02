@@ -117,12 +117,12 @@ export default function DeviceManagement() {
             setNewDeviceType("POS");
           }
         }}>
-          <DialogTrigger>
+          <DialogTrigger render={
             <Button disabled={!selectedBranchId} className="h-11 px-6 rounded-lg shadow-sm">
               <Icons.Plus className="mr-2 h-4 w-4" />
               Pair New Device
             </Button>
-          </DialogTrigger>
+          } />
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Pair New Hardware</DialogTitle>

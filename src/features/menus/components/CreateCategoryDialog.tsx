@@ -48,10 +48,7 @@ export default function CreateCategoryDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {/* @ts-ignore */}
-      <DialogTrigger asChild>
-        <Button className="h-11">Create Category</Button>
-      </DialogTrigger>
+      <DialogTrigger render={<Button className="h-11">Create Category</Button>} />
       <DialogContent className="sm:max-w-[425px] bg-background border-border">
         <DialogHeader>
           <DialogTitle className="text-foreground">Create Menu Category</DialogTitle>
